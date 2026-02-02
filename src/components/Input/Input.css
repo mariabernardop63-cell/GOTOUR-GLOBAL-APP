@@ -1,0 +1,101 @@
+.input-group {
+    position: relative;
+    margin-bottom: var(--spacing-lg);
+    width: 100%;
+}
+
+.input-wrapper {
+    position: relative;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.input-wrapper:focus-within {
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-1px);
+}
+
+/* Input Field */
+.input-field {
+    width: 100%;
+    padding: 24px 16px 8px;
+    font-size: 16px;
+    color: var(--text-main);
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    outline: none;
+    transition: var(--transition-normal);
+}
+
+.input-field.has-icon {
+    padding-left: 48px;
+}
+
+/* Floating Label */
+.input-label {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: var(--text-muted);
+    pointer-events: none;
+    transition: var(--transition-normal);
+    transform-origin: left top;
+}
+
+.input-label.with-icon {
+    left: 48px;
+}
+
+/* Floating Logic */
+.input-field:focus~.input-label,
+.input-field:not(:placeholder-shown)~.input-label {
+    transform: translateY(-14px) scale(0.85);
+    top: 16px;
+    color: var(--primary);
+}
+
+.input-field:not(:placeholder-shown)~.input-label {
+    color: var(--text-secondary);
+}
+
+/* Icon */
+.input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    transition: var(--transition-normal);
+    z-index: 1;
+}
+
+.input-field:focus~.input-icon {
+    color: var(--primary);
+}
+
+/* Error State */
+.has-error .input-field {
+    border-color: var(--error);
+}
+
+.has-error .input-label {
+    color: var(--error);
+}
+
+.has-error .input-icon {
+    color: var(--error);
+}
+
+.input-error-msg {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--error);
+    margin-left: 4px;
+    animation: fadeIn 0.3s ease;
+}
