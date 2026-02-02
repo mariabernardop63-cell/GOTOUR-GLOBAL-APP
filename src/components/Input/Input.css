@@ -1,20 +1,20 @@
 .input-group {
     position: relative;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: 4px;
     width: 100%;
 }
 
 .input-wrapper {
     position: relative;
-    background: var(--surface);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition-normal);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-wrapper:focus-within {
-    box-shadow: var(--shadow-glow);
-    transform: translateY(-1px);
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 /* Input Field */
@@ -22,12 +22,12 @@
     width: 100%;
     padding: 24px 16px 8px;
     font-size: 16px;
-    color: var(--text-main);
+    color: #1e293b;
     background: transparent;
-    border: 2px solid transparent;
-    border-radius: var(--radius-md);
+    border: none;
+    border-radius: 10px;
     outline: none;
-    transition: var(--transition-normal);
+    transition: all 0.2s ease;
 }
 
 .input-field.has-icon {
@@ -41,9 +41,9 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
-    color: var(--text-muted);
+    color: #94a3b8;
     pointer-events: none;
-    transition: var(--transition-normal);
+    transition: all 0.2s ease;
     transform-origin: left top;
 }
 
@@ -56,11 +56,11 @@
 .input-field:not(:placeholder-shown)~.input-label {
     transform: translateY(-14px) scale(0.85);
     top: 16px;
-    color: var(--primary);
+    color: #2563eb;
 }
 
 .input-field:not(:placeholder-shown)~.input-label {
-    color: var(--text-secondary);
+    color: #64748b;
 }
 
 /* Icon */
@@ -69,33 +69,34 @@
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-muted);
-    transition: var(--transition-normal);
+    color: #94a3b8;
+    transition: color 0.2s ease;
     z-index: 1;
 }
 
-.input-field:focus~.input-icon {
-    color: var(--primary);
+.input-field:focus~.input-icon,
+.input-wrapper:focus-within .input-icon {
+    color: #2563eb;
 }
 
 /* Error State */
-.has-error .input-field {
-    border-color: var(--error);
+.has-error .input-wrapper {
+    border-color: #ef4444;
 }
 
+.has-error .input-field:focus~.input-label,
 .has-error .input-label {
-    color: var(--error);
+    color: #ef4444;
 }
 
 .has-error .input-icon {
-    color: var(--error);
+    color: #ef4444;
 }
 
 .input-error-msg {
     display: block;
     margin-top: 6px;
     font-size: 13px;
-    color: var(--error);
+    color: #ef4444;
     margin-left: 4px;
-    animation: fadeIn 0.3s ease;
 }

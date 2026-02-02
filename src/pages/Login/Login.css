@@ -3,32 +3,17 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: var(--spacing-md);
-    background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2021&q=80') center/cover no-repeat fixed;
-    position: relative;
-}
-
-.auth-page::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(37, 99, 235, 0.4), rgba(124, 58, 237, 0.4));
-    backdrop-filter: blur(8px);
-    z-index: 0;
+    padding: var(--spacing-lg);
+    background: #f8fafc;
 }
 
 .auth-container {
-    position: relative;
-    z-index: 1;
     width: 100%;
     max-width: 420px;
-    background: var(--surface-glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: var(--radius-lg);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
     padding: 40px 32px;
-    box-shadow: var(--shadow-xl);
 }
 
 .auth-header {
@@ -37,19 +22,16 @@
 }
 
 .auth-title {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
-    color: var(--text-main);
+    color: #1e293b;
     margin-bottom: 8px;
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .auth-subtitle {
-    color: var(--text-secondary);
+    color: #64748b;
     font-size: 15px;
+    line-height: 1.5;
 }
 
 .auth-form {
@@ -61,16 +43,16 @@
 .forgot-password {
     text-align: right;
     font-size: 14px;
-    color: var(--primary);
+    color: #2563eb;
     font-weight: 500;
     cursor: pointer;
     margin-top: 8px;
     display: inline-block;
-    transition: var(--transition-normal);
+    transition: color 0.2s ease;
 }
 
 .forgot-password:hover {
-    color: var(--primary-dark);
+    color: #1d4ed8;
     text-decoration: underline;
 }
 
@@ -84,7 +66,7 @@
 .divider {
     display: flex;
     align-items: center;
-    color: var(--text-muted);
+    color: #94a3b8;
     font-size: 14px;
     margin: 4px 0;
 }
@@ -109,24 +91,32 @@
     margin-top: 32px;
     text-align: center;
     font-size: 15px;
-    color: var(--text-secondary);
+    color: #64748b;
 }
 
 .auth-link {
-    color: var(--primary);
+    color: #2563eb;
     font-weight: 600;
     cursor: pointer;
     margin-left: 4px;
-    transition: var(--transition-normal);
+    transition: color 0.2s ease;
 }
 
 .auth-link:hover {
-    color: var(--primary-dark);
+    color: #1d4ed8;
     text-decoration: underline;
 }
 
 @media (max-width: 480px) {
     .auth-container {
         padding: 32px 24px;
+        border: none;
+        border-radius: 0;
+    }
+
+    .auth-page {
+        padding: var(--spacing-md);
+        align-items: flex-start;
+        padding-top: 60px;
     }
 }

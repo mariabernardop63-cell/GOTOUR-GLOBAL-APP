@@ -5,35 +5,37 @@
     gap: 8px;
     font-weight: 600;
     font-size: 16px;
-    border-radius: var(--radius-full);
-    transition: var(--transition-normal);
+    border-radius: 10px;
+    transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
     cursor: pointer;
     border: none;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
 }
 
 /* Variants */
 .btn-primary {
-    background: var(--primary-gradient);
-    color: white;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    background: #2563eb;
+    color: #ffffff;
 }
 
 .btn-primary:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(37, 99, 235, 0.4);
+    background: #1d4ed8;
 }
 
 .btn-primary:active:not(:disabled) {
-    transform: translateY(0);
+    background: #1e40af;
 }
 
 .btn-secondary {
     background: transparent;
-    color: var(--primary);
-    border: 1px solid var(--primary);
+    color: #2563eb;
+    border: 1px solid #2563eb;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #eff6ff;
 }
 
 /* Sizes */
@@ -43,11 +45,17 @@
 
 .btn-lg {
     padding: 16px 32px;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .btn-full {
     width: 100%;
+}
+
+/* Disabled */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Loading */
