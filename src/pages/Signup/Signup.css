@@ -5,14 +5,14 @@
     min-height: 100vh;
     padding: 24px;
     padding-top: 60px;
-    background: #0C7075;
+    background: #4cbce6;
 }
 
 .signup-container {
     position: relative;
     width: 100%;
     max-width: 480px;
-    background: #0C7075;
+    background: #4cbce6;
     border: none;
     border-radius: 20px;
     padding: 48px 36px 40px;
@@ -389,7 +389,7 @@ select.input-field {
     .signup-page {
         padding: 16px;
         padding-top: 80px;
-        background: #0C7075;
+        background: #4cbce6;
     }
 
     .signup-container {

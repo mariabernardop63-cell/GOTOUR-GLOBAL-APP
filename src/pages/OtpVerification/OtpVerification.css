@@ -4,14 +4,14 @@
     align-items: center;
     min-height: 100vh;
     padding: 24px;
-    background: #0C7075;
+    background: #4cbce6;
 }
 
 .otp-container {
     position: relative;
     width: 100%;
     max-width: 420px;
-    background: #0C7075;
+    background: #4cbce6;
     border: none;
     border-radius: 20px;
     padding: 48px 40px;
@@ -174,7 +174,7 @@
         padding: 16px;
         align-items: flex-start;
         padding-top: 48px;
-        background: #0C7075;
+        background: #4cbce6;
     }
 
     .otp-container {
