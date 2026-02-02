@@ -60,6 +60,8 @@
     flex-direction: column;
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-xl);
+    position: relative;
+    z-index: 20;
 }
 
 .logo-overlay {
