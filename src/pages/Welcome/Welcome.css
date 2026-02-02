@@ -27,7 +27,7 @@
 .welcome-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.1) 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.2) 100%);
     z-index: 1;
 }
 
@@ -36,6 +36,7 @@
     max-width: 480px;
     width: 100%;
     margin: 0 auto;
+    color: #ffffff;
 }
 
 .welcome-title {

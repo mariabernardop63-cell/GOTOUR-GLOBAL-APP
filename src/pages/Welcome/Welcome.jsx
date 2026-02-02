@@ -4,10 +4,14 @@ import { MapPin } from 'lucide-react';
 import Button from '../../components/Button/Button';
 import './Welcome.css';
 
+import dubaiCity from '../../assets/images/dubai_city.png';
+import africanForest from '../../assets/images/african_forest_tourists.png';
+import japaneseVillage from '../../assets/images/japanese_village.png';
+
 const images = [
-    'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80', // Default (Nature/City)
-    'https://images.unsplash.com/photo-1512453979798-5ea90b2009f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80', // Dubai
-    'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80', // Japan
+    dubaiCity,
+    africanForest,
+    japaneseVillage,
 ];
 
 const Welcome = () => {
