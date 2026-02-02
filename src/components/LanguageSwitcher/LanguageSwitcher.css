@@ -9,22 +9,26 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 10px 14px;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    /* Glassy */
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    padding: 8px 12px;
+    border-radius: 20px;
+    /* Pill shape */
     cursor: pointer;
     transition: all 0.2s ease;
     font-weight: 500;
-    font-size: 14px;
-    color: #ffffff;
-    box-shadow: none;
+    font-size: 13px;
+    color: var(--text-main);
+    /* Dark text for light bg */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .lang-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: none;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
 }
 
 .lang-flag {
@@ -33,7 +37,7 @@
 
 .lang-arrow {
     transition: transform 0.2s ease;
-    color: #ffffff;
+    color: var(--text-secondary);
 }
 
 .lang-arrow.rotate {

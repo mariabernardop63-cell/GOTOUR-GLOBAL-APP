@@ -1,3 +1,4 @@
+/* Input.css - Premium Design */
 .input-group {
     position: relative;
     margin-bottom: 6px;
@@ -7,33 +8,37 @@
 .input-wrapper {
     position: relative;
     background: #ffffff;
-    border: 1.5px solid #d1d5db;
-    border-radius: 12px;
-    transition: all 0.2s ease;
+    border: 1px solid #cbd5e1;
+    /* Lighter border */
+    border-radius: var(--radius-md);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
 }
 
 .input-wrapper:hover {
-    border-color: #9ca3af;
+    border-color: #94a3b8;
+    box-shadow: var(--shadow-md);
 }
 
 .input-wrapper:focus-within {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+    /* Primary Ring */
 }
 
 /* Input Field */
 .input-field {
     width: 100%;
-    height: 52px;
-    padding: 14px 16px;
-    padding-top: 22px;
-    padding-bottom: 6px;
+    height: 56px;
+    /* Taller touch target */
+    padding: 24px 16px 8px;
+    /* Room for floating label */
     font-size: 16px;
-    font-weight: 450;
-    color: #1e293b;
+    font-weight: 500;
+    color: var(--text-main);
     background: transparent;
     border: none;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     outline: none;
     transition: all 0.2s ease;
 }
@@ -50,13 +55,12 @@
 .input-label {
     position: absolute;
     left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 16px;
+    top: 18px;
+    font-size: 15px;
     font-weight: 450;
-    color: #6b7280;
+    color: var(--text-secondary);
     pointer-events: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
     transform-origin: left top;
 }
 
@@ -66,16 +70,14 @@
 
 /* Floating Logic */
 .input-field:focus~.input-label,
-.input-field:not(:placeholder-shown)~.input-label,
-.input-field.has-value~.input-label {
-    transform: translateY(-20px) scale(0.75);
-    top: 50%;
-    color: #2563eb;
-    font-weight: 500;
+.input-field:not(:placeholder-shown)~.input-label {
+    transform: translateY(-8px) scale(0.85);
+    color: var(--primary);
+    font-weight: 600;
 }
 
 .input-field:not(:placeholder-shown)~.input-label {
-    color: #6b7280;
+    color: var(--text-secondary);
 }
 
 /* Icon */
@@ -84,41 +86,38 @@
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: #9ca3af;
+    color: var(--text-muted);
     transition: color 0.2s ease;
     z-index: 1;
 }
 
 .input-wrapper:focus-within .input-icon {
-    color: #2563eb;
+    color: var(--primary);
 }
 
 /* Error State */
 .has-error .input-wrapper {
-    border-color: #ef4444;
+    border-color: var(--error);
     background: #fef2f2;
 }
 
 .has-error .input-wrapper:focus-within {
-    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
 }
 
+.has-error .input-icon,
 .has-error .input-label {
-    color: #ef4444;
-}
-
-.has-error .input-icon {
-    color: #ef4444;
+    color: var(--error);
 }
 
 .input-error-msg {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-top: 8px;
+    margin-top: 6px;
     font-size: 13px;
     font-weight: 500;
-    color: #ef4444;
+    color: var(--error);
     padding-left: 4px;
 }
 
@@ -130,9 +129,10 @@
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: #9ca3af;
+    color: var(--text-muted);
     cursor: pointer;
-    padding: 4px;
+    padding: 8px;
+    /* Bigger touch target */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,5 +140,5 @@
 }
 
 .password-toggle:hover {
-    color: #6b7280;
+    color: var(--text-secondary);
 }

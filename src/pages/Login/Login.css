@@ -1,104 +1,113 @@
+/* Login.css - Redesigned Premium Layout */
 .auth-page {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 24px;
-    background: #4cbce6;
+    padding: var(--spacing-md);
+    background: transparent;
+    /* Taken from body gradient */
 }
 
+/* White Card Container */
 .auth-container {
     position: relative;
     width: 100%;
     max-width: 440px;
-    background: #4cbce6;
-    border: none;
-    border-radius: 20px;
-    padding: 48px 40px;
-    box-shadow: none;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl) var(--spacing-xl);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.3s ease;
 }
 
-/* Close Button (X) */
+/* Close Button (Moved outside or elegantly inside) 
+   User asked for it "moved higher" previously. 
+   In card design, typically top-left or top-right inside.
+*/
 .btn-close {
     position: absolute;
-    top: -50px;
-    left: 0px;
-    width: 40px;
-    height: 40px;
+    top: 20px;
+    left: 20px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
+    background: #f1f5f9;
+    /* Soft gray for visibility on white */
     border: none;
     border-radius: 50%;
-    color: #ffffff;
+    color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .btn-close:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    background: #e2e8f0;
+    color: var(--text-main);
 }
 
-/* Welcome Message - White Text at TOP */
+/* Welcome Message - Clean Typography */
 .welcome-message {
     text-align: center;
-    margin-bottom: 32px;
-    margin-top: 16px;
+    margin-bottom: var(--spacing-xl);
+    margin-top: 10px;
 }
 
-.welcome-message .welcome-title {
-    font-size: 28px;
+.welcome-title {
+    font-size: 26px;
     font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 10px;
+    color: var(--text-main);
+    /* Dark Slate */
+    margin-bottom: 8px;
     letter-spacing: -0.02em;
 }
 
-.welcome-message .welcome-text {
-    font-size: 16px;
-    font-weight: 450;
-    color: #ffffff;
+.welcome-text {
+    font-size: 15px;
+    color: var(--text-secondary);
     line-height: 1.5;
 }
 
+/* Form Layout */
 .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--spacing-lg);
 }
 
 .forgot-password {
     text-align: right;
     font-size: 14px;
-    color: #2563eb;
+    color: var(--primary);
     font-weight: 500;
     cursor: pointer;
-    margin-top: 4px;
     display: inline-block;
     transition: color 0.2s ease;
+    margin-top: -4px;
+    /* Pull closer to input */
 }
 
 .forgot-password:hover {
-    color: #1d4ed8;
-    text-decoration: underline;
+    color: var(--primary-dark);
 }
 
 .auth-actions {
-    margin-top: 8px;
+    margin-top: var(--spacing-md);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--spacing-md);
 }
 
+/* Divider */
 .divider {
     display: flex;
     align-items: center;
-    color: #9ca3af;
+    color: var(--text-muted);
     font-size: 13px;
     font-weight: 500;
-    margin: 4px 0;
+    margin: 8px 0;
 }
 
 .divider::before,
@@ -106,7 +115,7 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: #e5e7eb;
+    background: #e2e8f0;
 }
 
 .divider::before {
@@ -117,16 +126,16 @@
     margin-left: 16px;
 }
 
+/* Footer */
 .auth-footer {
-    margin-top: 32px;
+    margin-top: var(--spacing-xl);
     text-align: center;
-    font-size: 15px;
-    color: #6b7280;
-    font-weight: 450;
+    font-size: 14px;
+    color: var(--text-secondary);
 }
 
 .auth-link {
-    color: #2563eb;
+    color: var(--primary);
     font-weight: 600;
     cursor: pointer;
     margin-left: 4px;
@@ -134,27 +143,26 @@
 }
 
 .auth-link:hover {
-    color: #1d4ed8;
+    color: var(--primary-dark);
     text-decoration: underline;
 }
 
+/* Mobile Responsiveness */
 @media (max-width: 480px) {
     .auth-page {
         padding: 16px;
-        align-items: flex-start;
-        padding-top: 48px;
-        background: #4cbce6;
+        align-items: center;
+        /* Center vertically on mobile too for cards */
+        background: transparent;
     }
 
     .auth-container {
-        padding: 48px 24px 32px;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .btn-close {
-        top: 16px;
-        left: 16px;
+        padding: 32px 24px;
+        border-radius: var(--radius-lg);
+        /* Keep radius on mobile */
+        box-shadow: var(--shadow-md);
+        /* Softer shadow */
+        max-width: 100%;
+        margin: 0 8px;
     }
 }

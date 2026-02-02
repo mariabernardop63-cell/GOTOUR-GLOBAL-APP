@@ -1,26 +1,32 @@
+/* Signup.css - Premium Card Redesign */
 .signup-page {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    /* Long form needs alignment top or center depending on height */
     min-height: 100vh;
-    padding: 24px;
+    padding: var(--spacing-md);
     padding-top: 60px;
-    background: #4cbce6;
+    /* Space for Language Switcher if needed */
+    background: transparent;
+    /* Body has gradient */
 }
 
+/* White Card Container */
 .signup-container {
     position: relative;
     width: 100%;
-    max-width: 480px;
-    background: #4cbce6;
-    border: none;
-    border-radius: 20px;
-    padding: 48px 36px 40px;
-    box-shadow: none;
-    max-height: calc(100vh - 120px);
+    max-width: 520px;
+    /* Slightly wider for form */
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-card);
+    max-height: calc(100vh - 80px);
+    /* Constrain height */
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    scrollbar-color: var(--text-muted) transparent;
 }
 
 .signup-container::-webkit-scrollbar {
@@ -35,45 +41,50 @@
 /* Close Button (X) */
 .btn-close {
     position: absolute;
-    top: -50px;
-    left: 0px;
-    width: 40px;
-    height: 40px;
+    top: 20px;
+    left: 20px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
+    background: #f1f5f9;
     border: none;
     border-radius: 50%;
-    color: #ffffff;
+    color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.2s ease;
+    z-index: 10;
 }
 
 .btn-close:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    background: #e2e8f0;
+    color: var(--text-main);
 }
 
+/* Header */
 .signup-header {
     margin-bottom: 28px;
     text-align: center;
+    margin-top: 10px;
+    /* Space for close button */
 }
 
 .signup-title {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
-    color: #111827;
+    color: var(--text-main);
     margin-bottom: 8px;
     letter-spacing: -0.02em;
 }
 
 .signup-subtitle {
-    color: #6b7280;
+    color: var(--text-secondary);
     font-size: 14px;
     font-weight: 500;
 }
 
+/* Form Sections */
 .signup-form {
     display: flex;
     flex-direction: column;
@@ -81,27 +92,27 @@
 }
 
 .form-section-title {
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     text-transform: uppercase;
-    color: #9ca3af;
-    letter-spacing: 0.08em;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #f3f4f6;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-top: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #f1f5f9;
 }
 
-/* Auth Footer & Link */
+/* Footer & Link */
 .auth-footer {
     text-align: center;
     font-size: 14px;
-    color: #6b7280;
+    color: var(--text-secondary);
     font-weight: 450;
+    margin-top: 10px;
 }
 
 .auth-link {
-    color: #2563eb;
+    color: var(--primary);
     font-weight: 600;
     cursor: pointer;
     margin-left: 4px;
@@ -109,223 +120,67 @@
 }
 
 .auth-link:hover {
-    color: #1d4ed8;
+    color: var(--primary-dark);
     text-decoration: underline;
 }
 
-/* Custom Select Styling */
+/* Custom Select Styling override if needed, assuming existing styles work with white bg */
 select.input-field {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    background-size: 16px;
-    padding-right: 48px;
-    cursor: pointer;
     background-color: #ffffff;
+    /* Explicitly white */
 }
 
-.input-label-static {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #374151;
-}
-
-
-
-/* Phone Field */
-.phone-wrapper {
-    display: flex;
-    align-items: center;
-}
-
+/* Phone Field Specifics */
 .phone-prefix {
-    background: #f9fafb;
-    padding: 0 16px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    font-weight: 600;
-    font-size: 15px;
-    color: #374151;
-    border: 1.5px solid #d1d5db;
-    border-right: none;
-    border-radius: 12px 0 0 12px;
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: var(--text-secondary);
 }
 
-.phone-field {
-    border-top-left-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
-}
-
-.phone-wrapper .input-wrapper {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    flex: 1;
-}
-
-/* Password Strength */
+/* Password Strength & Checkbox */
 .password-strength {
-    margin-top: -8px;
-    margin-bottom: 8px;
-    padding: 0 4px;
+    margin-bottom: 12px;
 }
 
 .strength-bar {
-    height: 4px;
-    width: 100%;
-    background: #e5e7eb;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 6px;
-}
-
-.strength-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.strength-text {
-    font-size: 12px;
-    font-weight: 600;
-    float: right;
-}
-
-/* Terms Checkbox */
-.terms-container {
-    display: flex;
-    flex-direction: column;
+    background: #e2e8f0;
 }
 
 .checkbox-label {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    cursor: pointer;
-    position: relative;
-    padding-left: 30px;
-    font-size: 14px;
-    color: #4b5563;
-    user-select: none;
-    line-height: 1.5;
-}
-
-.custom-checkbox {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+    color: var(--text-secondary);
 }
 
 .checkmark {
-    position: absolute;
-    top: 2px;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: #ffffff;
-    border: 2px solid #d1d5db;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-}
-
-.checkbox-label:hover .custom-checkbox~.checkmark {
-    border-color: #2563eb;
+    background-color: #fff;
+    border-color: #cbd5e1;
 }
 
 .custom-checkbox:checked~.checkmark {
-    background-color: #2563eb;
-    border-color: #2563eb;
-}
-
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-.custom-checkbox:checked~.checkmark:after {
-    display: block;
-}
-
-.checkbox-label .checkmark:after {
-    left: 6px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-.terms-text {
-    line-height: 1.5;
-}
-
-.terms-link {
-    color: #2563eb;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.terms-link:hover {
-    text-decoration: underline;
-}
-
-/* Captcha */
-.captcha-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 8px;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 /* Divider */
 .divider {
-    display: flex;
-    align-items: center;
-    color: #9ca3af;
-    font-size: 13px;
-    font-weight: 500;
-    margin: 8px 0;
+    color: var(--text-muted);
 }
 
 .divider::before,
 .divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #e5e7eb;
-}
-
-.divider::before {
-    margin-right: 16px;
-}
-
-.divider::after {
-    margin-left: 16px;
+    background: #e2e8f0;
 }
 
 @media (max-width: 480px) {
     .signup-page {
-        padding: 16px;
-        padding-top: 80px;
-        background: #4cbce6;
+        padding: 12px;
+        padding-top: 60px;
     }
 
     .signup-container {
-        border: none;
-        border-radius: 0;
-        padding: 48px 20px 24px;
-        box-shadow: none;
+        border-radius: var(--radius-lg);
+        padding: 24px 20px;
         max-height: none;
+        /* Let it scroll naturally on mobile */
+        box-shadow: var(--shadow-md);
     }
 }
