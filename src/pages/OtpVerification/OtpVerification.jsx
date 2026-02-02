@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Mail, RefreshCw, Edit2 } from 'lucide-react';
+import { X, Mail, RefreshCw, Edit2 } from 'lucide-react';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import SocialButton from '../../components/SocialButton/SocialButton';
@@ -69,11 +69,11 @@ const OtpVerification = () => {
 
             <div className="otp-container slide-up">
                 <button
-                    className="btn-text"
-                    style={{ padding: 0, marginBottom: 20, color: 'var(--text-secondary)' }}
+                    className="btn-close"
                     onClick={() => navigate('/signup')}
+                    aria-label="Close"
                 >
-                    <ArrowLeft size={20} /> <span style={{ marginLeft: 4 }}>Back</span>
+                    <X size={24} />
                 </button>
 
                 <div className="otp-header">

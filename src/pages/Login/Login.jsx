@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, X } from 'lucide-react';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import SocialButton from '../../components/SocialButton/SocialButton';
@@ -43,17 +43,12 @@ const Login = () => {
 
             <div className="auth-container slide-up">
                 <button
-                    className="btn-text"
-                    style={{ marginBottom: 24, padding: 0, color: 'var(--text-secondary)' }}
+                    className="btn-close"
                     onClick={() => navigate('/')}
+                    aria-label="Close"
                 >
-                    <ArrowLeft size={20} /> <span style={{ marginLeft: 4 }}>Back</span>
+                    <X size={24} />
                 </button>
-
-                <header className="auth-header">
-                    <h1 className="auth-title">Welcome Back! 👋</h1>
-                    <p className="auth-subtitle">Enter your credentials to continue your journey.</p>
-                </header>
 
                 <form className="auth-form" onSubmit={handleLogin}>
                     <Input
@@ -79,6 +74,11 @@ const Login = () => {
                         <span className="forgot-password" onClick={() => navigate('/forgot-password')}>
                             Forgot Password?
                         </span>
+                    </div>
+
+                    <div className="welcome-message">
+                        <h2 className="welcome-title">Seja Bem-vindo(a)!</h2>
+                        <p className="welcome-text">Estamos entusiasmados por tê-lo(a) conosco.</p>
                     </div>
 
                     <div className="auth-actions">

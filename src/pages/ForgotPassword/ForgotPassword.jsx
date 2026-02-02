@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, KeyRound } from 'lucide-react';
+import { X, KeyRound } from 'lucide-react';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
@@ -40,11 +40,11 @@ const ForgotPassword = () => {
 
             <div className="forgot-container slide-up">
                 <button
-                    className="btn-text"
-                    style={{ padding: 0, marginBottom: 20, color: 'var(--text-secondary)' }}
+                    className="btn-close"
                     onClick={() => navigate('/login')}
+                    aria-label="Close"
                 >
-                    <ArrowLeft size={20} /> <span style={{ marginLeft: 4 }}>{t.buttons.back}</span>
+                    <X size={24} />
                 </button>
 
                 <div className="forgot-header">
