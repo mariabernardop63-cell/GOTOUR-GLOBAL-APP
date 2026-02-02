@@ -4,7 +4,7 @@
     align-items: center;
     min-height: 100vh;
     padding: 24px;
-    background: #faf9f7;
+    background: #0C7075;
 }
 
 .otp-container {
@@ -176,7 +176,7 @@
         padding: 16px;
         align-items: flex-start;
         padding-top: 48px;
-        background: #faf9f7;
+        background: #0C7075;
     }
 
     .otp-container {

@@ -5,7 +5,7 @@
     min-height: 100vh;
     padding: 24px;
     padding-top: 60px;
-    background: #faf9f7;
+    background: #0C7075;
 }
 
 .signup-container {
@@ -391,7 +391,7 @@ select.input-field {
     .signup-page {
         padding: 16px;
         padding-top: 80px;
-        background: #faf9f7;
+        background: #0C7075;
     }
 
     .signup-container {
