@@ -72,8 +72,8 @@
 
 @media (max-width: 480px) {
     .lang-switcher {
-        top: 20px;
-        right: 50%;
-        transform: translateX(50%);
+        top: 16px;
+        right: 16px;
+        transform: none;
     }
 }
