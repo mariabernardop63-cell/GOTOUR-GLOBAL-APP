@@ -50,6 +50,11 @@ const Login = () => {
                     <X size={24} />
                 </button>
 
+                <div className="welcome-message">
+                    <h1 className="welcome-title">Seja Bem-vindo(a)!</h1>
+                    <p className="welcome-text">Estamos entusiasmados por tê-lo(a) conosco.</p>
+                </div>
+
                 <form className="auth-form" onSubmit={handleLogin}>
                     <Input
                         label="Email or Username"
@@ -74,11 +79,6 @@ const Login = () => {
                         <span className="forgot-password" onClick={() => navigate('/forgot-password')}>
                             Forgot Password?
                         </span>
-                    </div>
-
-                    <div className="welcome-message">
-                        <h2 className="welcome-title">Seja Bem-vindo(a)!</h2>
-                        <p className="welcome-text">Estamos entusiasmados por tê-lo(a) conosco.</p>
                     </div>
 
                     <div className="auth-actions">
