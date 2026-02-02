@@ -24,31 +24,30 @@
     transition: transform 0.3s ease;
 }
 
-/* Close Button (Moved outside or elegantly inside) 
-   User asked for it "moved higher" previously. 
-   In card design, typically top-left or top-right inside.
-*/
+/* Close Button (Fixed to Screen Corner) */
 .btn-close {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 36px;
-    height: 36px;
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f1f5f9;
-    /* Soft gray for visibility on white */
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(4px);
     border: none;
     border-radius: 50%;
-    color: var(--text-secondary);
+    color: var(--text-main);
     cursor: pointer;
     transition: all 0.2s ease;
+    z-index: 50;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .btn-close:hover {
-    background: #e2e8f0;
-    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(1.05);
 }
 
 /* Welcome Message - Clean Typography */
