@@ -237,11 +237,11 @@ const Signup = () => {
             <div className="signup-container slide-up">
                 {step === 1 && (
                     <button
-                        className="btn-text"
-                        style={{ padding: 0, marginBottom: 10, color: 'var(--text-secondary)' }}
+                        className="btn-close"
                         onClick={() => navigate('/')}
+                        aria-label="Close"
                     >
-                        <ArrowLeft size={20} /> <span style={{ marginLeft: 4 }}>Back</span>
+                        <X size={24} />
                     </button>
                 )}
 
