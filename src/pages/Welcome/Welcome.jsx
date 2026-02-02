@@ -44,9 +44,9 @@ const Welcome = () => {
             </div>
 
             <div className="welcome-content slide-up">
-                <h1 className="welcome-title">Explore the World <br />Like a Local</h1>
+                <h1 className="welcome-title">Explore o Mundo <br />Como um Local</h1>
                 <p className="welcome-subtitle">
-                    Your personal intelligent travel companion. Discover hidden gems, meet new people, and travel smarter.
+                    Seu companheiro de viagem inteligente. Descubra joias escondidas, conheça novas pessoas e viaje com mais sabedoria.
                 </p>
 
                 <div className="welcome-actions">
@@ -56,7 +56,7 @@ const Welcome = () => {
                         fullWidth
                         onClick={() => navigate('/signup')}
                     >
-                        Get Started
+                        Começar Agora
                     </Button>
                     <Button
                         variant="secondary"
@@ -65,7 +65,7 @@ const Welcome = () => {
                         onClick={() => navigate('/login')}
                         style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white', backdropFilter: 'blur(4px)' }}
                     >
-                        I already have an account
+                        Já tenho uma conta
                     </Button>
                 </div>
             </div>

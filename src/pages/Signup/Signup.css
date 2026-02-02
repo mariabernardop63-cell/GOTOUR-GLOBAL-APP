@@ -17,13 +17,11 @@
     position: relative;
     width: 100%;
     max-width: 520px;
-    /* Slightly wider for form */
-    background: var(--surface);
+    background: transparent;
     border-radius: var(--radius-lg);
-    padding: var(--spacing-xl);
-    box-shadow: var(--shadow-card);
+    padding: var(--spacing-xl) 20px;
+    box-shadow: none;
     max-height: calc(100vh - 80px);
-    /* Constrain height */
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--text-muted) transparent;
