@@ -3,28 +3,28 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 12px 20px;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: var(--radius-full);
+    height: 48px;
+    padding: 0 20px;
+    background: #ffffff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 12px;
     font-size: 15px;
     font-weight: 500;
-    color: var(--text-main);
-    transition: var(--transition-normal);
+    color: #374151;
+    transition: all 0.2s ease;
     cursor: pointer;
     gap: 10px;
-    box-shadow: var(--shadow-sm);
 }
 
 .social-btn:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    background: #f9fafb;
+    border-color: #d1d5db;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .social-btn:active {
-    transform: translateY(0);
+    background: #f3f4f6;
+    transform: scale(0.99);
 }
 
 .social-icon {

@@ -3,19 +3,22 @@
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
-    padding: var(--spacing-lg);
-    padding-top: 80px;
-    background: #f8fafc;
+    padding: 24px;
+    padding-top: 60px;
+    background: linear-gradient(180deg, #f6f7fb 0%, #eef1f5 100%);
 }
 
 .signup-container {
     width: 100%;
     max-width: 480px;
     background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 32px;
-    max-height: 85vh;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+    padding: 40px 36px;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.02),
+        0 12px 28px rgba(0, 0, 0, 0.06);
+    max-height: calc(100vh - 120px);
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 transparent;
@@ -31,44 +34,48 @@
 }
 
 .signup-header {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     text-align: center;
 }
 
 .signup-title {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
-    color: #1e293b;
+    color: #111827;
     margin-bottom: 8px;
+    letter-spacing: -0.02em;
 }
 
 .signup-subtitle {
-    color: #64748b;
+    color: #6b7280;
     font-size: 14px;
+    font-weight: 500;
 }
 
 .signup-form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 18px;
 }
 
 .form-section-title {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
-    color: #94a3b8;
-    letter-spacing: 0.05em;
+    color: #9ca3af;
+    letter-spacing: 0.08em;
     margin-top: 8px;
     margin-bottom: 8px;
-    border-bottom: 1px solid #f1f5f9;
-    padding-bottom: 4px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f3f4f6;
 }
 
+/* Auth Footer & Link */
 .auth-footer {
     text-align: center;
     font-size: 14px;
-    color: #64748b;
+    color: #6b7280;
+    font-weight: 450;
 }
 
 .auth-link {
@@ -89,28 +96,28 @@ select.input-field {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 1em;
-    padding-right: 2.5rem;
+    background-position: right 16px center;
+    background-size: 16px;
+    padding-right: 48px;
     cursor: pointer;
     background-color: #ffffff;
 }
 
 .input-label-static {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-size: 14px;
     font-weight: 500;
-    color: #64748b;
+    color: #374151;
 }
 
 /* Language Switcher */
 .lang-switcher {
     position: fixed;
     top: 20px;
-    right: 20px;
+    right: 24px;
     z-index: 100;
 }
 
@@ -119,19 +126,21 @@ select.input-field {
     align-items: center;
     gap: 8px;
     background: #ffffff;
-    border: 1px solid #e2e8f0;
-    padding: 8px 12px;
-    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    padding: 10px 14px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s ease;
     font-weight: 500;
     font-size: 14px;
-    color: #1e293b;
+    color: #374151;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .lang-btn:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
+    background: #f9fafb;
+    border-color: #d1d5db;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .lang-flag {
@@ -140,7 +149,7 @@ select.input-field {
 
 .lang-arrow {
     transition: transform 0.2s ease;
-    color: #64748b;
+    color: #6b7280;
 }
 
 .lang-arrow.rotate {
@@ -149,76 +158,84 @@ select.input-field {
 
 .lang-menu {
     position: absolute;
-    top: 110%;
+    top: calc(100% + 8px);
     right: 0;
     background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
     padding: 8px;
     min-width: 180px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #e5e7eb;
 }
 
 .lang-option {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 12px;
-    border-radius: 6px;
+    padding: 12px 14px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background 0.15s ease;
     font-size: 14px;
-    color: #1e293b;
+    font-weight: 450;
+    color: #374151;
 }
 
 .lang-option:hover {
-    background: #f1f5f9;
+    background: #f3f4f6;
     color: #2563eb;
 }
 
-/* Phone Field Specifics */
+/* Phone Field */
 .phone-wrapper {
     display: flex;
     align-items: center;
 }
 
 .phone-prefix {
-    background: #f1f5f9;
+    background: #f9fafb;
     padding: 0 16px;
-    height: 56px;
+    height: 52px;
     display: flex;
     align-items: center;
     font-weight: 600;
-    color: #64748b;
-    border-right: 1px solid #e2e8f0;
+    font-size: 15px;
+    color: #374151;
+    border: 1.5px solid #d1d5db;
+    border-right: none;
     border-radius: 12px 0 0 12px;
 }
 
 .phone-field {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+.phone-wrapper .input-wrapper {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    border-left: none;
-    padding-left: 16px;
+    flex: 1;
 }
 
 /* Password Strength */
 .password-strength {
-    margin-top: -10px;
-    margin-bottom: 10px;
+    margin-top: -8px;
+    margin-bottom: 8px;
     padding: 0 4px;
 }
 
 .strength-bar {
     height: 4px;
     width: 100%;
-    background: #e2e8f0;
-    border-radius: 2px;
+    background: #e5e7eb;
+    border-radius: 4px;
     overflow: hidden;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .strength-fill {
     height: 100%;
+    border-radius: 4px;
     transition: width 0.3s ease, background-color 0.3s ease;
 }
 
@@ -237,13 +254,14 @@ select.input-field {
 .checkbox-label {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 12px;
     cursor: pointer;
     position: relative;
-    padding-left: 28px;
+    padding-left: 30px;
     font-size: 14px;
-    color: #64748b;
+    color: #4b5563;
     user-select: none;
+    line-height: 1.5;
 }
 
 .custom-checkbox {
@@ -258,11 +276,11 @@ select.input-field {
     position: absolute;
     top: 2px;
     left: 0;
-    height: 18px;
-    width: 18px;
-    background-color: transparent;
-    border: 2px solid #cbd5e1;
-    border-radius: 4px;
+    height: 20px;
+    width: 20px;
+    background-color: #ffffff;
+    border: 2px solid #d1d5db;
+    border-radius: 6px;
     transition: all 0.2s ease;
 }
 
@@ -286,8 +304,8 @@ select.input-field {
 }
 
 .checkbox-label .checkmark:after {
-    left: 5px;
-    top: 1px;
+    left: 6px;
+    top: 2px;
     width: 5px;
     height: 10px;
     border: solid white;
@@ -296,18 +314,18 @@ select.input-field {
 }
 
 .terms-text {
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 .terms-link {
     color: #2563eb;
     font-weight: 600;
-    text-decoration: underline;
+    text-decoration: none;
     cursor: pointer;
 }
 
 .terms-link:hover {
-    color: #1d4ed8;
+    text-decoration: underline;
 }
 
 /* Captcha */
@@ -316,17 +334,16 @@ select.input-field {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transform: scale(0.9);
-    transform-origin: center;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 /* Divider */
 .divider {
     display: flex;
     align-items: center;
-    color: #94a3b8;
-    font-size: 14px;
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: 500;
     margin: 8px 0;
 }
 
@@ -335,28 +352,50 @@ select.input-field {
     content: '';
     flex: 1;
     height: 1px;
-    background: #e2e8f0;
+    background: #e5e7eb;
 }
 
 .divider::before {
-    margin-right: 12px;
+    margin-right: 16px;
 }
 
 .divider::after {
-    margin-left: 12px;
+    margin-left: 16px;
+}
+
+/* Back Button */
+.btn-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 8px;
+    transition: color 0.2s ease;
+}
+
+.btn-text:hover {
+    color: #374151;
 }
 
 @media (max-width: 480px) {
     .signup-page {
-        padding: var(--spacing-md);
+        padding: 16px;
         padding-top: 80px;
-        align-items: flex-start;
+        background: #ffffff;
     }
 
     .signup-container {
         border: none;
         border-radius: 0;
         padding: 24px 20px;
+        box-shadow: none;
+        max-height: none;
     }
 
     .lang-switcher {

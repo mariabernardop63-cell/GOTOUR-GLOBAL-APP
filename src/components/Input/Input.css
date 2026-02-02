@@ -1,33 +1,45 @@
 .input-group {
     position: relative;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     width: 100%;
 }
 
 .input-wrapper {
     position: relative;
     background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    border: 1.5px solid #d1d5db;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.input-wrapper:hover {
+    border-color: #9ca3af;
 }
 
 .input-wrapper:focus-within {
     border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
 }
 
 /* Input Field */
 .input-field {
     width: 100%;
-    padding: 24px 16px 8px;
+    height: 52px;
+    padding: 14px 16px;
+    padding-top: 22px;
+    padding-bottom: 6px;
     font-size: 16px;
+    font-weight: 450;
     color: #1e293b;
     background: transparent;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     outline: none;
     transition: all 0.2s ease;
+}
+
+.input-field::placeholder {
+    color: transparent;
 }
 
 .input-field.has-icon {
@@ -41,9 +53,10 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
-    color: #94a3b8;
+    font-weight: 450;
+    color: #6b7280;
     pointer-events: none;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: left top;
 }
 
@@ -53,14 +66,16 @@
 
 /* Floating Logic */
 .input-field:focus~.input-label,
-.input-field:not(:placeholder-shown)~.input-label {
-    transform: translateY(-14px) scale(0.85);
-    top: 16px;
+.input-field:not(:placeholder-shown)~.input-label,
+.input-field.has-value~.input-label {
+    transform: translateY(-20px) scale(0.75);
+    top: 50%;
     color: #2563eb;
+    font-weight: 500;
 }
 
 .input-field:not(:placeholder-shown)~.input-label {
-    color: #64748b;
+    color: #6b7280;
 }
 
 /* Icon */
@@ -69,12 +84,11 @@
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: #94a3b8;
+    color: #9ca3af;
     transition: color 0.2s ease;
     z-index: 1;
 }
 
-.input-field:focus~.input-icon,
 .input-wrapper:focus-within .input-icon {
     color: #2563eb;
 }
@@ -82,9 +96,13 @@
 /* Error State */
 .has-error .input-wrapper {
     border-color: #ef4444;
+    background: #fef2f2;
 }
 
-.has-error .input-field:focus~.input-label,
+.has-error .input-wrapper:focus-within {
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+}
+
 .has-error .input-label {
     color: #ef4444;
 }
@@ -94,9 +112,33 @@
 }
 
 .input-error-msg {
-    display: block;
-    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
     font-size: 13px;
+    font-weight: 500;
     color: #ef4444;
-    margin-left: 4px;
+    padding-left: 4px;
+}
+
+/* Password Toggle */
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: #6b7280;
 }
