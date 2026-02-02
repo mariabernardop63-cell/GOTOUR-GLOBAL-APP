@@ -7,7 +7,8 @@ import SocialButton from '../../components/SocialButton/SocialButton';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { countries } from '../../data/countries';
-import { languages } from '../../data/translations';
+
+import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import { useApp } from '../../context/AppContext';
 import './Signup.css';
 
@@ -15,7 +16,7 @@ const Signup = () => {
     const navigate = useNavigate();
     const { langCode, setLangCode, nationality, setNationality, t } = useApp();
     const [isLoading, setIsLoading] = useState(false);
-    const [showLangMenu, setShowLangMenu] = useState(false);
+
 
     // Multi-Step State
     const [step, setStep] = useState(1);
@@ -39,7 +40,7 @@ const Signup = () => {
     const [passwordStrength, setPasswordStrength] = useState(0); // 0-3
 
     const getCurrentCountry = () => countries.find(c => c.code === nationality) || countries[0];
-    const currentLang = languages.find(l => l.code === langCode);
+
     const activeCountry = getCurrentCountry();
 
     // -- FORMATTERS --
@@ -99,10 +100,7 @@ const Signup = () => {
         setNationality(e.target.value);
     };
 
-    const handleLanguageSelect = (code) => {
-        setLangCode(code);
-        setShowLangMenu(false);
-    };
+
 
     const handleCaptchaChange = (value) => {
         setCaptchaVerified(!!value);
@@ -215,24 +213,7 @@ const Signup = () => {
             {isLoading && <LoadingSpinner fullScreen text="Creating Account..." />}
 
             {/* Language Switcher */}
-            <div className={`lang-switcher ${showLangMenu ? 'active' : ''}`}>
-                <button className="lang-btn" onClick={() => setShowLangMenu(!showLangMenu)} type="button">
-                    <span className="lang-flag">{currentLang?.flag}</span>
-                    <span className="lang-name">{currentLang?.code.toUpperCase()}</span>
-                    <ChevronDown size={14} className={`lang-arrow ${showLangMenu ? 'rotate' : ''}`} />
-                </button>
-
-                {showLangMenu && (
-                    <div className="lang-menu scale-in">
-                        {languages.map(l => (
-                            <div key={l.code} className="lang-option" onClick={() => handleLanguageSelect(l.code)}>
-                                <span className="lang-flag">{l.flag}</span>
-                                {l.name}
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+            <LanguageSwitcher />
 
             <div className="signup-container slide-up">
                 {step === 1 && (

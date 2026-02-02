@@ -135,78 +135,7 @@ select.input-field {
     color: #374151;
 }
 
-/* Language Switcher */
-.lang-switcher {
-    position: fixed;
-    top: 12px;
-    right: 24px;
-    z-index: 100;
-}
 
-.lang-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    padding: 10px 14px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: 500;
-    font-size: 14px;
-    color: #374151;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.lang-btn:hover {
-    background: #f9fafb;
-    border-color: #d1d5db;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-.lang-flag {
-    font-size: 18px;
-}
-
-.lang-arrow {
-    transition: transform 0.2s ease;
-    color: #6b7280;
-}
-
-.lang-arrow.rotate {
-    transform: rotate(180deg);
-}
-
-.lang-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-    padding: 8px;
-    min-width: 180px;
-    border: 1px solid #e5e7eb;
-}
-
-.lang-option {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.15s ease;
-    font-size: 14px;
-    font-weight: 450;
-    color: #374151;
-}
-
-.lang-option:hover {
-    background: #f3f4f6;
-    color: #2563eb;
-}
 
 /* Phone Field */
 .phone-wrapper {
@@ -398,11 +327,5 @@ select.input-field {
         padding: 48px 20px 24px;
         box-shadow: none;
         max-height: none;
-    }
-
-    .lang-switcher {
-        top: 20px;
-        right: 50%;
-        transform: translateX(50%);
     }
 }

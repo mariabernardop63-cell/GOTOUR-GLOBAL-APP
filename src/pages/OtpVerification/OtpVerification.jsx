@@ -5,6 +5,7 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import SocialButton from '../../components/SocialButton/SocialButton';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import { useApp } from '../../context/AppContext';
 import './OtpVerification.css';
 
@@ -66,6 +67,7 @@ const OtpVerification = () => {
     return (
         <div className="otp-page fade-in">
             {isLoading && <LoadingSpinner fullScreen text="Verifying..." />}
+            <LanguageSwitcher />
 
             <div className="otp-container slide-up">
                 <button

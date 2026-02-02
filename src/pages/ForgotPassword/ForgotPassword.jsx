@@ -4,7 +4,7 @@ import { X, KeyRound } from 'lucide-react';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import { useApp } from '../../context/AppContext';
+import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {
@@ -37,6 +37,7 @@ const ForgotPassword = () => {
     return (
         <div className="forgot-page fade-in">
             {isLoading && <LoadingSpinner fullScreen text="Sending Code..." />}
+            <LanguageSwitcher />
 
             <div className="forgot-container slide-up">
                 <button
