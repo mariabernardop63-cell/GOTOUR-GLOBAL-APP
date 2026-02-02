@@ -14,7 +14,10 @@ const images = [
     japaneseVillage,
 ];
 
+import gotourLogo from '../../assets/images/gotour_logo_white.png';
+
 const Welcome = () => {
+    // ... existing hook logic ...
     const navigate = useNavigate();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -40,7 +43,7 @@ const Welcome = () => {
             <div className="welcome-overlay"></div>
 
             <div className="logo-overlay fade-in">
-                <MapPin size={24} /> GO TOUR
+                <img src={gotourLogo} alt="Go Tour Logo" style={{ height: '40px', width: 'auto' }} /> GO TOUR
             </div>
 
             <div className="welcome-content slide-up">
