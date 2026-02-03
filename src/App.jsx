@@ -6,13 +6,15 @@ import Signup from './pages/Signup/Signup';
 import OtpVerification from './pages/OtpVerification/OtpVerification';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import { AppProvider } from './context/AppContext';
+import { NavigationProvider, useNavigation } from './context/NavigationContext';
 import './App.css';
 
 function AnimatedRoutes() {
     const location = useLocation();
+    const { direction } = useNavigation();
 
     return (
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" custom={direction}>
             <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Welcome />} />
                 <Route path="/login" element={<Login />} />
@@ -28,9 +30,11 @@ function App() {
     return (
         <AppProvider>
             <BrowserRouter>
-                <div style={{ position: 'relative', overflowX: 'hidden', minHeight: '100vh', width: '100vw' }}>
-                    <AnimatedRoutes />
-                </div>
+                <NavigationProvider>
+                    <div style={{ position: 'relative', overflowX: 'hidden', minHeight: '100vh', width: '100vw' }}>
+                        <AnimatedRoutes />
+                    </div>
+                </NavigationProvider>
             </BrowserRouter>
         </AppProvider>
     );

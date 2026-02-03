@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import PageTransition from '../../components/PageTransition/PageTransition';
+import { useNavigation } from '../../context/NavigationContext';
 import loginHeaderImg from '../../assets/images/login_header_hd.png';
 import './Login.css';
 
 const Login = () => {
+    const { goForward } = useNavigation();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({ email: '', password: '' });

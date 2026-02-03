@@ -7,9 +7,11 @@ import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import PageTransition from '../../components/PageTransition/PageTransition';
 import { useApp } from '../../context/AppContext';
+import { useNavigation } from '../../context/NavigationContext';
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {
+    const { goBack, goForward } = useNavigation();
     const navigate = useNavigate();
     const { t } = useApp();
     const [email, setEmail] = useState('');
@@ -27,11 +29,10 @@ const ForgotPassword = () => {
         // Mock API call
         setTimeout(() => {
             setIsLoading(false);
-            navigate('/otp-verification', {
-                state: {
-                    email: email,
-                    message: t.forgotPassword.success
-                }
+            setIsLoading(false);
+            goForward('/otp-verification', {
+                email: email,
+                message: t.forgotPassword.success
             });
         }, 1500);
     };
@@ -45,7 +46,7 @@ const ForgotPassword = () => {
                 <div className="forgot-container slide-up">
                     <button
                         className="btn-close"
-                        onClick={() => navigate('/login')}
+                        onClick={() => goBack()}
                         aria-label="Close"
                     >
                         <X size={24} />

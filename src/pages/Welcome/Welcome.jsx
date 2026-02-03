@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { MapPin } from 'lucide-react';
 import Button from '../../components/Button/Button';
 import PageTransition from '../../components/PageTransition/PageTransition';
+import { useNavigation } from '../../context/NavigationContext';
 import './Welcome.css';
 
 import dubaiCity from '../../assets/images/dubai_city.png';
@@ -19,7 +20,7 @@ import gotourLogo from '../../assets/images/gotour_logo_white.png';
 
 const Welcome = () => {
     // ... existing hook logic ...
-    const navigate = useNavigate();
+    const { goForward } = useNavigation();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {

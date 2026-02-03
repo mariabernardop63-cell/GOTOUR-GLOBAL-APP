@@ -8,9 +8,11 @@ import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import PageTransition from '../../components/PageTransition/PageTransition';
 import { useApp } from '../../context/AppContext';
+import { useNavigation } from '../../context/NavigationContext';
 import './OtpVerification.css';
 
 const OtpVerification = () => {
+    const { goForward, goBack } = useNavigation();
     const navigate = useNavigate();
     const location = useLocation();
     const { t } = useApp();
@@ -43,7 +45,7 @@ const OtpVerification = () => {
         setTimeout(() => {
             setIsLoading(false);
             if (otp === '123456') { // Mock check
-                navigate('/login'); // Success -> Login
+                goForward('/login'); // Success -> Login or Home? Login seems right for phase 1.
             } else {
                 setError('Invalid code. Try 123456');
             }
@@ -74,7 +76,7 @@ const OtpVerification = () => {
                 <div className="otp-container slide-up">
                     <button
                         className="btn-close"
-                        onClick={() => navigate('/signup')}
+                        onClick={() => goBack()}
                         aria-label="Close"
                     >
                         <X size={24} />
@@ -121,7 +123,7 @@ const OtpVerification = () => {
                             <button
                                 type="button"
                                 className="text-btn"
-                                onClick={() => navigate('/signup')}
+                                onClick={() => goBack()}
                             >
                                 <Edit2 size={14} />
                                 {t.otp.changeEmail}

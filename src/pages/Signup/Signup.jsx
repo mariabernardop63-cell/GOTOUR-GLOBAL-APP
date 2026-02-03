@@ -11,9 +11,11 @@ import { countries } from '../../data/countries';
 
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import { useApp } from '../../context/AppContext';
+import { useNavigation } from '../../context/NavigationContext';
 import './Signup.css';
 
 const Signup = () => {
+    const { goBack, goForward } = useNavigation();
     const navigate = useNavigate();
     const { langCode, setLangCode, nationality, setNationality, t } = useApp();
     const [isLoading, setIsLoading] = useState(false);
@@ -185,7 +187,7 @@ const Signup = () => {
         setIsLoading(true);
         setTimeout(() => {
             setIsLoading(false);
-            navigate('/otp-verification', { state: { email: formData.email } });
+            goForward('/otp-verification', { email: formData.email });
         }, 2000);
     };
 
