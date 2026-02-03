@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, X } from 'lucide-react';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import loginHeaderImg from '../../assets/images/login_header_hd.png';
 import './Login.css';
@@ -45,6 +45,9 @@ const Login = () => {
                 {/* Header Image - Full Width */}
                 <div className="login-header-image">
                     <img src={loginHeaderImg} alt="Travel" />
+                    <button className="back-button" onClick={() => navigate('/')}>
+                        <X size={24} color="#fff" />
+                    </button>
                 </div>
 
                 {/* Card Content */}
