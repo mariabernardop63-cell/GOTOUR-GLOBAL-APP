@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { createContext, useContext, useState, useCallback, useRef } from 'react';
+import { createContext, useContext, useCallback, useRef, useEffect } from 'react';
 import Welcome from './pages/Welcome/Welcome';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
@@ -25,14 +25,31 @@ export const useNavigation = () => {
 const NavigationProvider = ({ children }) => {
     const directionRef = useRef('forward');
     const navigate = useNavigate();
+    const isNavigatingRef = useRef(false);
+
+    // Listen for browser/phone back button
+    useEffect(() => {
+        const handlePopState = () => {
+            // Browser back button was pressed
+            if (!isNavigatingRef.current) {
+                directionRef.current = 'back';
+            }
+            isNavigatingRef.current = false;
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, []);
 
     const navigateForward = useCallback((path) => {
         directionRef.current = 'forward';
+        isNavigatingRef.current = true;
         navigate(path);
     }, [navigate]);
 
     const navigateBack = useCallback((path) => {
         directionRef.current = 'back';
+        isNavigatingRef.current = true;
         if (path) {
             navigate(path);
         } else {
