@@ -34,13 +34,11 @@ const Login = () => {
             setIsLoading(false);
             console.log('Logged in:', formData, 'Remember:', rememberMe);
             alert("Login Successful! (Mock)");
-        }, 1500);
+        }, 2000);
     };
 
     return (
         <div className="login-page">
-            {isLoading && <LoadingSpinner fullScreen text="Entrando..." />}
-
             {/* Decorative Blurs */}
             <div className="blur-pink"></div>
             <div className="blur-blue"></div>
@@ -112,8 +110,13 @@ const Login = () => {
 
                     {error && <p className="login-error">{error}</p>}
 
-                    <button type="submit" className="login-button">
-                        Login
+                    <button
+                        type="submit"
+                        className={`login-button ${isLoading ? 'btn-loading' : ''}`}
+                        disabled={isLoading}
+                        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '52px' }}
+                    >
+                        {isLoading ? <div className="btn-spinner"></div> : "Login"}
                     </button>
                 </form>
 

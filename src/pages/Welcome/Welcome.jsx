@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin } from 'lucide-react';
 import { useNavigation } from '../../App';
 import Button from '../../components/Button/Button';
 import './Welcome.css';
@@ -19,6 +18,7 @@ import gotourIcon from '../../assets/images/gotour_icon.png';
 const Welcome = () => {
     const { navigateForward } = useNavigation();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [loadingBtn, setLoadingBtn] = useState(null); // 'primary' | 'secondary' | null
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -27,6 +27,14 @@ const Welcome = () => {
 
         return () => clearInterval(interval);
     }, []);
+
+    const handleNavigation = (path, btnType) => {
+        setLoadingBtn(btnType);
+        setTimeout(() => {
+            setLoadingBtn(null);
+            navigateForward(path);
+        }, 2000);
+    };
 
     return (
         <div className="welcome-page">
@@ -58,9 +66,10 @@ const Welcome = () => {
                         variant="primary"
                         size="lg"
                         fullWidth
-                        onClick={() => navigateForward('/signup')}
+                        onClick={() => handleNavigation('/signup', 'primary')}
+                        className={loadingBtn === 'primary' ? 'btn-loading' : ''}
                     >
-                        Começar Agora
+                        {loadingBtn === 'primary' ? <div className="btn-spinner"></div> : "Começar Agora"}
                     </Button>
 
                     <Button
@@ -68,9 +77,10 @@ const Welcome = () => {
                         variant="secondary"
                         size="lg"
                         fullWidth
-                        onClick={() => navigateForward('/login')}
+                        onClick={() => handleNavigation('/login', 'secondary')}
+                        className={loadingBtn === 'secondary' ? 'btn-loading' : ''}
                     >
-                        Já tenho conta
+                        {loadingBtn === 'secondary' ? <div className="btn-spinner"></div> : "Já tenho conta"}
                     </Button>
                 </div>
             </div>

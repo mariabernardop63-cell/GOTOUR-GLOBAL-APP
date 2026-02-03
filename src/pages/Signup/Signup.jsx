@@ -79,11 +79,17 @@ const Signup = () => {
             setErrors(stepErrors);
             return;
         }
-        if (step < 3) {
-            setStep(prev => prev + 1);
-        } else {
-            handleSubmit();
-        }
+
+        setIsLoading(true);
+
+        setTimeout(() => {
+            setIsLoading(false);
+            if (step < 3) {
+                setStep(prev => prev + 1);
+            } else {
+                handleSubmit();
+            }
+        }, 2000);
     };
 
     const handleBack = () => {
@@ -95,11 +101,8 @@ const Signup = () => {
     };
 
     const handleSubmit = () => {
-        setIsLoading(true);
-        setTimeout(() => {
-            setIsLoading(false);
-            navigateForward('/otp-verification');
-        }, 2000);
+        // Validation already done in handleNext
+        navigateForward('/otp-verification');
     };
 
     const days = Array.from({ length: 31 }, (_, i) => i + 1);
@@ -118,7 +121,7 @@ const Signup = () => {
 
     return (
         <div className="signup-page">
-            {isLoading && <LoadingSpinner fullScreen text="Criando conta..." />}
+            {/* Removed fullScreen Loader as per user request */}
 
             {/* Header Image */}
             <div className="signup-header-image">
@@ -168,8 +171,13 @@ const Signup = () => {
                         </div>
                         {errors.email && <span className="signup-error">{errors.email}</span>}
 
-                        <button type="button" className="signup-button" onClick={handleNext}>
-                            {getButtonText()}
+                        <button
+                            type="button"
+                            className={`signup-button ${isLoading ? 'btn-loading' : ''}`}
+                            onClick={handleNext}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? <div className="btn-spinner"></div> : getButtonText()}
                         </button>
 
                         <p className="signup-divider">Ou registre-se com</p>
@@ -242,8 +250,13 @@ const Signup = () => {
                         </div>
                         {errors.dob && <span className="signup-error">{errors.dob}</span>}
 
-                        <button type="button" className="signup-button" onClick={handleNext}>
-                            {getButtonText()}
+                        <button
+                            type="button"
+                            className={`signup-button ${isLoading ? 'btn-loading' : ''}`}
+                            onClick={handleNext}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? <div className="btn-spinner"></div> : getButtonText()}
                         </button>
                     </div>
                 )}
@@ -298,8 +311,13 @@ const Signup = () => {
                             {errors.terms && <span className="signup-error">{errors.terms}</span>}
                         </div>
 
-                        <button type="button" className="signup-button" onClick={handleNext}>
-                            {getButtonText()}
+                        <button
+                            type="button"
+                            className={`signup-button ${isLoading ? 'btn-loading' : ''}`}
+                            onClick={handleNext}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? <div className="btn-spinner"></div> : getButtonText()}
                         </button>
                     </div>
                 )}

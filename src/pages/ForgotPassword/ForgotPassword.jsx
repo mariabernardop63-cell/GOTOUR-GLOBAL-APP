@@ -26,13 +26,11 @@ const ForgotPassword = () => {
         setTimeout(() => {
             setIsLoading(false);
             navigateForward('/otp-verification');
-        }, 1500);
+        }, 2000);
     };
 
     return (
         <div className="forgot-page">
-            {isLoading && <LoadingSpinner fullScreen text="Enviando..." />}
-
             {/* Logo */}
             <div className="forgot-logo">
                 <img src={gotourIcon} alt="GoTour" className="forgot-logo-img" />
@@ -66,10 +64,20 @@ const ForgotPassword = () => {
 
                 {error && <span className="forgot-error">{error}</span>}
 
-                <button type="submit" className="forgot-button">
-                    <Mail size={18} />
-                    <span>Enviar</span>
-                    <ChevronRight size={20} />
+                <button
+                    type="submit"
+                    className={`forgot-button ${isLoading ? 'btn-loading' : ''}`}
+                    disabled={isLoading}
+                >
+                    {isLoading ? (
+                        <div className="btn-spinner"></div>
+                    ) : (
+                        <>
+                            <Mail size={18} />
+                            <span>Enviar</span>
+                            <ChevronRight size={20} />
+                        </>
+                    )}
                 </button>
             </form>
 
