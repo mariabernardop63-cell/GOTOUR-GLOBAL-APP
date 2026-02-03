@@ -5,6 +5,8 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
+import PageTransition from '../../components/PageTransition/PageTransition';
+import { useApp } from '../../context/AppContext';
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {
@@ -35,46 +37,48 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div className="forgot-page fade-in">
-            {isLoading && <LoadingSpinner fullScreen text="Sending Code..." />}
-            <LanguageSwitcher />
+        <PageTransition>
+            <div className="forgot-page fade-in">
+                {isLoading && <LoadingSpinner fullScreen text="Sending Code..." />}
+                <LanguageSwitcher />
 
-            <div className="forgot-container slide-up">
-                <button
-                    className="btn-close"
-                    onClick={() => navigate('/login')}
-                    aria-label="Close"
-                >
-                    <X size={24} />
-                </button>
+                <div className="forgot-container slide-up">
+                    <button
+                        className="btn-close"
+                        onClick={() => navigate('/login')}
+                        aria-label="Close"
+                    >
+                        <X size={24} />
+                    </button>
 
-                <div className="forgot-header">
-                    <div className="icon-circle">
-                        <KeyRound size={32} color="var(--primary)" />
+                    <div className="forgot-header">
+                        <div className="icon-circle">
+                            <KeyRound size={32} color="var(--primary)" />
+                        </div>
+                        <h1 className="forgot-title">{t.forgotPassword.title}</h1>
+                        <p className="forgot-subtitle">{t.forgotPassword.subtitle}</p>
                     </div>
-                    <h1 className="forgot-title">{t.forgotPassword.title}</h1>
-                    <p className="forgot-subtitle">{t.forgotPassword.subtitle}</p>
+
+                    <form className="forgot-form" onSubmit={handleSubmit}>
+                        <Input
+                            label={t.forgotPassword.inputLabel}
+                            placeholder="john@example.com"
+                            value={email}
+                            onChange={(e) => {
+                                setEmail(e.target.value);
+                                setError('');
+                            }}
+                            error={error}
+                            autoFocus
+                        />
+
+                        <Button type="submit" fullWidth size="lg" style={{ marginTop: 24 }}>
+                            {t.buttons.sendCode}
+                        </Button>
+                    </form>
                 </div>
-
-                <form className="forgot-form" onSubmit={handleSubmit}>
-                    <Input
-                        label={t.forgotPassword.inputLabel}
-                        placeholder="john@example.com"
-                        value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                            setError('');
-                        }}
-                        error={error}
-                        autoFocus
-                    />
-
-                    <Button type="submit" fullWidth size="lg" style={{ marginTop: 24 }}>
-                        {t.buttons.sendCode}
-                    </Button>
-                </form>
             </div>
-        </div>
+        </PageTransition>
     );
 };
 
