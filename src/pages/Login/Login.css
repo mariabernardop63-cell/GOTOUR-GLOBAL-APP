@@ -15,12 +15,13 @@
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 253, 250, 0.95) 100%);
     backdrop-filter: blur(20px);
     border-radius: 40px;
-    padding: 50px 35px 40px;
+    padding: 0 35px 40px 35px;
     width: 100%;
     max-width: 380px;
     box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25), 0 0 40px rgba(87, 197, 182, 0.2);
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
 }
 
 /* Logo */
@@ -40,17 +41,21 @@
 
 /* Header Image */
 .login-header-image {
-    width: calc(100% + 70px);
-    margin: -50px -35px 30px -35px;
-    border-radius: 40px 40px 0 0;
-    overflow: hidden;
+    width: 100%;
+    margin: 0;
 }
 
 .login-header-image img {
     width: 100%;
-    height: 200px;
+    height: 180px;
     object-fit: cover;
     object-position: center;
+    display: block;
+}
+
+/* Content Wrapper */
+.login-content {
+    padding: 25px 35px 40px 35px;
 }
 
 /* Title */

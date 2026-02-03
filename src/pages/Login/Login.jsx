@@ -41,89 +41,92 @@ const Login = () => {
             {isLoading && <LoadingSpinner fullScreen text="Entrando..." />}
 
             <div className="login-card">
-                {/* Header Image */}
+                {/* Header Image - Full Width */}
                 <div className="login-header-image">
                     <img src={loginHeaderImg} alt="Travel" />
                 </div>
 
-                {/* Welcome */}
-                <h1 className="login-title">Seja Bem-vindo(a)!</h1>
+                {/* Card Content */}
+                <div className="login-content">
+                    {/* Welcome */}
+                    <h1 className="login-title">Seja Bem-vindo(a)!</h1>
 
-                {/* Form */}
-                <form className="login-form" onSubmit={handleLogin}>
-                    {/* Email Input */}
-                    <div className="login-input-group">
-                        <Mail className="login-input-icon" size={18} />
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email/Telefone"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="login-input"
-                        />
-                    </div>
-
-                    {/* Password Input */}
-                    <div className="login-input-group">
-                        <Lock className="login-input-icon" size={18} />
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            className="login-input"
-                        />
-                    </div>
-
-                    {/* Options Row */}
-                    <div className="login-options">
-                        <label className="login-remember">
+                    {/* Form */}
+                    <form className="login-form" onSubmit={handleLogin}>
+                        {/* Email Input */}
+                        <div className="login-input-group">
+                            <Mail className="login-input-icon" size={18} />
                             <input
-                                type="checkbox"
-                                checked={rememberMe}
-                                onChange={(e) => setRememberMe(e.target.checked)}
+                                type="email"
+                                name="email"
+                                placeholder="Email/Telefone"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="login-input"
                             />
-                            <span>Lembrar-me</span>
-                        </label>
-                        <span
-                            className="login-forgot"
-                            onClick={() => navigate('/forgot-password')}
-                        >
-                            Esqueci a Senha?
-                        </span>
+                        </div>
+
+                        {/* Password Input */}
+                        <div className="login-input-group">
+                            <Lock className="login-input-icon" size={18} />
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                className="login-input"
+                            />
+                        </div>
+
+                        {/* Options Row */}
+                        <div className="login-options">
+                            <label className="login-remember">
+                                <input
+                                    type="checkbox"
+                                    checked={rememberMe}
+                                    onChange={(e) => setRememberMe(e.target.checked)}
+                                />
+                                <span>Lembrar-me</span>
+                            </label>
+                            <span
+                                className="login-forgot"
+                                onClick={() => navigate('/forgot-password')}
+                            >
+                                Esqueci a Senha?
+                            </span>
+                        </div>
+
+                        {/* Error Message */}
+                        {error && <p className="login-error">{error}</p>}
+
+                        {/* Submit Button */}
+                        <button type="submit" className="login-button">
+                            Login
+                        </button>
+                    </form>
+
+                    {/* Divider */}
+                    <p className="login-divider">Ou faça login com</p>
+
+                    {/* Social Icons */}
+                    <div className="login-social">
+                        <button className="social-circle facebook" onClick={() => { }}>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
+                        </button>
+                        <button className="social-circle instagram" onClick={() => { }}>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" />
+                        </button>
+                        <button className="social-circle google" onClick={() => { }}>
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+                        </button>
                     </div>
 
-                    {/* Error Message */}
-                    {error && <p className="login-error">{error}</p>}
-
-                    {/* Submit Button */}
-                    <button type="submit" className="login-button">
-                        Login
-                    </button>
-                </form>
-
-                {/* Divider */}
-                <p className="login-divider">Ou faça login com</p>
-
-                {/* Social Icons */}
-                <div className="login-social">
-                    <button className="social-circle facebook" onClick={() => { }}>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
-                    </button>
-                    <button className="social-circle instagram" onClick={() => { }}>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" />
-                    </button>
-                    <button className="social-circle google" onClick={() => { }}>
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
-                    </button>
+                    {/* Footer */}
+                    <p className="login-footer">
+                        Não tem conta? <span onClick={() => navigate('/signup')}>Registre-se</span>
+                    </p>
                 </div>
-
-                {/* Footer */}
-                <p className="login-footer">
-                    Não tem conta? <span onClick={() => navigate('/signup')}>Registre-se</span>
-                </p>
             </div>
         </div>
     );
