@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import loginHeaderImg from '../../assets/images/login_header.jpg';
+import loginHeaderImg from '../../assets/images/login_header_hd.png';
 import './Login.css';
 
 const Login = () => {
