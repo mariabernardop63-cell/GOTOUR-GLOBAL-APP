@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import loginHeaderImg from '../../assets/images/login_header.jpg';
 import './Login.css';
 
 const Login = () => {
@@ -42,7 +43,7 @@ const Login = () => {
             <div className="login-card">
                 {/* Header Image */}
                 <div className="login-header-image">
-                    <img src="/src/assets/images/login_header.jpg" alt="Travel" />
+                    <img src={loginHeaderImg} alt="Travel" />
                 </div>
 
                 {/* Welcome */}
