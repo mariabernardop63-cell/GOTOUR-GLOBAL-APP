@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, X } from 'lucide-react';
-import Button from '../../components/Button/Button';
-import Input from '../../components/Input/Input';
-import SocialButton from '../../components/SocialButton/SocialButton';
+import { Mail, Lock } from 'lucide-react';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import './Login.css';
 
 const Login = () => {
@@ -40,84 +36,97 @@ const Login = () => {
     };
 
     return (
-        <div className="auth-page fade-in">
-            {isLoading && <LoadingSpinner fullScreen text="Logging in..." />}
-            <LanguageSwitcher />
+        <div className="login-page">
+            {isLoading && <LoadingSpinner fullScreen text="Entrando..." />}
 
-            <div className="auth-container slide-up">
-                <button
-                    className="btn-close"
-                    onClick={() => navigate('/')}
-                    aria-label="Close"
-                >
-                    <X size={24} />
-                </button>
-
-                <div className="login-header">
-                    <img src="/src/assets/images/logo_gotour.jpg" alt="GoTour Logo" className="login-logo" />
-                    <h1 className="welcome-title">Seja Bem-vindo(a)!</h1>
+            <div className="login-card">
+                {/* Logo */}
+                <div className="login-logo-container">
+                    <img
+                        src="/src/assets/images/logo_gotour.jpg"
+                        alt="GoTour Logo"
+                        className="login-logo"
+                    />
                 </div>
 
-                <form className="auth-form" onSubmit={handleLogin}>
-                    <Input
-                        label="Email/Telefone"
-                        name="email"
-                        type="email"
-                        icon={Mail}
-                        value={formData.email}
-                        onChange={handleChange}
-                        error={error && !formData.email ? 'Email is required' : ''}
-                        className="custom-input"
-                    />
+                {/* Welcome */}
+                <h1 className="login-title">Seja Bem-vindo(a)!</h1>
 
-                    <div>
-                        <Input
-                            label="Password"
-                            name="password"
+                {/* Form */}
+                <form className="login-form" onSubmit={handleLogin}>
+                    {/* Email Input */}
+                    <div className="login-input-group">
+                        <Mail className="login-input-icon" size={18} />
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email/Telefone"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className="login-input"
+                        />
+                    </div>
+
+                    {/* Password Input */}
+                    <div className="login-input-group">
+                        <Lock className="login-input-icon" size={18} />
+                        <input
                             type="password"
-                            icon={Lock}
+                            name="password"
+                            placeholder="Password"
                             value={formData.password}
                             onChange={handleChange}
-                            error={error && !formData.password ? 'Password is required' : ''}
-                            className="custom-input"
+                            className="login-input"
                         />
-                        <div className="form-options">
-                            <label className="remember-me">
-                                <input
-                                    type="checkbox"
-                                    checked={rememberMe}
-                                    onChange={(e) => setRememberMe(e.target.checked)}
-                                />
-                                <span>Lembrar-me</span>
-                            </label>
-                            <span className="forgot-password" onClick={() => navigate('/forgot-password')}>
-                                Esqueci a Senha?
-                            </span>
-                        </div>
                     </div>
 
-                    <div className="auth-actions">
-                        <Button type="submit" fullWidth size="lg" className="btn-login">Login</Button>
-
-                        <div className="divider">Ou faça login com</div>
-
-                        <div className="social-row">
-                            <div className="social-icon"><SocialButton provider="facebook" onClick={() => { }} label="" /></div>
-                            <div className="social-icon"><SocialButton provider="instagram" onClick={() => { }} label="" /></div>
-                            <div className="social-icon"><SocialButton provider="google" onClick={() => { }} label="" /></div>
-                        </div>
-                        {/* Wait, the design has Facebook, Instagram, Google logos. 
-                            The SocialButton component likely expects specific providers.
-                            I should check SocialButton component to see what it supports.
-                            For now I'll interpret the design: circular icons. 
-                            I'll blindly blindly import Instagram from lucide-react just in case, or use a generic button.
-                        */}
+                    {/* Options Row */}
+                    <div className="login-options">
+                        <label className="login-remember">
+                            <input
+                                type="checkbox"
+                                checked={rememberMe}
+                                onChange={(e) => setRememberMe(e.target.checked)}
+                            />
+                            <span>Lembrar-me</span>
+                        </label>
+                        <span
+                            className="login-forgot"
+                            onClick={() => navigate('/forgot-password')}
+                        >
+                            Esqueci a Senha?
+                        </span>
                     </div>
+
+                    {/* Error Message */}
+                    {error && <p className="login-error">{error}</p>}
+
+                    {/* Submit Button */}
+                    <button type="submit" className="login-button">
+                        Login
+                    </button>
                 </form>
 
-                <footer className="auth-footer">
-                    Não tem conta? <span className="auth-link" onClick={() => navigate('/signup')}>Registre-se</span>
-                </footer>
+                {/* Divider */}
+                <p className="login-divider">Ou faça login com</p>
+
+                {/* Social Icons */}
+                <div className="login-social">
+                    <button className="social-circle facebook" onClick={() => { }}>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
+                    </button>
+                    <button className="social-circle instagram" onClick={() => { }}>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" />
+                    </button>
+                    <button className="social-circle google" onClick={() => { }}>
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+                    </button>
+                </div>
+
+                {/* Footer */}
+                <p className="login-footer">
+                    Não tem conta? <span onClick={() => navigate('/signup')}>Registre-se</span>
+                </p>
             </div>
         </div>
     );
