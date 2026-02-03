@@ -1,77 +1,118 @@
-/* Signup.css - Full Screen Light Blue Design */
+/* Signup.css - Light Blue Design with Header Image */
 
-/* Page Background - Same as old card color */
+/* Page Background */
 .signup-page {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     background: linear-gradient(180deg, #c7ecfa 0%, #bae6fd 100%);
-    padding: 60px 35px 50px;
+    padding: 0;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+}
+
+/* Header Image */
+.signup-header-image {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    z-index: 1;
+}
+
+.signup-header-image::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent 0%, #c7ecfa 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.signup-header-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border-radius: 0 0 24px 24px;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    transition: background 0.3s;
+}
+
+.back-button:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Language Switcher Container */
+.lang-switcher-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
 }
 
 /* Decorative Blur Elements */
 .blur-pink {
     position: absolute;
-    top: 80px;
-    right: 40px;
-    width: 150px;
-    height: 150px;
+    top: 280px;
+    right: 30px;
+    width: 120px;
+    height: 120px;
     background: radial-gradient(circle, rgba(251, 191, 218, 0.7) 0%, transparent 70%);
-    filter: blur(40px);
+    filter: blur(35px);
     pointer-events: none;
     z-index: 0;
 }
 
 .blur-blue {
     position: absolute;
-    top: 180px;
-    left: 30px;
-    width: 120px;
-    height: 120px;
+    top: 380px;
+    left: 20px;
+    width: 100px;
+    height: 100px;
     background: radial-gradient(circle, rgba(147, 197, 253, 0.5) 0%, transparent 70%);
     filter: blur(30px);
     pointer-events: none;
     z-index: 0;
 }
 
-/* Back Arrow */
-.back-arrow {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.5);
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #1e293b;
-    z-index: 10;
-    transition: background 0.3s;
-}
-
-.back-arrow:hover {
-    background: rgba(255, 255, 255, 0.8);
-}
-
 /* Title */
 .signup-title {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
     color: #1e293b;
     line-height: 1.2;
-    margin: 0 0 50px 0;
+    margin: 30px 0 30px 0;
     z-index: 1;
     text-align: left;
     width: 100%;
     max-width: 360px;
+    padding: 0 20px;
 }
 
 /* Fields Container */
@@ -81,6 +122,7 @@
     gap: 20px;
     width: 100%;
     max-width: 360px;
+    padding: 0 20px;
     z-index: 1;
 }
 
@@ -329,6 +371,7 @@
 /* Footer */
 .signup-footer {
     margin-top: 40px;
+    margin-bottom: 80px;
     font-size: 15px;
     color: #475569;
     text-align: center;
@@ -348,13 +391,9 @@
 
 /* Mobile Responsive */
 @media (max-width: 480px) {
-    .signup-page {
-        padding: 50px 25px 45px;
-    }
-
     .signup-title {
-        font-size: 28px;
-        margin-bottom: 40px;
+        font-size: 26px;
+        margin: 25px 0 25px 0;
     }
 
     .signup-fields {
@@ -366,5 +405,9 @@
         height: 50px;
         bottom: 40px;
         right: 25px;
+    }
+
+    .signup-header-image img {
+        border-radius: 0;
     }
 }

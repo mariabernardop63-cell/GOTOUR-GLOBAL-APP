@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Eye, EyeOff } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Eye, EyeOff, X } from 'lucide-react';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import { countries } from '../../data/countries';
 import { useApp } from '../../context/AppContext';
+import signupHeaderImg from '../../assets/images/signup_header.jpg';
 import './Signup.css';
 
 const Signup = () => {
@@ -11,7 +13,7 @@ const Signup = () => {
     const { nationality, setNationality } = useApp();
     const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(1);
-    const [showPasswords, setShowPasswords] = useState(false); // Single toggle for both passwords
+    const [showPasswords, setShowPasswords] = useState(false);
 
     const [formData, setFormData] = useState({
         fullName: '',
@@ -118,16 +120,20 @@ const Signup = () => {
         <div className="signup-page">
             {isLoading && <LoadingSpinner fullScreen text="Criando conta..." />}
 
+            {/* Header Image */}
+            <div className="signup-header-image">
+                <img src={signupHeaderImg} alt="Travel" />
+                <button className="back-button" onClick={handleBack}>
+                    {step > 1 ? <ArrowLeft size={24} color="#fff" /> : <X size={24} color="#fff" />}
+                </button>
+                <div className="lang-switcher-container">
+                    <LanguageSwitcher />
+                </div>
+            </div>
+
             {/* Decorative Blurs */}
             <div className="blur-pink"></div>
             <div className="blur-blue"></div>
-
-            {/* Back Arrow (visible on steps 2-3) */}
-            {step > 1 && (
-                <button className="back-arrow" onClick={handleBack}>
-                    <ArrowLeft size={20} />
-                </button>
-            )}
 
             {/* Title */}
             <h1 className="signup-title">{getStepTitle()}</h1>
