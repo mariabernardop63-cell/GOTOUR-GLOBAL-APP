@@ -16,8 +16,9 @@
 .login-card {
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 253, 250, 0.95) 100%);
     backdrop-filter: blur(20px);
-    border-radius: 30px;
+    border-radius: 0 0 30px 30px;
     padding: 0;
+    margin: 0;
     width: 100%;
     max-width: 400px;
     box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25), 0 0 40px rgba(87, 197, 182, 0.2);
