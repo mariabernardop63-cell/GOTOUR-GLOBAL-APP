@@ -14,7 +14,7 @@ const images = [
     japaneseVillage,
 ];
 
-import gotourLogo from '../../assets/images/gotour_logo_white.png';
+import gotourIcon from '../../assets/images/gotour_icon.png';
 
 const Welcome = () => {
     const { navigateForward } = useNavigation();
@@ -42,7 +42,8 @@ const Welcome = () => {
             <div className="welcome-overlay"></div>
 
             <div className="logo-overlay fade-in">
-                <img src={gotourLogo} alt="Go Tour Logo" style={{ height: '40px', width: 'auto' }} /> GO TOUR
+                <img src={gotourIcon} alt="GoTour Icon" className="gotour-icon" />
+                <span className="gotour-text">GOTOUR</span>
             </div>
 
             <div className="welcome-content slide-up">
