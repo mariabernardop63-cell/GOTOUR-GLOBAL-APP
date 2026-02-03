@@ -24,10 +24,14 @@
 /* Logo */
 .login-logo-container {
     margin-bottom: 30px;
+    background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
+    padding: 20px 30px;
+    border-radius: 16px;
+    display: inline-block;
 }
 
 .login-logo {
-    height: 70px;
+    height: 50px;
     width: auto;
     object-fit: contain;
 }
