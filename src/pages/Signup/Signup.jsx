@@ -5,17 +5,14 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import SocialButton from '../../components/SocialButton/SocialButton';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import PageTransition from '../../components/PageTransition/PageTransition';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { countries } from '../../data/countries';
 
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import { useApp } from '../../context/AppContext';
-import { useNavigation } from '../../context/NavigationContext';
 import './Signup.css';
 
 const Signup = () => {
-    const { goBack, goForward } = useNavigation();
     const navigate = useNavigate();
     const { langCode, setLangCode, nationality, setNationality, t } = useApp();
     const [isLoading, setIsLoading] = useState(false);
@@ -187,7 +184,7 @@ const Signup = () => {
         setIsLoading(true);
         setTimeout(() => {
             setIsLoading(false);
-            goForward('/otp-verification', { email: formData.email });
+            navigate('/otp-verification', { state: { email: formData.email } });
         }, 2000);
     };
 
@@ -212,253 +209,251 @@ const Signup = () => {
     };
 
     return (
-        <PageTransition>
-            <div className="signup-page fade-in">
-                {isLoading && <LoadingSpinner fullScreen text="Creating Account..." />}
+        <div className="signup-page fade-in">
+            {isLoading && <LoadingSpinner fullScreen text="Creating Account..." />}
 
-                {/* Language Switcher */}
-                <LanguageSwitcher />
+            {/* Language Switcher */}
+            <LanguageSwitcher />
 
-                <div className="signup-container slide-up">
+            <div className="signup-container slide-up">
+                {step === 1 && (
+                    <button
+                        className="btn-close"
+                        onClick={() => navigate('/')}
+                        aria-label="Close"
+                    >
+                        <X size={24} />
+                    </button>
+                )}
+
+                <div className="signup-header">
+                    <h1 className="signup-title">
+                        {step === 1 && t.steps?.step1}
+                        {step === 2 && t.steps?.step2}
+                        {step === 3 && t.steps?.step3}
+                    </h1>
+                    <p className="signup-subtitle">Step {step} of 3</p>
+                </div>
+
+                <form className="signup-form" onSubmit={(e) => e.preventDefault()}>
+
+                    {/* STEP 1: BASIC INFO */}
                     {step === 1 && (
-                        <button
-                            className="btn-close"
-                            onClick={() => navigate('/')}
-                            aria-label="Close"
-                        >
-                            <X size={24} />
-                        </button>
+                        <div className="fade-in">
+                            <Input
+                                label={t.fullName}
+                                name="fullName"
+                                placeholder={t.fullNamePlaceholder}
+                                icon={User}
+                                value={formData.fullName}
+                                onChange={handleChange}
+                                onBlur={handleNameBlur}
+                                error={errors.fullName}
+                            />
+
+                            <Input
+                                label={t.email}
+                                name="email"
+                                type="email"
+                                icon={Mail}
+                                value={formData.email}
+                                onChange={handleChange}
+                                error={errors.email}
+                            />
+
+                            <Button type="button" fullWidth size="lg" onClick={handleNext} style={{ marginTop: 10 }}>
+                                {t.buttons.next}
+                            </Button>
+
+                            <div className="divider">{t.orSignup}</div>
+                            <div style={{ display: 'flex', gap: 12 }}>
+                                <SocialButton provider="google" onClick={() => { }}>Google</SocialButton>
+                                <SocialButton provider="facebook" onClick={() => { }}>Facebook</SocialButton>
+                            </div>
+                        </div>
                     )}
 
-                    <div className="signup-header">
-                        <h1 className="signup-title">
-                            {step === 1 && t.steps?.step1}
-                            {step === 2 && t.steps?.step2}
-                            {step === 3 && t.steps?.step3}
-                        </h1>
-                        <p className="signup-subtitle">Step {step} of 3</p>
-                    </div>
+                    {/* STEP 2: PERSONAL DETAILS */}
+                    {step === 2 && (
+                        <div className="fade-in">
+                            {/* Nationality Select */}
+                            <div className="input-group">
+                                <div className="input-wrapper">
+                                    <span className="input-icon" style={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                        {activeCountry?.flag || <Globe size={20} />}
+                                    </span>
+                                    <select
+                                        name="nationality"
+                                        className={`input-field has-icon has-value`}
+                                        value={nationality}
+                                        onChange={handleNationalityChange}
+                                    >
+                                        <option value="" disabled></option>
+                                        {countries.map(c => (
+                                            <option key={c.code} value={c.code}>{c.name}</option>
+                                        ))}
+                                    </select>
+                                    <label className="input-label with-icon">{t.nationality}</label>
+                                    <div className="input-border"></div>
+                                </div>
+                                {errors.nationality && <span className="input-error-msg">{errors.nationality}</span>}
+                            </div>
 
-                    <form className="signup-form" onSubmit={(e) => e.preventDefault()}>
+                            {/* Phone Input with Fixed Code */}
+                            <div className="input-group">
+                                <div className="input-wrapper phone-wrapper">
+                                    <div className="phone-prefix">
+                                        {activeCountry?.dialCode || '+00'}
+                                    </div>
+                                    <input
+                                        name="phone"
+                                        type="tel"
+                                        className="input-field phone-field"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        placeholder=""
+                                        maxLength={9}
+                                    />
+                                    <div className="input-icon" style={{ left: 'auto', right: '16px' }}>
+                                        <Phone size={20} />
+                                    </div>
+                                </div>
+                                <label className="input-label-static" style={{ marginTop: 4, visibility: 'hidden' }}>{t.phone}</label>
+                                <div style={{ position: 'absolute', top: '-22px', fontSize: '14px', color: 'var(--text-secondary)', fontWeight: 500 }}>{t.phone}</div>
+                                {errors.phone && <span className="input-error-msg">{errors.phone}</span>}
+                            </div>
 
-                        {/* STEP 1: BASIC INFO */}
-                        {step === 1 && (
-                            <div className="fade-in">
-                                <Input
-                                    label={t.fullName}
-                                    name="fullName"
-                                    placeholder={t.fullNamePlaceholder}
-                                    icon={User}
-                                    value={formData.fullName}
-                                    onChange={handleChange}
-                                    onBlur={handleNameBlur}
-                                    error={errors.fullName}
-                                />
+                            {/* Date of Birth */}
+                            <div className="input-group">
+                                <label className="input-label-static">{t.dob}</label>
+                                <div style={{ display: 'grid', gridTemplateColumns: '80px 100px 1fr', gap: 10 }}>
+                                    <div className="input-wrapper">
+                                        <select name="dobDay" className="input-field" value={formData.dobDay} onChange={handleChange} style={{ paddingLeft: '16px' }}>
+                                            <option value="">DD</option>
+                                            {days.map(d => <option key={d} value={d}>{d}</option>)}
+                                        </select>
+                                    </div>
+                                    <div className="input-wrapper">
+                                        <select name="dobMonth" className="input-field" value={formData.dobMonth} onChange={handleChange} style={{ paddingLeft: '16px' }}>
+                                            <option value="">MM</option>
+                                            {months.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
+                                        </select>
+                                    </div>
+                                    <div className="input-wrapper">
+                                        <select name="dobYear" className="input-field" value={formData.dobYear} onChange={handleChange} style={{ paddingLeft: '16px' }}>
+                                            <option value="">YYYY</option>
+                                            {years.map(y => <option key={y} value={y}>{y}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
+                                {errors.dob && <span className="input-error-msg">{errors.dob}</span>}
+                            </div>
 
-                                <Input
-                                    label={t.email}
-                                    name="email"
-                                    type="email"
-                                    icon={Mail}
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    error={errors.email}
-                                />
-
-                                <Button type="button" fullWidth size="lg" onClick={handleNext} style={{ marginTop: 10 }}>
+                            <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
+                                <Button type="button" variant="secondary" fullWidth size="lg" onClick={handleBack}>
+                                    {t.buttons.back}
+                                </Button>
+                                <Button type="button" fullWidth size="lg" onClick={handleNext}>
                                     {t.buttons.next}
                                 </Button>
-
-                                <div className="divider">{t.orSignup}</div>
-                                <div style={{ display: 'flex', gap: 12 }}>
-                                    <SocialButton provider="google" onClick={() => { }}>Google</SocialButton>
-                                    <SocialButton provider="facebook" onClick={() => { }}>Facebook</SocialButton>
-                                </div>
                             </div>
-                        )}
 
-                        {/* STEP 2: PERSONAL DETAILS */}
-                        {step === 2 && (
-                            <div className="fade-in">
-                                {/* Nationality Select */}
-                                <div className="input-group">
-                                    <div className="input-wrapper">
-                                        <span className="input-icon" style={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            {activeCountry?.flag || <Globe size={20} />}
-                                        </span>
-                                        <select
-                                            name="nationality"
-                                            className={`input-field has-icon has-value`}
-                                            value={nationality}
-                                            onChange={handleNationalityChange}
-                                        >
-                                            <option value="" disabled></option>
-                                            {countries.map(c => (
-                                                <option key={c.code} value={c.code}>{c.name}</option>
-                                            ))}
-                                        </select>
-                                        <label className="input-label with-icon">{t.nationality}</label>
-                                        <div className="input-border"></div>
-                                    </div>
-                                    {errors.nationality && <span className="input-error-msg">{errors.nationality}</span>}
-                                </div>
-
-                                {/* Phone Input with Fixed Code */}
-                                <div className="input-group">
-                                    <div className="input-wrapper phone-wrapper">
-                                        <div className="phone-prefix">
-                                            {activeCountry?.dialCode || '+00'}
-                                        </div>
-                                        <input
-                                            name="phone"
-                                            type="tel"
-                                            className="input-field phone-field"
-                                            value={formData.phone}
-                                            onChange={handleChange}
-                                            placeholder=""
-                                            maxLength={9}
-                                        />
-                                        <div className="input-icon" style={{ left: 'auto', right: '16px' }}>
-                                            <Phone size={20} />
-                                        </div>
-                                    </div>
-                                    <label className="input-label-static" style={{ marginTop: 4, visibility: 'hidden' }}>{t.phone}</label>
-                                    <div style={{ position: 'absolute', top: '-22px', fontSize: '14px', color: 'var(--text-secondary)', fontWeight: 500 }}>{t.phone}</div>
-                                    {errors.phone && <span className="input-error-msg">{errors.phone}</span>}
-                                </div>
-
-                                {/* Date of Birth */}
-                                <div className="input-group">
-                                    <label className="input-label-static">{t.dob}</label>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '80px 100px 1fr', gap: 10 }}>
-                                        <div className="input-wrapper">
-                                            <select name="dobDay" className="input-field" value={formData.dobDay} onChange={handleChange} style={{ paddingLeft: '16px' }}>
-                                                <option value="">DD</option>
-                                                {days.map(d => <option key={d} value={d}>{d}</option>)}
-                                            </select>
-                                        </div>
-                                        <div className="input-wrapper">
-                                            <select name="dobMonth" className="input-field" value={formData.dobMonth} onChange={handleChange} style={{ paddingLeft: '16px' }}>
-                                                <option value="">MM</option>
-                                                {months.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
-                                            </select>
-                                        </div>
-                                        <div className="input-wrapper">
-                                            <select name="dobYear" className="input-field" value={formData.dobYear} onChange={handleChange} style={{ paddingLeft: '16px' }}>
-                                                <option value="">YYYY</option>
-                                                {years.map(y => <option key={y} value={y}>{y}</option>)}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    {errors.dob && <span className="input-error-msg">{errors.dob}</span>}
-                                </div>
-
-                                <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
-                                    <Button type="button" variant="secondary" fullWidth size="lg" onClick={handleBack}>
-                                        {t.buttons.back}
-                                    </Button>
-                                    <Button type="button" fullWidth size="lg" onClick={handleNext}>
-                                        {t.buttons.next}
-                                    </Button>
-                                </div>
-
-                                <div className="divider">{t.orSignup}</div>
-                                <div style={{ display: 'flex', gap: 12 }}>
-                                    <SocialButton provider="google" onClick={() => { }}>Google</SocialButton>
-                                    <SocialButton provider="facebook" onClick={() => { }}>Facebook</SocialButton>
-                                </div>
+                            <div className="divider">{t.orSignup}</div>
+                            <div style={{ display: 'flex', gap: 12 }}>
+                                <SocialButton provider="google" onClick={() => { }}>Google</SocialButton>
+                                <SocialButton provider="facebook" onClick={() => { }}>Facebook</SocialButton>
                             </div>
-                        )}
+                        </div>
+                    )}
 
-                        {/* STEP 3: SECURITY */}
-                        {step === 3 && (
-                            <div className="fade-in">
-                                <Input
-                                    label={t.password}
-                                    name="password"
-                                    type="password"
-                                    icon={Lock}
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    error={errors.password}
-                                />
+                    {/* STEP 3: SECURITY */}
+                    {step === 3 && (
+                        <div className="fade-in">
+                            <Input
+                                label={t.password}
+                                name="password"
+                                type="password"
+                                icon={Lock}
+                                value={formData.password}
+                                onChange={handleChange}
+                                error={errors.password}
+                            />
 
-                                {/* Password Strength Meter */}
-                                {formData.password && (
-                                    <div className="password-strength">
-                                        <div className="strength-bar">
-                                            <div
-                                                className="strength-fill"
-                                                style={{
-                                                    width: `${((passwordStrength + 1) / 4) * 100}%`,
-                                                    backgroundColor: getStrengthColor()
-                                                }}
-                                            ></div>
-                                        </div>
-                                        <span className="strength-text" style={{ color: getStrengthColor() }}>
-                                            {t.passwordStrength} {getStrengthLabel()}
-                                        </span>
+                            {/* Password Strength Meter */}
+                            {formData.password && (
+                                <div className="password-strength">
+                                    <div className="strength-bar">
+                                        <div
+                                            className="strength-fill"
+                                            style={{
+                                                width: `${((passwordStrength + 1) / 4) * 100}%`,
+                                                backgroundColor: getStrengthColor()
+                                            }}
+                                        ></div>
                                     </div>
-                                )}
-
-                                <Input
-                                    label={t.confirmPassword}
-                                    name="confirmPassword"
-                                    type="password"
-                                    icon={Lock}
-                                    value={formData.confirmPassword}
-                                    onChange={handleChange}
-                                    error={errors.confirmPassword}
-                                />
-
-                                {/* Terms & Conditions */}
-                                <div className="terms-container" style={{ margin: '16px 0' }}>
-                                    <label className="checkbox-label">
-                                        <input
-                                            type="checkbox"
-                                            checked={termsAccepted}
-                                            onChange={handleTermsChange}
-                                            className="custom-checkbox"
-                                        />
-                                        <span className="checkmark"></span>
-                                        <span className="terms-text">
-                                            {t.terms.agree}
-                                            <span className="terms-link" onClick={(e) => { e.preventDefault(); alert("Open Terms Modal"); }}>
-                                                {t.terms.link}
-                                            </span>
-                                        </span>
-                                    </label>
-                                    {errors.terms && <div className="input-error-msg" style={{ marginTop: 4 }}>{errors.terms}</div>}
+                                    <span className="strength-text" style={{ color: getStrengthColor() }}>
+                                        {t.passwordStrength} {getStrengthLabel()}
+                                    </span>
                                 </div>
+                            )}
 
-                                {/* CAPTCHA */}
-                                <div className="captcha-container" style={{ marginBottom: 20 }}>
-                                    <ReCAPTCHA
-                                        sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Test Key
-                                        onChange={handleCaptchaChange}
+                            <Input
+                                label={t.confirmPassword}
+                                name="confirmPassword"
+                                type="password"
+                                icon={Lock}
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                error={errors.confirmPassword}
+                            />
+
+                            {/* Terms & Conditions */}
+                            <div className="terms-container" style={{ margin: '16px 0' }}>
+                                <label className="checkbox-label">
+                                    <input
+                                        type="checkbox"
+                                        checked={termsAccepted}
+                                        onChange={handleTermsChange}
+                                        className="custom-checkbox"
                                     />
-                                    {errors.captcha && <div className="input-error-msg" style={{ marginTop: 4 }}>{errors.captcha}</div>}
-                                </div>
-
-                                <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
-                                    <Button type="button" variant="secondary" fullWidth size="lg" onClick={handleBack}>
-                                        {t.buttons.back}
-                                    </Button>
-                                    <Button type="submit" fullWidth size="lg" onClick={handleRegister}>
-                                        {t.registerBtn}
-                                    </Button>
-                                </div>
+                                    <span className="checkmark"></span>
+                                    <span className="terms-text">
+                                        {t.terms.agree}
+                                        <span className="terms-link" onClick={(e) => { e.preventDefault(); alert("Open Terms Modal"); }}>
+                                            {t.terms.link}
+                                        </span>
+                                    </span>
+                                </label>
+                                {errors.terms && <div className="input-error-msg" style={{ marginTop: 4 }}>{errors.terms}</div>}
                             </div>
-                        )}
 
-                    </form>
+                            {/* CAPTCHA */}
+                            <div className="captcha-container" style={{ marginBottom: 20 }}>
+                                <ReCAPTCHA
+                                    sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Test Key
+                                    onChange={handleCaptchaChange}
+                                />
+                                {errors.captcha && <div className="input-error-msg" style={{ marginTop: 4 }}>{errors.captcha}</div>}
+                            </div>
 
-                    <footer className="auth-footer" style={{ paddingTop: 20 }}>
-                        {t.alreadyAccount} <span className="auth-link" onClick={() => navigate('/login')}>{t.loginLink}</span>
-                    </footer>
-                </div>
+                            <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
+                                <Button type="button" variant="secondary" fullWidth size="lg" onClick={handleBack}>
+                                    {t.buttons.back}
+                                </Button>
+                                <Button type="submit" fullWidth size="lg" onClick={handleRegister}>
+                                    {t.registerBtn}
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+
+                </form>
+
+                <footer className="auth-footer" style={{ paddingTop: 20 }}>
+                    {t.alreadyAccount} <span className="auth-link" onClick={() => navigate('/login')}>{t.loginLink}</span>
+                </footer>
             </div>
-        </PageTransition>
+        </div>
     );
 };
 

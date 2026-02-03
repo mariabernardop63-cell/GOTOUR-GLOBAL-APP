@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin } from 'lucide-react';
 import Button from '../../components/Button/Button';
-import PageTransition from '../../components/PageTransition/PageTransition';
-import { useNavigation } from '../../context/NavigationContext';
 import './Welcome.css';
 
 import dubaiCity from '../../assets/images/dubai_city.png';
@@ -20,7 +18,7 @@ import gotourLogo from '../../assets/images/gotour_logo_white.png';
 
 const Welcome = () => {
     // ... existing hook logic ...
-    const { goForward } = useNavigation();
+    const navigate = useNavigate();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
@@ -32,51 +30,49 @@ const Welcome = () => {
     }, []);
 
     return (
-        <PageTransition>
-            <div className="welcome-page">
-                {/* Background Slideshow */}
-                {images.map((img, index) => (
-                    <div
-                        key={index}
-                        className={`welcome-bg ${index === currentImageIndex ? 'active' : ''}`}
-                        style={{ backgroundImage: `url(${img})` }}
-                    ></div>
-                ))}
+        <div className="welcome-page">
+            {/* Background Slideshow */}
+            {images.map((img, index) => (
+                <div
+                    key={index}
+                    className={`welcome-bg ${index === currentImageIndex ? 'active' : ''}`}
+                    style={{ backgroundImage: `url(${img})` }}
+                ></div>
+            ))}
 
-                <div className="welcome-overlay"></div>
+            <div className="welcome-overlay"></div>
 
-                <div className="logo-overlay fade-in">
-                    <img src={gotourLogo} alt="Go Tour Logo" style={{ height: '40px', width: 'auto' }} /> GO TOUR
-                </div>
+            <div className="logo-overlay fade-in">
+                <img src={gotourLogo} alt="Go Tour Logo" style={{ height: '40px', width: 'auto' }} /> GO TOUR
+            </div>
 
-                <div className="welcome-content slide-up">
-                    <h1 className="welcome-title">Explore o Mundo <br />Como um Local</h1>
-                    <p className="welcome-subtitle">
-                        Seu companheiro de viagem inteligente. Descubra joias escondidas, conheça novas pessoas e viaje com mais sabedoria.
-                    </p>
+            <div className="welcome-content slide-up">
+                <h1 className="welcome-title">Explore o Mundo <br />Como um Local</h1>
+                <p className="welcome-subtitle">
+                    Seu companheiro de viagem inteligente. Descubra joias escondidas, conheça novas pessoas e viaje com mais sabedoria.
+                </p>
 
-                    <div className="welcome-actions">
-                        <Button
-                            variant="primary"
-                            size="lg"
-                            fullWidth
-                            onClick={() => navigate('/signup')}
-                        >
-                            Começar Agora
-                        </Button>
-                        <Button
-                            variant="secondary"
-                            size="lg"
-                            fullWidth
-                            onClick={() => navigate('/login')}
-                            style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white', backdropFilter: 'blur(4px)' }}
-                        >
-                            Já tenho uma conta
-                        </Button>
-                    </div>
+                <div className="welcome-actions">
+                    <Button
+                        variant="primary"
+                        size="lg"
+                        fullWidth
+                        onClick={() => navigate('/signup')}
+                    >
+                        Começar Agora
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        size="lg"
+                        fullWidth
+                        onClick={() => navigate('/login')}
+                        style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white', backdropFilter: 'blur(4px)' }}
+                    >
+                        Já tenho uma conta
+                    </Button>
                 </div>
             </div>
-        </PageTransition>
+        </div>
     );
 };
 

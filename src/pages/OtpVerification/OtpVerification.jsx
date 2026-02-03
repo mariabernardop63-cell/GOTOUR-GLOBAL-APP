@@ -6,13 +6,10 @@ import Input from '../../components/Input/Input';
 import SocialButton from '../../components/SocialButton/SocialButton';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
-import PageTransition from '../../components/PageTransition/PageTransition';
 import { useApp } from '../../context/AppContext';
-import { useNavigation } from '../../context/NavigationContext';
 import './OtpVerification.css';
 
 const OtpVerification = () => {
-    const { goForward, goBack } = useNavigation();
     const navigate = useNavigate();
     const location = useLocation();
     const { t } = useApp();
@@ -45,7 +42,7 @@ const OtpVerification = () => {
         setTimeout(() => {
             setIsLoading(false);
             if (otp === '123456') { // Mock check
-                goForward('/login'); // Success -> Login or Home? Login seems right for phase 1.
+                navigate('/login'); // Success -> Login
             } else {
                 setError('Invalid code. Try 123456');
             }
@@ -68,84 +65,82 @@ const OtpVerification = () => {
     };
 
     return (
-        <PageTransition>
-            <div className="otp-page fade-in">
-                {isLoading && <LoadingSpinner fullScreen text="Verifying..." />}
-                <LanguageSwitcher />
+        <div className="otp-page fade-in">
+            {isLoading && <LoadingSpinner fullScreen text="Verifying..." />}
+            <LanguageSwitcher />
 
-                <div className="otp-container slide-up">
-                    <button
-                        className="btn-close"
-                        onClick={() => goBack()}
-                        aria-label="Close"
-                    >
-                        <X size={24} />
-                    </button>
+            <div className="otp-container slide-up">
+                <button
+                    className="btn-close"
+                    onClick={() => navigate('/signup')}
+                    aria-label="Close"
+                >
+                    <X size={24} />
+                </button>
 
-                    <div className="otp-header">
-                        <div className="icon-circle">
-                            <Mail size={32} color="var(--primary)" />
-                        </div>
-                        <h1 className="otp-title">{t.otp.title}</h1>
-                        <p className="otp-subtitle">
-                            {t.otp.subtitle} <strong style={{ color: 'var(--text-main)' }}>{email}</strong>
-                        </p>
+                <div className="otp-header">
+                    <div className="icon-circle">
+                        <Mail size={32} color="var(--primary)" />
+                    </div>
+                    <h1 className="otp-title">{t.otp.title}</h1>
+                    <p className="otp-subtitle">
+                        {t.otp.subtitle} <strong style={{ color: 'var(--text-main)' }}>{email}</strong>
+                    </p>
+                </div>
+
+                <form className="otp-form" onSubmit={handleVerify}>
+                    <div className="otp-input-group">
+                        <Input
+                            placeholder="0 0 0 0 0 0"
+                            value={otp}
+                            onChange={handleChange}
+                            error={error}
+                            style={{
+                                textAlign: 'center',
+                                fontSize: '24px',
+                                letterSpacing: '8px',
+                                fontWeight: 'bold'
+                            }}
+                            maxLength={6}
+                        />
                     </div>
 
-                    <form className="otp-form" onSubmit={handleVerify}>
-                        <div className="otp-input-group">
-                            <Input
-                                placeholder="0 0 0 0 0 0"
-                                value={otp}
-                                onChange={handleChange}
-                                error={error}
-                                style={{
-                                    textAlign: 'center',
-                                    fontSize: '24px',
-                                    letterSpacing: '8px',
-                                    fontWeight: 'bold'
-                                }}
-                                maxLength={6}
-                            />
-                        </div>
+                    <div className="otp-actions">
+                        <button
+                            type="button"
+                            className="text-btn"
+                            onClick={handleResend}
+                            disabled={resendDisabled}
+                        >
+                            <RefreshCw size={14} className={resendDisabled ? 'spin' : ''} />
+                            {resendDisabled ? `Resend in ${timer}s` : t.otp.resend}
+                        </button>
 
-                        <div className="otp-actions">
-                            <button
-                                type="button"
-                                className="text-btn"
-                                onClick={handleResend}
-                                disabled={resendDisabled}
-                            >
-                                <RefreshCw size={14} className={resendDisabled ? 'spin' : ''} />
-                                {resendDisabled ? `Resend in ${timer}s` : t.otp.resend}
-                            </button>
-
-                            <button
-                                type="button"
-                                className="text-btn"
-                                onClick={() => goBack()}
-                            >
-                                <Edit2 size={14} />
-                                {t.otp.changeEmail}
-                            </button>
-                        </div>
-
-                        <Button type="submit" fullWidth size="lg" style={{ marginTop: 20 }}>
-                            {t.otp.verifyBtn}
-                        </Button>
-                    </form>
-
-                    <div className="otp-divider">
-                        <span>{t.otp.continue}</span>
+                        <button
+                            type="button"
+                            className="text-btn"
+                            onClick={() => navigate('/signup')}
+                        >
+                            <Edit2 size={14} />
+                            {t.otp.changeEmail}
+                        </button>
                     </div>
 
-                    <div className="social-login-row">
-                        <SocialButton provider="google" onClick={() => { }}>Google</SocialButton>
-                        <SocialButton provider="facebook" onClick={() => { }}>Facebook</SocialButton>
-                    </div>
+                    <Button type="submit" fullWidth size="lg" style={{ marginTop: 20 }}>
+                        {t.otp.verifyBtn}
+                    </Button>
+                </form>
+
+                <div className="otp-divider">
+                    <span>{t.otp.continue}</span>
+                </div>
+
+                <div className="social-login-row">
+                    <SocialButton provider="google" onClick={() => { }}>Google</SocialButton>
+                    <SocialButton provider="facebook" onClick={() => { }}>Facebook</SocialButton>
                 </div>
             </div>
-        </PageTransition>
+        </div>
     );
 };
 
