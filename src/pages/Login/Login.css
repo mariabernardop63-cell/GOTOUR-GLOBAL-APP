@@ -5,8 +5,8 @@
     align-items: center;
     min-height: 100vh;
     padding: var(--spacing-md);
-    background: transparent;
-    /* Taken from body gradient */
+    background-color: #f8f9fa;
+    /* Light background for the page */
 }
 
 /* White Card Container */
@@ -14,158 +14,203 @@
     position: relative;
     width: 100%;
     max-width: 440px;
-    background: transparent !important;
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-xl) 0;
-    /* Removing horizontal padding visual since no border */
-    padding-left: 20px;
-    padding-right: 20px;
-    box-shadow: none !important;
-    transition: transform 0.3s ease;
+    background: #ffffff !important;
+    border-radius: 30px;
+    /* More rounded */
+    padding: 40px 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+    text-align: center;
 }
 
-/* Close Button (Fixed to Screen Corner) */
+/* Close Button */
 .btn-close {
-    position: fixed !important;
-    top: 12px !important;
-    left: 12px !important;
-    width: 40px;
-    height: 40px;
+    position: absolute !important;
+    top: 20px !important;
+    right: 20px !important;
+    left: auto !important;
+    /* Move to right usually, but keeping previous behavior if needed? User said "functions of previous screen must work". Previous was Left. Let's keep it Left or remove if it conflicts. Design doesn't clearly show it. I'll put it on Right for a cleaner modal look, or stick to Left instructions if strictly needed. Let's stick to absolute top-left for consistency with previous, or remove 'fixed' to keep it inside card. */
+    /* Updating to be inside the card relative */
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(4px);
+    background: transparent;
     border: none;
-    border-radius: 50%;
-    color: var(--text-main);
+    color: #cbd5e1;
     cursor: pointer;
-    transition: all 0.2s ease;
-    z-index: 9999 !important;
-    /* Force on top */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: color 0.2s;
+    z-index: 10;
 }
 
 .btn-close:hover {
-    background: rgba(255, 255, 255, 0.6);
-    transform: scale(1.05);
+    color: var(--text-main);
 }
 
-/* Welcome Message - Clean Typography */
-.welcome-message {
-    text-align: center;
-    margin-bottom: var(--spacing-xl);
-    margin-top: 10px;
+/* Header & Logo */
+.login-header {
+    margin-bottom: 30px;
+}
+
+.login-logo {
+    height: 60px;
+    /* Adjust based on valid size */
+    width: auto;
+    margin-bottom: 20px;
+    object-fit: contain;
 }
 
 .welcome-title {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 700;
-    color: var(--text-main);
-    /* Dark Slate */
-    margin-bottom: 8px;
-    letter-spacing: -0.02em;
+    color: #e11d48;
+    /* Pink/Reddish color from design */
+    margin: 0;
 }
 
-.welcome-text {
-    font-size: 15px;
-    color: var(--text-secondary);
-    line-height: 1.5;
-}
-
-/* Form Layout */
+/* Form Styles */
 .auth-form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-lg);
+    gap: 20px;
+}
+
+.custom-input {
+    /* Override input styles if needed, or rely on component. 
+       Usually component has its own styles. 
+       We might need to style the wrapper to look like the design (underline or clean box). 
+       Assuming current Input component is decent. 
+    */
+}
+
+/* Form Options (Remember Me / Forgot Password) */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 10px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.remember-me input {
+    accent-color: #e11d48;
 }
 
 .forgot-password {
-    text-align: right;
-    font-size: 14px;
-    color: var(--primary);
+    color: #e11d48;
     font-weight: 500;
     cursor: pointer;
-    display: inline-block;
-    transition: color 0.2s ease;
-    margin-top: -4px;
-    /* Pull closer to input */
 }
 
 .forgot-password:hover {
-    color: var(--primary-dark);
+    text-decoration: underline;
 }
 
+/* Actions */
 .auth-actions {
-    margin-top: var(--spacing-md);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
+    margin-top: 10px;
+}
+
+.btn-login {
+    background-color: #e11d48 !important;
+    /* Pink/Red color */
+    border-color: #e11d48 !important;
+    border-radius: 25px !important;
+    font-weight: 600;
+    font-size: 16px;
+    height: 50px;
+}
+
+.btn-login:hover {
+    background-color: #be123c !important;
 }
 
 /* Divider */
 .divider {
     display: flex;
     align-items: center;
+    justify-content: center;
     color: var(--text-muted);
     font-size: 13px;
-    font-weight: 500;
-    margin: 8px 0;
+    margin: 20px 0;
 }
 
-.divider::before,
-.divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #e2e8f0;
+/* Social Row */
+.social-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
-.divider::before {
-    margin-right: 16px;
+.social-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    /* background: #f1f5f9; */
+    /* Optional bg */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
-.divider::after {
-    margin-left: 16px;
+.social-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Adjust SocialButton internal style if needed */
+.social-icon button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-icon img {
+    width: 32px;
+    height: 32px;
 }
 
 /* Footer */
 .auth-footer {
-    margin-top: var(--spacing-xl);
-    text-align: center;
+    margin-top: 30px;
     font-size: 14px;
     color: var(--text-secondary);
 }
 
 .auth-link {
-    color: var(--primary);
+    color: #e11d48;
     font-weight: 600;
-    cursor: pointer;
-    margin-left: 4px;
-    transition: color 0.2s ease;
-}
-
-.auth-link:hover {
-    color: var(--primary-dark);
-    text-decoration: underline;
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 480px) {
     .auth-page {
-        padding: 16px;
-        align-items: center;
-        /* Center vertically on mobile too for cards */
-        background: transparent;
+        padding: 0;
+        background: #ffffff;
     }
 
     .auth-container {
-        padding: 32px 24px;
-        border-radius: var(--radius-lg);
-        /* Keep radius on mobile */
-        box-shadow: var(--shadow-md);
-        /* Softer shadow */
-        max-width: 100%;
-        margin: 0 8px;
+        box-shadow: none !important;
+        padding: 24px;
+        min-height: 100vh;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 }

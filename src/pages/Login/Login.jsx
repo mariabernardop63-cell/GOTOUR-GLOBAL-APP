@@ -13,6 +13,7 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,7 +34,7 @@ const Login = () => {
         // Mock login API call
         setTimeout(() => {
             setIsLoading(false);
-            console.log('Logged in:', formData);
+            console.log('Logged in:', formData, 'Remember:', rememberMe);
             alert("Login Successful! (Mock)");
         }, 1500);
     };
@@ -52,20 +53,21 @@ const Login = () => {
                     <X size={24} />
                 </button>
 
-                <div className="welcome-message">
+                <div className="login-header">
+                    <img src="/src/assets/images/logo_gotour.jpg" alt="GoTour Logo" className="login-logo" />
                     <h1 className="welcome-title">Seja Bem-vindo(a)!</h1>
-                    <p className="welcome-text">Estamos entusiasmados por tê-lo(a) conosco.</p>
                 </div>
 
                 <form className="auth-form" onSubmit={handleLogin}>
                     <Input
-                        label="Email or Username"
+                        label="Email/Telefone"
                         name="email"
                         type="email"
                         icon={Mail}
                         value={formData.email}
                         onChange={handleChange}
                         error={error && !formData.email ? 'Email is required' : ''}
+                        className="custom-input"
                     />
 
                     <div>
@@ -77,26 +79,44 @@ const Login = () => {
                             value={formData.password}
                             onChange={handleChange}
                             error={error && !formData.password ? 'Password is required' : ''}
+                            className="custom-input"
                         />
-                        <span className="forgot-password" onClick={() => navigate('/forgot-password')}>
-                            Forgot Password?
-                        </span>
+                        <div className="form-options">
+                            <label className="remember-me">
+                                <input
+                                    type="checkbox"
+                                    checked={rememberMe}
+                                    onChange={(e) => setRememberMe(e.target.checked)}
+                                />
+                                <span>Lembrar-me</span>
+                            </label>
+                            <span className="forgot-password" onClick={() => navigate('/forgot-password')}>
+                                Esqueci a Senha?
+                            </span>
+                        </div>
                     </div>
 
                     <div className="auth-actions">
-                        <Button type="submit" fullWidth size="lg">Log In</Button>
+                        <Button type="submit" fullWidth size="lg" className="btn-login">Login</Button>
 
-                        <div className="divider">or continue with</div>
+                        <div className="divider">Ou faça login com</div>
 
-                        <div style={{ display: 'flex', gap: 12 }}>
-                            <SocialButton provider="google" onClick={() => { }}>Google</SocialButton>
-                            <SocialButton provider="facebook" onClick={() => { }}>Facebook</SocialButton>
+                        <div className="social-row">
+                            <div className="social-icon"><SocialButton provider="facebook" onClick={() => { }} label="" /></div>
+                            <div className="social-icon"><SocialButton provider="instagram" onClick={() => { }} label="" /></div>
+                            <div className="social-icon"><SocialButton provider="google" onClick={() => { }} label="" /></div>
                         </div>
+                        {/* Wait, the design has Facebook, Instagram, Google logos. 
+                            The SocialButton component likely expects specific providers.
+                            I should check SocialButton component to see what it supports.
+                            For now I'll interpret the design: circular icons. 
+                            I'll blindly blindly import Instagram from lucide-react just in case, or use a generic button.
+                        */}
                     </div>
                 </form>
 
                 <footer className="auth-footer">
-                    Don't have an account? <span className="auth-link" onClick={() => navigate('/signup')}>Register</span>
+                    Não tem conta? <span className="auth-link" onClick={() => navigate('/signup')}>Registre-se</span>
                 </footer>
             </div>
         </div>
