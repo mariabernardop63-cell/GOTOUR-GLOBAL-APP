@@ -11,8 +11,7 @@ const Signup = () => {
     const { nationality, setNationality } = useApp();
     const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(1);
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showPasswords, setShowPasswords] = useState(false); // Single toggle for both passwords
 
     const [formData, setFormData] = useState({
         fullName: '',
@@ -119,179 +118,184 @@ const Signup = () => {
         <div className="signup-page">
             {isLoading && <LoadingSpinner fullScreen text="Criando conta..." />}
 
-            <div className="signup-card">
-                {/* Decorative Blurs */}
-                <div className="blur-pink"></div>
-                <div className="blur-blue"></div>
+            {/* Decorative Blurs */}
+            <div className="blur-pink"></div>
+            <div className="blur-blue"></div>
 
-                {/* Back Arrow (visible on steps 2-3) */}
-                {step > 1 && (
-                    <button className="back-arrow" onClick={handleBack}>
-                        <ArrowLeft size={20} />
-                    </button>
-                )}
-
-                {/* Title */}
-                <h1 className="signup-title">{getStepTitle()}</h1>
-
-                {/* Step 1: Name + Email */}
-                {step === 1 && (
-                    <div className="signup-fields">
-                        <div className="signup-input-group">
-                            <span className="signup-label">Nome</span>
-                            <input
-                                type="text"
-                                name="fullName"
-                                value={formData.fullName}
-                                onChange={handleChange}
-                                className="signup-input"
-                            />
-                            <div className="signup-line"></div>
-                            {errors.fullName && <span className="signup-error">{errors.fullName}</span>}
-                        </div>
-                        <div className="signup-input-group">
-                            <span className="signup-label">Email</span>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                className="signup-input"
-                            />
-                            <div className="signup-line"></div>
-                            {errors.email && <span className="signup-error">{errors.email}</span>}
-                        </div>
-                        {/* Empty third line for visual consistency */}
-                        <div className="signup-input-group">
-                            <div className="signup-line"></div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Step 2: Nationality + Phone + DOB */}
-                {step === 2 && (
-                    <div className="signup-fields">
-                        <div className="signup-input-group">
-                            <span className="signup-label">Nacionalidade</span>
-                            <select
-                                name="nationality"
-                                value={formData.nationality}
-                                onChange={handleNationalityChange}
-                                className="signup-input signup-select"
-                            >
-                                <option value="">Selecione...</option>
-                                {countries.map(c => (
-                                    <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
-                                ))}
-                            </select>
-                            <div className="signup-line"></div>
-                            {errors.nationality && <span className="signup-error">{errors.nationality}</span>}
-                        </div>
-                        <div className="signup-input-group">
-                            <span className="signup-label">Telefone</span>
-                            <div className="phone-row">
-                                <span className="phone-prefix">{activeCountry?.dialCode || '+00'}</span>
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={(e) => {
-                                        const val = e.target.value.replace(/\D/g, '').slice(0, 9);
-                                        setFormData(prev => ({ ...prev, phone: val }));
-                                    }}
-                                    className="signup-input"
-                                    placeholder="000 000 000"
-                                />
-                            </div>
-                            <div className="signup-line"></div>
-                            {errors.phone && <span className="signup-error">{errors.phone}</span>}
-                        </div>
-                        <div className="signup-input-group">
-                            <span className="signup-label">Data de Nascimento</span>
-                            <div className="dob-row">
-                                <select name="dobDay" value={formData.dobDay} onChange={handleChange} className="signup-input dob-select">
-                                    <option value="">DD</option>
-                                    {days.map(d => <option key={d} value={d}>{d}</option>)}
-                                </select>
-                                <select name="dobMonth" value={formData.dobMonth} onChange={handleChange} className="signup-input dob-select">
-                                    <option value="">MM</option>
-                                    {months.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
-                                </select>
-                                <select name="dobYear" value={formData.dobYear} onChange={handleChange} className="signup-input dob-select">
-                                    <option value="">AAAA</option>
-                                    {years.map(y => <option key={y} value={y}>{y}</option>)}
-                                </select>
-                            </div>
-                            <div className="signup-line"></div>
-                            {errors.dob && <span className="signup-error">{errors.dob}</span>}
-                        </div>
-                    </div>
-                )}
-
-                {/* Step 3: Password + Confirm + Terms */}
-                {step === 3 && (
-                    <div className="signup-fields">
-                        <div className="signup-input-group">
-                            <span className="signup-label">Senha</span>
-                            <div className="password-row">
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    className="signup-input"
-                                />
-                                {formData.password.length > 0 && (
-                                    <button type="button" className="eye-toggle" onClick={() => setShowPassword(!showPassword)}>
-                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                                    </button>
-                                )}
-                            </div>
-                            <div className="signup-line"></div>
-                            {errors.password && <span className="signup-error">{errors.password}</span>}
-                        </div>
-                        <div className="signup-input-group">
-                            <span className="signup-label">Confirmar Senha</span>
-                            <div className="password-row">
-                                <input
-                                    type={showConfirmPassword ? "text" : "password"}
-                                    name="confirmPassword"
-                                    value={formData.confirmPassword}
-                                    onChange={handleChange}
-                                    className="signup-input"
-                                />
-                                {formData.confirmPassword.length > 0 && (
-                                    <button type="button" className="eye-toggle" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                                    </button>
-                                )}
-                            </div>
-                            <div className="signup-line"></div>
-                            {errors.confirmPassword && <span className="signup-error">{errors.confirmPassword}</span>}
-                        </div>
-                        <div className="terms-group">
-                            <label className="terms-label">
-                                <input
-                                    type="checkbox"
-                                    checked={termsAccepted}
-                                    onChange={(e) => setTermsAccepted(e.target.checked)}
-                                    className="terms-checkbox"
-                                />
-                                <span className="terms-checkmark"></span>
-                                <span className="terms-text">
-                                    Eu concordo com os <a href="#" className="terms-link">Termos & Condições</a>
-                                </span>
-                            </label>
-                            {errors.terms && <span className="signup-error">{errors.terms}</span>}
-                        </div>
-                    </div>
-                )}
-
-                {/* Next Arrow Button */}
-                <button className="next-arrow" onClick={handleNext}>
-                    <ArrowRight size={24} />
+            {/* Back Arrow (visible on steps 2-3) */}
+            {step > 1 && (
+                <button className="back-arrow" onClick={handleBack}>
+                    <ArrowLeft size={20} />
                 </button>
-            </div>
+            )}
+
+            {/* Title */}
+            <h1 className="signup-title">{getStepTitle()}</h1>
+
+            {/* Step 1: Name + Email */}
+            {step === 1 && (
+                <div className="signup-fields">
+                    <div className="signup-input-group">
+                        <span className="signup-label">Nome</span>
+                        <input
+                            type="text"
+                            name="fullName"
+                            value={formData.fullName}
+                            onChange={handleChange}
+                            className="signup-input"
+                        />
+                        <div className="signup-line"></div>
+                        {errors.fullName && <span className="signup-error">{errors.fullName}</span>}
+                    </div>
+                    <div className="signup-input-group">
+                        <span className="signup-label">Email</span>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className="signup-input"
+                        />
+                        <div className="signup-line"></div>
+                        {errors.email && <span className="signup-error">{errors.email}</span>}
+                    </div>
+
+                    {/* Social Login */}
+                    <div className="social-section">
+                        <p className="social-divider">Ou registre-se com</p>
+                        <div className="social-icons">
+                            <button className="social-circle facebook" onClick={() => { }}>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
+                            </button>
+                            <button className="social-circle instagram" onClick={() => { }}>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" />
+                            </button>
+                            <button className="social-circle google" onClick={() => { }}>
+                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Step 2: Nationality + Phone + DOB */}
+            {step === 2 && (
+                <div className="signup-fields">
+                    <div className="signup-input-group">
+                        <span className="signup-label">Nacionalidade</span>
+                        <select
+                            name="nationality"
+                            value={formData.nationality}
+                            onChange={handleNationalityChange}
+                            className="signup-input signup-select"
+                        >
+                            <option value="">Selecione...</option>
+                            {countries.map(c => (
+                                <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                            ))}
+                        </select>
+                        <div className="signup-line"></div>
+                        {errors.nationality && <span className="signup-error">{errors.nationality}</span>}
+                    </div>
+                    <div className="signup-input-group">
+                        <span className="signup-label">Telefone</span>
+                        <div className="phone-row">
+                            <span className="phone-prefix">{activeCountry?.dialCode || '+00'}</span>
+                            <input
+                                type="tel"
+                                name="phone"
+                                value={formData.phone}
+                                onChange={(e) => {
+                                    const val = e.target.value.replace(/\D/g, '').slice(0, 9);
+                                    setFormData(prev => ({ ...prev, phone: val }));
+                                }}
+                                className="signup-input"
+                                placeholder="000 000 000"
+                            />
+                        </div>
+                        <div className="signup-line"></div>
+                        {errors.phone && <span className="signup-error">{errors.phone}</span>}
+                    </div>
+                    <div className="signup-input-group">
+                        <span className="signup-label">Data de Nascimento</span>
+                        <div className="dob-row">
+                            <select name="dobDay" value={formData.dobDay} onChange={handleChange} className="signup-input dob-select">
+                                <option value="">DD</option>
+                                {days.map(d => <option key={d} value={d}>{d}</option>)}
+                            </select>
+                            <select name="dobMonth" value={formData.dobMonth} onChange={handleChange} className="signup-input dob-select">
+                                <option value="">MM</option>
+                                {months.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
+                            </select>
+                            <select name="dobYear" value={formData.dobYear} onChange={handleChange} className="signup-input dob-select">
+                                <option value="">AAAA</option>
+                                {years.map(y => <option key={y} value={y}>{y}</option>)}
+                            </select>
+                        </div>
+                        <div className="signup-line"></div>
+                        {errors.dob && <span className="signup-error">{errors.dob}</span>}
+                    </div>
+                </div>
+            )}
+
+            {/* Step 3: Password + Confirm + Terms */}
+            {step === 3 && (
+                <div className="signup-fields">
+                    <div className="signup-input-group">
+                        <span className="signup-label">Senha</span>
+                        <div className="password-row">
+                            <input
+                                type={showPasswords ? "text" : "password"}
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                className="signup-input"
+                            />
+                            {(formData.password.length > 0 || formData.confirmPassword.length > 0) && (
+                                <button type="button" className="eye-toggle" onClick={() => setShowPasswords(!showPasswords)}>
+                                    {showPasswords ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                            )}
+                        </div>
+                        <div className="signup-line"></div>
+                        {errors.password && <span className="signup-error">{errors.password}</span>}
+                    </div>
+                    <div className="signup-input-group">
+                        <span className="signup-label">Confirmar Senha</span>
+                        <div className="password-row">
+                            <input
+                                type={showPasswords ? "text" : "password"}
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                className="signup-input"
+                            />
+                        </div>
+                        <div className="signup-line"></div>
+                        {errors.confirmPassword && <span className="signup-error">{errors.confirmPassword}</span>}
+                    </div>
+                    <div className="terms-group">
+                        <label className="terms-label">
+                            <input
+                                type="checkbox"
+                                checked={termsAccepted}
+                                onChange={(e) => setTermsAccepted(e.target.checked)}
+                                className="terms-checkbox"
+                            />
+                            <span className="terms-checkmark"></span>
+                            <span className="terms-text">
+                                Eu concordo com os <a href="#" className="terms-link">Termos & Condições</a>
+                            </span>
+                        </label>
+                        {errors.terms && <span className="signup-error">{errors.terms}</span>}
+                    </div>
+                </div>
+            )}
+
+            {/* Next Arrow Button */}
+            <button className="next-arrow" onClick={handleNext}>
+                <ArrowRight size={24} />
+            </button>
 
             {/* Footer */}
             <p className="signup-footer">
