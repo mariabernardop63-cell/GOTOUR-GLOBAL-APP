@@ -1,38 +1,35 @@
 import { motion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 
-// Page order for determining slide direction
-const routeOrder = ['/', '/login', '/signup', '/otp-verification', '/forgot-password'];
-
 const PageTransition = ({ children, direction = 'forward' }) => {
     const location = useLocation();
 
-    // Variants for stack navigation
+    // Stack navigation variants
     const variants = {
-        // Forward navigation: new page slides in from right
+        // Forward: new page enters from right
         enterFromRight: {
             x: '100%',
-            opacity: 1,
+            zIndex: 2,
         },
-        // Back navigation: new page slides in from left
+        // Back: new page enters from left
         enterFromLeft: {
-            x: '-100%',
-            opacity: 1,
+            x: '-30%',
+            zIndex: 1,
         },
-        // Center position (visible)
+        // Center (visible)
         center: {
             x: 0,
-            opacity: 1,
+            zIndex: 2,
         },
-        // Forward navigation exit: current page slides out to left
+        // Forward exit: current page exits to left (behind)
         exitToLeft: {
-            x: '-100%',
-            opacity: 1,
+            x: '-30%',
+            zIndex: 1,
         },
-        // Back navigation exit: current page slides out to right
+        // Back exit: current page exits to right
         exitToRight: {
             x: '100%',
-            opacity: 1,
+            zIndex: 2,
         },
     };
 
@@ -46,7 +43,7 @@ const PageTransition = ({ children, direction = 'forward' }) => {
             transition={{
                 type: 'tween',
                 duration: 0.4,
-                ease: [0.25, 0.1, 0.25, 1], // Smooth easing
+                ease: [0.25, 0.1, 0.25, 1],
             }}
             style={{
                 position: 'absolute',
@@ -56,7 +53,7 @@ const PageTransition = ({ children, direction = 'forward' }) => {
                 bottom: 0,
                 width: '100%',
                 minHeight: '100vh',
-                background: '#F0F9FF',
+                overflow: 'hidden',
             }}
         >
             {children}
