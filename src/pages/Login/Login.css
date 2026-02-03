@@ -7,7 +7,9 @@
     justify-content: center;
     align-items: center;
     background: linear-gradient(135deg, #0c3b5d 0%, #1a5f7a 25%, #159895 50%, #57c5b6 75%, #a8e6cf 100%);
-    padding: 20px;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
 }
 
 /* Card Container */
@@ -38,16 +40,19 @@
     object-fit: contain;
 }
 
-/* Header Image */
+/* Header Image - Full Screen Width */
 .login-header-image {
-    width: 100%;
-    margin: 0;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    margin-top: 0;
+    margin-bottom: 0;
     line-height: 0;
 }
 
 .login-header-image img {
     width: 100%;
-    height: 180px;
+    height: 200px;
     object-fit: cover;
     object-position: center;
     display: block;
