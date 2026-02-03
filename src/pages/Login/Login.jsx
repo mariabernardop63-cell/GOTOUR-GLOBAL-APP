@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, X } from 'lucide-react';
+import { useNavigation } from '../../App';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import loginHeaderImg from '../../assets/images/login_header_hd.png';
 import './Login.css';
 
 const Login = () => {
-    const navigate = useNavigate();
+    const { navigateForward, navigateBack } = useNavigation();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
@@ -30,7 +30,6 @@ const Login = () => {
 
         setIsLoading(true);
 
-        // Mock login API call
         setTimeout(() => {
             setIsLoading(false);
             console.log('Logged in:', formData, 'Remember:', rememberMe);
@@ -46,10 +45,10 @@ const Login = () => {
             <div className="blur-pink"></div>
             <div className="blur-blue"></div>
 
-            {/* Header Image - Full Width */}
+            {/* Header Image */}
             <div className="login-header-image">
                 <img src={loginHeaderImg} alt="Travel" />
-                <button className="back-button" onClick={() => navigate('/')}>
+                <button className="back-button" onClick={() => navigateBack('/')}>
                     <X size={24} color="#fff" />
                 </button>
                 <div className="lang-switcher-container">
@@ -59,12 +58,9 @@ const Login = () => {
 
             {/* Card Content */}
             <div className="login-content">
-                {/* Welcome */}
                 <h1 className="login-title">Iniciar Sessão</h1>
 
-                {/* Form */}
                 <form className="login-form" onSubmit={handleLogin}>
-                    {/* Email Input */}
                     <div className="login-input-group">
                         <Mail className="login-input-icon" size={18} />
                         <input
@@ -77,7 +73,6 @@ const Login = () => {
                         />
                     </div>
 
-                    {/* Password Input */}
                     <div className="login-input-group">
                         <Lock className="login-input-icon" size={18} />
                         <input
@@ -98,7 +93,6 @@ const Login = () => {
                         </div>
                     </div>
 
-                    {/* Options Row */}
                     <div className="login-options">
                         <label className="login-remember">
                             <input
@@ -110,25 +104,21 @@ const Login = () => {
                         </label>
                         <span
                             className="login-forgot"
-                            onClick={() => navigate('/forgot-password')}
+                            onClick={() => navigateForward('/forgot-password')}
                         >
                             Esqueci a Senha?
                         </span>
                     </div>
 
-                    {/* Error Message */}
                     {error && <p className="login-error">{error}</p>}
 
-                    {/* Submit Button */}
                     <button type="submit" className="login-button">
                         Login
                     </button>
                 </form>
 
-                {/* Divider */}
                 <p className="login-divider">Ou faça login com</p>
 
-                {/* Social Icons */}
                 <div className="login-social">
                     <button className="social-circle facebook" onClick={() => { }}>
                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
@@ -141,9 +131,8 @@ const Login = () => {
                     </button>
                 </div>
 
-                {/* Footer */}
                 <p className="login-footer">
-                    Não tem conta? <span onClick={() => navigate('/signup')}>Registre-se</span>
+                    Não tem conta? <span onClick={() => navigateForward('/signup')}>Registre-se</span>
                 </p>
             </div>
         </div>

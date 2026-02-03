@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { MapPin } from 'lucide-react';
+import { useNavigation } from '../../App';
 import Button from '../../components/Button/Button';
 import './Welcome.css';
 
@@ -17,14 +17,13 @@ const images = [
 import gotourLogo from '../../assets/images/gotour_logo_white.png';
 
 const Welcome = () => {
-    // ... existing hook logic ...
-    const navigate = useNavigate();
+    const { navigateForward } = useNavigation();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 3000); // 3 seconds
+        }, 3000);
 
         return () => clearInterval(interval);
     }, []);
@@ -49,7 +48,7 @@ const Welcome = () => {
             <div className="welcome-content slide-up">
                 <h1 className="welcome-title">Explore o Mundo <br />Como um Local</h1>
                 <p className="welcome-subtitle">
-                    Seu companheiro de viagem inteligente. Descubra joias escondidas, conheça novas pessoas e viaje com mais sabedoria.
+                    Descubra destinos incríveis, conecte-se com guias locais e viva experiências autênticas.
                 </p>
 
                 <div className="welcome-actions">
@@ -58,25 +57,19 @@ const Welcome = () => {
                         variant="primary"
                         size="lg"
                         fullWidth
-                        onClick={() => {
-                            console.log('Navigating to /signup');
-                            navigate('/signup');
-                        }}
+                        onClick={() => navigateForward('/signup')}
                     >
                         Começar Agora
                     </Button>
+
                     <Button
                         type="button"
                         variant="secondary"
                         size="lg"
                         fullWidth
-                        onClick={() => {
-                            console.log('Navigating to /login');
-                            navigate('/login');
-                        }}
-                        style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white', backdropFilter: 'blur(4px)' }}
+                        onClick={() => navigateForward('/login')}
                     >
-                        Já tenho uma conta
+                        Já tenho conta
                     </Button>
                 </div>
             </div>

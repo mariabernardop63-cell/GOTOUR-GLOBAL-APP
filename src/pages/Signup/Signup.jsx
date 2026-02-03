@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { User, Mail, Globe, Phone, Calendar, Lock, Eye, EyeOff, X, ArrowLeft } from 'lucide-react';
+import { useNavigation } from '../../App';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import { countries } from '../../data/countries';
@@ -9,7 +9,7 @@ import signupHeaderImg from '../../assets/images/signup_header.png';
 import './Signup.css';
 
 const Signup = () => {
-    const navigate = useNavigate();
+    const { navigateForward, navigateBack } = useNavigation();
     const { nationality, setNationality } = useApp();
     const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(1);
@@ -90,7 +90,7 @@ const Signup = () => {
         if (step > 1) {
             setStep(prev => prev - 1);
         } else {
-            navigate('/');
+            navigateBack('/');
         }
     };
 
@@ -98,7 +98,7 @@ const Signup = () => {
         setIsLoading(true);
         setTimeout(() => {
             setIsLoading(false);
-            navigate('/otp-verification', { state: { email: formData.email } });
+            navigateForward('/otp-verification');
         }, 2000);
     };
 
@@ -137,7 +137,6 @@ const Signup = () => {
 
             {/* Content */}
             <div className="signup-content">
-                {/* Title */}
                 <h1 className="signup-title">Registe-se Já!</h1>
 
                 {/* Step 1: Name + Email */}
@@ -169,12 +168,10 @@ const Signup = () => {
                         </div>
                         {errors.email && <span className="signup-error">{errors.email}</span>}
 
-                        {/* Submit Button */}
                         <button type="button" className="signup-button" onClick={handleNext}>
                             {getButtonText()}
                         </button>
 
-                        {/* Social Login */}
                         <p className="signup-divider">Ou registre-se com</p>
                         <div className="social-icons">
                             <button className="social-circle facebook" onClick={() => { }}>
@@ -245,7 +242,6 @@ const Signup = () => {
                         </div>
                         {errors.dob && <span className="signup-error">{errors.dob}</span>}
 
-                        {/* Submit Button */}
                         <button type="button" className="signup-button" onClick={handleNext}>
                             {getButtonText()}
                         </button>
@@ -302,16 +298,14 @@ const Signup = () => {
                             {errors.terms && <span className="signup-error">{errors.terms}</span>}
                         </div>
 
-                        {/* Submit Button */}
                         <button type="button" className="signup-button" onClick={handleNext}>
                             {getButtonText()}
                         </button>
                     </div>
                 )}
 
-                {/* Footer */}
                 <p className="signup-footer">
-                    Já tem conta? <span onClick={() => navigate('/login')}>Entrar</span>
+                    Já tem conta? <span onClick={() => navigateForward('/login')}>Entrar</span>
                 </p>
             </div>
         </div>

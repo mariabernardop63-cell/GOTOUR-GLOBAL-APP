@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { X, Mail, RefreshCw, Edit2 } from 'lucide-react';
+import { useNavigation } from '../../App';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import SocialButton from '../../components/SocialButton/SocialButton';
@@ -10,7 +11,7 @@ import { useApp } from '../../context/AppContext';
 import './OtpVerification.css';
 
 const OtpVerification = () => {
-    const navigate = useNavigate();
+    const { navigateForward, navigateBack } = useNavigation();
     const location = useLocation();
     const { t } = useApp();
     const email = location.state?.email || 'your email';
@@ -21,7 +22,6 @@ const OtpVerification = () => {
     const [resendDisabled, setResendDisabled] = useState(false);
     const [timer, setTimer] = useState(0);
 
-    // Timer for Resend
     useEffect(() => {
         if (timer > 0) {
             const interval = setInterval(() => setTimer(prev => prev - 1), 1000);
@@ -41,8 +41,8 @@ const OtpVerification = () => {
         setIsLoading(true);
         setTimeout(() => {
             setIsLoading(false);
-            if (otp === '123456') { // Mock check
-                navigate('/login'); // Success -> Login
+            if (otp === '123456') {
+                navigateForward('/login');
             } else {
                 setError('Invalid code. Try 123456');
             }
@@ -51,8 +51,7 @@ const OtpVerification = () => {
 
     const handleResend = () => {
         setResendDisabled(true);
-        setTimer(30); // 30 seconds cooldown
-        // Mock resend logic
+        setTimer(30);
         alert(t.otp.resent);
     };
 
@@ -72,7 +71,7 @@ const OtpVerification = () => {
             <div className="otp-container slide-up">
                 <button
                     className="btn-close"
-                    onClick={() => navigate('/signup')}
+                    onClick={() => navigateBack('/signup')}
                     aria-label="Close"
                 >
                     <X size={24} />
@@ -119,7 +118,7 @@ const OtpVerification = () => {
                         <button
                             type="button"
                             className="text-btn"
-                            onClick={() => navigate('/signup')}
+                            onClick={() => navigateBack('/signup')}
                         >
                             <Edit2 size={14} />
                             {t.otp.changeEmail}

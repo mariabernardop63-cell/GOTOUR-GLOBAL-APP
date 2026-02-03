@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { X, KeyRound } from 'lucide-react';
+import { useNavigation } from '../../App';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
+import { useApp } from '../../context/AppContext';
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {
-    const navigate = useNavigate();
+    const { navigateForward, navigateBack } = useNavigation();
     const { t } = useApp();
     const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -22,15 +23,9 @@ const ForgotPassword = () => {
         }
 
         setIsLoading(true);
-        // Mock API call
         setTimeout(() => {
             setIsLoading(false);
-            navigate('/otp-verification', {
-                state: {
-                    email: email,
-                    message: t.forgotPassword.success
-                }
-            });
+            navigateForward('/otp-verification');
         }, 1500);
     };
 
@@ -42,7 +37,7 @@ const ForgotPassword = () => {
             <div className="forgot-container slide-up">
                 <button
                     className="btn-close"
-                    onClick={() => navigate('/login')}
+                    onClick={() => navigateBack('/login')}
                     aria-label="Close"
                 >
                     <X size={24} />
