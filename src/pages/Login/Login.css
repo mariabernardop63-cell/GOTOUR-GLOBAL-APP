@@ -1,108 +1,130 @@
-/* Login.css - Redesigned Premium Layout */
+/* Login.css - Ultra-Minimalist Design */
 .auth-page {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: var(--spacing-md);
-    background-color: #f8f9fa;
-    /* Light background for the page */
+    background-color: #ffffff !important;
+    /* Pure white background */
 }
 
-/* White Card Container */
+/* Container */
 .auth-container {
     position: relative;
     width: 100%;
-    max-width: 440px;
-    background: #ffffff !important;
-    border-radius: 30px;
-    /* More rounded */
-    padding: 40px 30px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+    max-width: 400px;
+    /* Slightly narrower for mobile feel */
+    background: transparent !important;
+    border-radius: 0;
+    padding: 20px;
+    box-shadow: none !important;
+    /* No shadow */
     text-align: center;
 }
 
 /* Close Button */
 .btn-close {
     position: absolute !important;
-    top: 20px !important;
-    right: 20px !important;
-    left: auto !important;
-    /* Move to right usually, but keeping previous behavior if needed? User said "functions of previous screen must work". Previous was Left. Let's keep it Left or remove if it conflicts. Design doesn't clearly show it. I'll put it on Right for a cleaner modal look, or stick to Left instructions if strictly needed. Let's stick to absolute top-left for consistency with previous, or remove 'fixed' to keep it inside card. */
-    /* Updating to be inside the card relative */
-    width: 32px;
-    height: 32px;
+    top: 0px !important;
+    left: 0px !important;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: transparent;
     border: none;
-    color: #cbd5e1;
+    color: #94a3b8;
     cursor: pointer;
-    transition: color 0.2s;
     z-index: 10;
-}
-
-.btn-close:hover {
-    color: var(--text-main);
 }
 
 /* Header & Logo */
 .login-header {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .login-logo {
-    height: 60px;
-    /* Adjust based on valid size */
+    height: 50px;
     width: auto;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     object-fit: contain;
 }
 
 .welcome-title {
+    font-family: sans-serif;
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 300;
+    /* Thin font */
     color: #e11d48;
-    /* Pink/Reddish color from design */
+    /* Red text */
     margin: 0;
+    letter-spacing: 0.5px;
 }
 
 /* Form Styles */
 .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
 }
 
-.custom-input {
-    /* Override input styles if needed, or rely on component. 
-       Usually component has its own styles. 
-       We might need to style the wrapper to look like the design (underline or clean box). 
-       Assuming current Input component is decent. 
-    */
+/* Overriding Input Component globally for this page */
+.auth-form .input-wrapper {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
 
-/* Form Options (Remember Me / Forgot Password) */
+.auth-form .input-wrapper:focus-within {
+    border-bottom-color: #e11d48 !important;
+    box-shadow: none !important;
+}
+
+.auth-form .input-field {
+    padding-left: 40px !important;
+    /* Space for icon */
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    height: 40px !important;
+    font-size: 15px;
+}
+
+.auth-form .input-icon {
+    left: 0 !important;
+    color: #94a3b8 !important;
+    width: 20px;
+    height: 20px;
+}
+
+/* Form Options */
 .form-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-top: 10px;
+    font-size: 14px;
+    margin-top: 5px;
 }
 
 .remember-me {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    color: #64748b;
     cursor: pointer;
-    user-select: none;
 }
 
 .remember-me input {
     accent-color: #e11d48;
+    width: 16px;
+    height: 16px;
 }
 
 .forgot-password {
@@ -111,23 +133,21 @@
     cursor: pointer;
 }
 
-.forgot-password:hover {
-    text-decoration: underline;
-}
-
 /* Actions */
 .auth-actions {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .btn-login {
     background-color: #e11d48 !important;
-    /* Pink/Red color */
+    /* Vibrant Pink/Red */
     border-color: #e11d48 !important;
-    border-radius: 25px !important;
+    border-radius: 9999px !important;
+    /* Pill shape */
     font-weight: 600;
     font-size: 16px;
-    height: 50px;
+    height: 52px;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2);
 }
 
 .btn-login:hover {
@@ -139,76 +159,68 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-muted);
-    font-size: 13px;
-    margin: 20px 0;
+    color: #94a3b8;
+    font-size: 14px;
+    margin: 30px 0;
+    font-weight: 400;
 }
 
 /* Social Row */
 .social-row {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 24px;
+    margin-bottom: 30px;
 }
 
 .social-icon {
-    width: 45px;
-    height: 45px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    /* background: #f1f5f9; */
-    /* Optional bg */
+    /* border: 1px solid #f1f5f9; */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: transform 0.2s;
+    background: white;
+    /* slight shadow for icons if needed, or flat */
 }
 
 .social-icon:hover {
-    transform: scale(1.1);
-}
-
-/* Adjust SocialButton internal style if needed */
-.social-icon button {
-    background: transparent;
-    border: none;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transform: scale(1.05);
 }
 
 .social-icon img {
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
 }
 
 /* Footer */
 .auth-footer {
-    margin-top: 30px;
+    text-align: center;
     font-size: 14px;
-    color: var(--text-secondary);
+    color: #64748b;
 }
 
 .auth-link {
     color: #e11d48;
     font-weight: 600;
+    margin-left: 4px;
+    cursor: pointer;
 }
 
-/* Mobile Responsiveness */
+/* Mobile */
 @media (max-width: 480px) {
     .auth-page {
         padding: 0;
-        background: #ffffff;
+        align-items: flex-start;
+        /* Start from top on mobile? Or center. Center is better. */
     }
 
     .auth-container {
-        box-shadow: none !important;
-        padding: 24px;
+        padding: 32px 24px;
         min-height: 100vh;
-        border-radius: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
