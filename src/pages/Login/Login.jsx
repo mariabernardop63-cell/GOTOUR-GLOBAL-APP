@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import loginHeaderImg from '../../assets/images/login_header_hd.png';
 import './Login.css';
@@ -11,6 +11,7 @@ const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -70,13 +71,21 @@ const Login = () => {
                         <div className="login-input-group">
                             <Lock className="login-input-icon" size={18} />
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 name="password"
-                                placeholder="Password"
+                                placeholder="Senha"
                                 value={formData.password}
                                 onChange={handleChange}
                                 className="login-input"
                             />
+                            <div
+                                className="password-toggle"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {formData.password.length > 0 && (
+                                    showPassword ? <EyeOff size={18} /> : <Eye size={18} />
+                                )}
+                            </div>
                         </div>
 
                         {/* Options Row */}

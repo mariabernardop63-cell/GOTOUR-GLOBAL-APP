@@ -54,18 +54,26 @@ const Welcome = () => {
 
                 <div className="welcome-actions">
                     <Button
+                        type="button"
                         variant="primary"
                         size="lg"
                         fullWidth
-                        onClick={() => navigate('/signup')}
+                        onClick={() => {
+                            console.log('Navigating to /signup');
+                            navigate('/signup');
+                        }}
                     >
                         Começar Agora
                     </Button>
                     <Button
+                        type="button"
                         variant="secondary"
                         size="lg"
                         fullWidth
-                        onClick={() => navigate('/login')}
+                        onClick={() => {
+                            console.log('Navigating to /login');
+                            navigate('/login');
+                        }}
                         style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white', backdropFilter: 'blur(4px)' }}
                     >
                         Já tenho uma conta
