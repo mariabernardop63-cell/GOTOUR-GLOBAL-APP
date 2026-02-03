@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail } from 'lucide-react';
+import { Mail, ChevronRight } from 'lucide-react';
 import { useNavigation } from '../../App';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import gotourLogo from '../../assets/images/gotour_logo_white.png';
@@ -67,7 +67,9 @@ const ForgotPassword = () => {
                 {error && <span className="forgot-error">{error}</span>}
 
                 <button type="submit" className="forgot-button">
-                    Enviar
+                    <Mail size={18} />
+                    <span>Enviar</span>
+                    <ChevronRight size={20} />
                 </button>
             </form>
 
