@@ -60,7 +60,7 @@ const Login = () => {
             {/* Card Content */}
             <div className="login-content">
                 {/* Welcome */}
-                <h1 className="login-title">Seja Bem-vindo(a)!</h1>
+                <h1 className="login-title">Iniciar Sessão</h1>
 
                 {/* Form */}
                 <form className="login-form" onSubmit={handleLogin}>

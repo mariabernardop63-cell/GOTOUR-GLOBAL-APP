@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Eye, EyeOff, X } from 'lucide-react';
+import { User, Mail, Globe, Phone, Calendar, Lock, Eye, EyeOff, X, ArrowLeft } from 'lucide-react';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import { countries } from '../../data/countries';
@@ -107,12 +107,12 @@ const Signup = () => {
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
-    const getStepTitle = () => {
+    const getButtonText = () => {
         switch (step) {
-            case 1: return <>Junte-se à<br />Comunidade</>;
-            case 2: return <>Informações<br />Pessoais</>;
-            case 3: return <>Crie sua<br />Senha</>;
-            default: return '';
+            case 1: return 'Continuar';
+            case 2: return 'Continuar';
+            case 3: return 'Registrar';
+            default: return 'Continuar';
         }
     };
 
@@ -135,40 +135,47 @@ const Signup = () => {
             <div className="blur-pink"></div>
             <div className="blur-blue"></div>
 
-            {/* Title */}
-            <h1 className="signup-title">{getStepTitle()}</h1>
+            {/* Content */}
+            <div className="signup-content">
+                {/* Title */}
+                <h1 className="signup-title">Registe-se Já!</h1>
 
-            {/* Step 1: Name + Email */}
-            {step === 1 && (
-                <div className="signup-fields">
-                    <div className="signup-input-group">
-                        <span className="signup-label">Nome</span>
-                        <input
-                            type="text"
-                            name="fullName"
-                            value={formData.fullName}
-                            onChange={handleChange}
-                            className="signup-input"
-                        />
-                        <div className="signup-line"></div>
+                {/* Step 1: Name + Email */}
+                {step === 1 && (
+                    <div className="signup-fields">
+                        <div className="signup-input-group">
+                            <User className="signup-input-icon" size={18} />
+                            <input
+                                type="text"
+                                name="fullName"
+                                placeholder="Nome Completo"
+                                value={formData.fullName}
+                                onChange={handleChange}
+                                className="signup-input"
+                            />
+                        </div>
                         {errors.fullName && <span className="signup-error">{errors.fullName}</span>}
-                    </div>
-                    <div className="signup-input-group">
-                        <span className="signup-label">Email</span>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="signup-input"
-                        />
-                        <div className="signup-line"></div>
-                        {errors.email && <span className="signup-error">{errors.email}</span>}
-                    </div>
 
-                    {/* Social Login */}
-                    <div className="social-section">
-                        <p className="social-divider">Ou registre-se com</p>
+                        <div className="signup-input-group">
+                            <Mail className="signup-input-icon" size={18} />
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="signup-input"
+                            />
+                        </div>
+                        {errors.email && <span className="signup-error">{errors.email}</span>}
+
+                        {/* Submit Button */}
+                        <button type="button" className="signup-button" onClick={handleNext}>
+                            {getButtonText()}
+                        </button>
+
+                        {/* Social Login */}
+                        <p className="signup-divider">Ou registre-se com</p>
                         <div className="social-icons">
                             <button className="social-circle facebook" onClick={() => { }}>
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
@@ -181,31 +188,29 @@ const Signup = () => {
                             </button>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
 
-            {/* Step 2: Nationality + Phone + DOB */}
-            {step === 2 && (
-                <div className="signup-fields">
-                    <div className="signup-input-group">
-                        <span className="signup-label">Nacionalidade</span>
-                        <select
-                            name="nationality"
-                            value={formData.nationality}
-                            onChange={handleNationalityChange}
-                            className="signup-input signup-select"
-                        >
-                            <option value="">Selecione...</option>
-                            {countries.map(c => (
-                                <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
-                            ))}
-                        </select>
-                        <div className="signup-line"></div>
+                {/* Step 2: Nationality + Phone + DOB */}
+                {step === 2 && (
+                    <div className="signup-fields">
+                        <div className="signup-input-group">
+                            <Globe className="signup-input-icon" size={18} />
+                            <select
+                                name="nationality"
+                                value={formData.nationality}
+                                onChange={handleNationalityChange}
+                                className="signup-input signup-select"
+                            >
+                                <option value="">Nacionalidade</option>
+                                {countries.map(c => (
+                                    <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                                ))}
+                            </select>
+                        </div>
                         {errors.nationality && <span className="signup-error">{errors.nationality}</span>}
-                    </div>
-                    <div className="signup-input-group">
-                        <span className="signup-label">Telefone</span>
-                        <div className="phone-row">
+
+                        <div className="signup-input-group">
+                            <Phone className="signup-input-icon" size={18} />
                             <span className="phone-prefix">{activeCountry?.dialCode || '+00'}</span>
                             <input
                                 type="tel"
@@ -219,40 +224,43 @@ const Signup = () => {
                                 placeholder="000 000 000"
                             />
                         </div>
-                        <div className="signup-line"></div>
                         {errors.phone && <span className="signup-error">{errors.phone}</span>}
-                    </div>
-                    <div className="signup-input-group">
-                        <span className="signup-label">Data de Nascimento</span>
-                        <div className="dob-row">
-                            <select name="dobDay" value={formData.dobDay} onChange={handleChange} className="signup-input dob-select">
-                                <option value="">DD</option>
-                                {days.map(d => <option key={d} value={d}>{d}</option>)}
-                            </select>
-                            <select name="dobMonth" value={formData.dobMonth} onChange={handleChange} className="signup-input dob-select">
-                                <option value="">MM</option>
-                                {months.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
-                            </select>
-                            <select name="dobYear" value={formData.dobYear} onChange={handleChange} className="signup-input dob-select">
-                                <option value="">AAAA</option>
-                                {years.map(y => <option key={y} value={y}>{y}</option>)}
-                            </select>
-                        </div>
-                        <div className="signup-line"></div>
-                        {errors.dob && <span className="signup-error">{errors.dob}</span>}
-                    </div>
-                </div>
-            )}
 
-            {/* Step 3: Password + Confirm + Terms */}
-            {step === 3 && (
-                <div className="signup-fields">
-                    <div className="signup-input-group">
-                        <span className="signup-label">Senha</span>
-                        <div className="password-row">
+                        <div className="signup-input-group">
+                            <Calendar className="signup-input-icon" size={18} />
+                            <div className="dob-row">
+                                <select name="dobDay" value={formData.dobDay} onChange={handleChange} className="signup-input dob-select">
+                                    <option value="">DD</option>
+                                    {days.map(d => <option key={d} value={d}>{d}</option>)}
+                                </select>
+                                <select name="dobMonth" value={formData.dobMonth} onChange={handleChange} className="signup-input dob-select">
+                                    <option value="">MM</option>
+                                    {months.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
+                                </select>
+                                <select name="dobYear" value={formData.dobYear} onChange={handleChange} className="signup-input dob-select">
+                                    <option value="">AAAA</option>
+                                    {years.map(y => <option key={y} value={y}>{y}</option>)}
+                                </select>
+                            </div>
+                        </div>
+                        {errors.dob && <span className="signup-error">{errors.dob}</span>}
+
+                        {/* Submit Button */}
+                        <button type="button" className="signup-button" onClick={handleNext}>
+                            {getButtonText()}
+                        </button>
+                    </div>
+                )}
+
+                {/* Step 3: Password + Confirm + Terms */}
+                {step === 3 && (
+                    <div className="signup-fields">
+                        <div className="signup-input-group">
+                            <Lock className="signup-input-icon" size={18} />
                             <input
                                 type={showPasswords ? "text" : "password"}
                                 name="password"
+                                placeholder="Senha"
                                 value={formData.password}
                                 onChange={handleChange}
                                 className="signup-input"
@@ -263,50 +271,49 @@ const Signup = () => {
                                 </button>
                             )}
                         </div>
-                        <div className="signup-line"></div>
                         {errors.password && <span className="signup-error">{errors.password}</span>}
-                    </div>
-                    <div className="signup-input-group">
-                        <span className="signup-label">Confirmar Senha</span>
-                        <div className="password-row">
+
+                        <div className="signup-input-group">
+                            <Lock className="signup-input-icon" size={18} />
                             <input
                                 type={showPasswords ? "text" : "password"}
                                 name="confirmPassword"
+                                placeholder="Confirmar Senha"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 className="signup-input"
                             />
                         </div>
-                        <div className="signup-line"></div>
                         {errors.confirmPassword && <span className="signup-error">{errors.confirmPassword}</span>}
-                    </div>
-                    <div className="terms-group">
-                        <label className="terms-label">
-                            <input
-                                type="checkbox"
-                                checked={termsAccepted}
-                                onChange={(e) => setTermsAccepted(e.target.checked)}
-                                className="terms-checkbox"
-                            />
-                            <span className="terms-checkmark"></span>
-                            <span className="terms-text">
-                                Eu concordo com os <a href="#" className="terms-link">Termos & Condições</a>
-                            </span>
-                        </label>
-                        {errors.terms && <span className="signup-error">{errors.terms}</span>}
-                    </div>
-                </div>
-            )}
 
-            {/* Next Arrow Button */}
-            <button className="next-arrow" onClick={handleNext}>
-                <ArrowRight size={24} />
-            </button>
+                        <div className="terms-group">
+                            <label className="terms-label">
+                                <input
+                                    type="checkbox"
+                                    checked={termsAccepted}
+                                    onChange={(e) => setTermsAccepted(e.target.checked)}
+                                    className="terms-checkbox"
+                                />
+                                <span className="terms-checkmark"></span>
+                                <span className="terms-text">
+                                    Eu concordo com os <a href="#" className="terms-link">Termos & Condições</a>
+                                </span>
+                            </label>
+                            {errors.terms && <span className="signup-error">{errors.terms}</span>}
+                        </div>
 
-            {/* Footer */}
-            <p className="signup-footer">
-                Já tem conta? <span onClick={() => navigate('/login')}>Entrar</span>
-            </p>
+                        {/* Submit Button */}
+                        <button type="button" className="signup-button" onClick={handleNext}>
+                            {getButtonText()}
+                        </button>
+                    </div>
+                )}
+
+                {/* Footer */}
+                <p className="signup-footer">
+                    Já tem conta? <span onClick={() => navigate('/login')}>Entrar</span>
+                </p>
+            </div>
         </div>
     );
 };
