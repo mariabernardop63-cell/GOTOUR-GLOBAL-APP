@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f5f5f5;
+    background-color: #cee0e0;
     padding: 20px;
 }
 
@@ -34,7 +34,7 @@
 
 /* Title */
 .login-title {
-    font-family: 'Georgia', serif;
+    font-family: 'Bodoni Moda', 'Playfair Display', 'Times New Roman', serif;
     font-style: italic;
     font-size: 26px;
     font-weight: 400;

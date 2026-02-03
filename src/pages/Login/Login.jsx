@@ -43,7 +43,7 @@ const Login = () => {
                 {/* Logo */}
                 <div className="login-logo-container">
                     <img
-                        src="/src/assets/images/logo_gotour.jpg"
+                        src="/src/assets/images/logo_gotour_new.png"
                         alt="GoTour Logo"
                         className="login-logo"
                     />
