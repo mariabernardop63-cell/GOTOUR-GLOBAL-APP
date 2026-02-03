@@ -6,18 +6,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(180deg, #AAC7D8 0%, #DFEBF6 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     padding: 20px;
 }
 
 /* Card Container */
 .login-card {
-    background: #cee0e0;
+    background: #ffffff;
     border-radius: 40px;
     padding: 50px 35px 40px;
     width: 100%;
     max-width: 380px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
     text-align: center;
 }
 
