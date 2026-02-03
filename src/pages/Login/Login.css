@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #cee0e0;
+    background: linear-gradient(180deg, #AAC7D8 0%, #DFEBF6 100%);
     padding: 20px;
 }
 
