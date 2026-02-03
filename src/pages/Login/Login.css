@@ -5,7 +5,7 @@
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     background: linear-gradient(135deg, #0c3b5d 0%, #1a5f7a 25%, #159895 50%, #57c5b6 75%, #a8e6cf 100%);
     padding: 0;
     margin: 0;
@@ -48,6 +48,7 @@
     margin-top: 0;
     margin-bottom: 0;
     line-height: 0;
+    position: relative;
 }
 
 .login-header-image img {
