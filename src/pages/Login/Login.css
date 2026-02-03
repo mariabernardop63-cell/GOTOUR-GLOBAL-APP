@@ -12,7 +12,7 @@
 
 /* Card Container */
 .login-card {
-    background: #ffffff;
+    background: #cee0e0;
     border-radius: 40px;
     padding: 50px 35px 40px;
     width: 100%;
@@ -38,10 +38,10 @@
 
 /* Title */
 .login-title {
-    font-family: 'Bodoni Moda', 'Playfair Display', 'Times New Roman', serif;
-    font-style: italic;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-style: normal;
     font-size: 26px;
-    font-weight: 400;
+    font-weight: 500;
     color: #e11d48;
     margin: 0 0 35px 0;
 }
