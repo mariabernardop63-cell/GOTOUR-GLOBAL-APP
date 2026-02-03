@@ -9,14 +9,14 @@ const Button = ({
     fullWidth = false,
     isLoading = false,
     disabled,
+    className = '',
     ...props
 }) => {
-    const className = `btn btn-${variant} btn-${size} ${fullWidth ? 'btn-full' : ''} ${isLoading ? 'btn-loading' : ''}`;
+    const combinedClassName = `btn btn-${variant} btn-${size} ${fullWidth ? 'btn-full' : ''} ${isLoading ? 'btn-loading' : ''} ${className}`;
 
     return (
-        <button className={className} disabled={disabled || isLoading} {...props}>
-            {isLoading && <Loader2 className="animate-spin" size={18} />}
-            {children}
+        <button className={combinedClassName} disabled={disabled || isLoading} {...props}>
+            {isLoading ? <div className="btn-spinner"></div> : children}
         </button>
     );
 };

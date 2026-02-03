@@ -67,9 +67,9 @@ const Welcome = () => {
                         size="lg"
                         fullWidth
                         onClick={() => handleNavigation('/signup', 'primary')}
-                        className={loadingBtn === 'primary' ? 'btn-loading' : ''}
+                        isLoading={loadingBtn === 'primary'}
                     >
-                        {loadingBtn === 'primary' ? <div className="btn-spinner"></div> : "Começar Agora"}
+                        Começar Agora
                     </Button>
 
                     <Button
@@ -78,9 +78,9 @@ const Welcome = () => {
                         size="lg"
                         fullWidth
                         onClick={() => handleNavigation('/login', 'secondary')}
-                        className={loadingBtn === 'secondary' ? 'btn-loading' : ''}
+                        isLoading={loadingBtn === 'secondary'}
                     >
-                        {loadingBtn === 'secondary' ? <div className="btn-spinner"></div> : "Já tenho conta"}
+                        Já tenho conta
                     </Button>
                 </div>
             </div>
