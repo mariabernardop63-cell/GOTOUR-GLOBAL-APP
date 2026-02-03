@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
-import { X, KeyRound } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { useNavigation } from '../../App';
-import Button from '../../components/Button/Button';
-import Input from '../../components/Input/Input';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
-import { useApp } from '../../context/AppContext';
+import gotourLogo from '../../assets/images/gotour_logo_white.png';
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {
     const { navigateForward, navigateBack } = useNavigation();
-    const { t } = useApp();
     const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -18,7 +14,11 @@ const ForgotPassword = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!email) {
-            setError(t.errors?.required || 'Required');
+            setError('Por favor, digite seu e-mail');
+            return;
+        }
+        if (!email.includes('@')) {
+            setError('Digite um e-mail válido');
             return;
         }
 
@@ -30,45 +30,51 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div className="forgot-page fade-in">
-            {isLoading && <LoadingSpinner fullScreen text="Sending Code..." />}
-            <LanguageSwitcher />
+        <div className="forgot-page">
+            {isLoading && <LoadingSpinner fullScreen text="Enviando..." />}
 
-            <div className="forgot-container slide-up">
-                <button
-                    className="btn-close"
-                    onClick={() => navigateBack('/login')}
-                    aria-label="Close"
-                >
-                    <X size={24} />
-                </button>
+            {/* Logo */}
+            <div className="forgot-logo">
+                <img src={gotourLogo} alt="GoTour" className="forgot-logo-img" />
+                <span className="forgot-logo-text">GO TOUR</span>
+            </div>
 
-                <div className="forgot-header">
-                    <div className="icon-circle">
-                        <KeyRound size={32} color="var(--primary)" />
-                    </div>
-                    <h1 className="forgot-title">{t.forgotPassword.title}</h1>
-                    <p className="forgot-subtitle">{t.forgotPassword.subtitle}</p>
-                </div>
+            {/* Header */}
+            <div className="forgot-header">
+                <h1 className="forgot-title">Esqueceu a senha?</h1>
+                <p className="forgot-subtitle">Redefina a senha em duas etapas</p>
+            </div>
 
-                <form className="forgot-form" onSubmit={handleSubmit}>
-                    <Input
-                        label={t.forgotPassword.inputLabel}
-                        placeholder="john@example.com"
+            {/* Form */}
+            <form className="forgot-form" onSubmit={handleSubmit}>
+                <label className="forgot-label">Qual seu e-mail de cadastro?</label>
+
+                <div className="forgot-input-group">
+                    <Mail className="forgot-input-icon" size={18} />
+                    <input
+                        type="email"
+                        placeholder="Digite seu e-mail"
                         value={email}
                         onChange={(e) => {
                             setEmail(e.target.value);
                             setError('');
                         }}
-                        error={error}
+                        className="forgot-input"
                         autoFocus
                     />
+                </div>
 
-                    <Button type="submit" fullWidth size="lg" style={{ marginTop: 24 }}>
-                        {t.buttons.sendCode}
-                    </Button>
-                </form>
-            </div>
+                {error && <span className="forgot-error">{error}</span>}
+
+                <button type="submit" className="forgot-button">
+                    Enviar
+                </button>
+            </form>
+
+            {/* Footer */}
+            <p className="forgot-footer">
+                Lembrou da senha? <span onClick={() => navigateBack('/login')}>Fazer login</span>
+            </p>
         </div>
     );
 };
