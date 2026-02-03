@@ -14,7 +14,7 @@ function AnimatedRoutes() {
     const { direction } = useNavigation();
 
     return (
-        <AnimatePresence mode="wait" custom={direction}>
+        <AnimatePresence initial={false} custom={direction}>
             <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Welcome />} />
                 <Route path="/login" element={<Login />} />
