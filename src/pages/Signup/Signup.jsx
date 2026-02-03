@@ -5,7 +5,7 @@ import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import { countries } from '../../data/countries';
 import { useApp } from '../../context/AppContext';
-import signupHeaderImg from '../../assets/images/signup_header.jpg';
+import signupHeaderImg from '../../assets/images/signup_header.png';
 import './Signup.css';
 
 const Signup = () => {
