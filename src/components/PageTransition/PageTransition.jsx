@@ -1,45 +1,32 @@
 import { motion } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
 
 const PageTransition = ({ children, direction = 'forward' }) => {
-    const location = useLocation();
+    // Determine initial and exit positions based on direction
+    // Forward: enter from RIGHT, exit to LEFT
+    // Back: enter from LEFT, exit to RIGHT
 
-    // Stack navigation variants
-    const variants = {
-        // Forward: new page enters from right
-        enterFromRight: {
-            x: '100%',
-            zIndex: 2,
-        },
-        // Back: new page enters from left
-        enterFromLeft: {
-            x: '-30%',
-            zIndex: 1,
-        },
-        // Center (visible)
-        center: {
-            x: 0,
-            zIndex: 2,
-        },
-        // Forward exit: current page exits to left (behind)
-        exitToLeft: {
-            x: '-30%',
-            zIndex: 1,
-        },
-        // Back exit: current page exits to right
-        exitToRight: {
-            x: '100%',
-            zIndex: 2,
-        },
+    const getInitialX = () => {
+        return direction === 'forward' ? '100%' : '-100%';
+    };
+
+    const getExitX = () => {
+        return direction === 'forward' ? '-100%' : '100%';
     };
 
     return (
         <motion.div
-            key={location.pathname}
-            initial={direction === 'forward' ? 'enterFromRight' : 'enterFromLeft'}
-            animate="center"
-            exit={direction === 'forward' ? 'exitToLeft' : 'exitToRight'}
-            variants={variants}
+            initial={{
+                x: getInitialX(),
+                opacity: 1
+            }}
+            animate={{
+                x: 0,
+                opacity: 1
+            }}
+            exit={{
+                x: getExitX(),
+                opacity: 1
+            }}
             transition={{
                 type: 'tween',
                 duration: 0.4,
