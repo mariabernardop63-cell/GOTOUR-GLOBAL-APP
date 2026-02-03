@@ -19,33 +19,32 @@
     letter-spacing: 0.01em;
 }
 
-/* Primary Button (Petroleum Gradient or Solid) */
+/* Primary Button (Gradient like Login) */
 .btn-primary {
-    background: var(--primary);
+    background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
     color: #ffffff;
-    box-shadow: 0 4px 6px rgba(15, 118, 110, 0.2);
+    box-shadow: 0 4px 6px rgba(124, 58, 237, 0.2);
 }
 
 .btn-primary:hover {
-    background: var(--primary-dark);
+    box-shadow: 0 8px 12px rgba(124, 58, 237, 0.3);
     transform: translateY(-1px);
-    box-shadow: 0 8px 12px rgba(15, 118, 110, 0.25);
 }
 
 .btn-primary:active {
     transform: translateY(0);
 }
 
-/* Secondary Button (Outline/Soft) */
+/* Secondary Button (Transparent with White Border) */
 .btn-secondary {
-    background: #f1f5f9;
-    color: var(--text-secondary);
-    border: 1px solid transparent;
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid #ffffff;
 }
 
 .btn-secondary:hover {
-    background: #e2e8f0;
-    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
 }
 
 /* Outline Variant */
