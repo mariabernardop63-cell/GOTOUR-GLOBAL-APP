@@ -38,14 +38,29 @@
     object-fit: contain;
 }
 
+/* Header Image */
+.login-header-image {
+    width: calc(100% + 70px);
+    margin: -50px -35px 20px -35px;
+    border-radius: 40px 40px 0 0;
+    overflow: hidden;
+}
+
+.login-header-image img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
 /* Title */
 .login-title {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-style: normal;
-    font-size: 26px;
-    font-weight: 500;
-    color: #e11d48;
-    margin: 0 0 35px 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: #0c3b5d;
+    margin: 0 0 25px 0;
+    text-align: left;
 }
 
 /* Form */

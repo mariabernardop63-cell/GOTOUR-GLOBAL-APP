@@ -40,6 +40,10 @@ const Login = () => {
             {isLoading && <LoadingSpinner fullScreen text="Entrando..." />}
 
             <div className="login-card">
+                {/* Header Image */}
+                <div className="login-header-image">
+                    <img src="/src/assets/images/login_header.jpg" alt="Travel" />
+                </div>
 
                 {/* Welcome */}
                 <h1 className="login-title">Seja Bem-vindo(a)!</h1>
