@@ -30,12 +30,9 @@ const Login = () => {
 
         setIsLoading(true);
 
-        setTimeout(() => {
-            setIsLoading(false);
-            console.log('Logged in:', formData, 'Remember:', rememberMe);
-            alert("Login OK! Indo para Home...");
-            navigateForward('/home');
-        }, 2000);
+        setIsLoading(false);
+        console.log('Logged in:', formData, 'Remember:', rememberMe);
+        navigateForward('/home');
     };
 
     return (
@@ -57,7 +54,7 @@ const Login = () => {
 
             {/* Card Content */}
             <div className="login-content">
-                <h1 className="login-title">Iniciar Sessão (v2)</h1>
+                <h1 className="login-title">Iniciar Sessão</h1>
 
                 <form className="login-form" onSubmit={handleLogin}>
                     <div className="login-input-group">

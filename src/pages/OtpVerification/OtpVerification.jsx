@@ -67,15 +67,14 @@ const OtpVerification = () => {
         }
 
         setIsLoading(true);
+        // Simulate API call briefly
         setTimeout(() => {
             setIsLoading(false);
-            // Accept any 4 digit code
-            alert(`Código Verificado: ${code}`); // PROOF OF UPDATE
             setIsExiting(true);
             setTimeout(() => {
                 navigateForward('/home');
-            }, 400);
-        }, 2000);
+            }, 400); // Wait for exit animation
+        }, 1000);
     };
 
     const handleResend = () => {
@@ -97,7 +96,7 @@ const OtpVerification = () => {
             </div>
 
             <div className="otp-header">
-                <h1 className="otp-title">Verifique seu e-mail (v2)</h1>
+                <h1 className="otp-title">Verifique seu e-mail</h1>
                 <p className="otp-subtitle">
                     Digite o código de 4 dígitos enviado para {email}
                 </p>
