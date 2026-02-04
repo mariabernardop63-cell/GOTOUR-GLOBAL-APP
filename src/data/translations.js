@@ -145,12 +145,12 @@ export const translations = {
             success: 'Um código de verificação foi enviado para seu email.'
         },
         otp: {
-            title: 'Verifique Sua Conta',
+            title: 'Verifique seu e-mail',
             subtitle: 'Enviamos um código de verificação para',
-            label: 'Digite o código OTP',
+            label: 'Digite o código de 4 dígitos',
             resend: 'Reenviar Código',
             changeEmail: 'Alterar Email',
-            verifyBtn: 'Verificar Conta',
+            verifyBtn: 'Verificar',
             continue: 'Continuar com',
             resent: 'Código reenviado com sucesso!'
         },
