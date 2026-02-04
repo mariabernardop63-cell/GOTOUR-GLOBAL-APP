@@ -1,0 +1,56 @@
+/* HomeScreen.css */
+.home-page {
+    background-color: #ffffff;
+    min-height: 100vh;
+    padding-bottom: 80px; /* Space for bottom nav */
+    font-family: 'Inter', sans-serif;
+}
+
+.home-content {
+    padding: 0 20px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 24px 0 16px;
+}
+
+/* Placeholder Cards */
+.recommendations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.place-card {
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Soft shadow */
+    border: 1px solid #f1f5f9;
+}
+
+.place-image-placeholder {
+    width: 100%;
+    height: 180px;
+    background-color: #e2e8f0;
+    position: relative;
+}
+
+.place-info {
+    padding: 16px;
+}
+
+.place-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #1e293b;
+}
+
+.place-location {
+    font-size: 13px;
+    color: #64748b;
+}

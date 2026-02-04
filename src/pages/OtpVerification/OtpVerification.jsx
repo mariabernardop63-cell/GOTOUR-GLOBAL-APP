@@ -73,7 +73,7 @@ const OtpVerification = () => {
             alert(`Código Verificado: ${code}`); // PROOF OF UPDATE
             setIsExiting(true);
             setTimeout(() => {
-                navigateForward('/login');
+                navigateForward('/home');
             }, 400);
         }, 2000);
     };

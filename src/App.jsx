@@ -6,6 +6,10 @@ import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import OtpVerification from './pages/OtpVerification/OtpVerification';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import HomeScreen from './pages/Home/HomeScreen';
+import CategoriesScreen from './pages/Categories/CategoriesScreen';
+import MapScreen from './pages/Map/MapScreen';
+import ProfileScreen from './pages/Profile/ProfileScreen';
 import { AppProvider } from './context/AppContext';
 import PageTransition from './components/PageTransition/PageTransition';
 import './App.css';
@@ -90,6 +94,10 @@ const AnimatedRoutes = () => {
                         <Route path="/signup" element={<Signup />} />
                         <Route path="/otp-verification" element={<OtpVerification />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
+                        <Route path="/home" element={<HomeScreen />} />
+                        <Route path="/categories" element={<CategoriesScreen />} />
+                        <Route path="/map" element={<MapScreen />} />
+                        <Route path="/profile" element={<ProfileScreen />} />
                     </Routes>
                 </PageTransition>
             </AnimatePresence>

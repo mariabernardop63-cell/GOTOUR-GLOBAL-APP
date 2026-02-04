@@ -33,7 +33,8 @@ const Login = () => {
         setTimeout(() => {
             setIsLoading(false);
             console.log('Logged in:', formData, 'Remember:', rememberMe);
-            alert("Login Successful! (Mock)");
+            // alert("Login Successful! (Mock)");
+            navigateForward('/home');
         }, 2000);
     };
 

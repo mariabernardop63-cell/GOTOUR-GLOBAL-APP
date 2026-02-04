@@ -1,0 +1,52 @@
+/* FilterChipsRow.css */
+.filter-chips-container {
+    padding: 16px 0 16px 20px;
+    /* Right padding handled by last child margin */
+    background-color: #ffffff;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scroll on iOS */
+    scrollbar-width: none;
+    /* Hide scrollbar Firefox */
+}
+
+.filter-chips-container::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar Chrome/Safari */
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: #f1f5f9;
+    /* Light grey bg */
+    border-radius: 9999px;
+    margin-right: 12px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chip:last-child {
+    margin-right: 20px;
+    /* End padding */
+}
+
+.chip-icon {
+    color: #334155;
+    /* Dark grey */
+}
+
+.chip-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.chip:active {
+    background-color: #e2e8f0;
+    transform: scale(0.98);
+}
