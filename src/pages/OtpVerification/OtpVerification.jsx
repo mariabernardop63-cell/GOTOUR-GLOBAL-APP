@@ -69,14 +69,11 @@ const OtpVerification = () => {
         setIsLoading(true);
         setTimeout(() => {
             setIsLoading(false);
-            if (code === '1234') { // Mock validation
-                setIsExiting(true);
-                setTimeout(() => {
-                    navigateForward('/login');
-                }, 400);
-            } else {
-                alert('Código inválido. Tente 1234');
-            }
+            // Accept any 4 digit code
+            setIsExiting(true);
+            setTimeout(() => {
+                navigateForward('/login');
+            }, 400);
         }, 2000);
     };
 
