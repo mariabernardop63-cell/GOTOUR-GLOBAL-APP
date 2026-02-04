@@ -5,10 +5,10 @@
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
-    background: #F0F9FF;
-    /* Alice Blue */
+    background: linear-gradient(180deg, #c7ecfa 0%, #bae6fd 100%);
     padding: 40px 24px;
     font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
 }
 
 /* Logo */
@@ -50,8 +50,7 @@
 
 .otp-subtitle {
     font-size: 15px;
-    color: #64748b;
-    /* Slate 500 */
+    color: #475569;
     line-height: 1.5;
 }
 
@@ -64,38 +63,45 @@
     align-items: center;
 }
 
-/* 5 Square Inputs */
+/* 4 Bar Inputs */
 .otp-inputs-row {
     display: flex;
-    gap: 12px;
+    gap: 20px;
     justify-content: center;
-    margin-bottom: 16px;
+    margin-bottom: 30px;
 }
 
-.otp-input-square {
-    width: 50px;
-    height: 50px;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 12px;
-    font-size: 24px;
+.otp-input-bar {
+    width: 55px;
+    height: 55px;
+    border: none;
+    border-bottom: 3px solid #94a3b8;
+    /* Default slate border */
+    border-radius: 0;
+    font-size: 28px;
     font-weight: 600;
     text-align: center;
     color: #1e293b;
-    background: white;
+    background: transparent;
+    /* No background */
     outline: none;
     transition: all 0.2s ease;
 }
 
-.otp-input-square:focus {
+.otp-input-bar:focus {
     border-color: #ec4899;
     /* Pink focus */
-    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+    transform: translateY(-2px);
+}
+
+.otp-input-bar.filled {
+    border-color: #1e293b;
 }
 
 /* Resend Link (Left aligned below inputs) */
 .otp-resend {
     width: 100%;
-    text-align: left;
+    text-align: center;
     margin-bottom: 40px;
     font-size: 14px;
 }
