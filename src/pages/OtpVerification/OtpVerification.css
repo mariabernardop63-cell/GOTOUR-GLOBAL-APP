@@ -1,180 +1,184 @@
-/* OtpVerification.css - Premium Card Redesign */
+/* OtpVerification.css */
 .otp-page {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     min-height: 100vh;
-    padding: var(--spacing-md);
-    background: transparent;
+    background: #F0F9FF;
+    /* Alice Blue */
+    padding: 40px 24px;
+    font-family: 'Inter', sans-serif;
 }
 
-/* White Card Container */
-.otp-container {
-    position: relative;
-    width: 100%;
-    max-width: 440px;
-    background: transparent;
-    border-radius: var(--radius-lg);
-    padding: 48px 20px;
-    box-shadow: none;
-}
-
-/* Close Button - Fixed to Screen Corner */
-.btn-close {
-    position: fixed;
-    top: 12px;
-    left: 12px;
-    width: 40px;
-    height: 40px;
+/* Logo */
+.otp-logo-container {
+    margin-bottom: 40px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(4px);
-    border: none;
-    border-radius: 50%;
-    color: var(--text-main);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    z-index: 50;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    gap: 8px;
 }
 
-.btn-close:hover {
-    background: rgba(255, 255, 255, 0.6);
-    transform: scale(1.05);
+.otp-logo-img {
+    height: 48px;
+    width: auto;
 }
 
+.otp-logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #1e293b;
+    /* Dark Blue */
+    text-transform: uppercase;
+}
+
+/* Header */
 .otp-header {
     text-align: center;
-    margin-bottom: 32px;
-}
-
-/* Helper Icon Circle */
-.icon-circle {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: var(--primary-soft);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
+    margin-bottom: 40px;
+    max-width: 320px;
 }
 
 .otp-title {
     font-size: 24px;
     font-weight: 700;
-    color: var(--text-main);
-    margin-bottom: 8px;
+    color: #1e293b;
+    margin-bottom: 12px;
 }
 
 .otp-subtitle {
     font-size: 15px;
-    color: var(--text-secondary);
+    color: #64748b;
+    /* Slate 500 */
     line-height: 1.5;
 }
 
+/* Form */
 .otp-form {
+    width: 100%;
+    max-width: 360px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
-}
-
-.otp-input-group {
-    display: flex;
-    justify-content: center;
-}
-
-/* Actions Row (Resend / Change Email) */
-.otp-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 8px;
-}
-
-.text-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
 }
 
-.text-btn:hover:not(:disabled) {
-    background: #f1f5f9;
-    color: var(--primary);
-}
-
-.text-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.spin {
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* Social Divider */
-.otp-divider {
-    text-align: center;
-    margin: 24px 0 16px;
-    position: relative;
-    color: var(--text-muted);
-    font-size: 13px;
-    font-weight: 500;
-}
-
-.otp-divider::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: #e2e8f0;
-    z-index: 0;
-}
-
-.otp-divider span {
-    background: var(--surface);
-    padding: 0 12px;
-    position: relative;
-    z-index: 1;
-}
-
-.social-login-row {
+/* 5 Square Inputs */
+.otp-inputs-row {
     display: flex;
     gap: 12px;
     justify-content: center;
+    margin-bottom: 16px;
 }
 
-@media (max-width: 480px) {
-    .otp-page {
-        padding: 16px;
-        align-items: center;
-        background: transparent;
+.otp-input-square {
+    width: 50px;
+    height: 50px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    color: #1e293b;
+    background: white;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.otp-input-square:focus {
+    border-color: #ec4899;
+    /* Pink focus */
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+}
+
+/* Resend Link (Left aligned below inputs) */
+.otp-resend {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 40px;
+    font-size: 14px;
+}
+
+.otp-resend-link {
+    color: #ec4899;
+    /* Pink/Red */
+    font-weight: 600;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.otp-resend-link:disabled {
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+/* Verify Button */
+.otp-button {
+    width: 100%;
+    background: linear-gradient(135deg, #ef4444 0%, #ec4899 100%);
+    /* Vibrant Pink/Red */
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.otp-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+}
+
+.otp-button:active {
+    transform: translateY(0);
+}
+
+/* Footer (Voltar) */
+.otp-footer {
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+.otp-back-link {
+    color: #475569;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.otp-back-link:hover {
+    color: #1e293b;
+}
+
+/* Transitions */
+.slide-exit {
+    transform: translateX(-100vw);
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide-enter {
+    animation: slideEnter 0.5s ease-out forwards;
+}
+
+@keyframes slideEnter {
+    from {
+        transform: translateX(100vw);
+        opacity: 0;
     }
 
-    .otp-container {
-        padding: 40px 24px;
-        box-shadow: var(--shadow-md);
+    to {
+        transform: translateX(0);
+        opacity: 1;
     }
 }
