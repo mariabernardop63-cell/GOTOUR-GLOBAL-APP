@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useNavigation } from '../../App';
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import { useApp } from '../../context/AppContext';
-import gotourIcon from '../../assets/images/gotour_icon_dark.png'; // Need dark icon for light bg? Using existing or hiding logic. 
+// import gotourIcon from '../../assets/images/gotour_icon_dark.png'; // Removed missing file 
 // Actually user said "Logo da GoTour" at top. Assuming we have one. If not, I'll use text or existing icon. 
 // I will reuse `gotour_icon.png` (purple/dark) if available or text. 
 // User said: "GoTour logo centered".
