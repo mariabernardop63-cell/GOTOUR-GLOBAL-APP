@@ -33,7 +33,7 @@ const Login = () => {
         setTimeout(() => {
             setIsLoading(false);
             console.log('Logged in:', formData, 'Remember:', rememberMe);
-            // alert("Login Successful! (Mock)");
+            alert("Login OK! Indo para Home...");
             navigateForward('/home');
         }, 2000);
     };
@@ -57,7 +57,7 @@ const Login = () => {
 
             {/* Card Content */}
             <div className="login-content">
-                <h1 className="login-title">Iniciar Sessão</h1>
+                <h1 className="login-title">Iniciar Sessão (v2)</h1>
 
                 <form className="login-form" onSubmit={handleLogin}>
                     <div className="login-input-group">

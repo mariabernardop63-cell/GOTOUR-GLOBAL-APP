@@ -96,9 +96,8 @@ const OtpVerification = () => {
                 <span className="otp-logo-text">GOTOUR</span>
             </div>
 
-            {/* Header */}
             <div className="otp-header">
-                <h1 className="otp-title">Verifique seu e-mail</h1>
+                <h1 className="otp-title">Verifique seu e-mail (v2)</h1>
                 <p className="otp-subtitle">
                     Digite o código de 4 dígitos enviado para {email}
                 </p>
