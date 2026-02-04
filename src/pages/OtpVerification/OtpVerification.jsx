@@ -70,6 +70,7 @@ const OtpVerification = () => {
         setTimeout(() => {
             setIsLoading(false);
             // Accept any 4 digit code
+            alert(`Código Verificado: ${code}`); // PROOF OF UPDATE
             setIsExiting(true);
             setTimeout(() => {
                 navigateForward('/login');
