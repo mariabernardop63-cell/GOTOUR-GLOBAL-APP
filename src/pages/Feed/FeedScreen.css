@@ -1,0 +1,36 @@
+.feed-page {
+    background-color: #f8f9fe;
+    min-height: 100vh;
+    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.feed-header {
+    background-color: #fff;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.feed-header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.feed-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.feed-placeholder {
+    text-align: center;
+    color: #6b7280;
+}

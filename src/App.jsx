@@ -10,6 +10,7 @@ import HomeScreen from './pages/Home/HomeScreen';
 import CategoriesScreen from './pages/Categories/CategoriesScreen';
 import MapScreen from './pages/Map/MapScreen';
 import ProfileScreen from './pages/Profile/ProfileScreen';
+import FeedScreen from './pages/Feed/FeedScreen';
 import { AppProvider } from './context/AppContext';
 import PageTransition from './components/PageTransition/PageTransition';
 import './App.css';
@@ -96,6 +97,7 @@ const AnimatedRoutes = () => {
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/home" element={<HomeScreen />} />
                         <Route path="/categories" element={<CategoriesScreen />} />
+                        <Route path="/feed" element={<FeedScreen />} />
                         <Route path="/map" element={<MapScreen />} />
                         <Route path="/profile" element={<ProfileScreen />} />
                     </Routes>

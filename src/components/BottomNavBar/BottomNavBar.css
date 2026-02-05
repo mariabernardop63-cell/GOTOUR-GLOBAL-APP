@@ -5,39 +5,100 @@
     left: 0;
     right: 0;
     background-color: #ffffff;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid #E5E5E5;
     display: flex;
     justify-content: space-around;
-    padding: 10px 0;
+    align-items: center;
+    padding: 12px 16px 24px 16px;
+    /* Extra padding bottom for iOS home indicator area */
     z-index: 1000;
-    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
+    height: 70px;
 }
 
 .nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 4px;
     background: none;
     border: none;
     cursor: pointer;
     flex: 1;
-    padding: 4px 0;
-    color: #94a3b8;
-    /* Inactive: Slate 400 */
-    transition: color 0.2s ease;
+    color: #A0A0A0;
+    /* Default Gray */
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    padding: 0;
 }
 
 .nav-item.active {
-    color: #0f766e;
-    /* Active: Primary Teal/Petroleum */
+    color: #7c3aed;
+    /* Brand Purple */
 }
 
 .nav-icon {
-    margin-bottom: 2px;
+    transition: transform 0.2s ease;
+}
+
+.nav-item.active .nav-icon {
+    transform: translateY(-2px);
 }
 
 .nav-label {
     font-size: 11px;
     font-weight: 500;
+    letter-spacing: 0.2px;
+}
+
+/* Active Indicator Dot */
+.active-indicator {
+    width: 4px;
+    height: 4px;
+    background-color: #7c3aed;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -8px;
+    /* Position below icon */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.nav-item.active .active-indicator {
+    opacity: 1;
+}
+
+/* Special Feed Button Styling */
+.nav-item-special {
+    flex: 0 0 auto;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    margin-top: -24px;
+    /* Lift it up */
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(124, 58, 237, 0.05));
+    border: 1px solid rgba(124, 58, 237, 0.1);
+    box-shadow: 0 8px 16px rgba(124, 58, 237, 0.15);
+    color: #7c3aed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-item-special .nav-icon {
+    stroke-width: 2px;
+}
+
+.nav-item-special.active {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+    transform: scale(1.05);
+}
+
+.nav-item-special:active {
+    transform: scale(0.95);
 }
