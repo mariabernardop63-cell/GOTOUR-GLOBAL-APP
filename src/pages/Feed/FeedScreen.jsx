@@ -1,4 +1,3 @@
-```javascript
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, SlidersHorizontal, Image, Video, MapPin, X, Clock } from 'lucide-react';
@@ -36,7 +35,7 @@ const FeedScreen = () => {
 
             {/* FIXED HEADER */}
             <div className="feed-fixed-top">
-                
+
                 {/* SEARCH OVERLAY */}
                 {isSearchMode ? (
                     <div className="feed-search-bar-container animate-slide-down">
@@ -62,11 +61,11 @@ const FeedScreen = () => {
                     </div>
                 ) : (
                     /* CUSTOM HEADER (Logo Left, Icons Right) */
-                   <div className="feed-custom-header">
+                    <div className="feed-custom-header">
                         <button className="logo-button" onClick={handleLogoClick} aria-label="Go to Home">
                             <img src={gotourLogo} alt="GoTour" className="home-logo" />
                         </button>
-                        
+
                         <div className="header-actions">
                             <button className="icon-btn" onClick={toggleSearchMode} aria-label="Pesquisar">
                                 <Search size={22} />
@@ -75,9 +74,9 @@ const FeedScreen = () => {
                                 <SlidersHorizontal size={22} />
                             </button>
                         </div>
-                   </div>
+                    </div>
                 )}
-                
+
                 {/* SEPARATOR GLOW - Visible in both modes or just normal? Keeping it everywhere for layout stability */}
                 <div className="header-separator"></div>
             </div>
