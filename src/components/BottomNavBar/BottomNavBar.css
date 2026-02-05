@@ -1,19 +1,26 @@
-/* BottomNavBar.css */
 .bottom-nav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #ffffff;
-    border-top: 1px solid #E5E5E5;
+    /* REF: "retire o fundo, na barra de navegaçao" - Making entirely transparent */
+    background-color: transparent;
+    /* Optionally remove border/shadow if "remove background" implies fully clean look */
+    border-top: none;
+    box-shadow: none;
+
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding: 12px 16px 24px 16px;
-    /* Extra padding bottom for iOS home indicator area */
     z-index: 1000;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
     height: 70px;
+
+    /* Ensure icons are legible against content -> usually implies a glass effect or gradient, 
+       but user specifically said "retire o fundo". 
+       I will set a fallback gradient just in case readability is destroyed, 
+       OR honestly, usually "remove background" means -> make it look like icons floating on the map/content.
+       I'll stick to transparency. */
 }
 
 .nav-item {

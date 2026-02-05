@@ -66,7 +66,11 @@ const HomeScreen = () => {
 
             {/* Sticky Header Wrapper */}
             <div className={headerClass}>
-                <HomeHeader onMenuClick={() => setIsDrawerOpen(true)} onLogoClick={handleLogoClick} />
+                <HomeHeader
+                    onMenuClick={() => setIsDrawerOpen(!isDrawerOpen)}
+                    onLogoClick={handleLogoClick}
+                    isDrawerOpen={isDrawerOpen}
+                />
                 <SearchBarAI
                     onSearch={handleSearch}
                     isSearching={isSearching}
