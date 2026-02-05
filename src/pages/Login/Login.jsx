@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff, X } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
-import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
-import loginHeaderImg from '../../assets/images/login_header_hd.png';
+import bgImage from '../../assets/images/dubai_city.png'; // Premium background
 import './Login.css';
 
 const Login = () => {
@@ -11,7 +9,6 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = (e) => {
@@ -24,116 +21,84 @@ const Login = () => {
         setError('');
 
         if (!formData.email || !formData.password) {
-            setError('Please fill in all fields');
+            setError('Preencha todos os campos');
             return;
         }
 
         setIsLoading(true);
 
-        setIsLoading(false);
-        console.log('Logged in:', formData, 'Remember:', rememberMe);
-        navigateForward('/home');
+        setTimeout(() => {
+            setIsLoading(false);
+            navigateForward('/home');
+        }, 1500);
     };
 
     return (
-        <div className="login-page">
-            {/* Decorative Blurs */}
-            <div className="blur-pink"></div>
-            <div className="blur-blue"></div>
+        <div className="login-page" style={{ backgroundImage: `url(${bgImage})` }}>
+            <div className="login-overlay"></div>
 
-            {/* Header Image */}
-            <div className="login-header-image">
-                <img src={loginHeaderImg} alt="Travel" />
-                <button className="back-button" onClick={() => navigateBack('/')}>
-                    <X size={24} color="#fff" />
+            <div className="login-glass-container fade-in-up">
+                <button className="back-icon-btn" onClick={() => navigateBack('/')}>
+                    <ArrowLeft size={24} color="#fff" />
                 </button>
-                <div className="lang-switcher-container">
-                    <LanguageSwitcher />
+
+                <div className="login-header">
+                    <h1>Bem-vindo de volta</h1>
+                    <p>Entre na sua conta e continue explorando destinos incríveis. A sua próxima viagem começa aqui.</p>
                 </div>
-            </div>
 
-            {/* Card Content */}
-            <div className="login-content">
-                <h1 className="login-title">Iniciar Sessão</h1>
-
-                <form className="login-form" onSubmit={handleLogin}>
-                    <div className="login-input-group">
-                        <Mail className="login-input-icon" size={18} />
+                <form className="login-form-content" onSubmit={handleLogin}>
+                    <div className="input-field">
+                        <Mail size={18} />
                         <input
                             type="email"
                             name="email"
-                            placeholder="Email/Telefone"
+                            placeholder="Email"
                             value={formData.email}
                             onChange={handleChange}
-                            className="login-input"
                         />
                     </div>
 
-                    <div className="login-input-group">
-                        <Lock className="login-input-icon" size={18} />
+                    <div className="input-field">
+                        <Lock size={18} />
                         <input
                             type={showPassword ? "text" : "password"}
                             name="password"
-                            placeholder="Senha"
+                            placeholder="Palavra-passe"
                             value={formData.password}
                             onChange={handleChange}
-                            className="login-input"
                         />
-                        <div
-                            className="password-toggle"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {formData.password.length > 0 && (
-                                showPassword ? <EyeOff size={18} /> : <Eye size={18} />
-                            )}
+                        <div onClick={() => setShowPassword(!showPassword)} className="eye-btn">
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </div>
                     </div>
 
-                    <div className="login-options">
-                        <label className="login-remember">
-                            <input
-                                type="checkbox"
-                                checked={rememberMe}
-                                onChange={(e) => setRememberMe(e.target.checked)}
-                            />
-                            <span>Lembrar-me</span>
-                        </label>
-                        <span
-                            className="login-forgot"
-                            onClick={() => navigateForward('/forgot-password')}
-                        >
-                            Esqueci a Senha?
-                        </span>
+                    <div className="forgot-password-row">
+                        <span onClick={() => navigateForward('/forgot-password')}>Esqueceu a palavra-passe?</span>
                     </div>
 
-                    {error && <p className="login-error">{error}</p>}
+                    {error && <p className="error-msg text-center">{error}</p>}
 
                     <button
                         type="submit"
-                        className={`login-button ${isLoading ? 'btn-loading' : ''}`}
+                        className="login-main-btn"
                         disabled={isLoading}
-                        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '52px' }}
                     >
-                        {isLoading ? <div className="btn-spinner"></div> : "Login"}
+                        {isLoading ? 'Entrando...' : 'Entrar'}
                     </button>
                 </form>
 
-                <p className="login-divider">Ou faça login com</p>
-
-                <div className="login-social">
-                    <button className="social-circle facebook" onClick={() => { }}>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
-                    </button>
-                    <button className="social-circle instagram" onClick={() => { }}>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" />
-                    </button>
-                    <button className="social-circle google" onClick={() => { }}>
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
-                    </button>
+                <div className="social-login-section">
+                    <p>Ou continue com</p>
+                    <div className="social-row">
+                        <button className="social-btn google"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" /></button>
+                        <button className="social-btn facebook"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="F" /></button>
+                        <button className="social-btn apple"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Apple_logo_grey.svg" alt="A" /></button>
+                    </div>
                 </div>
 
-                <p className="login-footer">
-                    Não tem conta? <span onClick={() => navigateForward('/signup')}>Registre-se</span>
+                <p className="signup-link">
+                    Ainda não tem conta? <span onClick={() => navigateForward('/signup')}>Registe-se</span>
                 </p>
             </div>
         </div>
