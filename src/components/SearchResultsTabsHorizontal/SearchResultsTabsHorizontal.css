@@ -1,0 +1,54 @@
+.search-tabs-container {
+    width: 100%;
+    margin-top: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.search-tabs-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 4px 16px 8px 16px;
+    /* Extra bottom padding for scrollbar space if needed, though usually hidden */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* iOS Momentum Scrolling */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.search-tabs-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.search-tab-chip {
+    flex: 0 0 auto;
+    /* Prevent shrinking */
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    background-color: #f3f4f6;
+    color: #4b5563;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.search-tab-chip.active {
+    background-color: #7c3aed;
+    /* Brand purple */
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(124, 58, 237, 0.3);
+}
+
+.search-tab-chip:hover:not(.active) {
+    background-color: #e5e7eb;
+}
+
+.search-tab-chip:active {
+    transform: scale(0.96);
+}

@@ -1,9 +1,59 @@
 /* HomeScreen.css */
 .home-page {
-    background-color: #ffffff;
+    background-color: #f8f9fe;
     min-height: 100vh;
-    padding-bottom: 80px; /* Space for bottom nav */
-    font-family: 'Inter', sans-serif;
+    padding-bottom: 70px;
+    /* Space for BottomNavBar */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.home-header-container {
+    background-color: #fff;
+    transition: all 0.3s ease;
+    z-index: 50;
+    width: 100%;
+}
+
+.home-header-container.sticky-active {
+    position: sticky;
+    top: 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.home-content-scrollable {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure SearchBar inside sticky container doesn't double-stick incorrectly if it has its own sticky rules */
+.home-header-container.sticky-active .search-bar-container {
+    position: relative;
+    /* Override sticky if it was sticky */
+    top: 0;
+    padding-top: 0;
+}
+
+.tab-loading-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .home-content {
@@ -13,11 +63,10 @@
 .section-title {
     font-size: 18px;
     font-weight: 700;
-    color: #1e293b;
-    margin: 24px 0 16px;
+    color: #1f2937;
+    margin: 24px 0 16px 0;
 }
 
-/* Placeholder Cards */
 .recommendations-list {
     display: flex;
     flex-direction: column;
@@ -25,18 +74,15 @@
 }
 
 .place-card {
-    background: #ffffff;
+    background: white;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Soft shadow */
-    border: 1px solid #f1f5f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .place-image-placeholder {
-    width: 100%;
-    height: 180px;
-    background-color: #e2e8f0;
-    position: relative;
+    height: 160px;
+    background-color: #e5e7eb;
 }
 
 .place-info {
@@ -46,11 +92,20 @@
 .place-name {
     font-size: 16px;
     font-weight: 600;
+    color: #1f2937;
     margin-bottom: 4px;
-    color: #1e293b;
 }
 
 .place-location {
-    font-size: 13px;
-    color: #64748b;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.search-results-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-results-content {
+    padding: 0 20px;
 }
