@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Mail, ChevronRight } from 'lucide-react';
+import { Mail, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
-import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import gotourIcon from '../../assets/images/gotour_icon.png';
+import bgImage from '../../assets/images/dubai_city.png'; // Consistent with Login
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {
@@ -26,65 +26,57 @@ const ForgotPassword = () => {
         setTimeout(() => {
             setIsLoading(false);
             navigateForward('/otp-verification');
-        }, 2000);
+        }, 1500);
     };
 
     return (
-        <div className="forgot-page">
-            {/* Logo */}
-            <div className="forgot-logo">
+        <div className="forgot-page" style={{ backgroundImage: `url(${bgImage})` }}>
+            <div className="forgot-overlay"></div>
+
+            {/* Logo Section */}
+            <div className="forgot-logo-section fade-in">
                 <img src={gotourIcon} alt="GoTour" className="forgot-logo-img" />
                 <span className="forgot-logo-text">GOTOUR</span>
             </div>
 
-            {/* Header */}
-            <div className="forgot-header">
-                <h1 className="forgot-title">Esqueceu a senha?</h1>
-                <p className="forgot-subtitle">Redefina a senha em duas etapas</p>
-            </div>
-
-            {/* Form */}
-            <form className="forgot-form" onSubmit={handleSubmit}>
-                <label className="forgot-label">Qual seu e-mail de cadastro?</label>
-
-                <div className="forgot-input-group">
-                    <Mail className="forgot-input-icon" size={18} />
-                    <input
-                        type="email"
-                        placeholder="Digite seu e-mail"
-                        value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                            setError('');
-                        }}
-                        className="forgot-input"
-                        autoFocus
-                    />
+            <div className="forgot-glass-container fade-in-up">
+                <div className="forgot-header">
+                    <h1>Esqueceu a palavra-passe?</h1>
+                    <p>Insira o seu e-mail e enviaremos um link seguro para redefinir a sua palavra-passe rapidamente.</p>
                 </div>
 
-                {error && <span className="forgot-error">{error}</span>}
+                <form className="forgot-form-content" onSubmit={handleSubmit}>
+                    <div className="input-field">
+                        <Mail size={18} />
+                        <input
+                            type="email"
+                            placeholder="Digite o seu e-mail"
+                            value={email}
+                            onChange={(e) => {
+                                setEmail(e.target.value);
+                                setError('');
+                            }}
+                            autoFocus
+                        />
+                    </div>
 
-                <button
-                    type="submit"
-                    className={`forgot-button ${isLoading ? 'btn-loading' : ''}`}
-                    disabled={isLoading}
-                >
-                    {isLoading ? (
-                        <div className="btn-spinner"></div>
-                    ) : (
-                        <>
-                            <Mail size={18} />
-                            <span>Enviar</span>
-                            <ChevronRight size={20} />
-                        </>
-                    )}
-                </button>
-            </form>
+                    {error && <p className="error-msg text-center">{error}</p>}
 
-            {/* Footer */}
-            <p className="forgot-footer">
-                Lembrou da senha? <span onClick={() => navigateBack('/login')}>Fazer login</span>
-            </p>
+                    <button
+                        type="submit"
+                        className="forgot-main-btn"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Enviando...' : 'Enviar link de recuperação'}
+                    </button>
+                </form>
+
+                <p className="help-text">Não recebeu o e-mail? Verifique o spam ou tente novamente.</p>
+
+                <p className="back-link" onClick={() => navigateBack('/login')}>
+                    <ArrowLeft size={16} style={{ marginRight: '6px' }} /> Voltar para Iniciar Sessão
+                </p>
+            </div>
         </div>
     );
 };
