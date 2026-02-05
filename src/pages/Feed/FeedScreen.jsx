@@ -1,9 +1,10 @@
+```javascript
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, SlidersHorizontal, Image, Video, MapPin, X, Clock, ChevronDown } from 'lucide-react';
+import { Search, SlidersHorizontal, Image, Video, MapPin, X, Clock } from 'lucide-react';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
-import HomeHeader from '../../components/HomeHeader/HomeHeader';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
+import gotourLogo from '../../assets/images/gotour_icon.png';
 import './FeedScreen.css';
 
 const FeedScreen = () => {
@@ -35,16 +36,8 @@ const FeedScreen = () => {
 
             {/* FIXED HEADER */}
             <div className="feed-fixed-top">
-                <HomeHeader
-                    onMenuClick={() => setIsDrawerOpen(!isDrawerOpen)}
-                    onLogoClick={handleLogoClick}
-                    isDrawerOpen={isDrawerOpen}
-                />
-
-                {/* SEPARATOR GLOW */}
-                <div className="header-separator"></div>
-
-                {/* SEARCH OVERLAY (Takes over the header/filter area visibly or sits on top) */}
+                
+                {/* SEARCH OVERLAY */}
                 {isSearchMode ? (
                     <div className="feed-search-bar-container animate-slide-down">
                         <div className="feed-search-input-wrapper">
@@ -68,14 +61,13 @@ const FeedScreen = () => {
                         </button>
                     </div>
                 ) : (
-                    /* FILTER BAR (Visible when NOT in search mode) */
-                    <div className="feed-filter-bar">
-                        <div className="country-filter">
-                            <span className="flag-emoji">🇲🇿</span>
-                            <ChevronDown size={16} className="dropdown-arrow" />
-                        </div>
-
-                        <div className="filter-actions">
+                    /* CUSTOM HEADER (Logo Left, Icons Right) */
+                   <div className="feed-custom-header">
+                        <button className="logo-button" onClick={handleLogoClick} aria-label="Go to Home">
+                            <img src={gotourLogo} alt="GoTour" className="home-logo" />
+                        </button>
+                        
+                        <div className="header-actions">
                             <button className="icon-btn" onClick={toggleSearchMode} aria-label="Pesquisar">
                                 <Search size={22} />
                             </button>
@@ -83,8 +75,11 @@ const FeedScreen = () => {
                                 <SlidersHorizontal size={22} />
                             </button>
                         </div>
-                    </div>
+                   </div>
                 )}
+                
+                {/* SEPARATOR GLOW - Visible in both modes or just normal? Keeping it everywhere for layout stability */}
+                <div className="header-separator"></div>
             </div>
 
             {/* MAIN CONTENT */}
