@@ -1,8 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LayoutGrid, Map, User } from 'lucide-react'; // Removing Newspaper, added Map/User
+import { LayoutGrid, MapPinned, User, Rss } from 'lucide-react'; // Switched Files to Rss (WiFi style)
 import homeIcon from '../../assets/images/home_icon.png';
-import feedIcon from '../../assets/images/feed_icon.jpg';
 import './BottomNavBar.css';
 
 // Custom Icon Component using Mask for color control
@@ -33,11 +32,11 @@ const BottomNavBar = () => {
     const isActive = (path) => location.pathname === path;
 
     const navItems = [
-        { id: 'home', label: 'Home', icon: (props) => <CustomIcon iconSrc={homeIcon} {...props} />, path: '/home' },
+        { id: 'home', label: 'Home', icon: (props) => <CustomIcon iconSrc={homeIcon} {...props} />, path: '/home', customSize: 40 }, // Increased size aggressively to 40
         { id: 'categories', label: 'Categorias', icon: LayoutGrid, path: '/categories' },
-        { id: 'feed', label: 'Feed', icon: (props) => <CustomIcon iconSrc={feedIcon} {...props} />, path: '/feed' }, // Removed isSpecial
-        { id: 'map', label: 'Mapa', icon: Map, path: '/map' },
-        { id: 'profile', label: 'Perfil', icon: User, path: '/profile' },
+        { id: 'feed', label: 'Feed', icon: Rss, path: '/feed' }, // Switched to Rss (WiFi-like icon)
+        { id: 'map', label: 'Mapa', icon: MapPinned, path: '/map' }, // Switched to MapPinned (vector)
+        { id: 'profile', label: 'Perfil', icon: User, path: '/profile', customSize: 30 }, // Switched to User vector (no circle)
     ];
 
     return (
@@ -47,16 +46,17 @@ const BottomNavBar = () => {
                     key={item.id}
                     className={`nav-item ${isActive(item.path) ? 'active' : ''}`}
                     onClick={() => navigate(item.path)}
+                    aria-label={item.label} // Added aria-label since text is removed
                 >
                     <div className="icon-container">
                         <item.icon
-                            size={26}
+                            size={item.customSize || 26}
                             className="nav-icon"
                             strokeWidth={isActive(item.path) ? 2.5 : 1.5}
                         />
                         {isActive(item.path) && <div className="active-indicator"></div>}
                     </div>
-                    <span className="nav-label">{item.label}</span>
+                    {/* Label removed as requested */}
                 </button>
             ))}
         </nav>
