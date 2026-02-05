@@ -17,6 +17,15 @@
     object-fit: contain;
 }
 
+.logo-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
 .menu-button {
     background: none;
     border: none;

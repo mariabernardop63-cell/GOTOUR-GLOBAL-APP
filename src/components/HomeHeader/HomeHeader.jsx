@@ -3,14 +3,7 @@ import { Menu } from 'lucide-react';
 import gotourLogo from '../../assets/images/gotour_icon.png';
 import './HomeHeader.css';
 
-.logo - button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    display: flex;
-    align - items: center;
-}
+
 
 const HomeHeader = ({ onMenuClick, onLogoClick }) => {
     return (
