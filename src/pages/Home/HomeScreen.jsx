@@ -26,17 +26,16 @@ const HomeScreen = () => {
         setIsLoading(true);
 
         // Simulate network request delays
-        // Button loading: 2-4 seconds
+        // Requirement: Neon/Loading lasts 3-5 seconds (using 4s)
         setTimeout(() => {
             setIsLoading(false);
             // Simulate results check
-            // For demo: if query includes "null" or "empty", show no results
             if (query.toLowerCase().includes('null') || query.toLowerCase().includes('empty') || query.toLowerCase().includes('nada')) {
                 setResults([]);
             } else {
                 setResults([1, 2, 3]); // Placeholder results
             }
-        }, 3000);
+        }, 4000);
     };
 
     const handleTabChange = (tabId) => {
@@ -48,6 +47,16 @@ const HomeScreen = () => {
         }, 1000);
     };
 
+    const handleLogoClick = () => {
+        // Reset to initial state
+        setIsSearching(false);
+        setSearchQuery('');
+        setResults([]);
+        setActiveTab('all');
+        setIsLoading(false);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     // Calculate if we should show the sticky header structure
     const headerClass = isSearching ? 'home-header-container sticky-active' : 'home-header-container';
 
@@ -57,7 +66,7 @@ const HomeScreen = () => {
 
             {/* Sticky Header Wrapper */}
             <div className={headerClass}>
-                <HomeHeader onMenuClick={() => setIsDrawerOpen(true)} />
+                <HomeHeader onMenuClick={() => setIsDrawerOpen(true)} onLogoClick={handleLogoClick} />
                 <SearchBarAI
                     onSearch={handleSearch}
                     isSearching={isSearching}

@@ -56,21 +56,15 @@ const CountrySelector = () => {
 
 const SearchBarAI = ({ onSearch, isSearching, isLoading }) => {
     const [searchText, setSearchText] = useState('');
-    const [showNeon, setShowNeon] = useState(false);
 
-    useEffect(() => {
-        let neonTimer;
-        if (isSearching && !isLoading) {
-            // Start Neon effect when search finishes loading
-            setShowNeon(true);
-            neonTimer = setTimeout(() => {
-                setShowNeon(false);
-            }, 5000); // 3-5 seconds duration (chose 5s)
-        } else {
-            setShowNeon(false);
-        }
-        return () => clearTimeout(neonTimer);
-    }, [isSearching, isLoading]);
+    // Neon effect logic: The requirement is that neon and spinner start together and stop together.
+    // Since the parent controls `isLoading` (and thus the search duration), we can create a local state
+    // that mirrors `isLoading` or just use `isLoading` directly for the class.
+    // However, the requirement says "neon should appear only when user makes a real search".
+    // So we use `isLoading` to trigger it.
+
+    // Simple direct mapping as per "Both must stop at the same time"
+    const showNeon = isLoading;
 
     const handleSearchClick = () => {
         if (searchText.trim()) {
