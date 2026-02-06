@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Map, Star } from 'lucide-react';
+import { Map, Star, Image as ImageIcon } from 'lucide-react';
 import './NearYouSection.css';
 
+// Fixed Mock Data (Hardcoded as requested)
 const NEAR_PLACES = [
     {
         id: 1,
@@ -14,7 +15,7 @@ const NEAR_PLACES = [
     },
     {
         id: 2,
-        name: 'Costa do Sol',
+        name: 'Restaurante Costa do Sol',
         category: 'Restaurante',
         rating: '4.8',
         distance: '1.4 km',
@@ -54,7 +55,7 @@ const NEAR_PLACES = [
     },
     {
         id: 7,
-        name: 'Ponta Vermelha',
+        name: 'Ponta Vermelha View',
         category: 'Experiência',
         rating: '4.7',
         distance: '2.2 km',
@@ -62,7 +63,7 @@ const NEAR_PLACES = [
     },
     {
         id: 8,
-        name: 'Fortaleza',
+        name: 'Fortaleza Histórica',
         category: 'História',
         rating: '4.5',
         distance: '3.0 km',
@@ -78,13 +79,62 @@ const NEAR_PLACES = [
     },
     {
         id: 10,
-        name: 'Mercado Central',
+        name: 'Mercado Municipal',
         category: 'Mercado',
         rating: '4.3',
         distance: '1.6 km',
         image: 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?q=80&w=2070&auto=format&fit=crop'
     }
 ];
+
+const NearCard = ({ place, onClick }) => {
+    const [imgError, setImgError] = useState(false);
+
+    return (
+        <div className="near-you-card" onClick={() => onClick(place)}>
+            <div className="near-img-wrapper">
+                {!imgError ? (
+                    <img
+                        src={place.image}
+                        alt={place.name}
+                        className="near-img"
+                        loading="lazy"
+                        onError={() => setImgError(true)}
+                    />
+                ) : (
+                    <div className="near-img-placeholder">
+                        <ImageIcon size={24} color="#bdc3c7" />
+                    </div>
+                )}
+            </div>
+
+            <div className="near-info">
+                <h3 className="near-name">{place.name}</h3>
+                <span className="near-category">{place.category}</span>
+
+                <div className="near-meta-row">
+                    <div className="near-stats">
+                        <span className="near-rating">
+                            <Star size={10} fill="#facc15" stroke="none" /> {place.rating}
+                        </span>
+                        <span>• {place.distance}</span>
+                    </div>
+                    {/* Button removed to keep it cleaner as requested, or can add back small "Ver" */}
+                    <div style={{
+                        background: '#7c3aed',
+                        color: 'white',
+                        padding: '4px 10px',
+                        borderRadius: '12px',
+                        fontSize: '10px',
+                        fontWeight: '600'
+                    }}>
+                        Ver
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const NearYouSection = () => {
     const navigate = useNavigate();
@@ -93,7 +143,7 @@ const NearYouSection = () => {
         navigate('/destino-detalhes', {
             state: {
                 name: place.name,
-                location: place.category, // Using category as subtitle for details
+                location: place.category,
                 distance: place.distance,
                 rating: place.rating,
                 image: place.image
@@ -101,6 +151,7 @@ const NearYouSection = () => {
         });
     };
 
+    // Ensure we ALWAYS render the list, no loading states, no empty checks
     return (
         <div className="near-you-section near-anim">
             <div className="near-you-header">
@@ -115,30 +166,7 @@ const NearYouSection = () => {
 
             <div className="near-you-scroll-container">
                 {NEAR_PLACES.map((place) => (
-                    <div
-                        key={place.id}
-                        className="near-you-card"
-                        onClick={() => handleCardClick(place)}
-                    >
-                        <div className="near-img-wrapper">
-                            <img src={place.image} alt={place.name} className="near-img" loading="lazy" />
-                        </div>
-
-                        <div className="near-info">
-                            <h3 className="near-name">{place.name}</h3>
-                            <span className="near-category">{place.category}</span>
-
-                            <div className="near-meta-row">
-                                <div className="near-stats">
-                                    <span className="near-rating">
-                                        <Star size={10} fill="#facc15" stroke="none" /> {place.rating}
-                                    </span>
-                                    <span>• {place.distance}</span>
-                                </div>
-                                {/* <button className="near-btn-sm">Ver</button> */}
-                            </div>
-                        </div>
-                    </div>
+                    <NearCard key={place.id} place={place} onClick={handleCardClick} />
                 ))}
             </div>
         </div>
