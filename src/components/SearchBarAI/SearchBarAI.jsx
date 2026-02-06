@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Loader2 } from 'lucide-react';
+import { Search, Loader2, SlidersHorizontal } from 'lucide-react';
 import './SearchBarAI.css';
 
 const CountrySelector = () => {
@@ -56,19 +56,19 @@ const CountrySelector = () => {
 
 const SearchBarAI = ({ onSearch, isSearching, isLoading }) => {
     const [searchText, setSearchText] = useState('');
+    const [isFocused, setIsFocused] = useState(false);
 
-    // Neon effect logic: The requirement is that neon and spinner start together and stop together.
-    // Since the parent controls `isLoading` (and thus the search duration), we can create a local state
-    // that mirrors `isLoading` or just use `isLoading` directly for the class.
-    // However, the requirement says "neon should appear only when user makes a real search".
-    // So we use `isLoading` to trigger it.
-
-    // Simple direct mapping as per "Both must stop at the same time"
+    // Neon effect mirrors isLoading
     const showNeon = isLoading;
 
     const handleSearchClick = () => {
         if (searchText.trim()) {
             onSearch(searchText);
+            // Revert to normal view after search, but keep processing
+            if (document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+            }
+            setIsFocused(false);
         }
     };
 
@@ -79,23 +79,42 @@ const SearchBarAI = ({ onSearch, isSearching, isLoading }) => {
     };
 
     return (
-        <div className="search-bar-container">
+        <div className={`search-bar-container ${isFocused ? 'search-focused-sticky' : ''}`}>
             <div className="search-row">
-                {/* Country Selector */}
-                <CountrySelector />
+                {/* Country Selector - Hidden when focused if we strictly follow "Filter Option + Lupa" on left */}
+                {!isFocused && <CountrySelector />}
+
+                {/* Filter Icon (Only visible when focused as "Filter Option") */}
+                {isFocused && (
+                    <div className="focused-left-ions">
+                        <div className="icon-badge">
+                            <SlidersHorizontal size={20} color="#7c3aed" />
+                        </div>
+                    </div>
+                )}
 
                 {/* Search Bar with Neon Border */}
                 <div className={`neon-wrapper ${showNeon ? 'active-neon' : ''}`}>
                     <div className="search-bar">
+                        {/* Lupa (Search Icon) - Acts as the second icon on left when focused */}
                         <Search className="search-icon-inner" size={18} />
+
                         <input
                             type="text"
-                            placeholder="Pesquisar destinos, hotéis..."
+                            placeholder={isFocused ? "Pesquisar..." : "Pesquisar destinos, hotéis..."}
                             className="search-input"
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
                             onKeyDown={handleKeyDown}
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() => {
+                                // Optional: delay blur to allow clicks
+                                // setTimeout(() => setIsFocused(false), 200);
+                            }}
                         />
+
+                        {/* Cancel button when focused? User said "text goes back", implying revert. 
+                             Or maybe just the right button transforms? */}
                         <button
                             className={`search-button-inner ${isLoading ? 'loading' : ''}`}
                             onClick={handleSearchClick}
@@ -111,7 +130,8 @@ const SearchBarAI = ({ onSearch, isSearching, isLoading }) => {
                 </div>
             </div>
 
-            {!isSearching && <div className="header-separator"></div>}
+            {/* Backdrop for focused mode */}
+            {isFocused && <div className="search-focused-backdrop" onClick={() => setIsFocused(false)}></div>}
         </div>
     );
 };
