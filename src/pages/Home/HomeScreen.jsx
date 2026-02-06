@@ -6,6 +6,7 @@ import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import SearchResultsTabsHorizontal from '../../components/SearchResultsTabsHorizontal/SearchResultsTabsHorizontal';
 import EmptyResultsComponent from '../../components/EmptyResultsComponent/EmptyResultsComponent';
+import MustSeeSection from '../../components/MustSeeSection/MustSeeSection';
 import { Loader2 } from 'lucide-react';
 import './HomeScreen.css';
 
@@ -83,6 +84,7 @@ const HomeScreen = () => {
                     /* Default Home View */
                     <>
                         <FilterChipsRow />
+                        <MustSeeSection />
 
                         <div className="home-content">
                             <h2 className="section-title">Recomendações para você</h2>

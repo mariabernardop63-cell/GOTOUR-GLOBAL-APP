@@ -11,6 +11,7 @@ import CategoriesScreen from './pages/Categories/CategoriesScreen';
 import MapScreen from './pages/Map/MapScreen';
 import ProfileScreen from './pages/Profile/ProfileScreen';
 import FeedScreen from './pages/Feed/FeedScreen';
+import DestinoDetalhes from './pages/DestinoDetalhes/DestinoDetalhes';
 import { AppProvider } from './context/AppContext';
 import PageTransition from './components/PageTransition/PageTransition';
 import './App.css';
@@ -100,6 +101,7 @@ const AnimatedRoutes = () => {
                         <Route path="/feed" element={<FeedScreen />} />
                         <Route path="/map" element={<MapScreen />} />
                         <Route path="/profile" element={<ProfileScreen />} />
+                        <Route path="/destino-detalhes" element={<DestinoDetalhes />} />
                     </Routes>
                 </PageTransition>
             </AnimatePresence>
