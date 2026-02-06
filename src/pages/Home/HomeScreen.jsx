@@ -7,6 +7,7 @@ import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import SearchResultsTabsHorizontal from '../../components/SearchResultsTabsHorizontal/SearchResultsTabsHorizontal';
 import EmptyResultsComponent from '../../components/EmptyResultsComponent/EmptyResultsComponent';
 import MustSeeSection from '../../components/MustSeeSection/MustSeeSection';
+import NearYouSection from '../../components/NearYouSection/NearYouSection';
 import { Loader2 } from 'lucide-react';
 import './HomeScreen.css';
 
@@ -85,6 +86,7 @@ const HomeScreen = () => {
                     <>
                         <FilterChipsRow />
                         <MustSeeSection />
+                        <NearYouSection />
 
                         <div className="home-content">
                             <h2 className="section-title">Recomendações para você</h2>
