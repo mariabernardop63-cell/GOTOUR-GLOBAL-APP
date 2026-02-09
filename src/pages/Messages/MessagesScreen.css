@@ -1,10 +1,19 @@
-/* MessagesScreen.css - Premium Inbox */
+/* MessagesScreen.css — Premium Inbox with Desktop Split Layout */
 
-.messages-page {
+/* ===== LAYOUT WRAPPER ===== */
+.messages-layout {
     min-height: 100vh;
     background: #ffffff;
+    display: flex;
+}
+
+/* ===== LEFT: MESSAGES PANEL ===== */
+.messages-panel {
+    flex: 1;
+    min-height: 100vh;
     overflow-y: auto;
     padding-bottom: 100px;
+    position: relative;
 }
 
 /* ===== HEADER ===== */
@@ -89,7 +98,7 @@
     flex: 1;
 }
 
-/* ===== ACTION BUTTON (circular +) ===== */
+/* ===== NEW ACTION ROW ===== */
 .messages-action-row {
     padding: 12px 20px;
 }
@@ -345,7 +354,7 @@
     justify-content: center;
 }
 
-/* ===== FLOATING ACTION BUTTON ===== */
+/* ===== FAB ===== */
 .messages-fab {
     position: fixed;
     bottom: 100px;
@@ -370,7 +379,6 @@
     box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
 }
 
-/* FAB Menu */
 .fab-menu {
     position: fixed;
     bottom: 164px;
@@ -420,24 +428,216 @@
     }
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===================================================
+   RIGHT SIDEBAR — Desktop Only (hidden on mobile)
+   =================================================== */
+.messages-sidebar {
+    display: none;
+    /* Hidden on mobile */
+}
+
+/* ===== RESPONSIVE — Tablet ===== */
 @media (min-width: 768px) {
-    .messages-page {
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    .messages-fab {
-        right: calc(50% - 280px);
-    }
-
-    .fab-menu {
-        right: calc(50% - 280px);
+    .messages-panel {
+        max-width: 100%;
     }
 }
 
+/* ===== RESPONSIVE — Desktop: Two-Column Layout ===== */
 @media (min-width: 1024px) {
-    .messages-page {
-        max-width: 700px;
+    .messages-layout {
+        flex-direction: row;
     }
+
+    /* Messages panel takes the left side */
+    .messages-panel {
+        flex: 1;
+        max-width: calc(100% - 340px);
+        border-right: 1px solid #f1f1f1;
+    }
+
+    /* Hide the hamburger menu on desktop */
+    .messages-menu-btn {
+        display: none;
+    }
+
+    /* FAB position relative to messages panel */
+    .messages-fab {
+        right: 360px;
+    }
+
+    .fab-menu {
+        right: 360px;
+    }
+
+    /* Show sidebar */
+    .messages-sidebar {
+        display: flex;
+        flex-direction: column;
+        width: 340px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        background: #ffffff;
+        flex-shrink: 0;
+    }
+}
+
+@media (min-width: 1440px) {
+    .messages-panel {
+        max-width: calc(100% - 380px);
+    }
+
+    .messages-sidebar {
+        width: 380px;
+    }
+
+    .messages-fab {
+        right: 400px;
+    }
+
+    .fab-menu {
+        right: 400px;
+    }
+}
+
+/* ===== SIDEBAR STYLES ===== */
+.sidebar-head {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #f1f1f1;
+    flex-shrink: 0;
+}
+
+.sidebar-head-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #000000;
+    letter-spacing: -0.3px;
+}
+
+.sidebar-scroll {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #e0e0e0 transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 4px;
+}
+
+/* Sidebar Shortcuts */
+.sidebar-shortcuts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 16px 20px;
+}
+
+.sidebar-shortcut {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 14px 12px;
+    background: #f7f7f7;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.sidebar-shortcut:hover {
+    background: #eeeeee;
+}
+
+.sidebar-shortcut:active {
+    transform: scale(0.97);
+}
+
+.sidebar-shortcut svg {
+    color: #000000;
+}
+
+.sidebar-shortcut span:not(.sidebar-shortcut-count) {
+    font-size: 12px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.sidebar-shortcut-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    min-width: 18px;
+    height: 18px;
+    background: #000000;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 9px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Sidebar separator */
+.sidebar-sep {
+    height: 1px;
+    background: #f1f1f1;
+    margin: 0;
+}
+
+/* Sidebar labels */
+.sidebar-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b6b6b;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 16px 20px 6px;
+    margin: 0;
+}
+
+/* Sidebar nav items */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: opacity 0.12s;
+}
+
+.sidebar-item:hover {
+    opacity: 0.6;
+}
+
+.sidebar-item svg {
+    color: #000000;
+    flex-shrink: 0;
+}
+
+.sidebar-item span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+    line-height: 1.3;
 }
