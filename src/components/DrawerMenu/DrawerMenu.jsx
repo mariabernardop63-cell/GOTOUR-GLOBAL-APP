@@ -1,168 +1,169 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-    ArrowLeft, User, MessageSquare, Users, Bell, Star, Zap,
-    Settings, Globe, Shield, HelpCircle, LogOut, ChevronRight,
-    Bookmark, Calendar, MapPin, Grid, Briefcase
+    X, User, ChevronRight, Star, Crown,
+    MessageCircle, Users, Bell, Heart,
+    MapPin, Compass, BookOpen, Layers,
+    Calendar, Briefcase, Clock, Ticket,
+    SlidersHorizontal, Globe, Palette, BellRing, ShieldCheck,
+    Lock, UserX, Smartphone, FileText,
+    LifeBuoy, AlertTriangle, Headphones, Info,
+    LogOut, ChevronDown
 } from 'lucide-react';
 import './DrawerMenu.css';
 
 const DrawerMenu = ({ isOpen, onClose }) => {
-    const [isPlanDropdownOpen, setIsPlanDropdownOpen] = useState(false);
+    const navigate = useNavigate();
+    const [isPlanOpen, setIsPlanOpen] = useState(false);
 
-    // Prevent scrolling when drawer is open
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'unset';
-            setIsPlanDropdownOpen(false); // Close dropdown when drawer closes
+            setIsPlanOpen(false);
         }
         return () => { document.body.style.overflow = 'unset'; };
     }, [isOpen]);
 
+    const handleNav = (path) => {
+        onClose();
+        setTimeout(() => navigate(path), 250);
+    };
+
     return (
         <>
-            <div
-                className={`drawer-overlay ${isOpen ? 'open' : ''}`}
-                onClick={onClose}
-            ></div>
+            <div className={`drawer-overlay ${isOpen ? 'open' : ''}`} onClick={onClose} />
 
-            <div className={`drawer-content ${isOpen ? 'open' : ''}`}>
+            <div className={`drawer-panel ${isOpen ? 'open' : ''}`}>
 
-                {/* 1. Header Area (Back + Profile + Plan) */}
-                <div className="drawer-header">
-                    <button className="back-btn" onClick={onClose}>
-                        <ArrowLeft size={24} color="#1e293b" />
+                {/* ===== HEADER ===== */}
+                <div className="drawer-head">
+                    <button className="drawer-close" onClick={onClose} aria-label="Fechar menu">
+                        <X size={22} strokeWidth={2.5} />
                     </button>
 
-                    <div className="profile-row">
-                        <div className="profile-left">
-                            <div className="profile-img-container">
-                                <User size={28} color="#7c3aed" />
-                            </div>
-                            <div className="profile-text">
-                                <span className="user-name">USUÁRIO</span>
-                                <span className="user-email">usuario@email.com</span>
-                            </div>
+                    <div className="drawer-profile" onClick={() => handleNav('/profile')}>
+                        <div className="drawer-avatar">
+                            <User size={26} />
                         </div>
-
-                        <div className="plan-section">
-                            <div
-                                className="plan-toggle"
-                                onClick={() => setIsPlanDropdownOpen(!isPlanDropdownOpen)}
-                            >
-                                <span>PLANO FREE</span>
-                                <div className={`triangle-icon ${isPlanDropdownOpen ? 'open' : ''}`}></div>
-                            </div>
-
-                            {/* Dropdown */}
-                            {isPlanDropdownOpen && (
-                                <div className="plan-dropdown-menu">
-                                    <div className="dropdown-item">PLANO BÁSICO</div>
-                                    <div className="dropdown-item premium">PLANO PREMIUM <Star size={12} fill="#eab308" color="#eab308" /></div>
-                                    <button className="update-btn">ATUALIZAR</button>
-                                </div>
-                            )}
+                        <div className="drawer-user-info">
+                            <span className="drawer-user-name">Usuário</span>
+                            <span className="drawer-user-email">usuario@email.com</span>
                         </div>
+                        <ChevronRight size={20} className="drawer-profile-arrow" />
+                    </div>
+
+                    {/* Plan Badge */}
+                    <div className="drawer-plan-area">
+                        <button className="drawer-plan-badge" onClick={() => setIsPlanOpen(!isPlanOpen)}>
+                            <Crown size={14} />
+                            <span>Plano Free</span>
+                            <ChevronDown size={14} className={`drawer-plan-chevron ${isPlanOpen ? 'rotated' : ''}`} />
+                        </button>
+
+                        {isPlanOpen && (
+                            <div className="drawer-plan-dropdown">
+                                <button className="drawer-plan-option" onClick={() => setIsPlanOpen(false)}>
+                                    <span>Plano Básico</span>
+                                </button>
+                                <button className="drawer-plan-option drawer-plan-premium" onClick={() => setIsPlanOpen(false)}>
+                                    <span>Plano Premium</span>
+                                    <Star size={14} />
+                                </button>
+                                <button className="drawer-plan-upgrade" onClick={() => setIsPlanOpen(false)}>
+                                    Atualizar Plano
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                <div className="drawer-divider"></div>
+                {/* ===== SCROLLABLE BODY ===== */}
+                <div className="drawer-body">
 
-                <div className="drawer-scrollable">
-                    {/* 2. Quick Shortcuts (Grid) */}
-                    <div className="section-container">
-                        <h3 className="section-title">ATALHOS RÁPIDOS</h3>
-                        <div className="shortcuts-grid">
-                            <button className="shortcut-card">
-                                <div className="shortcut-icon"><MessageSquare size={20} /></div>
-                                <span>Mensagens</span>
-                                <div className="badge">0+</div>
-                            </button>
-                            <button className="shortcut-card">
-                                <div className="shortcut-icon"><Users size={20} /></div>
-                                <span>Amigos</span>
-                                <div className="badge">0+</div>
-                            </button>
-                            <button className="shortcut-card">
-                                <div className="shortcut-icon"><Bell size={20} /></div>
-                                <span>Notificações</span>
-                                <div className="badge">0+</div>
-                            </button>
-                            <button className="shortcut-card">
-                                <div className="shortcut-icon"><Star size={20} /></div>
-                                <span>Favoritos</span>
-                                <div className="badge">0+</div>
-                            </button>
-                        </div>
+                    {/* Quick Shortcuts */}
+                    <div className="drawer-shortcuts">
+                        <button className="drawer-shortcut" onClick={() => handleNav('/messages')}>
+                            <div className="drawer-shortcut-icon"><MessageCircle size={20} /></div>
+                            <span>Mensagens</span>
+                            <span className="drawer-shortcut-count">0</span>
+                        </button>
+                        <button className="drawer-shortcut">
+                            <div className="drawer-shortcut-icon"><Users size={20} /></div>
+                            <span>Amigos</span>
+                            <span className="drawer-shortcut-count">0</span>
+                        </button>
+                        <button className="drawer-shortcut">
+                            <div className="drawer-shortcut-icon"><Bell size={20} /></div>
+                            <span>Notificações</span>
+                            <span className="drawer-shortcut-count">0</span>
+                        </button>
+                        <button className="drawer-shortcut">
+                            <div className="drawer-shortcut-icon"><Heart size={20} /></div>
+                            <span>Favoritos</span>
+                            <span className="drawer-shortcut-count">0</span>
+                        </button>
                     </div>
 
-                    <div className="drawer-divider"></div>
+                    <div className="drawer-sep" />
 
-                    {/* 3. Tools List */}
-                    <div className="section-container">
-                        <h3 className="section-title">FERRAMENTAS</h3>
-                        <div className="menu-list">
-                            <MenuItem icon={<MessageSquare />} text="Mensagens" />
-                            <MenuItem icon={<Bell />} text="Notificações" />
-                            <MenuItem icon={<Users />} text="Amigos" />
-                            <MenuItem icon={<Grid />} text="Interesses" />
-                            <MenuItem icon={<Bookmark />} text="Coleções" />
-                            <MenuItem icon={<MapPin />} text="Notas de Viagem" />
-                            <MenuItem icon={<Calendar />} text="Visitar Depois" />
-                            <MenuItem icon={<Briefcase />} text="Minhas Publicações" />
-                            <MenuItem icon={<Briefcase />} text="Meus Comentários" />
-                            <MenuItem icon={<Zap />} text="Histórico" />
-                            <MenuItem icon={<Calendar />} text="Minhas Reservas" />
-                            <MenuItem icon={<Star />} text="Eventos Próximos" />
-                            <MenuItem icon={<Zap />} text="Planos & Assinatura" />
-                        </div>
-                    </div>
+                    {/* Ferramentas */}
+                    <p className="drawer-section-label">Ferramentas</p>
+                    <nav className="drawer-nav">
+                        <DrawerItem icon={MessageCircle} label="Mensagens" onClick={() => handleNav('/messages')} />
+                        <DrawerItem icon={BellRing} label="Notificações" />
+                        <DrawerItem icon={Users} label="Amigos" />
+                        <DrawerItem icon={Compass} label="Interesses" />
+                        <DrawerItem icon={Layers} label="Coleções" />
+                        <DrawerItem icon={MapPin} label="Notas de Viagem" />
+                        <DrawerItem icon={Calendar} label="Visitar Depois" />
+                        <DrawerItem icon={BookOpen} label="Minhas Publicações" />
+                        <DrawerItem icon={Briefcase} label="Meus Comentários" />
+                        <DrawerItem icon={Clock} label="Histórico" />
+                        <DrawerItem icon={Ticket} label="Minhas Reservas" />
+                        <DrawerItem icon={Star} label="Eventos Próximos" />
+                        <DrawerItem icon={Crown} label="Planos & Assinatura" />
+                    </nav>
 
-                    <div className="drawer-divider"></div>
+                    <div className="drawer-sep" />
 
-                    {/* 4. Settings */}
-                    <div className="section-container">
-                        <h3 className="section-title">DEFINIÇÕES</h3>
-                        <div className="menu-list">
-                            <MenuItem icon={<User />} text="Conta" />
-                            <MenuItem icon={<Globe />} text="Idioma & País" />
-                            <MenuItem icon={<Settings />} text="Aparência" /> {/* Dark mode future */}
-                            <MenuItem icon={<Bell />} text="Notificações" />
-                            <MenuItem icon={<Shield />} text="Segurança" />
-                        </div>
-                    </div>
+                    {/* Definições */}
+                    <p className="drawer-section-label">Definições</p>
+                    <nav className="drawer-nav">
+                        <DrawerItem icon={SlidersHorizontal} label="Conta" onClick={() => handleNav('/edit-profile')} />
+                        <DrawerItem icon={Globe} label="Idioma & País" />
+                        <DrawerItem icon={Palette} label="Aparência" />
+                        <DrawerItem icon={Bell} label="Notificações" />
+                        <DrawerItem icon={ShieldCheck} label="Segurança" />
+                    </nav>
 
-                    <div className="drawer-divider"></div>
+                    <div className="drawer-sep" />
 
-                    {/* 5. Privacy */}
-                    <div className="section-container">
-                        <h3 className="section-title">PRIVACIDADE</h3>
-                        <div className="menu-list">
-                            <MenuItem icon={<Shield />} text="Privacidade da Conta" />
-                            <MenuItem icon={<User />} text="Bloqueados" />
-                            <MenuItem icon={<Settings />} text="Permissões do App" />
-                            <MenuItem icon={<HelpCircle />} text="Termos e Políticas" />
-                        </div>
-                    </div>
+                    {/* Privacidade */}
+                    <p className="drawer-section-label">Privacidade</p>
+                    <nav className="drawer-nav">
+                        <DrawerItem icon={Lock} label="Privacidade da Conta" />
+                        <DrawerItem icon={UserX} label="Bloqueados" />
+                        <DrawerItem icon={Smartphone} label="Permissões do App" />
+                        <DrawerItem icon={FileText} label="Termos e Políticas" />
+                    </nav>
 
-                    <div className="drawer-divider"></div>
+                    <div className="drawer-sep" />
 
-                    {/* 6. Support */}
-                    <div className="section-container">
-                        <h3 className="section-title">SUPORTE</h3>
-                        <div className="menu-list">
-                            <MenuItem icon={<HelpCircle />} text="Central de Ajuda" />
-                            <MenuItem icon={<MessageSquare />} text="Reportar Problema" />
-                            <MenuItem icon={<MessageSquare />} text="Contactar Suporte" />
-                            <MenuItem icon={<Grid />} text="Sobre a GoTour" />
-                        </div>
-                    </div>
+                    {/* Suporte */}
+                    <p className="drawer-section-label">Suporte</p>
+                    <nav className="drawer-nav">
+                        <DrawerItem icon={LifeBuoy} label="Central de Ajuda" />
+                        <DrawerItem icon={AlertTriangle} label="Reportar Problema" />
+                        <DrawerItem icon={Headphones} label="Contactar Suporte" />
+                        <DrawerItem icon={Info} label="Sobre a GoTour" />
+                    </nav>
                 </div>
 
-                {/* 7. Footer Logout */}
-                <div className="drawer-footer">
-                    <button className="logout-btn">
+                {/* ===== FOOTER ===== */}
+                <div className="drawer-foot">
+                    <button className="drawer-logout">
                         <LogOut size={20} />
                         <span>Terminar Sessão</span>
                     </button>
@@ -172,14 +173,11 @@ const DrawerMenu = ({ isOpen, onClose }) => {
     );
 };
 
-// Helper Component for List Items
-const MenuItem = ({ icon, text }) => (
-    <button className="menu-item-btn">
-        <div className="menu-item-left">
-            <span className="menu-icon-wrapper">{icon}</span>
-            <span className="menu-text">{text}</span>
-        </div>
-        <ChevronRight size={16} color="#9ca3af" />
+/* Drawer Item Component */
+const DrawerItem = ({ icon: Icon, label, onClick }) => (
+    <button className="drawer-item" onClick={onClick}>
+        <Icon size={20} strokeWidth={1.8} />
+        <span>{label}</span>
     </button>
 );
 
