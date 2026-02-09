@@ -115,52 +115,49 @@ const Welcome = () => {
 
                 {/* RIGHT COL: Action Container (Desktop puts this in right col, Mobile centers it) */}
                 <div className="welcome-right-col">
-                    {/* Mobile Title (Hidden on Desktop) */
-
-
-                        {/* Mobile Title (Hidden on Desktop) */ }
-                        < div className="mobile-intro slide-up">
-                    <h1 className="welcome-title">Explore o Mundo <br />Como um Local</h1>
-                    <p className="welcome-subtitle">
-                        Descubra destinos incríveis, conecte-se com guias locais e viva experiências autênticas.
-                    </p>
-                </div>
-
-                {/* Glass Card Container (Desktop) / Standard (Mobile) */}
-                <div className="action-glass-card slide-up">
-                    <div className="desktop-card-header">
-                        <h2>Comece sua jornada</h2>
-                        <p>Crie sua conta ou faça login para continuar.</p>
+                    {/* Mobile Title (Hidden on Desktop) */}
+                    <div className="mobile-intro slide-up">
+                        <h1 className="welcome-title">Explore o Mundo <br />Como um Local</h1>
+                        <p className="welcome-subtitle">
+                            Descubra destinos incríveis, conecte-se com guias locais e viva experiências autênticas.
+                        </p>
                     </div>
 
-                    <div className="welcome-actions">
-                        <Button
-                            type="button"
-                            variant="primary"
-                            size="lg"
-                            fullWidth
-                            onClick={() => handleNavigation('/signup', 'primary')}
-                            isLoading={loadingBtn === 'primary'}
-                        >
-                            Começar Agora
-                        </Button>
+                    {/* Glass Card Container (Desktop) / Standard (Mobile) */}
+                    <div className="action-glass-card slide-up">
+                        <div className="desktop-card-header">
+                            <h2>Comece sua jornada</h2>
+                            <p>Crie sua conta ou faça login para continuar.</p>
+                        </div>
 
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            size="lg"
-                            fullWidth
-                            onClick={() => handleNavigation('/login', 'secondary')}
-                            isLoading={loadingBtn === 'secondary'}
-                        >
-                            Já tenho conta
-                        </Button>
+                        <div className="welcome-actions">
+                            <Button
+                                type="button"
+                                variant="primary"
+                                size="lg"
+                                fullWidth
+                                onClick={() => handleNavigation('/signup', 'primary')}
+                                isLoading={loadingBtn === 'primary'}
+                            >
+                                Começar Agora
+                            </Button>
+
+                            <Button
+                                type="button"
+                                variant="secondary"
+                                size="lg"
+                                fullWidth
+                                onClick={() => handleNavigation('/login', 'secondary')}
+                                isLoading={loadingBtn === 'secondary'}
+                            >
+                                Já tenho conta
+                            </Button>
+                        </div>
                     </div>
                 </div>
+
             </div>
-
         </div>
-        </div >
     );
 };
 

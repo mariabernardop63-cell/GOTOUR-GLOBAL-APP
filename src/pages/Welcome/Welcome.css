@@ -65,10 +65,10 @@
 
 /* Mobile specific elements */
 .mobile-logo-area {
-    position: absolute;
+    position: absolute !important;
     /* Top right positioning */
-    top: 24px;
-    right: 24px;
+    top: 24px !important;
+    right: 24px !important;
     display: flex;
     flex-direction: row;
     align-items: center;
