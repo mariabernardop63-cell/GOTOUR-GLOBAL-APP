@@ -67,14 +67,15 @@
 .mobile-logo-area {
     position: absolute;
     /* Top right positioning */
-    top: 20px;
-    right: 0;
+    top: 24px;
+    right: 24px;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    /* Center icon and text */
+    justify-content: flex-end;
     gap: 8px;
     margin-bottom: 0px;
+    z-index: 20;
 }
 
 .gotour-icon {
