@@ -1,30 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     User, MessageCircle, Edit3, MoreHorizontal,
     Image, Layers, Bookmark, Heart,
-    MapPin, Plus, Compass, Menu
+    Plus, Compass, Menu, Pencil, Camera, ImagePlus, Film, Trash2
 } from 'lucide-react';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import gotourLogo from '../../assets/images/gotour_icon.png';
 import './ProfileScreen.css';
 
-// Mock user data (placeholder for future backend integration)
+// Mock user data
 const mockUser = {
     name: 'Nome do Usuário',
     username: '@gotour_user',
     bio: 'Amante de viagens e aventuras. 🌍✈️ Explorando o mundo, um destino de cada vez.',
-    avatar: null, // null = use placeholder
-    coverImage: null, // null = use gradient fallback
-    stats: {
-        friends: 0,
-        collections: 0,
-        posts: 0,
-    }
+    avatar: null,
+    coverImage: null,
+    hasStory: false,
+    stats: { friends: 0, collections: 0, posts: 0 }
 };
 
-// Tab definitions
 const TABS = [
     { id: 'publicacoes', label: 'Publicações' },
     { id: 'colecoes', label: 'Coleções' },
@@ -32,35 +28,26 @@ const TABS = [
     { id: 'favorito', label: 'Favorito' },
 ];
 
-// Tab empty state content
 const TAB_CONTENT = {
     publicacoes: {
-        icon: Image,
-        title: 'Você ainda não tem nenhuma publicação.',
+        icon: Image, title: 'Você ainda não tem nenhuma publicação.',
         description: 'Comece agora e compartilhe suas experiências de viagem com outros viajantes.',
-        buttonText: 'Publicar algo',
-        buttonIcon: Plus,
+        buttonText: 'Publicar algo', buttonIcon: Plus,
     },
     colecoes: {
-        icon: Layers,
-        title: 'Você ainda não tem nenhuma coleção.',
+        icon: Layers, title: 'Você ainda não tem nenhuma coleção.',
         description: 'Organize seus destinos favoritos em coleções temáticas.',
-        buttonText: 'Criar coleção',
-        buttonIcon: Plus,
+        buttonText: 'Criar coleção', buttonIcon: Plus,
     },
     visitar: {
-        icon: Bookmark,
-        title: 'Você não adicionou nenhum lugar para visitar depois.',
+        icon: Bookmark, title: 'Você não adicionou nenhum lugar para visitar depois.',
         description: 'Salve destinos incríveis para planejar suas próximas aventuras.',
-        buttonText: 'Explorar destinos',
-        buttonIcon: Compass,
+        buttonText: 'Explorar destinos', buttonIcon: Compass,
     },
     favorito: {
-        icon: Heart,
-        title: 'Você ainda não tem favoritos.',
+        icon: Heart, title: 'Você ainda não tem favoritos.',
         description: 'Marque publicações e destinos que mais gostou como favoritos.',
-        buttonText: 'Adicionar favoritos',
-        buttonIcon: Heart,
+        buttonText: 'Adicionar favoritos', buttonIcon: Heart,
     },
 };
 
@@ -68,50 +55,104 @@ const ProfileScreen = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('publicacoes');
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [showBannerModal, setShowBannerModal] = useState(false);
     const [user] = useState(mockUser);
+    const modalRef = useRef(null);
 
     const currentTabContent = TAB_CONTENT[activeTab];
     const TabIcon = currentTabContent.icon;
     const ButtonIcon = currentTabContent.buttonIcon;
 
-    const handleLogoClick = () => {
-        navigate('/home');
-    };
+    // Close modal on click outside
+    useEffect(() => {
+        if (!showBannerModal) return;
+        const handleClick = (e) => {
+            if (modalRef.current && !modalRef.current.contains(e.target)) {
+                setShowBannerModal(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, [showBannerModal]);
+
+    const hasAvatar = !!user.avatar;
+    const hasCover = !!user.coverImage;
 
     return (
         <div className="profile-page">
             <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
 
-            {/* ===== HEADER ===== */}
+            {/* HEADER */}
             <header className="profile-header">
-                <button className="profile-logo-btn" onClick={handleLogoClick} aria-label="Ir para Home">
+                <button className="profile-logo-btn" onClick={() => navigate('/home')} aria-label="Ir para Home">
                     <img src={gotourLogo} alt="GoTour" className="profile-header-logo" />
                 </button>
-                <button
-                    className="profile-menu-btn"
-                    onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-                    aria-label="Menu"
-                >
+                <button className="profile-menu-btn" onClick={() => setIsDrawerOpen(!isDrawerOpen)} aria-label="Menu">
                     <Menu size={24} />
                 </button>
             </header>
 
-            {/* ===== BANNER / COVER ===== */}
+            {/* BANNER */}
             <div className="profile-banner-wrapper">
                 <div className="profile-banner">
                     {user.coverImage ? (
-                        <img
-                            src={user.coverImage}
-                            alt="Capa do perfil"
-                            className="profile-banner-image"
-                        />
+                        <img src={user.coverImage} alt="Capa do perfil" className="profile-banner-image" />
                     ) : (
                         <div className="profile-banner-gradient" />
                     )}
+                    <button className="profile-banner-edit-btn" onClick={() => setShowBannerModal(true)} aria-label="Editar capa">
+                        <Pencil size={16} />
+                    </button>
                 </div>
             </div>
 
-            {/* ===== AVATAR + STATS ===== */}
+            {/* BANNER EDIT MODAL */}
+            {showBannerModal && (
+                <div className="banner-modal-overlay">
+                    <div className="banner-modal" ref={modalRef}>
+                        <div className="banner-modal-handle" />
+                        <p className="banner-modal-title">Editar Perfil</p>
+
+                        {hasAvatar ? (
+                            <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
+                                <span className="banner-modal-option-icon"><Camera size={20} /></span>
+                                Trocar foto de perfil
+                            </button>
+                        ) : (
+                            <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
+                                <span className="banner-modal-option-icon"><Camera size={20} /></span>
+                                Adicionar foto de perfil
+                            </button>
+                        )}
+
+                        {hasCover ? (
+                            <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
+                                <span className="banner-modal-option-icon"><ImagePlus size={20} /></span>
+                                Trocar foto de capa
+                            </button>
+                        ) : (
+                            <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
+                                <span className="banner-modal-option-icon"><ImagePlus size={20} /></span>
+                                Adicionar foto de capa
+                            </button>
+                        )}
+
+                        {!user.hasStory ? (
+                            <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
+                                <span className="banner-modal-option-icon"><Film size={20} /></span>
+                                Adicionar história
+                            </button>
+                        ) : (
+                            <button className="banner-modal-option destructive" onClick={() => setShowBannerModal(false)}>
+                                <span className="banner-modal-option-icon"><Trash2 size={20} /></span>
+                                Remover história
+                            </button>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {/* AVATAR + STATS */}
             <div className="profile-avatar-section">
                 <div className="profile-avatar">
                     {user.avatar ? (
@@ -136,53 +177,44 @@ const ProfileScreen = () => {
                 </div>
             </div>
 
-            {/* ===== USER INFO ===== */}
+            {/* USER INFO */}
             <div className="profile-user-info">
                 <h1 className="profile-user-name">{user.name}</h1>
                 <p className="profile-username">{user.username}</p>
                 <p className="profile-bio">{user.bio}</p>
             </div>
 
-            {/* ===== ACTION BUTTONS ===== */}
+            {/* ACTION BUTTONS */}
             <div className="profile-actions">
-                <button className="profile-action-btn secondary">
-                    <MessageCircle size={16} />
-                    Mensagem
+                <button className="profile-action-btn secondary" onClick={() => navigate('/messages')}>
+                    <MessageCircle size={16} /> Mensagem
                 </button>
-                <button className="profile-action-btn primary">
-                    <Edit3 size={16} />
-                    Editar Perfil
+                <button className="profile-action-btn primary" onClick={() => navigate('/edit-profile')}>
+                    <Edit3 size={16} /> Editar Perfil
                 </button>
                 <button className="profile-action-btn icon-only" aria-label="Mais opções">
                     <MoreHorizontal size={20} />
                 </button>
             </div>
 
-            {/* ===== TABS CARD ===== */}
+            {/* TABS */}
             <div className="profile-tabs-card">
                 <div className="profile-tabs-scroll">
                     {TABS.map((tab) => (
-                        <button
-                            key={tab.id}
-                            className={`profile-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
-                            onClick={() => setActiveTab(tab.id)}
-                        >
+                        <button key={tab.id} className={`profile-tab-btn ${activeTab === tab.id ? 'active' : ''}`} onClick={() => setActiveTab(tab.id)}>
                             {tab.label}
                         </button>
                     ))}
                 </div>
             </div>
 
-            {/* ===== TAB CONTENT ===== */}
+            {/* TAB CONTENT */}
             <div className="profile-tab-content-card" key={activeTab}>
-                <div className="tab-content-icon">
-                    <TabIcon size={28} />
-                </div>
+                <div className="tab-content-icon"><TabIcon size={28} /></div>
                 <h2 className="tab-content-title">{currentTabContent.title}</h2>
                 <p className="tab-content-description">{currentTabContent.description}</p>
                 <button className="tab-content-btn">
-                    <ButtonIcon size={16} />
-                    {currentTabContent.buttonText}
+                    <ButtonIcon size={16} /> {currentTabContent.buttonText}
                 </button>
             </div>
 

@@ -12,6 +12,11 @@ import MapScreen from './pages/Map/MapScreen';
 import ProfileScreen from './pages/Profile/ProfileScreen';
 import FeedScreen from './pages/Feed/FeedScreen';
 import DestinoDetalhes from './pages/DestinoDetalhes/DestinoDetalhes';
+import EditProfile from './pages/EditProfile/EditProfile';
+import MessagesScreen from './pages/Messages/MessagesScreen';
+import StoryViewer from './pages/StoryViewer/StoryViewer';
+import ChatScreen from './pages/Chat/ChatScreen';
+import MessageSettings from './pages/MessageSettings/MessageSettings';
 import { AppProvider } from './context/AppContext';
 import PageTransition from './components/PageTransition/PageTransition';
 import VideoBackground from './components/VideoBackground/VideoBackground';
@@ -127,6 +132,11 @@ const AnimatedRoutes = () => {
                         <Route path="/feed" element={<FeedScreen />} />
                         <Route path="/map" element={<MapScreen />} />
                         <Route path="/profile" element={<ProfileScreen />} />
+                        <Route path="/edit-profile" element={<EditProfile />} />
+                        <Route path="/messages" element={<MessagesScreen />} />
+                        <Route path="/story-viewer" element={<StoryViewer />} />
+                        <Route path="/chat" element={<ChatScreen />} />
+                        <Route path="/message-settings" element={<MessageSettings />} />
                         <Route path="/destino-detalhes" element={<DestinoDetalhes />} />
                     </Routes>
                 </PageTransition>
