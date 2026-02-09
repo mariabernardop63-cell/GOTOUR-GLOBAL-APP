@@ -71,7 +71,7 @@ const Signup = () => {
             setIsLoading(true);
             setTimeout(() => {
                 setIsLoading(false);
-                navigateForward('/otp-verification');
+                navigateForward('/email-confirmation', { state: { email: formData.email } });
             }, 1500);
         }
     };

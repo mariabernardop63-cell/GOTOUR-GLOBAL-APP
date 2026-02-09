@@ -4,7 +4,7 @@ import { createContext, useContext, useCallback, useRef, useEffect } from 'react
 import Welcome from './pages/Welcome/Welcome';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
-import OtpVerification from './pages/OtpVerification/OtpVerification';
+import EmailConfirmation from './pages/EmailConfirmation/EmailConfirmation';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import HomeScreen from './pages/Home/HomeScreen';
 import CategoriesScreen from './pages/Categories/CategoriesScreen';
@@ -82,7 +82,7 @@ const AnimatedRoutes = () => {
     const direction = getDirection();
 
     // Routes where video background should be active
-    const videoRoutes = ['/', '/login', '/signup', '/forgot-password', '/otp-verification'];
+    const videoRoutes = ['/', '/login', '/signup', '/forgot-password', '/email-confirmation'];
     const showVideo = videoRoutes.includes(location.pathname);
 
     useEffect(() => {
@@ -115,8 +115,12 @@ const AnimatedRoutes = () => {
                     <Routes location={location}>
                         <Route path="/" element={<Welcome />} />
                         <Route path="/login" element={<Login />} />
+                        import EmailConfirmation from './pages/EmailConfirmation/EmailConfirmation';
+                        // ... existing imports ...
+
+                        // ... inside App component ...
                         <Route path="/signup" element={<Signup />} />
-                        <Route path="/otp-verification" element={<OtpVerification />} />
+                        <Route path="/email-confirmation" element={<EmailConfirmation />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/home" element={<HomeScreen />} />
                         <Route path="/categories" element={<CategoriesScreen />} />

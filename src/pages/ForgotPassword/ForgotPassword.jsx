@@ -25,7 +25,7 @@ const ForgotPassword = () => {
         setIsLoading(true);
         setTimeout(() => {
             setIsLoading(false);
-            navigateForward('/otp-verification');
+            navigateForward('/email-confirmation', { state: { email } });
         }, 1500);
     };
 
