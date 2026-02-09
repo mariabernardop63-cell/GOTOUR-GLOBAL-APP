@@ -1,4 +1,3 @@
-/* Wrapper for content inside the video background */
 .welcome-page-content {
     display: flex;
     flex-direction: column;
@@ -58,25 +57,34 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    /* Left align */
+    text-align: left;
+    /* Left align */
 }
 
 /* Mobile specific elements */
 .mobile-logo-area {
+    position: absolute;
+    /* Top right positioning */
+    top: 20px;
+    right: 0;
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 40px;
+    justify-content: center;
+    /* Center icon and text */
+    gap: 8px;
+    margin-bottom: 0px;
 }
 
 .gotour-icon {
-    height: 55px;
+    height: 40px;
+    /* Slightly smaller for corner */
     width: auto;
 }
 
 .gotour-text {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 800;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -86,6 +94,7 @@
 .mobile-intro {
     color: #fff;
     margin-bottom: 24px;
+    width: 100%;
 }
 
 .welcome-title {
