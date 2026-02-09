@@ -1,0 +1,76 @@
+/* Container fixed to the viewport */
+.video-background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    /* Behind everything */
+    overflow: hidden;
+    background-color: #0f172a;
+    /* Dark background to avoid white flashes */
+}
+
+/* Fallback Gradient for Mobile */
+.mobile-bg-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Premium dark gradient matching the brand */
+    background: linear-gradient(135deg, #0f766e 0%, #0e7490 50%, #1e293b 100%);
+    z-index: 1;
+}
+
+/* Video Wrapper */
+.video-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    /* Content above fallback */
+    display: block;
+    /* Show on all devices */
+}
+
+/* The Video Element */
+.bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 1.5s ease-in-out;
+}
+
+/* Dark Overlay */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black */
+    backdrop-filter: blur(2px);
+    /* Slight blur for depth */
+    z-index: 3;
+    /* Above video */
+    pointer-events: none;
+}
+
+/* DESKTOP STYLES */
+@media (min-width: 1024px) {
+    .video-wrapper {
+        display: block;
+        /* Show video on desktop */
+    }
+
+    .mobile-bg-fallback {
+        /* Optional: Hide fallback if video is loaded, or keep as base */
+        /* Keeping it ensures no white flash if video is slow/fails */
+        z-index: 1;
+    }
+}

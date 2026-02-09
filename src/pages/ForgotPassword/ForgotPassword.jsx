@@ -30,7 +30,7 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div className="forgot-page" style={{ backgroundImage: `url(${bgImage})` }}>
+        <div className="forgot-page">
             <div className="forgot-overlay"></div>
 
             {/* Logo Section */}

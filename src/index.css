@@ -83,6 +83,11 @@ body {
   min-height: 100vh;
 }
 
+body.video-active {
+  background: transparent !important;
+  /* Allow video to show through */
+}
+
 button {
   font-family: inherit;
   cursor: pointer;

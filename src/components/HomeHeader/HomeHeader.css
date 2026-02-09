@@ -10,9 +10,9 @@
     z-index: 100;
 }
 
-.home-logo {
-    height: 32px;
-    /* Proportional and responsive */
+.home-header-logo {
+    height: 48px;
+    /* Increased size for better visibility */
     width: auto;
     object-fit: contain;
 }

@@ -14,6 +14,7 @@ import FeedScreen from './pages/Feed/FeedScreen';
 import DestinoDetalhes from './pages/DestinoDetalhes/DestinoDetalhes';
 import { AppProvider } from './context/AppContext';
 import PageTransition from './components/PageTransition/PageTransition';
+import VideoBackground from './components/VideoBackground/VideoBackground';
 import './App.css';
 
 // Navigation context for direction tracking
@@ -80,14 +81,35 @@ const AnimatedRoutes = () => {
     const { getDirection } = useNavigation();
     const direction = getDirection();
 
+    // Routes where video background should be active
+    const videoRoutes = ['/', '/login', '/signup', '/forgot-password', '/otp-verification'];
+    const showVideo = videoRoutes.includes(location.pathname);
+
+    useEffect(() => {
+        if (showVideo) {
+            document.body.classList.add('video-active');
+        } else {
+            document.body.classList.remove('video-active');
+        }
+        return () => {
+            document.body.classList.remove('video-active');
+        };
+    }, [showVideo]);
+
     return (
         <div style={{
             position: 'relative',
             width: '100%',
             minHeight: '100vh',
             overflow: 'hidden',
-            background: '#F0F9FF'
+            // Make background transparent when video is showing so video is visible
+            background: showVideo ? 'transparent' : '#F0F9FF',
+            // Ensure proper stacking context
+            isolation: 'isolate'
         }}>
+            {/* Global Video Background for Auth Pages */}
+            {showVideo && <VideoBackground />}
+
             <AnimatePresence mode="popLayout" initial={false}>
                 <PageTransition key={location.pathname} direction={direction}>
                     <Routes location={location}>

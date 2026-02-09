@@ -1,26 +1,17 @@
 /* Signup.css - Premium Design */
 
-.signup-page {
+.signup-page-content {
     width: 100%;
     min-height: 100vh;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; -> managed by VideoBackground */
+    padding: 20px;
 }
 
-.signup-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    /* Dark overlay for readability */
-    backdrop-filter: blur(2px);
-    z-index: 1;
-}
+/* .signup-overlay removed - handled by VideoBackground */
 
 /* Glass Container */
 .signup-glass-container {

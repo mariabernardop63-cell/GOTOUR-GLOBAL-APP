@@ -3,7 +3,6 @@ import { User, Mail, Globe, Phone, Calendar, Lock, Eye, EyeOff, ArrowLeft } from
 import { useNavigation } from '../../App';
 import { countries } from '../../data/countries';
 import { useApp } from '../../context/AppContext';
-import bgImage from '../../assets/images/japanese_village.png'; // Premium background
 import './Signup.css';
 
 const Signup = () => {
@@ -93,9 +92,7 @@ const Signup = () => {
     };
 
     return (
-        <div className="signup-page" style={{ backgroundImage: `url(${bgImage})` }}>
-            <div className="signup-overlay"></div>
-
+        <div className="signup-page-content">
             <div className="signup-glass-container fade-in-up">
                 <button className="back-icon-btn" onClick={handleBack}>
                     <ArrowLeft size={24} color="#fff" />

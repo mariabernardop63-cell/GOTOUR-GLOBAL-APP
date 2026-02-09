@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
-import bgImage from '../../assets/images/dubai_city.png'; // Premium background
 import './Login.css';
 
 const Login = () => {
@@ -34,9 +33,7 @@ const Login = () => {
     };
 
     return (
-        <div className="login-page" style={{ backgroundImage: `url(${bgImage})` }}>
-            <div className="login-overlay"></div>
-
+        <div className="login-page-content">
             <div className="login-glass-container fade-in-up">
                 <button className="back-icon-btn" onClick={() => navigateBack('/')}>
                     <ArrowLeft size={24} color="#fff" />

@@ -11,6 +11,14 @@
     overflow-x: hidden;
 }
 
+@media (min-width: 1024px) {
+    .otp-page {
+        background: transparent !important;
+        justify-content: center;
+        /* Center vertically on desktop */
+    }
+}
+
 /* Logo */
 .otp-logo-container {
     margin-bottom: 40px;
