@@ -1,8 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './VideoBackground.css';
 
+// Import images for mobile slideshow
+import img1 from '../../assets/images/african_forest_tourists.png';
+import img2 from '../../assets/images/dubai_city.png';
+import img3 from '../../assets/images/japanese_village.png';
+
+const mobileImages = [img1, img2, img3];
+
 const VideoBackground = () => {
     const [isLoaded, setIsLoaded] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const videoRef = useRef(null);
 
     // Optimized handling for low-power mode or slow connections
@@ -10,13 +18,31 @@ const VideoBackground = () => {
         setIsLoaded(true);
     };
 
+    // Mobile Slideshow Effect
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % mobileImages.length);
+        }, 5000); // Change image every 5 seconds
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div className="video-background-container">
-            {/* Fallback/Mobile Gradient Background - Always visible / underneath */}
-            <div className="mobile-bg-fallback" />
+            {/* --- Mobile Slideshow --- */}
+            <div className="mobile-slideshow">
+                {mobileImages.map((img, index) => (
+                    <div
+                        key={index}
+                        className={`slide-bg ${index === currentImageIndex ? 'active' : ''}`}
+                        style={{ backgroundImage: `url(${img})` }}
+                    />
+                ))}
+                {/* Overlay for mobile readability */}
+                <div className="mobile-overlay" />
+            </div>
 
-            {/* Desktop Video - Hidden on mobile via CSS for double safety, 
-                but we use CSS media queries to ensure the browser doesn't download it on mobile */}
+            {/* --- Desktop Video --- */}
             <div className="video-wrapper">
                 <video
                     ref={videoRef}
@@ -27,28 +53,25 @@ const VideoBackground = () => {
                     playsInline
                     preload="auto"
                     onCanPlay={handleCanPlay}
-                    onError={(e) => console.error("Video failed to load", e)}
+                    onError={(e) => console.error("Video failed to load", e)} // Removed visible error handling to avoid breaking UI
                     style={{ opacity: isLoaded ? 1 : 0 }}
                 >
-                    {/* Try standard file paths first, then root */}
                     <source
                         src="https://video-hostingnew.vercel.app/video.mp4"
                         type="video/mp4"
-                    />
-                    <source
-                        src="https://video-hostingnew.vercel.app/assets/video.mp4"
-                        type="video/mp4"
+                        media="(min-width: 1024px)"
                     />
                     <source
                         src="https://video-hostingnew.vercel.app"
                         type="video/mp4"
+                        media="(min-width: 1024px)"
                     />
-                    {/* Fallback text or element not needed as we have the div underneath */}
                 </video>
             </div>
 
-            {/* Overlay for text readability */}
-            <div className="video-overlay" />
+            {/* Global Overlay (optional, for extra readability on desktop if needed, 
+                but distinct from mobile overlay to allow video brightness) */}
+            <div className="desktop-overlay" />
         </div>
     );
 };
