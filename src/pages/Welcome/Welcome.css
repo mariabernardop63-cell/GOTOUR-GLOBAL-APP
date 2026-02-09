@@ -65,17 +65,19 @@
 
 /* Mobile specific elements */
 .mobile-logo-area {
-    position: absolute !important;
-    /* Top right positioning */
-    top: 24px !important;
-    right: 24px !important;
+    position: fixed !important;
+    /* Fixed to viewport to stay independent of container flow */
+    top: 30px !important;
+    right: 20px !important;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
-    margin-bottom: 0px;
-    z-index: 20;
+    z-index: 9999;
+    /* Ensure it's above everything */
+    padding: 10px;
+    /* Touch target area */
 }
 
 .gotour-icon {
