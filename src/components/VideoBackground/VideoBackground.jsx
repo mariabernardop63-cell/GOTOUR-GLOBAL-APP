@@ -53,16 +53,11 @@ const VideoBackground = () => {
                     playsInline
                     preload="auto"
                     onCanPlay={handleCanPlay}
-                    onError={(e) => console.error("Video failed to load", e)} // Removed visible error handling to avoid breaking UI
+                    onError={(e) => console.error("Video failed to load", e)}
                     style={{ opacity: isLoaded ? 1 : 0 }}
                 >
                     <source
-                        src="https://video-hostingnew.vercel.app/video.mp4"
-                        type="video/mp4"
-                        media="(min-width: 1024px)"
-                    />
-                    <source
-                        src="https://video-hostingnew.vercel.app"
+                        src="https://video-hostingnew.vercel.app/video-bg.mp4"
                         type="video/mp4"
                         media="(min-width: 1024px)"
                     />
