@@ -10,6 +10,7 @@ import MustSeeSection from '../../components/MustSeeSection/MustSeeSection';
 import NearYouSection from '../../components/NearYouSection/NearYouSection';
 import { SkeletonSearchBar, SkeletonChips, SkeletonMustSee, SkeletonNearYou, SkeletonRecommendations } from '../../components/SkeletonHome/SkeletonHome';
 import useHomeData from '../../hooks/useHomeData';
+import useScrollDirection from '../../hooks/useScrollDirection';
 import { Loader2 } from 'lucide-react';
 import './HomeScreen.css';
 import '../../components/HomeHeader/HomeFixedHeader.css';
@@ -54,40 +55,10 @@ const HomeScreen = () => {
         }, 1000);
     };
 
-    const [isChipsVisible, setIsChipsVisible] = useState(true);
-
-    // Scroll Logic for hiding/showing chips
-    React.useEffect(() => {
-        let lastScrollY = window.scrollY;
-
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY;
-
-            // Should not trigger if searching (layout is different)
-            if (isSearching) return;
-
-            // Always show at top
-            if (currentScrollY < 50) {
-                setIsChipsVisible(true);
-                lastScrollY = currentScrollY;
-                return;
-            }
-
-            // Scroll Down -> Hide
-            if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                setIsChipsVisible(false);
-            }
-            // Scroll Up -> Show
-            else if (currentScrollY < lastScrollY) {
-                setIsChipsVisible(true);
-            }
-
-            lastScrollY = currentScrollY;
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [isSearching]);
+    // Optimized Scroll Hook
+    const isScrollVisible = useScrollDirection();
+    // Combine with search state: if searching, ignore hiding
+    const isChipsVisible = isSearching ? true : isScrollVisible;
 
     const handleLogoClick = () => {
         setIsSearching(false);

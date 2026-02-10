@@ -3,31 +3,37 @@ import { useState, useEffect, useRef } from 'react';
 const useScrollDirection = () => {
     const [isVisible, setIsVisible] = useState(true);
     const lastScrollY = useRef(0);
+    const ticking = useRef(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            const currentScrollY = window.scrollY;
+            if (!ticking.current) {
+                window.requestAnimationFrame(() => {
+                    const currentScrollY = window.scrollY;
+                    const lastY = lastScrollY.current;
+                    const delta = Math.abs(currentScrollY - lastY);
 
-            // Always show at top (or very minimal scroll)
-            if (currentScrollY < 10) {
-                setIsVisible(true);
-                lastScrollY.current = currentScrollY;
-                return;
+                    // Always show at top
+                    if (currentScrollY < 10) {
+                        setIsVisible(true);
+                    } else if (delta > 8) { // Ignore small scrolls (jitter)
+                        if (currentScrollY > lastY && currentScrollY > 60) {
+                            // Scrolling DOWN -> Hide
+                            setIsVisible(false);
+                        } else if (currentScrollY < lastY) {
+                            // Scrolling UP -> Show
+                            setIsVisible(true);
+                        }
+                    }
+
+                    lastScrollY.current = currentScrollY;
+                    ticking.current = false;
+                });
+
+                ticking.current = true;
             }
-
-            // Determining direction
-            // Hide only after scrolling down a bit (e.g. > 100px total scroll or relative)
-            // Here we check if current > last
-            if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
-                setIsVisible(false);
-            } else if (currentScrollY < lastScrollY.current) {
-                setIsVisible(true);
-            }
-
-            lastScrollY.current = currentScrollY;
         };
 
-        // Passive listener for performance
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);

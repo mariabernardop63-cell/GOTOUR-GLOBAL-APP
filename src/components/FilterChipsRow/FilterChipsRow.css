@@ -25,6 +25,7 @@
     height: 70px;
     /* Explicit height helps transition */
     transform-origin: top;
+    will-change: height, opacity, transform;
 }
 
 .filter-chips-container::-webkit-scrollbar {
