@@ -54,6 +54,41 @@ const HomeScreen = () => {
         }, 1000);
     };
 
+    const [isChipsVisible, setIsChipsVisible] = useState(true);
+
+    // Scroll Logic for hiding/showing chips
+    React.useEffect(() => {
+        let lastScrollY = window.scrollY;
+
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // Should not trigger if searching (layout is different)
+            if (isSearching) return;
+
+            // Always show at top
+            if (currentScrollY < 50) {
+                setIsChipsVisible(true);
+                lastScrollY = currentScrollY;
+                return;
+            }
+
+            // Scroll Down -> Hide
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                setIsChipsVisible(false);
+            }
+            // Scroll Up -> Show
+            else if (currentScrollY < lastScrollY) {
+                setIsChipsVisible(true);
+            }
+
+            lastScrollY = currentScrollY;
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [isSearching]);
+
     const handleLogoClick = () => {
         setIsSearching(false);
         setSearchQuery('');
@@ -64,7 +99,7 @@ const HomeScreen = () => {
     };
 
     return (
-        <div className="home-page">
+        <div className={`home-page ${(!isChipsVisible && !isSearching) ? 'scrolled-hide-chips' : ''}`}>
             <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
 
             {/* Sticky Header — Logo & Menu always visible immediately */}

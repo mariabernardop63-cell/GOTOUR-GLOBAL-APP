@@ -1,4 +1,16 @@
 /* FilterChipsRow.css */
+/* Parent controlled class for hiding */
+.scrolled-hide-chips .filter-chips-container {
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+    margin: 0;
+    overflow: hidden;
+}
+
 .filter-chips-container {
     padding: 12px 0 12px 20px;
     background-color: #ffffff;
@@ -8,6 +20,11 @@
     scrollbar-width: none;
     display: flex;
     gap: 10px;
+    /* Transition for smooth hide/show */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 70px;
+    /* Explicit height helps transition */
+    transform-origin: top;
 }
 
 .filter-chips-container::-webkit-scrollbar {
