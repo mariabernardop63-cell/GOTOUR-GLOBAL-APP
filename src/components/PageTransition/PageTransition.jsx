@@ -21,7 +21,10 @@ const PageTransition = ({ children, direction = 'forward' }) => {
             }}
             animate={{
                 x: 0,
-                opacity: 1
+                opacity: 1,
+                transitionEnd: {
+                    transform: 'none'
+                }
             }}
             exit={{
                 x: getExitX(),
