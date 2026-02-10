@@ -40,7 +40,8 @@ const PageTransition = ({ children, direction = 'forward' }) => {
                 bottom: 0,
                 width: '100%',
                 minHeight: '100vh',
-                overflow: 'hidden',
+                overflowX: 'hidden', // Prevent horizontal scroll during animation
+                overflowY: 'auto',   // Allow vertical scroll
             }}
         >
             {children}
