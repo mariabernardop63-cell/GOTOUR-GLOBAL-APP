@@ -42,7 +42,7 @@
 .must-see-link {
     font-size: 13px;
     font-weight: 600;
-    color: #7c3aed;
+    color: #048c83;
     background: none;
     border: none;
     cursor: pointer;
@@ -173,7 +173,7 @@
 }
 
 .explore-more-card:hover {
-    border-color: #7c3aed;
+    border-color: #048c83;
     background: #faf5ff;
 }
 
@@ -185,7 +185,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #7c3aed;
+    color: #048c83;
 }
 
 .explore-text {

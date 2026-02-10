@@ -57,8 +57,8 @@
 /* SEPARATOR */
 .header-separator {
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(124, 58, 237, 0.1), transparent);
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.05);
+    background: linear-gradient(to right, transparent, rgba(4, 140, 131, 0.1), transparent);
+    box-shadow: 0 4px 12px rgba(4, 140, 131, 0.05);
     /* Subtle glow */
 }
 
@@ -104,7 +104,7 @@
     background: none;
     border: none;
     padding: 8px;
-    color: #7c3aed;
+    color: #048c83;
     /* Primary Purple */
     cursor: pointer;
     border-radius: 50%;
@@ -115,7 +115,7 @@
 }
 
 .icon-btn:hover {
-    background-color: rgba(124, 58, 237, 0.05);
+    background-color: rgba(4, 140, 131, 0.05);
     transform: scale(1.05);
 }
 
@@ -142,14 +142,14 @@
 .search-icon-input {
     position: absolute;
     left: 12px;
-    color: #7c3aed;
+    color: #048c83;
 }
 
 .feed-search-input {
     width: 100%;
     padding: 12px 12px 12px 40px;
     border-radius: 12px;
-    border: 1px solid rgba(124, 58, 237, 0.3);
+    border: 1px solid rgba(4, 140, 131, 0.3);
     background-color: #f9fafb;
     font-size: 15px;
     outline: none;
@@ -157,9 +157,9 @@
 }
 
 .feed-search-input:focus {
-    border-color: #7c3aed;
+    border-color: #048c83;
     background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    box-shadow: 0 0 0 3px rgba(4, 140, 131, 0.1);
     /* Neon glow effect */
 }
 
@@ -299,7 +299,7 @@
 }
 
 .post-action-chip svg {
-    color: #7c3aed;
+    color: #048c83;
 }
 
 .post-action-chip:hover {

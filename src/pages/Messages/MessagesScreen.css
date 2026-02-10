@@ -107,8 +107,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(124, 58, 237, 0.08);
-    border: 1px solid rgba(124, 58, 237, 0.15);
+    background: rgba(4, 140, 131, 0.08);
+    border: 1px solid rgba(4, 140, 131, 0.15);
     border-radius: 14px;
     padding: 10px 16px;
     cursor: pointer;
@@ -117,14 +117,14 @@
 }
 
 .messages-new-btn:hover {
-    background: rgba(124, 58, 237, 0.12);
+    background: rgba(4, 140, 131, 0.12);
 }
 
 .messages-new-btn-icon {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #7c3aed;
+    background: #048c83;
     color: #ffffff;
     display: flex;
     align-items: center;
@@ -135,7 +135,7 @@
 .messages-new-btn-text {
     font-size: 14px;
     font-weight: 600;
-    color: #7c3aed;
+    color: #048c83;
 }
 
 /* ===== NEW MESSAGE DROPDOWN ===== */
@@ -165,11 +165,11 @@
 }
 
 .messages-new-dropdown button:hover {
-    background: rgba(124, 58, 237, 0.06);
+    background: rgba(4, 140, 131, 0.06);
 }
 
 .messages-new-dropdown button svg {
-    color: #7c3aed;
+    color: #048c83;
 }
 
 /* ===== STORIES ROW ===== */
@@ -205,7 +205,7 @@
     height: 66px;
     border-radius: 50%;
     padding: 3px;
-    background: linear-gradient(135deg, #7c3aed, #ec4899, #f59e0b);
+    background: linear-gradient(135deg, #048c83, #ec4899, #f59e0b);
     background-size: 200% 200%;
     animation: storyGlow 3s ease infinite;
 }
@@ -257,12 +257,12 @@
 }
 
 .story-ring.add-story {
-    background: rgba(124, 58, 237, 0.15);
+    background: rgba(4, 140, 131, 0.15);
     animation: none;
 }
 
 .story-add-icon {
-    color: #7c3aed;
+    color: #048c83;
 }
 
 /* ===== CONVERSATION LIST ===== */
@@ -345,7 +345,7 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #7c3aed;
+    background: #048c83;
     color: #ffffff;
     font-size: 11px;
     font-weight: 700;
@@ -363,10 +363,10 @@
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: #7c3aed;
+    background: #048c83;
     color: #ffffff;
     border: none;
-    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 4px 16px rgba(4, 140, 131, 0.4);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -376,7 +376,7 @@
 
 .messages-fab:hover {
     transform: scale(1.08);
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+    box-shadow: 0 6px 20px rgba(4, 140, 131, 0.5);
 }
 
 .fab-menu {
@@ -409,11 +409,11 @@
 }
 
 .fab-menu button:hover {
-    background: rgba(124, 58, 237, 0.06);
+    background: rgba(4, 140, 131, 0.06);
 }
 
 .fab-menu button svg {
-    color: #7c3aed;
+    color: #048c83;
 }
 
 @keyframes fadeInContent {

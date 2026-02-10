@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HomeHeader from '../../components/HomeHeader/HomeHeader';
 import SearchBarAI from '../../components/SearchBarAI/SearchBarAI';
 import FilterChipsRow from '../../components/FilterChipsRow/FilterChipsRow';
@@ -8,11 +8,13 @@ import SearchResultsTabsHorizontal from '../../components/SearchResultsTabsHoriz
 import EmptyResultsComponent from '../../components/EmptyResultsComponent/EmptyResultsComponent';
 import MustSeeSection from '../../components/MustSeeSection/MustSeeSection';
 import NearYouSection from '../../components/NearYouSection/NearYouSection';
+import SkeletonHome from '../../components/SkeletonHome/SkeletonHome';
 import { Loader2 } from 'lucide-react';
 import './HomeScreen.css';
 
 const HomeScreen = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isPageLoading, setIsPageLoading] = useState(true);
 
     // Search State
     const [isSearching, setIsSearching] = useState(false);
@@ -21,6 +23,14 @@ const HomeScreen = () => {
     const [isTabLoading, setIsTabLoading] = useState(false); // Loading for tab switching
     const [activeTab, setActiveTab] = useState('all');
     const [results, setResults] = useState([]); // Mock functionality
+
+    // Simulate initial page load
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsPageLoading(false);
+        }, 1200);
+        return () => clearTimeout(timer);
+    }, []);
 
     const handleSearch = (query) => {
         setIsSearching(true);
@@ -81,7 +91,9 @@ const HomeScreen = () => {
             </div>
 
             <div className="home-content-scrollable">
-                {!isSearching ? (
+                {isPageLoading ? (
+                    <SkeletonHome />
+                ) : !isSearching ? (
                     /* Default Home View */
                     <>
                         <FilterChipsRow />
@@ -118,7 +130,7 @@ const HomeScreen = () => {
                         {/* Loading State for Tab Switch */}
                         {isTabLoading && !isLoading ? (
                             <div className="tab-loading-container">
-                                <Loader2 className="spinner-icon spin" size={32} color="#7c3aed" />
+                                <Loader2 className="spinner-icon spin" size={32} color="#1e293b" />
                             </div>
                         ) : (
                             /* Results Content */

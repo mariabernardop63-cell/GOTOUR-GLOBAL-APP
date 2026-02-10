@@ -121,7 +121,7 @@ const NearCard = ({ place, onClick }) => {
                     </div>
                     {/* Button removed to keep it cleaner as requested, or can add back small "Ver" */}
                     <div style={{
-                        background: '#7c3aed',
+                        background: '#048c83',
                         color: 'white',
                         padding: '4px 10px',
                         borderRadius: '12px',

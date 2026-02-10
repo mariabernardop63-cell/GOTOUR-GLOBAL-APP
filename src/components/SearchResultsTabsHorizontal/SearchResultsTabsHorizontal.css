@@ -39,10 +39,10 @@
 }
 
 .search-tab-chip.active {
-    background-color: #7c3aed;
+    background-color: #048c83;
     /* Brand purple */
     color: #ffffff;
-    box-shadow: 0 2px 4px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 2px 4px rgba(4, 140, 131, 0.3);
 }
 
 .search-tab-chip:hover:not(.active) {

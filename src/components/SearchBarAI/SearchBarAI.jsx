@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Loader2, SlidersHorizontal } from 'lucide-react';
+import { Search, Loader2, SlidersHorizontal, ChevronDown } from 'lucide-react';
 import './SearchBarAI.css';
 
 const CountrySelector = () => {
@@ -33,7 +33,7 @@ const CountrySelector = () => {
         <div className="country-selector-container" ref={dropdownRef}>
             <button className="country-flag-btn" onClick={() => setIsOpen(!isOpen)}>
                 <span className="flag-icon">{selectedCountry.flag}</span>
-                <div className="dropdown-arrow"></div>
+                <ChevronDown size={14} className="dropdown-chevron" />
             </button>
 
             {isOpen && (
@@ -88,7 +88,7 @@ const SearchBarAI = ({ onSearch, isSearching, isLoading }) => {
                 {isFocused && (
                     <div className="focused-left-ions">
                         <div className="icon-badge">
-                            <SlidersHorizontal size={20} color="#7c3aed" />
+                            <SlidersHorizontal size={20} color="#1e293b" />
                         </div>
                     </div>
                 )}

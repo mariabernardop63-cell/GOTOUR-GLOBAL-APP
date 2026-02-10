@@ -2,14 +2,14 @@
 
 /* Global Variables (referencing project variables where possible, defining local ones for specificity) */
 :root {
-    --primary-color: #7c3aed;
+    --primary-color: #048c83;
     --bg-color: #ffffff;
     /* Explicitly white for this premium screen */
     --text-primary: #1e293b;
     --text-secondary: #64748b;
     --border-color: #e2e8f0;
     --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    --card-shadow-hover: 0 10px 25px rgba(124, 58, 237, 0.15);
+    --card-shadow-hover: 0 10px 25px rgba(4, 140, 131, 0.15);
     /* Purple hint on hover */
     --radius-lg: 20px;
     --radius-md: 12px;
@@ -301,7 +301,7 @@
 .cat-card-item:hover {
     transform: translateY(-4px);
     box-shadow: var(--card-shadow-hover);
-    border-color: rgba(124, 58, 237, 0.3);
+    border-color: rgba(4, 140, 131, 0.3);
 }
 
 .cat-card-icon {
@@ -352,7 +352,7 @@
     font-weight: 600;
     margin-top: 8px;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 12px rgba(4, 140, 131, 0.3);
 }
 
 /* --- 8) Trending --- */
@@ -397,7 +397,7 @@
     min-width: 260px;
     height: 160px;
     border-radius: var(--radius-lg);
-    background: linear-gradient(135deg, #a78bfa, #7c3aed);
+    background: linear-gradient(135deg, #a78bfa, #048c83);
     /* Purple gradient placeholder */
     color: white;
     padding: 20px;
@@ -405,7 +405,7 @@
     flex-direction: column;
     justify-content: flex-end;
     position: relative;
-    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
+    box-shadow: 0 8px 20px rgba(4, 140, 131, 0.25);
     cursor: pointer;
     overflow: hidden;
 }
@@ -540,7 +540,7 @@
 .tips-alert-card {
     background: #fdf4ff;
     /* Very light purple/pink tint */
-    border: 1px solid rgba(124, 58, 237, 0.2);
+    border: 1px solid rgba(4, 140, 131, 0.2);
     border-radius: var(--radius-lg);
     padding: 20px;
     display: flex;

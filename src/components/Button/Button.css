@@ -27,22 +27,22 @@
 
 /* Primary Button (Gradient like Login) */
 .btn-primary {
-    background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+    background: linear-gradient(135deg, #048c83 0%, #6366f1 100%);
     color: #ffffff;
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 15px rgba(4, 140, 131, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.2);
     /* Subtle inner border */
 }
 
 .btn-primary:hover {
-    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 8px 25px rgba(4, 140, 131, 0.4);
     transform: translateY(-2px);
     background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
 }
 
 .btn-primary:active {
     transform: scale(0.96) translateY(0);
-    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 10px rgba(4, 140, 131, 0.3);
 }
 
 /* Secondary Button (Transparent with White Border) */
@@ -72,8 +72,8 @@
 }
 
 .btn-outline:hover {
-    border-color: #7c3aed;
-    color: #7c3aed;
+    border-color: #048c83;
+    color: #048c83;
     background: #f8fafc;
 }
 

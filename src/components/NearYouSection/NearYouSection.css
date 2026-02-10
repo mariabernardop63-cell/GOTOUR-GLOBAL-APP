@@ -33,7 +33,7 @@
 .near-you-link {
     font-size: 13px;
     font-weight: 600;
-    color: #7c3aed;
+    color: #048c83;
     background: none;
     border: none;
     cursor: pointer;
@@ -84,9 +84,9 @@
 }
 
 .near-you-card:hover {
-    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.08);
+    box-shadow: 0 8px 20px rgba(4, 140, 131, 0.08);
     /* slight purple glow */
-    border-color: rgba(124, 58, 237, 0.1);
+    border-color: rgba(4, 140, 131, 0.1);
 }
 
 .near-img-wrapper {
@@ -163,7 +163,7 @@
 }
 
 .near-btn-sm {
-    background: #7c3aed;
+    background: #048c83;
     color: #fff;
     border: none;
     border-radius: 10px;

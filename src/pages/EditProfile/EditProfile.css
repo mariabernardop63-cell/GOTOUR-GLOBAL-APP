@@ -86,7 +86,7 @@
 .edit-section-title {
     font-size: 12px;
     font-weight: 700;
-    color: #7c3aed;
+    color: #048c83;
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 12px 20px 8px;
@@ -113,18 +113,18 @@
 }
 
 .settings-row:hover {
-    background: rgba(124, 58, 237, 0.04);
+    background: rgba(4, 140, 131, 0.04);
 }
 
 .settings-row-icon {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: rgba(124, 58, 237, 0.08);
+    background: rgba(4, 140, 131, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #7c3aed;
+    color: #048c83;
     flex-shrink: 0;
 }
 
@@ -164,11 +164,11 @@
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: rgba(124, 58, 237, 0.08);
+    background: rgba(4, 140, 131, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #7c3aed;
+    color: #048c83;
     flex-shrink: 0;
 }
 
@@ -193,7 +193,7 @@
 }
 
 .custom-toggle.active {
-    background: #7c3aed;
+    background: #048c83;
 }
 
 .custom-toggle::after {
@@ -225,13 +225,13 @@
     flex: 1;
     height: 48px;
     border-radius: 14px;
-    background: #7c3aed;
+    background: #048c83;
     color: #ffffff;
     border: none;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 12px rgba(4, 140, 131, 0.3);
     transition: all 0.2s;
 }
 

@@ -128,7 +128,7 @@
 }
 
 .chat-more-menu button:hover {
-    background: rgba(124, 58, 237, 0.06);
+    background: rgba(4, 140, 131, 0.06);
 }
 
 .chat-more-menu button svg {
@@ -179,7 +179,7 @@
 }
 
 .chat-bubble-wrapper.sent .chat-bubble-sender {
-    color: #7c3aed;
+    color: #048c83;
 }
 
 .chat-bubble-wrapper.received .chat-bubble-sender {
@@ -196,7 +196,7 @@
 }
 
 .chat-bubble-wrapper.sent .chat-bubble {
-    background: #7c3aed;
+    background: #048c83;
     color: #ffffff;
     border-bottom-right-radius: 6px;
 }
@@ -232,7 +232,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    background: #7c3aed;
+    background: #048c83;
     color: #ffffff;
     border: none;
     border-radius: 20px;
@@ -240,7 +240,7 @@
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 12px rgba(4, 140, 131, 0.3);
     animation: fadeInMenu 0.3s ease;
 }
 
@@ -306,11 +306,11 @@
 }
 
 .chat-attach-menu button:hover {
-    background: rgba(124, 58, 237, 0.06);
+    background: rgba(4, 140, 131, 0.06);
 }
 
 .chat-attach-menu button svg {
-    color: #7c3aed;
+    color: #048c83;
 }
 
 .chat-text-input {
@@ -327,7 +327,7 @@
 }
 
 .chat-text-input:focus {
-    border-color: rgba(124, 58, 237, 0.4);
+    border-color: rgba(4, 140, 131, 0.4);
 }
 
 .chat-text-input::placeholder {
@@ -338,7 +338,7 @@
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: #7c3aed;
+    background: #048c83;
     color: #ffffff;
     border: none;
     display: flex;
@@ -346,7 +346,7 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 2px 8px rgba(4, 140, 131, 0.3);
 }
 
 .chat-send-btn:hover {

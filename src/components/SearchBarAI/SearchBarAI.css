@@ -23,32 +23,41 @@
 }
 
 .country-flag-btn {
-    background: none;
-    border: none;
-    padding: 0;
+    background: #f8f9fa;
+    border: 1px solid #e2e8f0;
+    padding: 8px 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 4px;
-    transition: transform 0.2s ease;
+    gap: 6px;
+    transition: all 0.2s ease;
+    border-radius: 12px;
+    height: 48px;
+}
+
+.country-flag-btn:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
 }
 
 .country-flag-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.97);
 }
 
 .flag-icon {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1;
 }
 
-.dropdown-arrow {
-    width: 0;
-    height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 5px solid #64748b;
-    border-radius: 2px;
+.dropdown-chevron {
+    color: #64748b;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.country-flag-btn[aria-expanded="true"] .dropdown-chevron,
+.country-selector-container .dropdown-chevron.open {
+    transform: rotate(180deg);
 }
 
 /* Country Dropdown */
@@ -58,10 +67,10 @@
     left: 0;
     margin-top: 8px;
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
     border: 1px solid #e2e8f0;
-    min-width: 160px;
+    min-width: 180px;
     overflow: hidden;
     z-index: 100;
     animation: fadeIn 0.2s ease-out;
@@ -70,18 +79,18 @@
 .country-option {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
-    padding: 10px 16px;
+    padding: 12px 16px;
     background: none;
     border: none;
     cursor: pointer;
     text-align: left;
-    transition: background 0.2s;
+    transition: background 0.15s;
 }
 
 .country-option:hover {
-    background-color: #f1f5f9;
+    background-color: #f8fafc;
 }
 
 .country-name {
@@ -96,12 +105,9 @@
     position: relative;
     border-radius: 9999px;
     padding: 1.5px;
-    /* Border thickness */
     overflow: hidden;
-    /* Create the spin effect context */
     isolation: isolate;
     transform: translateZ(0);
-    /* Hardware accel */
 }
 
 /* The spinning gradient background */
@@ -114,8 +120,8 @@
     height: 200%;
     background: conic-gradient(transparent 0deg,
             transparent 90deg,
-            #7c3aed 180deg,
-            #ec4899 270deg,
+            #1e293b 180deg,
+            #64748b 270deg,
             transparent 360deg);
     animation: rotate 3s linear infinite;
     z-index: -1;
@@ -137,22 +143,24 @@
     display: flex;
     align-items: center;
     background-color: #ffffff;
-    border: 1px solid #D9D9D9;
-    /* Fixed base border */
+    border: 1px solid #e2e8f0;
     border-radius: 9999px;
-    padding: 2px 4px 2px 14px;
-    /* Internal padding */
+    padding: 2px 4px 2px 16px;
     height: 48px;
     position: relative;
     z-index: 1;
-    /* On top of gradient */
     width: 100%;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.search-bar:focus-within {
+    border-color: #cbd5e1;
+    box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.06);
+}
+
 .search-icon-inner {
     color: #94a3b8;
-    margin-right: 8px;
+    margin-right: 10px;
     flex-shrink: 0;
 }
 
@@ -160,7 +168,7 @@
     border: none;
     outline: none;
     flex: 1;
-    font-size: 14px;
+    font-size: 15px;
     color: #1e293b;
     background: transparent;
     font-family: 'Inter', sans-serif;
@@ -169,25 +177,32 @@
 
 .search-input::placeholder {
     color: #94a3b8;
+    font-weight: 400;
 }
 
 .search-button-inner {
-    background-color: #7c3aed;
+    background-color: #1e293b;
     color: #ffffff;
     border: none;
     border-radius: 9999px;
-    padding: 0 16px;
+    padding: 0 20px;
     height: 38px;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     margin-left: 8px;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease;
     white-space: nowrap;
+    letter-spacing: 0.2px;
 }
 
 .search-button-inner:hover {
-    background-color: #6d28d9;
+    background-color: #334155;
+    transform: scale(1.02);
+}
+
+.search-button-inner:active {
+    transform: scale(0.98);
 }
 
 @keyframes fadeIn {
@@ -212,16 +227,13 @@
     z-index: 1000;
     background-color: #ffffff;
     padding: 10px 16px;
-    /* Matched to Feed Header padding */
     height: 70px;
-    /* Match Feed Header height */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     animation: slideDown 0.3s ease-out;
 }
 
 .search-focused-sticky .search-row {
     max-width: 100%;
-    /* Ensure full width */
 }
 
 /* Focused Left Icons Group */
@@ -236,23 +248,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    background-color: rgba(124, 58, 237, 0.1);
-    border-radius: 50%;
-    color: #7c3aed;
+    width: 38px;
+    height: 38px;
+    background-color: #f1f5f9;
+    border-radius: 12px;
+    color: #1e293b;
+    border: 1px solid #e2e8f0;
 }
 
 /* Backdrop */
 .search-focused-backdrop {
     position: fixed;
     top: 70px;
-    /* Below the sticky header */
     left: 0;
     width: 100vw;
     height: calc(100vh - 70px);
     background-color: rgba(255, 255, 255, 0.95);
-    /* White overlay to hide content behind */
     z-index: 999;
     backdrop-filter: blur(4px);
     animation: fadeIn 0.3s ease;

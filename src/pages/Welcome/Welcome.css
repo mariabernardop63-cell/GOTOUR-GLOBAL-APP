@@ -5,7 +5,6 @@
     min-height: 100vh;
     padding: var(--spacing-lg);
     position: relative;
-    /* overflow: hidden; -> managed by VideoBackground */
 }
 
 /* Slideshow Backgrounds */
@@ -41,14 +40,12 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    /* Stacked on mobile */
     height: 100%;
     justify-content: flex-end;
 }
 
 .welcome-left-col {
     display: none;
-    /* Hidden on Mobile */
 }
 
 .welcome-right-col {
@@ -58,15 +55,12 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    /* Left align */
     text-align: left;
-    /* Left align */
 }
 
 /* Mobile specific elements */
 .mobile-logo-area {
     position: fixed !important;
-    /* Fixed to viewport to stay independent of container flow */
     top: 30px !important;
     right: 20px !important;
     display: flex;
@@ -75,14 +69,11 @@
     justify-content: flex-end;
     gap: 8px;
     z-index: 9999;
-    /* Ensure it's above everything */
     padding: 10px;
-    /* Touch target area */
 }
 
 .gotour-icon {
     height: 40px;
-    /* Slightly smaller for corner */
     width: auto;
 }
 
@@ -122,7 +113,6 @@
 
 .desktop-card-header {
     display: none;
-    /* Hidden on Mobile */
 }
 
 .welcome-actions {
@@ -132,6 +122,211 @@
     width: 100%;
 }
 
+/* Mobile/Desktop button visibility */
+.desktop-only-actions {
+    display: none;
+}
+
+.mobile-only-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+/* ===== BOTTOM SHEET (ChatGPT style - Mobile Only) ===== */
+.bottom-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: fadeInSheet 0.2s ease;
+}
+
+@keyframes fadeInSheet {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.bottom-sheet {
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    min-height: 70vh;
+    background: #ffffff;
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.2);
+    animation: slideUpSheet 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes slideUpSheet {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.bottom-sheet-handle {
+    width: 40px;
+    height: 5px;
+    border-radius: 3px;
+    background: #d1d5db;
+    margin: 12px auto 0;
+    flex-shrink: 0;
+}
+
+.bottom-sheet-content {
+    padding: 24px 24px 36px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.bottom-sheet-label {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 6px;
+    letter-spacing: 0.2px;
+}
+
+.bottom-sheet-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 28px;
+    line-height: 1.2;
+}
+
+/* Social Auth Buttons (ChatGPT style) */
+.social-buttons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.social-auth-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 52px;
+    padding: 0 20px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1e293b;
+    gap: 14px;
+}
+
+.social-auth-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.social-auth-btn:active {
+    transform: scale(0.98);
+    background: #f1f5f9;
+}
+
+.social-auth-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+/* Divider with "OU" */
+.sheet-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.sheet-divider-line {
+    flex: 1;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+.sheet-divider-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Manual Auth Buttons */
+.sheet-auth-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sheet-login-btn {
+    width: 100%;
+    height: 52px;
+    background: #1e293b;
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.sheet-login-btn:hover {
+    background: #334155;
+}
+
+.sheet-login-btn:active {
+    transform: scale(0.98);
+}
+
+.sheet-signup-btn {
+    width: 100%;
+    height: 52px;
+    background: transparent;
+    color: #1e293b;
+    border: 1.5px solid #1e293b;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.sheet-signup-btn:hover {
+    background: rgba(30, 41, 59, 0.04);
+}
+
+.sheet-signup-btn:active {
+    transform: scale(0.98);
+}
+
 /* --- DESKTOP LAYOUT (1024px+) --- */
 @media (min-width: 1024px) {
     .welcome-page-content {
@@ -139,12 +334,9 @@
         justify-content: center;
     }
 
-    /* .welcome-overlay removed */
-
     .welcome-desktop-grid {
         display: grid;
         grid-template-columns: 1fr 480px;
-        /* Left flex, Right Card Fixed */
         height: 100vh;
         max-width: 1400px;
         padding: 0 60px;
@@ -188,7 +380,6 @@
     .rotating-text-container {
         position: relative;
         height: 220px;
-        /* Fixed height to prevent jump */
         margin-bottom: 30px;
     }
 
@@ -252,10 +443,8 @@
 
     .dot.active {
         width: 24px;
-        /* elongated */
         border-radius: 4px;
-        background-color: #7c3aed;
-        /* Brand Purple */
+        background-color: #1e293b;
     }
 
     /* Extra Features */
@@ -316,6 +505,23 @@
         display: none !important;
     }
 
+    /* Desktop: show desktop buttons, hide mobile buttons */
+    .mobile-only-actions {
+        display: none;
+    }
+
+    .desktop-only-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+    }
+
+    /* Hide bottom sheet on desktop */
+    .bottom-sheet-overlay {
+        display: none !important;
+    }
+
     .action-glass-card {
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(20px);
@@ -330,7 +536,6 @@
         max-width: 440px;
         position: relative;
         overflow: hidden;
-        /* For contained neon */
     }
 
     /* NEON EFFECT (Top & Left) */
@@ -357,7 +562,6 @@
         box-shadow: 0 0 10px #65cdd6, 0 0 20px #65cdd6;
         animation: neon-slide-left 4s linear infinite;
         animation-delay: 2s;
-        /* Offset for flowing feel */
     }
 
     @keyframes neon-slide-top {

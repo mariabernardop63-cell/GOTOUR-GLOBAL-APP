@@ -92,7 +92,7 @@ const ProfileScreen = () => {
                 </button>
             </header>
 
-            {/* BANNER */}
+            {/* BANNER (Full Width - Facebook style) */}
             <div className="profile-banner-wrapper">
                 <div className="profile-banner">
                     {user.coverImage ? (
@@ -152,36 +152,38 @@ const ProfileScreen = () => {
                 </div>
             )}
 
-            {/* AVATAR + STATS */}
+            {/* AVATAR (overlapping cover - Facebook style) */}
             <div className="profile-avatar-section">
                 <div className="profile-avatar">
                     {user.avatar ? (
                         <img src={user.avatar} alt={user.name} />
                     ) : (
-                        <User size={44} className="profile-avatar-placeholder" />
+                        <User size={48} className="profile-avatar-placeholder" />
                     )}
-                </div>
-                <div className="profile-stats">
-                    <div className="profile-stat-item">
-                        <span className="profile-stat-number">{user.stats.friends}</span>
-                        <span className="profile-stat-label">Amigos</span>
-                    </div>
-                    <div className="profile-stat-item">
-                        <span className="profile-stat-number">{user.stats.collections}</span>
-                        <span className="profile-stat-label">Coleções</span>
-                    </div>
-                    <div className="profile-stat-item">
-                        <span className="profile-stat-number">{user.stats.posts}</span>
-                        <span className="profile-stat-label">Posts</span>
-                    </div>
                 </div>
             </div>
 
-            {/* USER INFO */}
+            {/* USER INFO (centered) */}
             <div className="profile-user-info">
                 <h1 className="profile-user-name">{user.name}</h1>
                 <p className="profile-username">{user.username}</p>
                 <p className="profile-bio">{user.bio}</p>
+            </div>
+
+            {/* STATS (centered row) */}
+            <div className="profile-stats">
+                <div className="profile-stat-item">
+                    <span className="profile-stat-number">{user.stats.friends}</span>
+                    <span className="profile-stat-label">Amigos</span>
+                </div>
+                <div className="profile-stat-item">
+                    <span className="profile-stat-number">{user.stats.collections}</span>
+                    <span className="profile-stat-label">Coleções</span>
+                </div>
+                <div className="profile-stat-item">
+                    <span className="profile-stat-number">{user.stats.posts}</span>
+                    <span className="profile-stat-label">Posts</span>
+                </div>
             </div>
 
             {/* ACTION BUTTONS */}

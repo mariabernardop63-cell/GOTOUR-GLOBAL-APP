@@ -31,7 +31,7 @@ const DestinoDetalhes = () => {
                     justifyContent: 'center',
                     cursor: 'pointer',
                     marginBottom: '20px',
-                    color: '#7c3aed'
+                    color: '#048c83'
                 }}
             >
                 <ArrowLeft size={24} />
