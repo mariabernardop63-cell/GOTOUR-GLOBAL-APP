@@ -106,7 +106,7 @@ const AnimatedRoutes = () => {
             position: 'relative',
             width: '100%',
             minHeight: '100vh',
-            overflow: 'hidden',
+            overflowX: 'hidden',
             // Make background transparent when video is showing so video is visible
             background: showVideo ? 'transparent' : '#F0F9FF',
             // Ensure proper stacking context
