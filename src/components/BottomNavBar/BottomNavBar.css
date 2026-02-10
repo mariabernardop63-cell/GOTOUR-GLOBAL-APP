@@ -18,6 +18,11 @@
     padding: 12px 16px 24px 16px;
     z-index: 1000;
     height: 70px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bottom-nav.navbar-hidden {
+    transform: translateY(100%);
 }
 
 .nav-item {

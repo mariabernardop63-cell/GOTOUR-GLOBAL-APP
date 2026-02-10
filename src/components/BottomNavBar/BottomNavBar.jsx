@@ -4,6 +4,8 @@ import { LayoutGrid, MapPinned, User, Rss } from 'lucide-react'; // Switched Fil
 import homeIcon from '../../assets/images/home_icon.png';
 import './BottomNavBar.css';
 
+import useScrollDirection from '../../hooks/useScrollDirection';
+
 // Custom Icon Component using Mask for color control
 const CustomIcon = ({ iconSrc, size, className }) => (
     <div
@@ -27,6 +29,7 @@ const CustomIcon = ({ iconSrc, size, className }) => (
 const BottomNavBar = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const isVisible = useScrollDirection();
 
     // Determine active tab
     const isActive = (path) => location.pathname === path;
@@ -40,7 +43,7 @@ const BottomNavBar = () => {
     ];
 
     return (
-        <nav className="bottom-nav">
+        <nav className={`bottom-nav ${!isVisible ? 'navbar-hidden' : ''}`}>
             {navItems.map((item) => (
                 <button
                     key={item.id}
