@@ -1,18 +1,26 @@
 /* HomeFixedHeader.css */
-/* Wraps Logo, Search, and Chips into a sticky header */
+/* Wraps Logo, Search, and Chips — FIXED at top */
 .home-fixed-header {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     background-color: #fff;
     padding-bottom: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    transition: box-shadow 0.3s ease;
 }
 
-/* Scrollable content — no padding-top needed with sticky */
+/* Content below the fixed header needs padding to not be hidden */
 .home-scroll-content {
+    padding-top: 200px;
     flex: 1;
     display: flex;
     flex-direction: column;
+}
+
+@media (max-width: 400px) {
+    .home-scroll-content {
+        padding-top: 185px;
+    }
 }
