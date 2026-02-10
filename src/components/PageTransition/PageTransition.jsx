@@ -1,10 +1,6 @@
 import { motion } from 'framer-motion';
 
 const PageTransition = ({ children, direction = 'forward' }) => {
-    // Determine initial and exit positions based on direction
-    // Forward: enter from RIGHT, exit to LEFT
-    // Back: enter from LEFT, exit to RIGHT
-
     const getInitialX = () => {
         return direction === 'forward' ? '100%' : '-100%';
     };
@@ -23,7 +19,8 @@ const PageTransition = ({ children, direction = 'forward' }) => {
                 x: 0,
                 opacity: 1,
                 transitionEnd: {
-                    transform: 'none'
+                    transform: 'none',
+                    position: 'relative'
                 }
             }}
             exit={{
@@ -40,11 +37,9 @@ const PageTransition = ({ children, direction = 'forward' }) => {
                 top: 0,
                 left: 0,
                 right: 0,
-                bottom: 0,
                 width: '100%',
                 minHeight: '100vh',
-                overflowX: 'hidden', // Prevent horizontal scroll during animation
-                overflowY: 'auto',   // Allow vertical scroll
+                overflowX: 'hidden',
             }}
         >
             {children}

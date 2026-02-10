@@ -1,26 +1,18 @@
 /* Global Styles & Variables */
 :root {
   /* Colors - Premium Fintech/Travel Palette */
-  /* Primary (Petroleum/Teal) */
   --primary: #0f766e;
-  /* Teal 700 */
   --primary-light: #2dd4bf;
-  /* Teal 400 */
   --primary-dark: #115e59;
-  /* Teal 800 */
   --primary-soft: #f0fdfa;
-  /* Teal 50 */
 
   /* Text */
   --text-main: #1e293b;
-  /* Slate 800 - High Contrast */
   --text-secondary: #64748b;
-  /* Slate 500 - Professional Muted */
   --text-muted: #94a3b8;
   --text-on-primary: #ffffff;
 
   /* Gradients */
-  /* Elegant blend of Petroleum Blue -> Light Blue -> Ice White */
   --bg-gradient: linear-gradient(135deg, #0e7490 0%, #22d3ee 50%, #f0f9ff 100%);
   --card-gradient: linear-gradient(to bottom, #ffffff, #f8fafc);
 
@@ -45,11 +37,10 @@
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  /* Modern Card Radius */
   --radius-xl: 24px;
   --radius-full: 9999px;
 
-  /* Shadows - Layered Soft Shadows (Stripe-like) */
+  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-card: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -60,17 +51,42 @@
   --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ===== SCROLL BEHAVIOR ===== */
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   margin: 0 !important;
   padding: 0 !important;
-  height: auto !important;
-  /* Allow height to grow */
   min-height: 100vh;
-  overflow-y: auto !important;
-  /* Force scroll capability */
   overflow-x: hidden !important;
-  /* Prevent horizontal scroll */
+  /* Body handles all vertical scroll — no nested scroll containers */
+}
+
+/* Styled Scrollbar — Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Styled Scrollbar — Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
 }
 
 * {
@@ -83,7 +99,6 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: var(--bg-gradient);
   background-attachment: fixed;
-  /* Ensure gradient stays during scroll */
   color: var(--text-main);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -91,7 +106,6 @@ body {
 
 body.video-active {
   background: transparent !important;
-  /* Allow video to show through */
 }
 
 button {
@@ -106,7 +120,17 @@ a {
   color: inherit;
 }
 
-/* Animations */
+/* ===== IMAGE FADE-IN ON LOAD ===== */
+img {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+img[data-loaded="false"] {
+  opacity: 0;
+}
+
+/* ===== ANIMATIONS ===== */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -166,7 +190,6 @@ a {
   border-radius: 50%;
   animation: btn-spin 0.8s linear infinite;
   margin: 0 auto;
-  /* Force center */
 }
 
 @keyframes btn-spin {

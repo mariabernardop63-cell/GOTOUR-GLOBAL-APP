@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import HomeHeader from '../../components/HomeHeader/HomeHeader';
 import SearchBarAI from '../../components/SearchBarAI/SearchBarAI';
 import FilterChipsRow from '../../components/FilterChipsRow/FilterChipsRow';
@@ -8,14 +8,14 @@ import SearchResultsTabsHorizontal from '../../components/SearchResultsTabsHoriz
 import EmptyResultsComponent from '../../components/EmptyResultsComponent/EmptyResultsComponent';
 import MustSeeSection from '../../components/MustSeeSection/MustSeeSection';
 import NearYouSection from '../../components/NearYouSection/NearYouSection';
-import SkeletonHome from '../../components/SkeletonHome/SkeletonHome';
+import { SkeletonSearchBar, SkeletonChips, SkeletonMustSee, SkeletonNearYou, SkeletonRecommendations } from '../../components/SkeletonHome/SkeletonHome';
+import useHomeData from '../../hooks/useHomeData';
 import { Loader2 } from 'lucide-react';
 import './HomeScreen.css';
 import '../../components/HomeHeader/HomeFixedHeader.css';
 
 const HomeScreen = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [isPageLoading, setIsPageLoading] = useState(true);
 
     // Search State
     const [isSearching, setIsSearching] = useState(false);
@@ -28,28 +28,20 @@ const HomeScreen = () => {
     // Country State
     const [selectedCountry, setSelectedCountry] = useState({ code: 'MZ', flag: '🇲🇿', name: 'Moçambique' });
 
-    // Simulate initial page load
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsPageLoading(false);
-        }, 1200);
-        return () => clearTimeout(timer);
-    }, []);
+    // Progressive data loading with caching
+    const homeData = useHomeData();
 
     const handleSearch = (query) => {
         setIsSearching(true);
         setSearchQuery(query);
         setIsLoading(true);
 
-        // Simulate network request delays
-        // Requirement: Neon/Loading lasts 3-5 seconds (using 4s)
         setTimeout(() => {
             setIsLoading(false);
-            // Simulate results check
             if (query.toLowerCase().includes('null') || query.toLowerCase().includes('empty') || query.toLowerCase().includes('nada')) {
                 setResults([]);
             } else {
-                setResults([1, 2, 3]); // Placeholder results
+                setResults([1, 2, 3]);
             }
         }, 4000);
     };
@@ -57,14 +49,12 @@ const HomeScreen = () => {
     const handleTabChange = (tabId) => {
         setActiveTab(tabId);
         setIsTabLoading(true);
-        // Simulate quick fetch for tab change
         setTimeout(() => {
             setIsTabLoading(false);
         }, 1000);
     };
 
     const handleLogoClick = () => {
-        // Reset to initial state
         setIsSearching(false);
         setSearchQuery('');
         setResults([]);
@@ -77,50 +67,68 @@ const HomeScreen = () => {
         <div className="home-page">
             <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
 
-            {/* Fixed Header Wrapper */}
+            {/* Sticky Header — Logo & Menu always visible immediately */}
             <div className="home-fixed-header">
                 <HomeHeader
                     onMenuClick={() => setIsDrawerOpen(!isDrawerOpen)}
                     onLogoClick={handleLogoClick}
                     isDrawerOpen={isDrawerOpen}
                 />
-                <SearchBarAI
-                    onSearch={handleSearch}
-                    isSearching={isSearching}
-                    isLoading={isLoading}
-                    selectedCountry={selectedCountry}
-                    onCountryChange={setSelectedCountry}
-                />
-                {!isSearching && <FilterChipsRow />}
+                {/* SearchBar: skeleton while loading, real when ready */}
+                {homeData.searchBar.isLoading ? (
+                    <SkeletonSearchBar />
+                ) : (
+                    <SearchBarAI
+                        onSearch={handleSearch}
+                        isSearching={isSearching}
+                        isLoading={isLoading}
+                        selectedCountry={selectedCountry}
+                        onCountryChange={setSelectedCountry}
+                    />
+                )}
+                {/* Chips: skeleton while loading, real when ready */}
+                {!isSearching && (
+                    homeData.chips.isLoading ? <SkeletonChips /> : <FilterChipsRow />
+                )}
             </div>
 
             <div className="home-scroll-content">
-                {isPageLoading ? (
-                    <SkeletonHome />
-                ) : !isSearching ? (
-                    /* Default Home View */
+                {!isSearching ? (
+                    /* Default Home View — each section loads independently */
                     <>
-                        <MustSeeSection countryName={selectedCountry.name} />
-                        <NearYouSection />
+                        {/* MustSee Section */}
+                        {homeData.mustSee.isLoading ? (
+                            <SkeletonMustSee />
+                        ) : (
+                            <MustSeeSection countryName={selectedCountry.name} />
+                        )}
 
-                        <div className="home-content">
-                            <h2 className="section-title">Recomendações para você em {selectedCountry.name}</h2>
+                        {/* NearYou Section */}
+                        {homeData.nearYou.isLoading ? (
+                            <SkeletonNearYou />
+                        ) : (
+                            <NearYouSection />
+                        )}
 
-                            <div className="recommendations-list">
-                                {/* Placeholder Cards */}
-                                {[1, 2, 3].map((item) => (
-                                    <div key={item} className="place-card">
-                                        <div className="place-image-placeholder">
-                                            {/* Image would go here */}
+                        {/* Recommendations Section */}
+                        {homeData.recommendations.isLoading ? (
+                            <SkeletonRecommendations />
+                        ) : (
+                            <div className="home-content">
+                                <h2 className="section-title">Recomendações para você em {selectedCountry.name}</h2>
+                                <div className="recommendations-list">
+                                    {[1, 2, 3].map((item) => (
+                                        <div key={item} className="place-card">
+                                            <div className="place-image-placeholder" />
+                                            <div className="place-info">
+                                                <h3 className="place-name">Hotel Paradise View {item}</h3>
+                                                <p className="place-location">{selectedCountry.name} • 5.0 ★</p>
+                                            </div>
                                         </div>
-                                        <div className="place-info">
-                                            <h3 className="place-name">Hotel Paradise View {item}</h3>
-                                            <p className="place-location">{selectedCountry.name} • 5.0 ★</p>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </>
                 ) : (
                     /* Search Results View */
@@ -130,20 +138,17 @@ const HomeScreen = () => {
                             onTabChange={handleTabChange}
                         />
 
-                        {/* Loading State for Tab Switch */}
                         {isTabLoading && !isLoading ? (
                             <div className="tab-loading-container">
                                 <Loader2 className="spinner-icon spin" size={32} color="#1e293b" />
                             </div>
                         ) : (
-                            /* Results Content */
                             <div className="search-results-content">
                                 {results.length > 0 ? (
                                     <div className="recommendations-list">
-                                        {/* Mock Results - Reusing cards style for now */}
                                         {results.map((item) => (
                                             <div key={item} className="place-card">
-                                                <div className="place-image-placeholder"></div>
+                                                <div className="place-image-placeholder" />
                                                 <div className="place-info">
                                                     <h3 className="place-name">Result for "{searchQuery}" {item}</h3>
                                                     <p className="place-location">{activeTab} • 4.8 ★</p>
@@ -160,7 +165,7 @@ const HomeScreen = () => {
                 )}
 
                 {/* Spacer for bottom nav */}
-                <div style={{ height: '80px' }}></div>
+                <div style={{ height: '80px' }} />
             </div>
 
             <BottomNavBar />
