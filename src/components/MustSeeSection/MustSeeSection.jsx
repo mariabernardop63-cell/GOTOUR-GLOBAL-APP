@@ -97,7 +97,7 @@ const MUST_SEE_PLACES = [
     }
 ];
 
-const MustSeeSection = () => {
+const MustSeeSection = ({ countryName = 'Moçambique' }) => {
     const navigate = useNavigate();
 
     const handleCardClick = (place) => {
@@ -121,8 +121,8 @@ const MustSeeSection = () => {
         <div className="must-see-section must-see-anim">
             <div className="must-see-header">
                 <div className="must-see-titles">
-                    <h2 className="must-see-title">Seleção Gotour <span style={{ fontSize: '16px' }}>⭐</span></h2>
-                    <span className="must-see-subtitle">Os lugares mais incríveis em destaque</span>
+                    <h2 className="must-see-title">Lugares Imperdíveis em {countryName} <span style={{ fontSize: '16px' }}>⭐</span></h2>
+                    <span className="must-see-subtitle">Os lugares mais incríveis que você vai ver em {countryName}</span>
                 </div>
                 <button className="must-see-link" onClick={handleSeeAll}>
                     Explorar mais

@@ -2,9 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Search, Loader2, SlidersHorizontal, ChevronDown } from 'lucide-react';
 import './SearchBarAI.css';
 
-const CountrySelector = () => {
+const CountrySelector = ({ selectedCountry, onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedCountry, setSelectedCountry] = useState({ code: 'MZ', flag: '🇲🇿', name: 'Moçambique' });
     const dropdownRef = useRef(null);
 
     const countries = [
@@ -25,7 +24,7 @@ const CountrySelector = () => {
     }, []);
 
     const handleSelect = (country) => {
-        setSelectedCountry(country);
+        onSelect(country);
         setIsOpen(false);
     };
 
@@ -54,7 +53,7 @@ const CountrySelector = () => {
     );
 };
 
-const SearchBarAI = ({ onSearch, isSearching, isLoading }) => {
+const SearchBarAI = ({ onSearch, isSearching, isLoading, selectedCountry, onCountryChange }) => {
     const [searchText, setSearchText] = useState('');
     const [isFocused, setIsFocused] = useState(false);
 
@@ -82,7 +81,7 @@ const SearchBarAI = ({ onSearch, isSearching, isLoading }) => {
         <div className={`search-bar-container ${isFocused ? 'search-focused-sticky' : ''}`}>
             <div className="search-row">
                 {/* Country Selector - Hidden when focused if we strictly follow "Filter Option + Lupa" on left */}
-                {!isFocused && <CountrySelector />}
+                {!isFocused && <CountrySelector selectedCountry={selectedCountry} onSelect={onCountryChange} />}
 
                 {/* Filter Icon (Only visible when focused as "Filter Option") */}
                 {isFocused && (

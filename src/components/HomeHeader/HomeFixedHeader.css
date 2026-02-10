@@ -1,0 +1,31 @@
+/* HomeFixedHeader.css */
+/* Wraps Logo, Search, and Chips into a fixed header */
+.home-fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: #fff;
+    /* Ensure opaque background so content scrolls under */
+    padding-bottom: 10px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    /* Subtle shadow */
+    transition: all 0.3s ease;
+}
+
+/* Adjust scrollable content to prevent it from being hidden behind the fixed header */
+.home-scroll-content {
+    padding-top: 190px;
+    /* Approx height of Logo + Search + Chips + Padding */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .home-scroll-content {
+        padding-top: 200px;
+        /* Slightly more padding on desktop if needed */
+    }
+}

@@ -11,18 +11,13 @@ import NearYouSection from '../../components/NearYouSection/NearYouSection';
 import SkeletonHome from '../../components/SkeletonHome/SkeletonHome';
 import { Loader2 } from 'lucide-react';
 import './HomeScreen.css';
+import '../../components/HomeHeader/HomeFixedHeader.css';
 
 const HomeScreen = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isPageLoading, setIsPageLoading] = useState(true);
 
-    // Search State
-    const [isSearching, setIsSearching] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [isLoading, setIsLoading] = useState(false); // Global search loading
-    const [isTabLoading, setIsTabLoading] = useState(false); // Loading for tab switching
-    const [activeTab, setActiveTab] = useState('all');
-    const [results, setResults] = useState([]); // Mock functionality
+    const [selectedCountry, setSelectedCountry] = useState({ code: 'MZ', flag: '🇲🇿', name: 'Moçambique' });
 
     // Simulate initial page load
     useEffect(() => {
@@ -69,15 +64,12 @@ const HomeScreen = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Calculate if we should show the sticky header structure
-    const headerClass = isSearching ? 'home-header-container sticky-active' : 'home-header-container';
-
     return (
         <div className="home-page">
             <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
 
-            {/* Sticky Header Wrapper */}
-            <div className={headerClass}>
+            {/* Fixed Header Wrapper */}
+            <div className="home-fixed-header">
                 <HomeHeader
                     onMenuClick={() => setIsDrawerOpen(!isDrawerOpen)}
                     onLogoClick={handleLogoClick}
@@ -87,21 +79,23 @@ const HomeScreen = () => {
                     onSearch={handleSearch}
                     isSearching={isSearching}
                     isLoading={isLoading}
+                    selectedCountry={selectedCountry}
+                    onCountryChange={setSelectedCountry}
                 />
+                {!isSearching && <FilterChipsRow />}
             </div>
 
-            <div className="home-content-scrollable">
+            <div className="home-scroll-content">
                 {isPageLoading ? (
                     <SkeletonHome />
                 ) : !isSearching ? (
                     /* Default Home View */
                     <>
-                        <FilterChipsRow />
-                        <MustSeeSection />
+                        <MustSeeSection countryName={selectedCountry.name} />
                         <NearYouSection />
 
                         <div className="home-content">
-                            <h2 className="section-title">Recomendações para você</h2>
+                            <h2 className="section-title">Recomendações para você em {selectedCountry.name}</h2>
 
                             <div className="recommendations-list">
                                 {/* Placeholder Cards */}
@@ -112,7 +106,7 @@ const HomeScreen = () => {
                                         </div>
                                         <div className="place-info">
                                             <h3 className="place-name">Hotel Paradise View {item}</h3>
-                                            <p className="place-location">Maldives • 5.0 ★</p>
+                                            <p className="place-location">{selectedCountry.name} • 5.0 ★</p>
                                         </div>
                                     </div>
                                 ))}
