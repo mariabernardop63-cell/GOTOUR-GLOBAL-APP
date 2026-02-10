@@ -22,6 +22,10 @@ async function generateFavicons() {
         const image = await Jimp.read(sourcePath);
         console.log('Image loaded successfully');
 
+        // Autocrop to remove excess whitespace and maximize logo size
+        image.autocrop();
+        console.log('Image autocropped to maximize size');
+
         const sizes = [
             { name: 'favicon-16x16.png', size: 16 },
             { name: 'favicon-32x32.png', size: 32 },
