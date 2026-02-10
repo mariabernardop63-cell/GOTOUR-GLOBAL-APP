@@ -17,6 +17,15 @@ const HomeScreen = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isPageLoading, setIsPageLoading] = useState(true);
 
+    // Search State
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [isTabLoading, setIsTabLoading] = useState(false);
+    const [activeTab, setActiveTab] = useState('all');
+    const [results, setResults] = useState([]);
+
+    // Country State
     const [selectedCountry, setSelectedCountry] = useState({ code: 'MZ', flag: '🇲🇿', name: 'Moçambique' });
 
     // Simulate initial page load
