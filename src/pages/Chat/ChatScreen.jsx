@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
-    ArrowLeft, MoreVertical, Plus, Send, Mic,
+    ArrowLeft, MoreVertical, Plus, Send, Mic, Phone,
     User, Ban, Flag, BellOff, Trash2, Lock,
     Eye, Gift, Image, Video, Smile, FileText,
     MapPin, ChevronDown
@@ -75,27 +75,36 @@ const ChatScreen = () => {
             {/* HEADER */}
             <div className="chat-header">
                 <button className="chat-back-btn" onClick={() => navigate(-1)} aria-label="Voltar">
-                    <ArrowLeft size={20} />
+                    <ArrowLeft size={24} />
                 </button>
                 <div className="chat-contact-avatar">
                     {contactAvatar ? <img src={contactAvatar} alt={contactName} /> : <User size={22} color="#94a3b8" />}
                 </div>
                 <span className="chat-contact-name">{contactName}</span>
-                <button className="chat-more-btn" onClick={() => setShowMoreMenu(!showMoreMenu)} aria-label="Mais">
-                    <MoreVertical size={20} />
-                    {showMoreMenu && (
-                        <div className="chat-more-menu">
-                            <button onClick={() => setShowMoreMenu(false)}><Ban size={16} /> Bloquear utilizador</button>
-                            <button className="destructive" onClick={() => setShowMoreMenu(false)}><Flag size={16} /> Denunciar</button>
-                            <button onClick={() => setShowMoreMenu(false)}><BellOff size={16} /> Silenciar notificações</button>
-                            <button onClick={() => setShowMoreMenu(false)}><Trash2 size={16} /> Limpar conversa</button>
-                            <button className="destructive" onClick={() => setShowMoreMenu(false)}><Trash2 size={16} /> Apagar conversa</button>
-                            <button onClick={() => setShowMoreMenu(false)}><Lock size={16} /> Trancar conversa</button>
-                            <button onClick={() => setShowMoreMenu(false)}><Eye size={16} /> Ver perfil</button>
-                            <button onClick={() => setShowMoreMenu(false)}><Gift size={16} /> Presentear plano</button>
-                        </div>
-                    )}
-                </button>
+
+                <div className="chat-header-actions">
+                    <button className="chat-action-icon" aria-label="Chamada de voz">
+                        <Phone size={22} />
+                    </button>
+                    <button className="chat-action-icon" aria-label="Chamada de vídeo">
+                        <Video size={22} />
+                    </button>
+                    <button className="chat-more-btn" onClick={() => setShowMoreMenu(!showMoreMenu)} aria-label="Mais">
+                        <MoreVertical size={22} color="#048c83" />
+                        {showMoreMenu && (
+                            <div className="chat-more-menu">
+                                <button onClick={() => setShowMoreMenu(false)}><Ban size={18} color="#048c83" /> Bloquear utilizador</button>
+                                <button className="destructive" onClick={() => setShowMoreMenu(false)}><Flag size={18} /> Denunciar</button>
+                                <button onClick={() => setShowMoreMenu(false)}><BellOff size={18} color="#048c83" /> Silenciar notificações</button>
+                                <button onClick={() => setShowMoreMenu(false)}><Trash2 size={18} color="#048c83" /> Limpar conversa</button>
+                                <button className="destructive" onClick={() => setShowMoreMenu(false)}><Trash2 size={18} /> Apagar conversa</button>
+                                <button onClick={() => setShowMoreMenu(false)}><Lock size={18} color="#048c83" /> Trancar conversa</button>
+                                <button onClick={() => setShowMoreMenu(false)}><Eye size={18} color="#048c83" /> Ver perfil</button>
+                                <button onClick={() => setShowMoreMenu(false)}><Gift size={18} color="#048c83" /> Presentear plano</button>
+                            </div>
+                        )}
+                    </button>
+                </div>
             </div>
 
             {/* MESSAGES */}

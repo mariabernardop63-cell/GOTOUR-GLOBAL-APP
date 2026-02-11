@@ -359,22 +359,59 @@
     background: #037f76;
 }
 
-/* Responsive */
+/* Header Actions */
+.chat-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chat-action-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #048c83;
+    /* Primary Color */
+    transition: background 0.2s;
+}
+
+.chat-action-icon:hover {
+    background: rgba(4, 140, 131, 0.08);
+}
+
+/* ===== RESPONSIVE ===== */
 @media (min-width: 768px) {
-    .chat-row {
-        max-width: 80%;
+    .chat-page {
+        max-width: 600px;
+        margin: 0 auto;
     }
 
-    .chat-bubble-group {
-        max-width: 80%;
+    .chat-bubble-wrapper {
+        max-width: 65%;
     }
 
+    /* LEFT ALIGNMENT ON DESKTOP */
     .chat-messages {
-        align-items: center;
+        align-items: flex-start;
+        /* Align to left/start */
+        padding-left: 20px;
+        /* Slight offset from edge */
     }
 
     .chat-row {
         width: 100%;
-        max-width: 700px;
+        max-width: 100%;
+        /* Take full width to allow left/right alignment */
+    }
+
+    /* Limit bubble width on desktop */
+    .chat-bubble-group {
+        max-width: 400px;
     }
 }

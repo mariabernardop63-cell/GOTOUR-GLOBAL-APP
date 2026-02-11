@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    ArrowLeft, Menu, Plus, MessageSquare, Film,
+    ArrowLeft, Menu, Plus, MessageSquare, Film, MoreVertical,
     Settings, Archive, CheckCheck, Lock, User,
     MessageCircle, Users, Bell, Heart,
     MapPin, Compass, BookOpen, Layers,
@@ -84,29 +84,48 @@ const MessagesScreen = () => {
                         <button className="messages-header-icon" aria-label="Comunidades">
                             <Globe size={22} />
                         </button>
-                        <button className="messages-plus-btn" onClick={() => setShowNewMenu(!showNewMenu)} aria-label="Nova ação">
-                            <Plus size={24} />
-                        </button>
+
+                        {/* More Menu (Replaces Plus + FAB) */}
+                        <div style={{ position: 'relative' }}>
+                            <button className="messages-plus-btn" onClick={() => setShowNewMenu(!showNewMenu)} aria-label="Opções">
+                                <MoreVertical size={22} />
+                            </button>
+
+                            {showNewMenu && (
+                                <div className="messages-new-dropdown">
+                                    <button onClick={() => setShowNewMenu(false)}>
+                                        <MessageSquare size={18} color="#048c83" /> Nova mensagem
+                                    </button>
+                                    <button onClick={() => setShowNewMenu(false)}>
+                                        <Film size={18} color="#048c83" /> Adicionar história
+                                    </button>
+                                    <button onClick={() => setShowNewMenu(false)}>
+                                        <Users size={18} color="#048c83" /> Criar Grupo
+                                    </button>
+                                    <button onClick={() => setShowNewMenu(false)}>
+                                        <Globe size={18} color="#048c83" /> Criar Comunidade
+                                    </button>
+                                    <div className="menu-divider" style={{ height: '1px', background: '#f1f1f1', margin: '4px 0' }} />
+                                    <button onClick={() => setShowNewMenu(false)}>
+                                        <Archive size={18} color="#048c83" /> Arquivar mensagens
+                                    </button>
+                                    <button onClick={() => setShowNewMenu(false)}>
+                                        <CheckCheck size={18} color="#048c83" /> Marcar como lidas
+                                    </button>
+                                    <button onClick={() => setShowNewMenu(false)}>
+                                        <Lock size={18} color="#048c83" /> Trancar conversas
+                                    </button>
+                                    <button onClick={() => {
+                                        setShowNewMenu(false);
+                                        navigate('/message-settings');
+                                    }}>
+                                        <Settings size={18} color="#048c83" /> Definições
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
-
-                {/* NEW ACTION DROPDOWN */}
-                {showNewMenu && (
-                    <div className="messages-new-dropdown">
-                        <button onClick={() => setShowNewMenu(false)}>
-                            <MessageSquare size={18} /> Nova mensagem
-                        </button>
-                        <button onClick={() => setShowNewMenu(false)}>
-                            <Film size={18} /> Adicionar história
-                        </button>
-                        <button onClick={() => setShowNewMenu(false)}>
-                            <Users size={18} /> Criar Grupo
-                        </button>
-                        <button onClick={() => setShowNewMenu(false)}>
-                            <Globe size={18} /> Criar Comunidade
-                        </button>
-                    </div>
-                )}
 
                 {/* SCROLLABLE CONTENT WRAPPER */}
                 <main className="messages-scroll-content">
@@ -170,22 +189,7 @@ const MessagesScreen = () => {
                     </div>
                 </main>
 
-                {/* FAB */}
-                <button className="messages-fab" onClick={() => setShowFabMenu(!showFabMenu)} aria-label="Opções">
-                    <Settings size={22} />
-                </button>
 
-                {showFabMenu && (
-                    <div className="fab-menu">
-                        <button onClick={() => setShowFabMenu(false)}><Archive size={18} /> Arquivar mensagens</button>
-                        <button onClick={() => setShowFabMenu(false)}><CheckCheck size={18} /> Marcar como lidas</button>
-                        <button onClick={() => setShowFabMenu(false)}><Lock size={18} /> Trancar conversas</button>
-                        <button onClick={() => {
-                            setShowFabMenu(false);
-                            navigate('/message-settings');
-                        }}><Settings size={18} /> Definições</button>
-                    </div>
-                )}
 
                 <BottomNavBar />
             </div>

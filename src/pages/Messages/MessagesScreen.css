@@ -386,79 +386,7 @@
     justify-content: center;
 }
 
-/* ===== FAB ===== */
-.messages-fab {
-    position: fixed;
-    bottom: 100px;
-    right: 20px;
-    z-index: 50;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: #048c83;
-    color: #ffffff;
-    border: none;
-    box-shadow: 0 4px 16px rgba(4, 140, 131, 0.4);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
 
-.messages-fab:hover {
-    transform: scale(1.08);
-    box-shadow: 0 6px 20px rgba(4, 140, 131, 0.5);
-}
-
-.fab-menu {
-    position: fixed;
-    bottom: 164px;
-    right: 20px;
-    z-index: 50;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 16px;
-    padding: 8px 0;
-    min-width: 200px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    animation: fadeInContent 0.2s ease;
-}
-
-.fab-menu button {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    width: 100%;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: #374151;
-    transition: background 0.15s;
-}
-
-.fab-menu button:hover {
-    background: rgba(4, 140, 131, 0.06);
-}
-
-.fab-menu button svg {
-    color: #048c83;
-}
-
-@keyframes fadeInContent {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
 /* ===================================================
    RIGHT SIDEBAR — Desktop Only (hidden on mobile)
@@ -493,14 +421,7 @@
         display: none;
     }
 
-    /* FAB position relative to messages panel */
-    .messages-fab {
-        right: 360px;
-    }
 
-    .fab-menu {
-        right: 360px;
-    }
 
     /* Show sidebar */
     .messages-sidebar {
@@ -524,13 +445,7 @@
         width: 380px;
     }
 
-    .messages-fab {
-        right: 400px;
-    }
 
-    .fab-menu {
-        right: 400px;
-    }
 }
 
 /* ===== SIDEBAR STYLES ===== */
