@@ -92,133 +92,136 @@ const ProfileScreen = () => {
                 </button>
             </header>
 
-            {/* BANNER (Full Width - Facebook style) */}
-            <div className="profile-banner-wrapper">
-                <div className="profile-banner">
-                    {user.coverImage ? (
-                        <img src={user.coverImage} alt="Capa do perfil" className="profile-banner-image" />
-                    ) : (
-                        <div className="profile-banner-gradient" />
-                    )}
-                    <button className="profile-banner-edit-btn" onClick={() => setShowBannerModal(true)} aria-label="Editar capa">
-                        <Pencil size={16} />
-                    </button>
+            {/* SCROLLABLE CONTENT */}
+            <main className="profile-scroll-content">
+                {/* BANNER (Full Width - Facebook style) */}
+                <div className="profile-banner-wrapper">
+                    <div className="profile-banner">
+                        {user.coverImage ? (
+                            <img src={user.coverImage} alt="Capa do perfil" className="profile-banner-image" />
+                        ) : (
+                            <div className="profile-banner-gradient" />
+                        )}
+                        <button className="profile-banner-edit-btn" onClick={() => setShowBannerModal(true)} aria-label="Editar capa">
+                            <Pencil size={16} />
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            {/* BANNER EDIT MODAL */}
-            {showBannerModal && (
-                <div className="banner-modal-overlay">
-                    <div className="banner-modal" ref={modalRef}>
-                        <div className="banner-modal-handle" />
-                        <p className="banner-modal-title">Editar Perfil</p>
+                {/* BANNER EDIT MODAL */}
+                {showBannerModal && (
+                    <div className="banner-modal-overlay">
+                        <div className="banner-modal" ref={modalRef}>
+                            <div className="banner-modal-handle" />
+                            <p className="banner-modal-title">Editar Perfil</p>
 
-                        {hasAvatar ? (
-                            <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
-                                <span className="banner-modal-option-icon"><Camera size={20} /></span>
-                                Trocar foto de perfil
-                            </button>
+                            {hasAvatar ? (
+                                <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
+                                    <span className="banner-modal-option-icon"><Camera size={20} /></span>
+                                    Trocar foto de perfil
+                                </button>
+                            ) : (
+                                <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
+                                    <span className="banner-modal-option-icon"><Camera size={20} /></span>
+                                    Adicionar foto de perfil
+                                </button>
+                            )}
+
+                            {hasCover ? (
+                                <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
+                                    <span className="banner-modal-option-icon"><ImagePlus size={20} /></span>
+                                    Trocar foto de capa
+                                </button>
+                            ) : (
+                                <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
+                                    <span className="banner-modal-option-icon"><ImagePlus size={20} /></span>
+                                    Adicionar foto de capa
+                                </button>
+                            )}
+
+                            {!user.hasStory ? (
+                                <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
+                                    <span className="banner-modal-option-icon"><Film size={20} /></span>
+                                    Adicionar história
+                                </button>
+                            ) : (
+                                <button className="banner-modal-option destructive" onClick={() => setShowBannerModal(false)}>
+                                    <span className="banner-modal-option-icon"><Trash2 size={20} /></span>
+                                    Remover história
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {/* AVATAR (overlapping cover - Facebook style) */}
+                <div className="profile-avatar-section">
+                    <div className="profile-avatar">
+                        {user.avatar ? (
+                            <img src={user.avatar} alt={user.name} />
                         ) : (
-                            <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
-                                <span className="banner-modal-option-icon"><Camera size={20} /></span>
-                                Adicionar foto de perfil
-                            </button>
-                        )}
-
-                        {hasCover ? (
-                            <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
-                                <span className="banner-modal-option-icon"><ImagePlus size={20} /></span>
-                                Trocar foto de capa
-                            </button>
-                        ) : (
-                            <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
-                                <span className="banner-modal-option-icon"><ImagePlus size={20} /></span>
-                                Adicionar foto de capa
-                            </button>
-                        )}
-
-                        {!user.hasStory ? (
-                            <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
-                                <span className="banner-modal-option-icon"><Film size={20} /></span>
-                                Adicionar história
-                            </button>
-                        ) : (
-                            <button className="banner-modal-option destructive" onClick={() => setShowBannerModal(false)}>
-                                <span className="banner-modal-option-icon"><Trash2 size={20} /></span>
-                                Remover história
-                            </button>
+                            <User size={48} className="profile-avatar-placeholder" />
                         )}
                     </div>
                 </div>
-            )}
 
-            {/* AVATAR (overlapping cover - Facebook style) */}
-            <div className="profile-avatar-section">
-                <div className="profile-avatar">
-                    {user.avatar ? (
-                        <img src={user.avatar} alt={user.name} />
-                    ) : (
-                        <User size={48} className="profile-avatar-placeholder" />
-                    )}
+                {/* USER INFO (centered) */}
+                <div className="profile-user-info">
+                    <h1 className="profile-user-name">{user.name}</h1>
+                    <p className="profile-username">{user.username}</p>
+                    <p className="profile-bio">{user.bio}</p>
                 </div>
-            </div>
 
-            {/* USER INFO (centered) */}
-            <div className="profile-user-info">
-                <h1 className="profile-user-name">{user.name}</h1>
-                <p className="profile-username">{user.username}</p>
-                <p className="profile-bio">{user.bio}</p>
-            </div>
-
-            {/* STATS (centered row) */}
-            <div className="profile-stats">
-                <div className="profile-stat-item">
-                    <span className="profile-stat-number">{user.stats.friends}</span>
-                    <span className="profile-stat-label">Amigos</span>
+                {/* STATS (centered row) */}
+                <div className="profile-stats">
+                    <div className="profile-stat-item">
+                        <span className="profile-stat-number">{user.stats.friends}</span>
+                        <span className="profile-stat-label">Amigos</span>
+                    </div>
+                    <div className="profile-stat-item">
+                        <span className="profile-stat-number">{user.stats.collections}</span>
+                        <span className="profile-stat-label">Coleções</span>
+                    </div>
+                    <div className="profile-stat-item">
+                        <span className="profile-stat-number">{user.stats.posts}</span>
+                        <span className="profile-stat-label">Posts</span>
+                    </div>
                 </div>
-                <div className="profile-stat-item">
-                    <span className="profile-stat-number">{user.stats.collections}</span>
-                    <span className="profile-stat-label">Coleções</span>
-                </div>
-                <div className="profile-stat-item">
-                    <span className="profile-stat-number">{user.stats.posts}</span>
-                    <span className="profile-stat-label">Posts</span>
-                </div>
-            </div>
 
-            {/* ACTION BUTTONS */}
-            <div className="profile-actions">
-                <button className="profile-action-btn secondary" onClick={() => navigate('/messages')}>
-                    <MessageCircle size={16} /> Mensagem
-                </button>
-                <button className="profile-action-btn primary" onClick={() => navigate('/edit-profile')}>
-                    <Edit3 size={16} /> Editar Perfil
-                </button>
-                <button className="profile-action-btn icon-only" aria-label="Mais opções">
-                    <MoreHorizontal size={20} />
-                </button>
-            </div>
-
-            {/* TABS */}
-            <div className="profile-tabs-card">
-                <div className="profile-tabs-scroll">
-                    {TABS.map((tab) => (
-                        <button key={tab.id} className={`profile-tab-btn ${activeTab === tab.id ? 'active' : ''}`} onClick={() => setActiveTab(tab.id)}>
-                            {tab.label}
-                        </button>
-                    ))}
+                {/* ACTION BUTTONS */}
+                <div className="profile-actions">
+                    <button className="profile-action-btn secondary" onClick={() => navigate('/messages')}>
+                        <MessageCircle size={16} /> Mensagem
+                    </button>
+                    <button className="profile-action-btn primary" onClick={() => navigate('/edit-profile')}>
+                        <Edit3 size={16} /> Editar Perfil
+                    </button>
+                    <button className="profile-action-btn icon-only" aria-label="Mais opções">
+                        <MoreHorizontal size={20} />
+                    </button>
                 </div>
-            </div>
 
-            {/* TAB CONTENT */}
-            <div className="profile-tab-content-card" key={activeTab}>
-                <div className="tab-content-icon"><TabIcon size={28} /></div>
-                <h2 className="tab-content-title">{currentTabContent.title}</h2>
-                <p className="tab-content-description">{currentTabContent.description}</p>
-                <button className="tab-content-btn">
-                    <ButtonIcon size={16} /> {currentTabContent.buttonText}
-                </button>
-            </div>
+                {/* TABS */}
+                <div className="profile-tabs-card">
+                    <div className="profile-tabs-scroll">
+                        {TABS.map((tab) => (
+                            <button key={tab.id} className={`profile-tab-btn ${activeTab === tab.id ? 'active' : ''}`} onClick={() => setActiveTab(tab.id)}>
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* TAB CONTENT */}
+                <div className="profile-tab-content-card" key={activeTab}>
+                    <div className="tab-content-icon"><TabIcon size={28} /></div>
+                    <h2 className="tab-content-title">{currentTabContent.title}</h2>
+                    <p className="tab-content-description">{currentTabContent.description}</p>
+                    <button className="tab-content-btn">
+                        <ButtonIcon size={16} /> {currentTabContent.buttonText}
+                    </button>
+                </div>
+            </main>
 
             <BottomNavBar />
         </div>

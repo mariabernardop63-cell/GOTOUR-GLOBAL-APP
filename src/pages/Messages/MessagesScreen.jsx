@@ -108,64 +108,67 @@ const MessagesScreen = () => {
                     </div>
                 )}
 
-                {/* STORIES */}
-                <div className="stories-section">
-                    <div className="stories-scroll">
-                        {mockStories.map((story) => (
-                            <button
-                                key={story.id}
-                                className="story-item"
-                                onClick={() => {
-                                    if (!story.isAdd && story.hasStory) {
-                                        navigate('/story-viewer', { state: { story } });
-                                    }
-                                }}
-                            >
-                                <div className={`story-ring ${story.isAdd ? 'add-story' : ''} ${!story.hasStory && !story.isAdd ? 'no-story' : ''}`}>
-                                    <div className="story-ring-inner">
-                                        {story.isAdd ? (
-                                            <Plus size={24} className="story-add-icon" />
-                                        ) : story.avatar ? (
-                                            <img src={story.avatar} alt={story.name} />
-                                        ) : (
-                                            <User size={28} color="#94a3b8" />
-                                        )}
+                {/* SCROLLABLE CONTENT WRAPPER */}
+                <main className="messages-scroll-content">
+                    {/* STORIES */}
+                    <div className="stories-section">
+                        <div className="stories-scroll">
+                            {mockStories.map((story) => (
+                                <button
+                                    key={story.id}
+                                    className="story-item"
+                                    onClick={() => {
+                                        if (!story.isAdd && story.hasStory) {
+                                            navigate('/story-viewer', { state: { story } });
+                                        }
+                                    }}
+                                >
+                                    <div className={`story-ring ${story.isAdd ? 'add-story' : ''} ${!story.hasStory && !story.isAdd ? 'no-story' : ''}`}>
+                                        <div className="story-ring-inner">
+                                            {story.isAdd ? (
+                                                <Plus size={24} className="story-add-icon" />
+                                            ) : story.avatar ? (
+                                                <img src={story.avatar} alt={story.name} />
+                                            ) : (
+                                                <User size={28} color="#94a3b8" />
+                                            )}
+                                        </div>
                                     </div>
+                                    <span className="story-name">{story.name}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* CONVERSATIONS */}
+                    <div className="conversations-list">
+                        {mockConversations.map((convo) => (
+                            <button
+                                key={convo.id}
+                                className="conversation-item"
+                                onClick={() => navigate('/chat', { state: { contact: convo } })}
+                            >
+                                <div className="conversation-avatar">
+                                    {convo.avatar ? (
+                                        <img src={convo.avatar} alt={convo.name} />
+                                    ) : (
+                                        <User size={26} color="#94a3b8" />
+                                    )}
                                 </div>
-                                <span className="story-name">{story.name}</span>
+                                <div className="conversation-content">
+                                    <span className="conversation-name">{convo.name}</span>
+                                    <span className="conversation-preview">{convo.lastMessage}</span>
+                                </div>
+                                <div className="conversation-meta">
+                                    <span className="conversation-time">{convo.time}</span>
+                                    {convo.unread > 0 && (
+                                        <span className="conversation-badge">{convo.unread}</span>
+                                    )}
+                                </div>
                             </button>
                         ))}
                     </div>
-                </div>
-
-                {/* CONVERSATIONS */}
-                <div className="conversations-list">
-                    {mockConversations.map((convo) => (
-                        <button
-                            key={convo.id}
-                            className="conversation-item"
-                            onClick={() => navigate('/chat', { state: { contact: convo } })}
-                        >
-                            <div className="conversation-avatar">
-                                {convo.avatar ? (
-                                    <img src={convo.avatar} alt={convo.name} />
-                                ) : (
-                                    <User size={26} color="#94a3b8" />
-                                )}
-                            </div>
-                            <div className="conversation-content">
-                                <span className="conversation-name">{convo.name}</span>
-                                <span className="conversation-preview">{convo.lastMessage}</span>
-                            </div>
-                            <div className="conversation-meta">
-                                <span className="conversation-time">{convo.time}</span>
-                                {convo.unread > 0 && (
-                                    <span className="conversation-badge">{convo.unread}</span>
-                                )}
-                            </div>
-                        </button>
-                    ))}
-                </div>
+                </main>
 
                 {/* FAB */}
                 <button className="messages-fab" onClick={() => setShowFabMenu(!showFabMenu)} aria-label="Opções">

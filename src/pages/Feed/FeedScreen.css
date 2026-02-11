@@ -1,20 +1,22 @@
+/* FIXED LAYOUT WRAPPER */
 .feed-page {
     background-color: #f9fafb;
-    /* Light Gray Background */
-    min-height: 100vh;
+    height: 100vh;
+    /* Full viewport height */
+    overflow: hidden;
+    /* Prevent body scroll */
     display: flex;
     flex-direction: column;
-    padding-bottom: 80px;
-    /* Space for BottomNav */
 }
 
-/* FIXED HEADER WRAPPER */
+/* HEADER (Static in flex container) */
 .feed-fixed-top {
-    position: sticky;
-    top: 0;
+    flex-shrink: 0;
+    /* Don't shrink */
     z-index: 100;
     background-color: #ffffff;
     width: 100%;
+    /* removed sticky positioning since container is fixed */
 }
 
 /* CUSTOM HEADER (Replaces HomeHeader usage) */

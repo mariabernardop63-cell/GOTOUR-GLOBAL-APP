@@ -1,26 +1,42 @@
 /* ProfileScreen.css - Premium Social Profile (Facebook-style cover) */
 
 /* ===== PAGE LAYOUT ===== */
+/* ===== PAGE LAYOUT ===== */
 .profile-page {
-    min-height: 100vh;
+    height: 100vh;
+    /* Full viewport height */
+    overflow: hidden;
+    /* Prevent body scroll */
     background: #ffffff;
-    overflow-y: auto;
-    padding-bottom: 100px;
+    padding-bottom: 0px;
+    /* Padding moved to scroll container */
+    display: flex;
+    flex-direction: column;
 }
 
-/* ===== PROFILE HEADER ===== */
+/* ===== PROFILE HEADER (Static in Flex) ===== */
 .profile-header {
+    flex-shrink: 0;
+    /* Don't shrink */
+    width: 100%;
+    /* position: sticky; <-- Removed */
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 20px;
-    position: sticky;
-    top: 0;
     z-index: 100;
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* ===== SCROLL CONTAINER ===== */
+.profile-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 100px;
+    /* Space for BottomNav */
 }
 
 .profile-header-logo {

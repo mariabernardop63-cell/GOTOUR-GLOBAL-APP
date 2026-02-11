@@ -20,33 +20,35 @@
     font-family: 'Inter', sans-serif;
     background-color: #f8fafc;
     /* Very light subtle background for contrast with white cards */
-    min-height: 100vh;
-    padding-bottom: 90px;
-    /* Space for BottomNav */
+    /* Very light subtle background for contrast with white cards */
+    height: 100vh;
+    /* Full viewport */
+    overflow: hidden;
+    /* Prevent body scroll */
+    padding-bottom: 0px;
+    /* Padding moved to scroll container */
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-/* --- Fixed Header --- */
+/* --- Fixed Header (Static in Flex) --- */
 .cat-header {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    /* height: 60px; Remove fixed height */
+    flex-shrink: 0;
+    width: 100%;
+    z-index: 1000;
+    /* position: sticky;  <-- Removed */
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
-    /* Standardize padding */
-    z-index: 1000;
     border-bottom: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .cat-header-logo {
     height: 44px;
-    /* Standardize logo */
     object-fit: contain;
 }
 
@@ -78,11 +80,19 @@
     transition: all 0.3s ease;
 }
 
-/* --- Country Selector (Sticky below header) --- */
+/* --- New Scroll Container --- */
+.categories-scroll-container {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 90px;
+    /* Space for BottomNav */
+}
+
+/* --- Country Selector (Sticky inside scroll container) --- */
 .country-selector-strip {
     position: sticky;
-    top: 70px;
-    /* Adjusted for new header height (~68px) */
+    top: 0;
+    /* Sticks to top of scroll container (below header) */
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(5px);
     padding: 12px 20px;
