@@ -4,7 +4,7 @@ import {
     Church, CalendarDays, Moon, ShoppingBag, Bus, Car, Plane, Headphones,
     Hotel, Building, TreePalm, Home, Users, Castle, ChevronDown
 } from 'lucide-react';
-import './FilterChipsRow.css';
+import './FilterChipsRowStyles.css';
 
 const filters = [
     {

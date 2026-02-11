@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, Star, MapPin, ArrowRight } from 'lucide-react';
-import './MustSeeSection.css';
+import './MustSeeSectionStyles.css';
 
 // Mocks (can be moved to a data file later)
 const MUST_SEE_PLACES = [

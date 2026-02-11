@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, Loader2, SlidersHorizontal, Globe, ChevronDown } from 'lucide-react';
-import './SearchBarAI.css';
+import './SearchBarAIStyles.css';
 
 const CountryDropdown = ({ selectedCountry, onSelect, isOpen, onClose }) => {
     const countries = [

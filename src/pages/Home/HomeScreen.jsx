@@ -13,7 +13,7 @@ import useHomeData from '../../hooks/useHomeData';
 import useScrollDirection from '../../hooks/useScrollDirection';
 import { Loader2 } from 'lucide-react';
 import './HomeScreen.css';
-import '../../components/HomeHeader/HomeFixedHeader.css';
+import '../../components/HomeHeader/HomeFixedHeaderStyles.css';
 
 const HomeScreen = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
