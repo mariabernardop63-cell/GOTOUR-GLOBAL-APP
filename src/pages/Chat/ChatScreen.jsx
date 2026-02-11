@@ -99,12 +99,36 @@ const ChatScreen = () => {
             </div>
 
             {/* MESSAGES */}
+            {/* MESSAGES */}
             <div className="chat-messages" ref={messagesContainerRef} onScroll={handleScroll}>
                 {messages.map((msg) => (
-                    <div key={msg.id} className={`chat-bubble-wrapper ${msg.sender === 'user' ? 'sent' : 'received'}`}>
-                        <span className="chat-bubble-sender">{msg.senderName}</span>
-                        <div className="chat-bubble">{msg.text}</div>
-                        <span className="chat-bubble-time">{msg.time}</span>
+                    <div key={msg.id} className={`chat-row ${msg.sender === 'user' ? 'sent' : 'received'}`}>
+                        {/* Avatar for Received */}
+                        {msg.sender !== 'user' && (
+                            <div className="chat-avatar-container">
+                                {contactAvatar ? <img src={contactAvatar} alt={contactName} /> : <User size={20} color="#64748b" />}
+                            </div>
+                        )}
+
+                        <div className="chat-bubble-group">
+                            {/* Sender Name */}
+                            <span className="chat-sender-name">
+                                {msg.sender === 'user' ? 'Eu' : msg.senderName}
+                            </span>
+
+                            {/* Bubble */}
+                            <div className="chat-bubble">
+                                {msg.text}
+                                <span className="chat-timestamp">{msg.time}</span>
+                            </div>
+                        </div>
+
+                        {/* Avatar for Sent (User) */}
+                        {msg.sender === 'user' && (
+                            <div className="chat-avatar-container user">
+                                <User size={20} color="#048c83" />
+                            </div>
+                        )}
                     </div>
                 ))}
                 <div ref={messagesEndRef} />
@@ -118,32 +142,33 @@ const ChatScreen = () => {
             )}
 
             {/* INPUT BAR */}
-            <div className="chat-input-bar">
-                <button className="chat-attach-btn" onClick={() => setShowAttachMenu(!showAttachMenu)} aria-label="Anexar">
-                    <Plus size={20} />
-                    {showAttachMenu && (
-                        <div className="chat-attach-menu">
-                            <button onClick={() => setShowAttachMenu(false)}><Image size={16} /> Foto</button>
-                            <button onClick={() => setShowAttachMenu(false)}><Video size={16} /> Vídeo</button>
-                            <button onClick={() => setShowAttachMenu(false)}><Smile size={16} /> Sticker</button>
-                            <button onClick={() => setShowAttachMenu(false)}><Smile size={16} /> GIF</button>
-                            <button onClick={() => setShowAttachMenu(false)}><FileText size={16} /> Documento</button>
-                            <button onClick={() => setShowAttachMenu(false)}><MapPin size={16} /> Localização</button>
-                        </div>
+            <footer className="chat-footer">
+                <div className="chat-input-container">
+                    <button className="chat-action-btn" aria-label="Anexar arquivo">
+                        <Plus size={22} />
+                    </button>
+                    <button className="chat-action-btn" aria-label="Enviar Imagem">
+                        <Image size={22} />
+                    </button>
+
+                    <input
+                        className="chat-input-field"
+                        placeholder="Escreva uma mensagem..."
+                        value={inputText} onChange={(e) => setInputText(e.target.value)}
+                        onKeyDown={handleKeyPress}
+                    />
+
+                    {inputText.trim() ? (
+                        <button className="chat-send-fab" onClick={handleSend} aria-label="Enviar">
+                            <Send size={18} />
+                        </button>
+                    ) : (
+                        <button className="chat-action-btn" aria-label="Gravar áudio">
+                            <Mic size={22} />
+                        </button>
                     )}
-                </button>
-                <input
-                    className="chat-text-input" placeholder="Escrever mensagem..."
-                    value={inputText} onChange={(e) => setInputText(e.target.value)}
-                    onKeyDown={handleKeyPress}
-                />
-                <button className="chat-send-btn" onClick={handleSend} aria-label="Enviar">
-                    <Send size={18} />
-                </button>
-                <button className="chat-mic-btn" aria-label="Áudio">
-                    <Mic size={20} />
-                </button>
-            </div>
+                </div>
+            </footer>
         </div>
     );
 };
