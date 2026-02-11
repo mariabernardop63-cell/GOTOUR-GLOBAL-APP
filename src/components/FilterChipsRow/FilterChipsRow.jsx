@@ -19,7 +19,7 @@ const filters = [
             { id: 'guesthouses', label: 'Guest Houses', icon: Home },
             { id: 'hostels', label: 'Hostels', icon: Users },
             { id: 'villas', label: 'Villas / Casas', icon: Castle },
-            { id: 'lodges', label: 'Lodges', icon: Compass },
+            { id: 'lodges', label: 'Lodges (Turismo Natureza)', icon: Compass },
         ],
     },
     { id: 'restaurantes', label: 'Restaurantes', icon: UtensilsCrossed },
