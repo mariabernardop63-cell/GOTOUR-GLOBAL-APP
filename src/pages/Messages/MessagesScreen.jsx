@@ -78,6 +78,12 @@ const MessagesScreen = () => {
                     </div>
 
                     <div className="sub-header-right">
+                        <button className="messages-header-icon" aria-label="Grupos">
+                            <Users size={22} />
+                        </button>
+                        <button className="messages-header-icon" aria-label="Comunidades">
+                            <Globe size={22} />
+                        </button>
                         <button className="messages-plus-btn" onClick={() => setShowNewMenu(!showNewMenu)} aria-label="Nova ação">
                             <Plus size={24} />
                         </button>

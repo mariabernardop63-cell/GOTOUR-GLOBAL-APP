@@ -105,6 +105,31 @@
     color: #1e293b;
 }
 
+.sub-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.messages-header-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #64748b;
+    transition: all 0.2s;
+}
+
+.messages-header-icon:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #048c83;
+}
+
 /* New compact Plus Button */
 .messages-plus-btn {
     width: 36px;
@@ -131,7 +156,8 @@
 /* ===== NEW MESSAGE DROPDOWN ===== */
 .messages-new-dropdown {
     position: absolute;
-    top: 130px; /* Adjust based on header height */
+    top: 130px;
+    /* Adjust based on header height */
     right: 20px;
     width: 200px;
     padding: 8px 0;
