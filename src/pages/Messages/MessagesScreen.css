@@ -64,20 +64,28 @@
 }
 
 /* Sub-header */
+/* Sub-header Redesign */
 .messages-sub-header {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
     padding: 12px 20px;
-    background: rgba(0, 0, 0, 0.02);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.sub-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .messages-back-btn {
     width: 36px;
     height: 36px;
     border-radius: 12px;
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.04);
     border: none;
     display: flex;
     align-items: center;
@@ -88,65 +96,51 @@
 }
 
 .messages-back-btn:hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.08);
 }
 
 .messages-sub-title {
     font-size: 18px;
     font-weight: 700;
     color: #1e293b;
-    flex: 1;
 }
 
-/* ===== NEW ACTION ROW ===== */
-.messages-action-row {
-    padding: 12px 20px;
-}
-
-.messages-new-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(4, 140, 131, 0.08);
-    border: 1px solid rgba(4, 140, 131, 0.15);
-    border-radius: 14px;
-    padding: 10px 16px;
-    cursor: pointer;
-    transition: all 0.2s;
-    width: 100%;
-}
-
-.messages-new-btn:hover {
-    background: rgba(4, 140, 131, 0.12);
-}
-
-.messages-new-btn-icon {
+/* New compact Plus Button */
+.messages-plus-btn {
     width: 36px;
     height: 36px;
     border-radius: 50%;
     background: #048c83;
     color: #ffffff;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(4, 140, 131, 0.2);
 }
 
-.messages-new-btn-text {
-    font-size: 14px;
-    font-weight: 600;
-    color: #048c83;
+.messages-plus-btn:hover {
+    transform: scale(1.05);
+    background: #037f76;
 }
+
+/* Removed old .messages-action-row and .messages-new-btn styles */
 
 /* ===== NEW MESSAGE DROPDOWN ===== */
 .messages-new-dropdown {
-    margin: 0 20px 8px;
+    position: absolute;
+    top: 130px; /* Adjust based on header height */
+    right: 20px;
+    width: 200px;
     padding: 8px 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
     animation: fadeInContent 0.2s ease;
+    z-index: 101;
 }
 
 .messages-new-dropdown button {

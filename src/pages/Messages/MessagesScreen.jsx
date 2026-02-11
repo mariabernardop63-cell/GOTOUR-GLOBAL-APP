@@ -68,22 +68,23 @@ const MessagesScreen = () => {
                     </button>
                 </header>
 
-                {/* SUB HEADER */}
+                {/* SUB HEADER & ACTIONS */}
                 <div className="messages-sub-header">
-                    <button className="messages-back-btn" onClick={() => navigate(-1)} aria-label="Voltar">
-                        <ArrowLeft size={20} />
-                    </button>
-                    <span className="messages-sub-title">Mensagens</span>
+                    <div className="sub-header-left">
+                        <button className="messages-back-btn" onClick={() => navigate(-1)} aria-label="Voltar">
+                            <ArrowLeft size={20} />
+                        </button>
+                        <span className="messages-sub-title">Mensagens</span>
+                    </div>
+
+                    <div className="sub-header-right">
+                        <button className="messages-plus-btn" onClick={() => setShowNewMenu(!showNewMenu)} aria-label="Nova ação">
+                            <Plus size={24} />
+                        </button>
+                    </div>
                 </div>
 
-                {/* NEW MESSAGE BUTTON */}
-                <div className="messages-action-row">
-                    <button className="messages-new-btn" onClick={() => setShowNewMenu(!showNewMenu)}>
-                        <span className="messages-new-btn-icon"><Plus size={20} /></span>
-                        <span className="messages-new-btn-text">Nova ação</span>
-                    </button>
-                </div>
-
+                {/* NEW ACTION DROPDOWN */}
                 {showNewMenu && (
                     <div className="messages-new-dropdown">
                         <button onClick={() => setShowNewMenu(false)}>
@@ -91,6 +92,12 @@ const MessagesScreen = () => {
                         </button>
                         <button onClick={() => setShowNewMenu(false)}>
                             <Film size={18} /> Adicionar história
+                        </button>
+                        <button onClick={() => setShowNewMenu(false)}>
+                            <Users size={18} /> Criar Grupo
+                        </button>
+                        <button onClick={() => setShowNewMenu(false)}>
+                            <Globe size={18} /> Criar Comunidade
                         </button>
                     </div>
                 )}

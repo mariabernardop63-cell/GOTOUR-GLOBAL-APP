@@ -73,6 +73,13 @@ const FeedScreen = () => {
                             <button className="icon-btn" aria-label="Filtros">
                                 <SlidersHorizontal size={22} />
                             </button>
+                            <button className="icon-btn menu-btn-feed" onClick={() => setIsDrawerOpen(true)} aria-label="Menu">
+                                <div className="feed-hamburger">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </button>
                         </div>
                     </div>
                 )}
