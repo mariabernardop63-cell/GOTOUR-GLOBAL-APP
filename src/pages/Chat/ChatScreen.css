@@ -360,6 +360,7 @@
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(4, 140, 131, 0.3);
     transition: transform 0.2s;
+    flex-shrink: 0; /* Prevent squishing on mobile */
 }
 
 .chat-send-fab:hover {
@@ -426,6 +427,11 @@
     .chat-bubble-group {
         max-width: 500px;
         /* Increased slightly for better read on wide screens */
+    }
+
+    /* Remove extra safe-area padding on desktop */
+    .chat-footer {
+        padding: 12px 16px;
     }
 }
 
