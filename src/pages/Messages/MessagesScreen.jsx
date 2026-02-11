@@ -46,7 +46,18 @@ const MessagesScreen = () => {
     const navigate = useNavigate();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [showNewMenu, setShowNewMenu] = useState(false);
-    const [showFabMenu, setShowFabMenu] = useState(false);
+
+    // Click Outside Logic
+    const menuRef = React.useRef(null);
+    React.useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setShowNewMenu(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const handleNav = (path) => navigate(path);
 
@@ -86,8 +97,8 @@ const MessagesScreen = () => {
                         </button>
 
                         {/* More Menu (Replaces Plus + FAB) */}
-                        <div style={{ position: 'relative' }}>
-                            <button className="messages-plus-btn" onClick={() => setShowNewMenu(!showNewMenu)} aria-label="Opções">
+                        <div className="messages-menu-container" ref={menuRef}>
+                            <button className="messages-more-btn" onClick={() => setShowNewMenu(!showNewMenu)} aria-label="Opções">
                                 <MoreVertical size={22} />
                             </button>
 
@@ -105,7 +116,7 @@ const MessagesScreen = () => {
                                     <button onClick={() => setShowNewMenu(false)}>
                                         <Globe size={18} color="#048c83" /> Criar Comunidade
                                     </button>
-                                    <div className="menu-divider" style={{ height: '1px', background: '#f1f1f1', margin: '4px 0' }} />
+                                    <div className="menu-divider" />
                                     <button onClick={() => setShowNewMenu(false)}>
                                         <Archive size={18} color="#048c83" /> Arquivar mensagens
                                     </button>

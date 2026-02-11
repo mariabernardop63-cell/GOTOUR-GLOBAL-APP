@@ -142,36 +142,40 @@
     color: #048c83;
 }
 
-/* New compact Plus Button */
-.messages-plus-btn {
+/* New compact More Button (Flat) */
+.messages-menu-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.messages-more-btn {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
-    background: #048c83;
-    color: #ffffff;
+    border-radius: 12px;
+    background: transparent;
+    color: #64748b;
+    /* Match other icons */
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(4, 140, 131, 0.2);
 }
 
-.messages-plus-btn:hover {
-    transform: scale(1.05);
-    background: #037f76;
+.messages-more-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #048c83;
 }
-
-/* Removed old .messages-action-row and .messages-new-btn styles */
 
 /* ===== NEW MESSAGE DROPDOWN ===== */
 .messages-new-dropdown {
     position: absolute;
-    top: 130px;
-    /* Adjust based on header height */
-    right: 20px;
-    width: 200px;
+    top: calc(100% + 8px);
+    /* Closer to button */
+    right: 0;
+    width: 220px;
     padding: 8px 0;
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -181,11 +185,17 @@
     z-index: 101;
 }
 
+.menu-divider {
+    height: 1px;
+    background: #f1f1f1;
+    margin: 4px 0;
+}
+
 .messages-new-dropdown button {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 16px;
+    padding: 10px 16px;
     width: 100%;
     border: none;
     background: transparent;
@@ -194,6 +204,7 @@
     font-weight: 500;
     color: #374151;
     transition: background 0.15s;
+    text-align: left;
 }
 
 .messages-new-dropdown button:hover {
@@ -201,7 +212,7 @@
 }
 
 .messages-new-dropdown button svg {
-    color: #048c83;
+    flex-shrink: 0;
 }
 
 /* ===== STORIES ROW ===== */

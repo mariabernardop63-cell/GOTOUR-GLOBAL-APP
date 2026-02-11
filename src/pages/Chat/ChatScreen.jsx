@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
-    ArrowLeft, MoreVertical, Plus, Send, Mic, Phone,
+    ArrowLeft, MoreVertical, Plus, Send, Mic, Phone, Menu,
     User, Ban, Flag, BellOff, Trash2, Lock,
     Eye, Gift, Image, Video, Smile, FileText,
     MapPin, ChevronDown
@@ -39,6 +39,18 @@ const ChatScreen = () => {
     const messagesEndRef = useRef(null);
     const messagesContainerRef = useRef(null);
 
+    // Click Outside Logic
+    const menuRef = React.useRef(null);
+    React.useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setShowMoreMenu(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     const contactName = contact?.name || 'GoTour';
     const contactAvatar = contact?.avatar || null;
 
@@ -74,23 +86,31 @@ const ChatScreen = () => {
         <div className="chat-page">
             {/* HEADER */}
             <div className="chat-header">
-                <button className="chat-back-btn" onClick={() => navigate(-1)} aria-label="Voltar">
-                    <ArrowLeft size={24} />
-                </button>
-                <div className="chat-contact-avatar">
-                    {contactAvatar ? <img src={contactAvatar} alt={contactName} /> : <User size={22} color="#94a3b8" />}
+                <div className="chat-header-left">
+                    <button className="chat-back-btn" onClick={() => navigate(-1)} aria-label="Voltar">
+                        <ArrowLeft size={24} />
+                    </button>
+                    <div className="chat-contact-avatar">
+                        {contactAvatar ? <img src={contactAvatar} alt={contactName} /> : <User size={22} color="#94a3b8" />}
+                    </div>
+                    <span className="chat-contact-name">{contactName}</span>
                 </div>
-                <span className="chat-contact-name">{contactName}</span>
 
                 <div className="chat-header-actions">
+                    <button className="chat-action-icon" aria-label="Menu">
+                        <Menu size={22} color="#048c83" /> {/* Added Menu Icon with specific color */}
+                    </button>
                     <button className="chat-action-icon" aria-label="Chamada de voz">
                         <Phone size={22} />
                     </button>
                     <button className="chat-action-icon" aria-label="Chamada de vídeo">
                         <Video size={22} />
                     </button>
-                    <button className="chat-more-btn" onClick={() => setShowMoreMenu(!showMoreMenu)} aria-label="Mais">
-                        <MoreVertical size={22} color="#048c83" />
+
+                    <div className="chat-menu-container" ref={menuRef}>
+                        <button className="chat-more-btn" onClick={() => setShowMoreMenu(!showMoreMenu)} aria-label="Mais">
+                            <MoreVertical size={22} color="#048c83" />
+                        </button>
                         {showMoreMenu && (
                             <div className="chat-more-menu">
                                 <button onClick={() => setShowMoreMenu(false)}><Ban size={18} color="#048c83" /> Bloquear utilizador</button>
@@ -103,7 +123,7 @@ const ChatScreen = () => {
                                 <button onClick={() => setShowMoreMenu(false)}><Gift size={18} color="#048c83" /> Presentear plano</button>
                             </div>
                         )}
-                    </button>
+                    </div>
                 </div>
             </div>
 

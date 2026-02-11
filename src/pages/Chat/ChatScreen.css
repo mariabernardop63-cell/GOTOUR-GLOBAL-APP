@@ -71,6 +71,14 @@
     letter-spacing: -0.3px;
 }
 
+.chat-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
 .chat-more-btn {
     width: 40px;
     height: 40px;
@@ -388,8 +396,11 @@
 /* ===== RESPONSIVE ===== */
 @media (min-width: 768px) {
     .chat-page {
-        max-width: 600px;
-        margin: 0 auto;
+        max-width: 100%;
+        /* Fill available space */
+        margin: 0;
+        height: 100%;
+        /* Ensure it fills height if container allows */
     }
 
     .chat-bubble-wrapper {
@@ -400,8 +411,9 @@
     .chat-messages {
         align-items: flex-start;
         /* Align to left/start */
-        padding-left: 20px;
+        padding-left: 40px;
         /* Slight offset from edge */
+        padding-right: 40px;
     }
 
     .chat-row {
@@ -412,6 +424,13 @@
 
     /* Limit bubble width on desktop */
     .chat-bubble-group {
-        max-width: 400px;
+        max-width: 500px;
+        /* Increased slightly for better read on wide screens */
     }
+}
+
+.chat-menu-container {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
