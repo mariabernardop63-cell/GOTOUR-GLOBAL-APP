@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
     BedDouble, UtensilsCrossed, Sparkles, Route, Compass, Umbrella,
     Church, CalendarDays, Moon, ShoppingBag, Bus, Car, Plane, Headphones,
-    Hotel, Building, TreePalm, Home, Users, Castle, ChevronDown
+    Hotel, Building, Palmtree, Home, Users, Castle, ChevronDown
 } from 'lucide-react';
 import './FilterChipsRowStyles.css';
 
@@ -15,7 +15,7 @@ const filters = [
         subcategories: [
             { id: 'hoteis', label: 'Hotéis', icon: Hotel },
             { id: 'apartamentos', label: 'Apartamentos', icon: Building },
-            { id: 'resorts', label: 'Resorts', icon: TreePalm },
+            { id: 'resorts', label: 'Resorts', icon: Palmtree },
             { id: 'guesthouses', label: 'Guest Houses', icon: Home },
             { id: 'hostels', label: 'Hostels', icon: Users },
             { id: 'villas', label: 'Villas / Casas', icon: Castle },
