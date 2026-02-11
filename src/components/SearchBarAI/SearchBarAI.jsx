@@ -1,11 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Loader2, SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { Search, Loader2, SlidersHorizontal, Globe, ChevronDown } from 'lucide-react';
 import './SearchBarAI.css';
 
-const CountrySelector = ({ selectedCountry, onSelect }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef(null);
-
+const CountryDropdown = ({ selectedCountry, onSelect, isOpen, onClose }) => {
     const countries = [
         { code: 'MZ', flag: '🇲🇿', name: 'Moçambique' },
         { code: 'ZA', flag: '🇿🇦', name: 'África do Sul' },
@@ -13,42 +10,23 @@ const CountrySelector = ({ selectedCountry, onSelect }) => {
         { code: 'BR', flag: '🇧🇷', name: 'Brasil' },
     ];
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    const handleSelect = (country) => {
-        onSelect(country);
-        setIsOpen(false);
-    };
+    if (!isOpen) return null;
 
     return (
-        <div className="country-selector-container" ref={dropdownRef}>
-            <button className="country-flag-btn" onClick={() => setIsOpen(!isOpen)}>
-                <span className="flag-icon">{selectedCountry.flag}</span>
-                <ChevronDown size={14} className="dropdown-chevron" />
-            </button>
-
-            {isOpen && (
-                <div className="country-dropdown">
-                    {countries.map((country) => (
-                        <button
-                            key={country.code}
-                            className="country-option"
-                            onClick={() => handleSelect(country)}
-                        >
-                            <span className="flag-icon">{country.flag}</span>
-                            <span className="country-name">{country.name}</span>
-                        </button>
-                    ))}
-                </div>
-            )}
+        <div className="country-dropdown-glass">
+            {countries.map((country) => (
+                <button
+                    key={country.code}
+                    className={`country-option-glass ${selectedCountry.code === country.code ? 'active' : ''}`}
+                    onClick={() => {
+                        onSelect(country);
+                        onClose();
+                    }}
+                >
+                    <span className="country-flag">{country.flag}</span>
+                    <span className="country-label">{country.name}</span>
+                </button>
+            ))}
         </div>
     );
 };
@@ -56,14 +34,24 @@ const CountrySelector = ({ selectedCountry, onSelect }) => {
 const SearchBarAI = ({ onSearch, isSearching, isLoading, selectedCountry, onCountryChange }) => {
     const [searchText, setSearchText] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+    const [isCountryOpen, setIsCountryOpen] = useState(false);
+    const containerRef = useRef(null);
 
-    // Neon effect mirrors isLoading
     const showNeon = isLoading;
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (containerRef.current && !containerRef.current.contains(event.target)) {
+                setIsCountryOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const handleSearchClick = () => {
         if (searchText.trim()) {
             onSearch(searchText);
-            // Revert to normal view after search, but keep processing
             if (document.activeElement instanceof HTMLElement) {
                 document.activeElement.blur();
             }
@@ -78,51 +66,66 @@ const SearchBarAI = ({ onSearch, isSearching, isLoading, selectedCountry, onCoun
     };
 
     return (
-        <div className={`search-bar-container ${isFocused ? 'search-focused-sticky' : ''}`}>
-            <div className="search-row">
-                {/* Country Selector - Hidden when focused if we strictly follow "Filter Option + Lupa" on left */}
-                {!isFocused && <CountrySelector selectedCountry={selectedCountry} onSelect={onCountryChange} />}
+        <div
+            className={`search-bar-container ${isFocused ? 'search-focused-sticky' : ''}`}
+            ref={containerRef}
+        >
+            <div className="search-row-glass">
+                {/* Globe Icon — Country Selector */}
+                {!isFocused && (
+                    <div className="globe-selector">
+                        <button
+                            className="globe-btn"
+                            onClick={() => setIsCountryOpen(!isCountryOpen)}
+                            aria-label="Select country"
+                        >
+                            <Globe size={20} strokeWidth={1.8} />
+                        </button>
+                        <CountryDropdown
+                            selectedCountry={selectedCountry}
+                            onSelect={onCountryChange}
+                            isOpen={isCountryOpen}
+                            onClose={() => setIsCountryOpen(false)}
+                        />
+                    </div>
+                )}
 
-                {/* Filter Icon (Only visible when focused as "Filter Option") */}
+                {/* Filter Icon when focused */}
                 {isFocused && (
-                    <div className="focused-left-ions">
-                        <div className="icon-badge">
+                    <div className="focused-left-icons">
+                        <div className="icon-badge-glass">
                             <SlidersHorizontal size={20} color="#1e293b" />
                         </div>
                     </div>
                 )}
 
-                {/* Search Bar with Neon Border */}
-                <div className={`neon-wrapper ${showNeon ? 'active-neon' : ''}`}>
-                    <div className="search-bar">
-                        {/* Lupa (Search Icon) - Acts as the second icon on left when focused */}
-                        <Search className="search-icon-inner" size={18} />
+                {/* Glassmorphism Search Bar */}
+                <div className={`glass-wrapper ${showNeon ? 'active-neon' : ''}`}>
+                    <div className="search-bar-glass">
+                        <Search className="search-icon-glass" size={18} />
 
                         <input
                             type="text"
                             placeholder={isFocused ? "Pesquisar..." : "Pesquisar destinos, hotéis..."}
-                            className="search-input"
+                            className="search-input-glass"
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
                             onKeyDown={handleKeyDown}
                             onFocus={() => setIsFocused(true)}
-                            onBlur={() => {
-                                // Optional: delay blur to allow clicks
-                                // setTimeout(() => setIsFocused(false), 200);
-                            }}
+                            onBlur={() => { }}
                         />
 
-                        {/* Cancel button when focused? User said "text goes back", implying revert. 
-                             Or maybe just the right button transforms? */}
+                        {/* Circular Search Button */}
                         <button
-                            className={`search-button-inner ${isLoading ? 'loading' : ''}`}
+                            className={`search-circle-btn ${isLoading ? 'loading' : ''}`}
                             onClick={handleSearchClick}
                             disabled={isLoading}
+                            aria-label="Search"
                         >
                             {isLoading ? (
                                 <Loader2 className="spinner-icon" size={18} />
                             ) : (
-                                "Search"
+                                <Search size={18} strokeWidth={2.2} />
                             )}
                         </button>
                     </div>
@@ -130,7 +133,12 @@ const SearchBarAI = ({ onSearch, isSearching, isLoading, selectedCountry, onCoun
             </div>
 
             {/* Backdrop for focused mode */}
-            {isFocused && <div className="search-focused-backdrop" onClick={() => setIsFocused(false)}></div>}
+            {isFocused && (
+                <div
+                    className="search-focused-backdrop"
+                    onClick={() => setIsFocused(false)}
+                />
+            )}
         </div>
     );
 };

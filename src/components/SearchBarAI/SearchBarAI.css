@@ -1,79 +1,79 @@
-/* SearchBarAI.css */
+/* SearchBarAI.css — Glassmorphism Premium */
+
 .search-bar-container {
-    padding: 0 20px 16px 20px;
-    background-color: #ffffff;
+    padding: 0 20px 12px 20px;
+    background-color: transparent;
     display: flex;
     flex-direction: column;
 }
 
-.search-row {
+.search-row-glass {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-/* Country Selector */
-.country-selector-container {
+/* On mobile: full width, no centering */
+@media (max-width: 768px) {
+    .search-row-glass {
+        max-width: 100%;
+        margin: 0;
+    }
+}
+
+/* ===== GLOBE SELECTOR ===== */
+.globe-selector {
     position: relative;
     flex-shrink: 0;
 }
 
-.country-flag-btn {
-    background: #f8f9fa;
-    border: 1px solid #e2e8f0;
-    padding: 8px 10px;
-    cursor: pointer;
+.globe-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    cursor: pointer;
     transition: all 0.2s ease;
-    border-radius: 12px;
-    height: 48px;
+    color: #1e293b;
 }
 
-.country-flag-btn:hover {
-    background: #f1f5f9;
-    border-color: #cbd5e1;
+.globe-btn:hover {
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transform: scale(1.04);
 }
 
-.country-flag-btn:active {
-    transform: scale(0.97);
+.globe-btn:active {
+    transform: scale(0.96);
 }
 
-.flag-icon {
-    font-size: 22px;
-    line-height: 1;
-}
-
-.dropdown-chevron {
-    color: #64748b;
-    transition: transform 0.2s ease;
-    flex-shrink: 0;
-}
-
-.country-flag-btn[aria-expanded="true"] .dropdown-chevron,
-.country-selector-container .dropdown-chevron.open {
-    transform: rotate(180deg);
-}
-
-/* Country Dropdown */
-.country-dropdown {
+/* ===== COUNTRY DROPDOWN ===== */
+.country-dropdown-glass {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 8px);
     left: 0;
-    margin-top: 8px;
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
-    border: 1px solid #e2e8f0;
-    min-width: 180px;
+    min-width: 200px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     overflow: hidden;
-    z-index: 100;
-    animation: fadeIn 0.2s ease-out;
+    z-index: 200;
+    animation: dropdownFadeIn 0.2s ease-out;
 }
 
-.country-option {
+.country-option-glass {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -83,32 +83,54 @@
     border: none;
     cursor: pointer;
     text-align: left;
-    transition: background 0.15s;
+    transition: background 0.15s ease;
+    font-family: inherit;
 }
 
-.country-option:hover {
-    background-color: #f8fafc;
+.country-option-glass:hover {
+    background: rgba(0, 0, 0, 0.04);
 }
 
-.country-name {
+.country-option-glass.active {
+    background: rgba(4, 140, 131, 0.08);
+}
+
+.country-flag {
+    font-size: 22px;
+    line-height: 1;
+}
+
+.country-label {
     font-size: 14px;
     color: #1e293b;
     font-weight: 500;
 }
 
-/* Neon Border Implementation */
-.neon-wrapper {
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== GLASSMORPHISM SEARCH BAR ===== */
+.glass-wrapper {
     flex: 1;
     position: relative;
-    border-radius: 9999px;
+    border-radius: 50px;
     padding: 1.5px;
     overflow: hidden;
     isolation: isolate;
     transform: translateZ(0);
 }
 
-/* The spinning gradient background */
-.neon-wrapper::before {
+/* Neon spinning gradient (loading state) */
+.glass-wrapper::before {
     content: '';
     position: absolute;
     top: -50%;
@@ -117,51 +139,55 @@
     height: 200%;
     background: conic-gradient(transparent 0deg,
             transparent 90deg,
-            #1e293b 180deg,
-            #64748b 270deg,
+            #048c83 180deg,
+            #2dd4bf 270deg,
             transparent 360deg);
-    animation: rotate 3s linear infinite;
+    animation: neonRotate 3s linear infinite;
     z-index: -1;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-.neon-wrapper.active-neon::before {
+.glass-wrapper.active-neon::before {
     opacity: 1;
 }
 
-@keyframes rotate {
+@keyframes neonRotate {
     100% {
         transform: rotate(360deg);
     }
 }
 
-.search-bar {
+.search-bar-glass {
     display: flex;
     align-items: center;
-    background-color: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 50px;
     padding: 2px 4px 2px 16px;
     height: 48px;
     position: relative;
     z-index: 1;
     width: 100%;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.02);
 }
 
-.search-bar:focus-within {
-    border-color: #cbd5e1;
-    box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.06);
+.search-bar-glass:focus-within {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
-.search-icon-inner {
+.search-icon-glass {
     color: #94a3b8;
     margin-right: 10px;
     flex-shrink: 0;
 }
 
-.search-input {
+.search-input-glass {
     border: none;
     outline: none;
     flex: 1;
@@ -172,88 +198,114 @@
     min-width: 0;
 }
 
-.search-input::placeholder {
+.search-input-glass::placeholder {
     color: #94a3b8;
     font-weight: 400;
 }
 
-.search-button-inner {
-    background-color: #1e293b;
-    color: #ffffff;
+/* ===== CIRCULAR SEARCH BUTTON ===== */
+.search-circle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #048c83;
     border: none;
-    border-radius: 9999px;
-    padding: 0 20px;
-    height: 38px;
-    font-size: 13px;
-    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    margin-left: 8px;
-    transition: background-color 0.2s ease, transform 0.15s ease;
-    white-space: nowrap;
-    letter-spacing: 0.2px;
+    color: #ffffff;
+    flex-shrink: 0;
+    margin-left: 6px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(4, 140, 131, 0.3);
 }
 
-.search-button-inner:hover {
-    background-color: #334155;
-    transform: scale(1.02);
+.search-circle-btn:hover {
+    background: #037a73;
+    transform: scale(1.05);
+    box-shadow: 0 4px 14px rgba(4, 140, 131, 0.4);
 }
 
-.search-button-inner:active {
-    transform: scale(0.98);
+.search-circle-btn:active {
+    transform: scale(0.95);
 }
 
-@keyframes fadeIn {
+.search-circle-btn.loading {
+    background: #048c83;
+    cursor: wait;
+    pointer-events: none;
+}
+
+.search-circle-btn .spinner-icon {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== FOCUSED LEFT ICONS ===== */
+.focused-left-icons {
+    display: flex;
+    align-items: center;
+    margin-right: 4px;
+    animation: fadeInLeft 0.3s ease;
+}
+
+.icon-badge-glass {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 50%;
+    color: #1e293b;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+@keyframes fadeInLeft {
     from {
         opacity: 0;
-        transform: translateY(-5px);
+        transform: translateX(-8px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
     }
 }
 
-
-/* Sticky Focused State */
+/* ===== STICKY FOCUSED STATE ===== */
 .search-bar-container.search-focused-sticky {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: #ffffff;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     padding: 10px 16px;
     height: 70px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     animation: slideDown 0.3s ease-out;
 }
 
-.search-focused-sticky .search-row {
+.search-focused-sticky .search-row-glass {
     max-width: 100%;
 }
 
-/* Focused Left Icons Group */
-.focused-left-ions {
-    display: flex;
-    align-items: center;
-    margin-right: 8px;
-    animation: fadeIn 0.3s ease;
-}
-
-.icon-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    background-color: #f1f5f9;
-    border-radius: 12px;
-    color: #1e293b;
-    border: 1px solid #e2e8f0;
-}
-
-/* Backdrop */
+/* ===== BACKDROP ===== */
 .search-focused-backdrop {
     position: fixed;
     top: 70px;
@@ -263,6 +315,7 @@
     background-color: rgba(255, 255, 255, 0.95);
     z-index: 999;
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     animation: fadeIn 0.3s ease;
 }
 
@@ -274,6 +327,16 @@
 
     to {
         transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
         opacity: 1;
     }
 }
