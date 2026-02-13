@@ -183,20 +183,98 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+    .email-conf-page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        min-height: 100dvh;
+        background: linear-gradient(to bottom, #307573 0%, #ffffff 100%) !important;
+        padding: 0;
+        margin: 0;
+        z-index: 20;
+        flex-direction: column;
+        justify-content: center;
+        overflow-x: hidden;
+    }
+
+    .email-conf-overlay {
+        display: none;
+    }
+
     .email-conf-logo-section {
         display: none;
-        /* Often cleaner on mobile if logo is used elsewhere or to save space, but kept for consistency if needed */
-        /* If specific requirement to keep logo on mobile in top left: */
-        top: 20px;
-        left: 20px;
-        /* display: flex; */
     }
 
     .email-conf-glass-container {
-        padding: 32px 24px;
+        width: 100%;
+        max-width: none;
+        min-height: 100dvh;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: none;
+        border-radius: 0;
+        padding: 40px 24px;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
+    /* Hide Icon as requested */
+    .icon-wrapper {
+        display: none;
+    }
+
+    /* Text Colors - Black for contrast */
     .email-conf-header h1 {
-        font-size: 1.5rem;
+        color: #000000;
+        font-size: 26px;
+        margin-top: 20px;
+    }
+
+    .email-conf-header p {
+        color: #000000;
+        font-weight: 500;
+    }
+
+    .email-display {
+        background: rgba(255, 255, 255, 0.5);
+        border: 1.5px solid #307573;
+    }
+
+    .email-display p {
+        color: #000000;
+    }
+
+    .email-display strong {
+        color: #000000;
+    }
+
+    /* Update Buttons for Light Background */
+    .email-conf-secondary-btn {
+        background: transparent;
+        color: #000000;
+        border: 1px solid #000000;
+    }
+
+    .email-conf-secondary-btn:hover {
+        background: rgba(0, 0, 0, 0.05);
+        color: #000000;
+    }
+
+    .skip-hint {
+        color: #000000;
+        opacity: 0.7;
+    }
+
+    .resend-link {
+        color: #000000;
+    }
+
+    .resend-link span {
+        color: #307573;
+        font-weight: 700;
     }
 }
