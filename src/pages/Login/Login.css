@@ -7,32 +7,32 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    background: linear-gradient(to bottom, #307573 0%, #ffffff 100%);
+    /* Desktop: Transparent (for video bg) */
+    background: transparent;
 }
 
 .login-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(2px);
-    display: none;
-    /* Removed overlay */
     z-index: 1;
+    display: block;
 }
 
-/* Glass Container */
+/* Glass Container (Desktop Default) */
 .login-glass-container {
     position: relative;
     z-index: 10;
     width: 90%;
     max-width: 460px;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 24px;
     padding: 40px 32px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     animation: fadeInUp 0.6s ease-out;
@@ -42,7 +42,7 @@
     position: absolute;
     top: 24px;
     left: 24px;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.1);
     border: none;
     border-radius: 50%;
     width: 36px;
@@ -58,6 +58,10 @@
     background: rgba(255, 255, 255, 0.25);
 }
 
+.back-icon-btn svg {
+    color: #ffffff;
+}
+
 .login-header {
     margin-top: 10px;
     margin-bottom: 32px;
@@ -67,24 +71,24 @@
 .login-header h1 {
     font-size: 28px;
     font-weight: 700;
-    color: #1e293b;
+    color: #ffffff;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
 }
 
 .login-header p {
     font-size: 14px;
-    color: #475569;
+    color: rgba(255, 255, 255, 0.85);
     line-height: 1.5;
 }
 
-/* Inputs */
+/* Inputs (Desktop Default: Glass) */
 .input-field {
     position: relative;
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1.5px solid #307573;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 14px;
     padding: 0 16px;
     height: 52px;
@@ -93,13 +97,13 @@
 }
 
 .input-field:focus-within {
-    border-color: #307573;
-    background: #ffffff;
-    box-shadow: 0 0 0 2px rgba(48, 117, 115, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: none;
 }
 
 .input-field svg {
-    color: #307573;
+    color: rgba(255, 255, 255, 0.7);
     margin-right: 12px;
     flex-shrink: 0;
 }
@@ -108,20 +112,20 @@
     flex: 1;
     background: transparent;
     border: none;
-    color: #1e293b;
+    color: #ffffff;
     font-size: 15px;
     outline: none;
     width: 100%;
 }
 
 .input-field input::placeholder {
-    color: #94a3b8;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .eye-btn {
     cursor: pointer;
     padding: 4px;
-    color: #64748b;
+    color: rgba(255, 255, 255, 0.7);
     display: flex;
 }
 
@@ -132,7 +136,7 @@
 }
 
 .forgot-password-row span {
-    color: #475569;
+    color: rgba(255, 255, 255, 0.8);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -140,7 +144,7 @@
 }
 
 .forgot-password-row span:hover {
-    color: #307573;
+    color: #ffffff;
     text-decoration: underline;
 }
 
@@ -193,7 +197,7 @@
 }
 
 .social-login-section p {
-    color: #475569;
+    color: rgba(255, 255, 255, 0.7);
     font-size: 13px;
     margin-bottom: 12px;
 }
@@ -231,11 +235,11 @@
     margin-top: 24px;
     text-align: center;
     font-size: 14px;
-    color: #475569;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .signup-link span {
-    color: #307573;
+    color: #ffffff;
     font-weight: 600;
     cursor: pointer;
     margin-left: 4px;
@@ -262,23 +266,31 @@
     animation: fadeInUp 0.6s ease-out;
 }
 
-/* ===== MOBILE: Remove container, full-screen layout ===== */
+/* ===== MOBILE: Apply Teal Gradient Theme (New Design) ===== */
 @media (max-width: 768px) {
     .login-page-content {
         align-items: flex-end;
         padding: 0;
+        background: linear-gradient(to bottom, #307573 0%, #ffffff 100%);
+    }
+
+    .login-overlay {
+        display: none;
     }
 
     .login-glass-container {
         width: 100%;
         max-width: 100%;
-        background: transparent;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
+        background: rgba(255, 255, 255, 0.85);
+        /* Light container */
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border: none;
-        border-radius: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 24px 24px 0 0;
+        /* Rounded top only */
         padding: 30px 24px 40px;
-        box-shadow: none;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
     }
 
     .back-icon-btn {
@@ -290,6 +302,10 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
+    .back-icon-btn svg {
+        color: #1e293b;
+    }
+
     .login-header {
         text-align: left;
         margin-top: 60px;
@@ -297,9 +313,60 @@
 
     .login-header h1 {
         font-size: 26px;
+        color: #1e293b;
     }
 
     .login-header p {
         font-size: 14px;
+        color: #475569;
+    }
+
+    /* Mobile Inputs - Dark Theme */
+    .input-field {
+        background: rgba(255, 255, 255, 0.5);
+        border: 1.5px solid #307573;
+    }
+
+    .input-field:focus-within {
+        border-color: #307573;
+        background: #ffffff;
+        box-shadow: 0 0 0 2px rgba(48, 117, 115, 0.1);
+    }
+
+    .input-field svg {
+        color: #307573;
+    }
+
+    .input-field input {
+        color: #1e293b;
+    }
+
+    .input-field input::placeholder {
+        color: #94a3b8;
+    }
+
+    .eye-btn {
+        color: #64748b;
+    }
+
+    /* Links on Mobile */
+    .forgot-password-row span {
+        color: #475569;
+    }
+
+    .forgot-password-row span:hover {
+        color: #307573;
+    }
+
+    .social-login-section p {
+        color: #475569;
+    }
+
+    .signup-link {
+        color: #475569;
+    }
+
+    .signup-link span {
+        color: #307573;
     }
 }
