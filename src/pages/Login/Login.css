@@ -291,10 +291,17 @@
         -webkit-backdrop-filter: blur(20px);
         border: none;
         border-top: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 24px 24px 0 0;
-        /* Rounded top only */
+        border-radius: 0;
+        /* Remove rounded corners */
         padding: 30px 24px 40px;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        margin: 0;
+        /* Ensure no margin */
+        height: 100%;
+        /* Take full height if needed */
+        flex: 1;
+        /* Allow it to grow */
+        box-shadow: none;
+        /* Remove shadow if it looks weird at full width */
     }
 
     .back-icon-btn {

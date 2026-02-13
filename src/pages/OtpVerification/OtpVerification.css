@@ -16,8 +16,13 @@
     .otp-page {
         background: linear-gradient(to bottom, #307573 0%, #ffffff 100%) !important;
         min-height: 100dvh;
+        width: 100%;
+        margin: 0;
+        padding: 40px 24px;
+        /* Keep internal padding but ensure outer is flush */
         z-index: 20;
         justify-content: center;
+        border-radius: 0;
     }
 
     .otp-title {
