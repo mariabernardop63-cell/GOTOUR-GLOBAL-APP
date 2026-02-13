@@ -121,7 +121,7 @@ const MustSeeSection = ({ countryName = 'Moçambique' }) => {
         <div className="must-see-section must-see-anim">
             <div className="must-see-header">
                 <div className="must-see-titles">
-                    <h2 className="must-see-title">Lugares Imperdíveis em {countryName} <span style={{ fontSize: '16px' }}>⭐</span></h2>
+                    <h2 className="must-see-title"><span style={{ fontSize: '16px', marginRight: '6px' }}>⭐</span>Principais atrações</h2>
                     <span className="must-see-subtitle">Os lugares mais incríveis que você vai ver em {countryName}</span>
                 </div>
                 <button className="must-see-link" onClick={handleSeeAll}>
