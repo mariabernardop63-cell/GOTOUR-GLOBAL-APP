@@ -15,7 +15,16 @@ const EmailConfirmation = () => {
     };
 
     const handleSkip = () => {
-        navigateForward('/home');
+        if (location.state?.flow === 'signup-mobile') {
+            navigateForward('/signup', {
+                state: {
+                    returnStep: 3,
+                    formData: location.state.formData
+                }
+            });
+        } else {
+            navigateForward('/home');
+        }
     };
 
     const handleResend = () => {
@@ -60,7 +69,7 @@ const EmailConfirmation = () => {
                         className="email-conf-secondary-btn"
                         onClick={handleSkip}
                     >
-                        Pular (ainda estamos em testes)
+                        {location.state?.flow === 'signup-mobile' ? 'Continuar' : 'Pular (ainda estamos em testes)'}
                         <ArrowRight size={16} />
                     </button>
                     <p className="skip-hint">Se não recebeu o email agora, pode continuar a explorar a plataforma.</p>

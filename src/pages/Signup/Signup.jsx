@@ -65,6 +65,20 @@ const Signup = () => {
             return;
         }
 
+        const isMobile = window.innerWidth <= 768;
+
+        if (step === 2 && isMobile) {
+            // Mobile Flow: Step 2 -> Email Confirmation -> Step 3
+            navigateForward('/email-confirmation', {
+                state: {
+                    email: formData.email,
+                    flow: 'signup-mobile',
+                    formData: formData
+                }
+            });
+            return;
+        }
+
         if (step < 3) {
             setStep(prev => prev + 1);
         } else {
@@ -75,6 +89,16 @@ const Signup = () => {
             }, 1500);
         }
     };
+
+    // Handle return from Email Confirmation on mobile
+    React.useEffect(() => {
+        if (location.state?.returnStep === 3 && location.state?.formData) {
+            setFormData(prev => ({ ...prev, ...location.state.formData }));
+            setStep(3);
+            // Clear state to prevent loop if page refreshes (though Router state is usually persistent)
+            // Ideally we'd replace the history entry, but basic handling is fine for now.
+        }
+    }, [location.state]);
 
     const handleBack = () => {
         if (step > 1) setStep(prev => prev - 1);
