@@ -310,6 +310,7 @@
         /* Fallback */
         min-height: 100dvh;
         background: linear-gradient(to bottom, #307573 0%, #ffffff 100%);
+        z-index: 20;
     }
 
     .signup-glass-container {
