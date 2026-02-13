@@ -8,6 +8,7 @@
     justify-content: center;
     position: relative;
     padding: 20px;
+    background: linear-gradient(to bottom, #307573 0%, #ffffff 100%);
 }
 
 /* Glass Container */
@@ -16,13 +17,13 @@
     z-index: 10;
     width: 90%;
     max-width: 460px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 24px;
     padding: 40px 32px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     animation: fadeInUp 0.6s ease-out;
@@ -32,7 +33,7 @@
     position: absolute;
     top: 24px;
     left: 24px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.5);
     border: none;
     border-radius: 50%;
     width: 36px;
@@ -57,14 +58,14 @@
 .signup-header h1 {
     font-size: 28px;
     font-weight: 700;
-    color: #ffffff;
+    color: #1e293b;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
 }
 
 .signup-header p {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.85);
+    color: #475569;
     line-height: 1.5;
 }
 
@@ -73,8 +74,8 @@
     position: relative;
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.5);
+    border: 1.5px solid #307573;
     border-radius: 14px;
     padding: 0 16px;
     height: 52px;
@@ -83,12 +84,13 @@
 }
 
 .input-field:focus-within {
-    border-color: rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.12);
+    border-color: #307573;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(48, 117, 115, 0.1);
 }
 
 .input-field svg {
-    color: rgba(255, 255, 255, 0.7);
+    color: #307573;
     margin-right: 12px;
     flex-shrink: 0;
 }
@@ -98,14 +100,14 @@
     flex: 1;
     background: transparent;
     border: none;
-    color: #ffffff;
+    color: #1e293b;
     font-size: 15px;
     outline: none;
     width: 100%;
 }
 
 .input-field input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: #94a3b8;
 }
 
 .custom-select {
@@ -114,12 +116,12 @@
 }
 
 .custom-select option {
-    background: #1f2937;
-    color: white;
+    background: #ffffff;
+    color: #1e293b;
 }
 
 .prefix {
-    color: rgba(255, 255, 255, 0.9);
+    color: #1e293b;
     font-weight: 600;
     margin-right: 8px;
 }
@@ -133,7 +135,7 @@
 .date-selects select {
     background: transparent;
     border: none;
-    color: white;
+    color: #1e293b;
     font-size: 14px;
     outline: none;
     cursor: pointer;
@@ -141,13 +143,13 @@
 }
 
 .date-selects select option {
-    background: #1f2937;
+    background: #ffffff;
 }
 
 .eye-btn {
     cursor: pointer;
     padding: 4px;
-    color: rgba(255, 255, 255, 0.7);
+    color: #64748b;
     display: flex;
 }
 
@@ -199,7 +201,7 @@
 }
 
 .social-login-section p {
-    color: rgba(255, 255, 255, 0.7);
+    color: #475569;
     font-size: 13px;
     margin-bottom: 12px;
 }
@@ -237,11 +239,11 @@
     margin-top: 24px;
     text-align: center;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    color: #475569;
 }
 
 .login-link span {
-    color: #ffffff;
+    color: #307573;
     font-weight: 600;
     cursor: pointer;
     margin-left: 4px;
@@ -256,7 +258,7 @@
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    color: rgba(255, 255, 255, 0.85);
+    color: #475569;
     font-size: 13px;
     margin-bottom: 20px;
     cursor: pointer;
@@ -264,7 +266,7 @@
 
 .terms-label input {
     margin-top: 3px;
-    accent-color: #1e293b;
+    accent-color: #307573;
 }
 
 /* Animations */
@@ -318,7 +320,8 @@
         top: 20px;
         left: 20px;
         z-index: 100;
-        background: rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .signup-header {

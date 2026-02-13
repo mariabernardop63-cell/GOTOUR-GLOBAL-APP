@@ -95,7 +95,7 @@ const Signup = () => {
         <div className="signup-page-content">
             <div className="signup-glass-container fade-in-up">
                 <button className="back-icon-btn" onClick={handleBack}>
-                    <ArrowLeft size={24} color="#fff" />
+                    <ArrowLeft size={24} color="#1e293b" />
                 </button>
 
                 <div className="signup-header">

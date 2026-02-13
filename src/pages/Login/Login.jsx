@@ -36,7 +36,7 @@ const Login = () => {
         <div className="login-page-content">
             <div className="login-glass-container fade-in-up">
                 <button className="back-icon-btn" onClick={() => navigateBack('/')}>
-                    <ArrowLeft size={24} color="#fff" />
+                    <ArrowLeft size={24} color="#1e293b" />
                 </button>
 
                 <div className="login-header">
