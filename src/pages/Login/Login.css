@@ -342,20 +342,24 @@
     }
 
     .input-field input {
-        color: #1e293b;
+        color: #000000;
+        /* Pure black as requested */
     }
 
     .input-field input::placeholder {
-        color: #94a3b8;
+        color: #307573;
+        /* Teal placeholder to match border/icon style or dark gray if preferred, user said "combine with elements" */
+        opacity: 0.7;
     }
 
     .eye-btn {
-        color: #64748b;
+        color: #307573;
     }
 
     /* Links on Mobile */
     .forgot-password-row span {
-        color: #475569;
+        color: #000000;
+        font-weight: 500;
     }
 
     .forgot-password-row span:hover {
@@ -363,14 +367,15 @@
     }
 
     .social-login-section p {
-        color: #475569;
+        color: #000000;
     }
 
     .signup-link {
-        color: #475569;
+        color: #000000;
     }
 
     .signup-link span {
         color: #307573;
+        font-weight: 700;
     }
 }

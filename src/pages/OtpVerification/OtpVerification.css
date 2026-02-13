@@ -11,6 +11,47 @@
     overflow-x: hidden;
 }
 
+/* Mobile Gradient & Styles */
+@media (max-width: 768px) {
+    .otp-page {
+        background: linear-gradient(to bottom, #307573 0%, #ffffff 100%) !important;
+        min-height: 100dvh;
+        z-index: 20;
+        justify-content: center;
+    }
+
+    .otp-title {
+        color: #000000 !important;
+    }
+
+    .otp-subtitle {
+        color: #000000 !important;
+        font-weight: 500;
+    }
+
+    .otp-logo-text {
+        color: #000000 !important;
+    }
+
+    /* OTP Input Bars */
+    .otp-input-bar {
+        border-bottom: 3px solid #307573 !important;
+        color: #000000 !important;
+    }
+
+    .otp-input-bar:focus {
+        border-color: #307573 !important;
+    }
+
+    .otp-resend {
+        color: #000000;
+    }
+
+    .otp-back-link {
+        color: #000000 !important;
+    }
+}
+
 @media (min-width: 1024px) {
     .otp-page {
         background: transparent !important;

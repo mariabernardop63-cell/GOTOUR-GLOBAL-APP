@@ -372,24 +372,26 @@
 
     .input-field input,
     .custom-select {
-        color: #1e293b;
+        color: #000000;
     }
 
     .input-field input::placeholder {
-        color: #94a3b8;
+        color: #307573;
+        opacity: 0.7;
     }
 
     .custom-select option {
         background: #ffffff;
-        color: #1e293b;
+        color: #000000;
     }
 
     .prefix {
-        color: #1e293b;
+        color: #000000;
+        font-weight: 600;
     }
 
     .date-selects select {
-        color: #1e293b;
+        color: #000000;
     }
 
     .date-selects select option {
@@ -397,24 +399,25 @@
     }
 
     .eye-btn {
-        color: #64748b;
+        color: #307573;
     }
 
     /* Links */
     .social-login-section p {
-        color: #475569;
+        color: #000000;
     }
 
     .login-link {
-        color: #475569;
+        color: #000000;
     }
 
     .login-link span {
         color: #307573;
+        font-weight: 700;
     }
 
     .terms-label {
-        color: #475569;
+        color: #000000;
     }
 
     .terms-label input {
