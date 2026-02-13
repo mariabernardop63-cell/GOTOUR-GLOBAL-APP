@@ -14,7 +14,7 @@ import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import gotourLogo from '../../assets/images/gotour_icon.png';
 import dubaiImage from '../../assets/images/dubai_city.png';
-import './MessagesScreen.css';
+import './MessagesScreenStyles.css';
 
 // Mock data
 const mockStories = [

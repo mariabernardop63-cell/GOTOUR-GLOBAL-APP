@@ -6,7 +6,7 @@ import {
     Eye, Gift, Image, Video, Smile, FileText,
     MapPin, ChevronDown
 } from 'lucide-react';
-import './ChatScreen.css';
+import './ChatScreenStyles.css';
 
 // Mock messages
 const initialMessages = [
