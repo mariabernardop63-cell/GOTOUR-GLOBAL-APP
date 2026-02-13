@@ -304,30 +304,34 @@
 /* ===== MOBILE: Apply Teal Gradient Theme (New Design) ===== */
 @media (max-width: 768px) {
     .signup-page-content {
-        align-items: flex-end;
+        align-items: stretch;
         padding: 0;
         min-height: 100vh;
-        /* Fallback */
         min-height: 100dvh;
+        width: 100vw;
+        margin: 0;
+        overflow-x: hidden;
         background: linear-gradient(to bottom, #307573 0%, #ffffff 100%);
         z-index: 20;
     }
 
     .signup-glass-container {
         width: 100%;
-        max-width: 100%;
+        max-width: none;
+        min-height: 100dvh;
         background: rgba(255, 255, 255, 0.85);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: none;
         border-top: 1px solid rgba(255, 255, 255, 0.5);
         border-radius: 0;
-        /* Remove rounded corners */
         padding: 30px 24px 40px;
         margin: 0;
-        height: 100%;
         flex: 1;
         box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
     }
 
     .back-icon-btn {
