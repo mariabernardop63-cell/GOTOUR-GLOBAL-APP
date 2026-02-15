@@ -120,10 +120,7 @@ const AnimatedRoutes = () => {
                     <Routes location={location}>
                         <Route path="/" element={<Welcome />} />
                         <Route path="/login" element={<Login />} />
-                        import EmailConfirmation from './pages/EmailConfirmation/EmailConfirmation';
-                        // ... existing imports ...
 
-                        // ... inside App component ...
                         <Route path="/signup" element={<Signup />} />
                         <Route path="/email-confirmation" element={<EmailConfirmation />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
