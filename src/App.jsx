@@ -12,6 +12,7 @@ import MapScreen from './pages/Map/MapScreen';
 import ProfileScreen from './pages/Profile/ProfileScreen';
 import FeedScreen from './pages/Feed/FeedScreen';
 import DestinoDetalhes from './pages/DestinoDetalhes/DestinoDetalhes';
+import SelectCountryScreen from './pages/SelectCountry/SelectCountryScreen';
 import EditProfile from './pages/EditProfile/EditProfile';
 import MessagesScreen from './pages/Messages/MessagesScreen';
 import StoryViewer from './pages/StoryViewer/StoryViewer';
@@ -87,7 +88,7 @@ const AnimatedRoutes = () => {
     const direction = getDirection();
 
     // Routes where video background should be active
-    const videoRoutes = ['/', '/login', '/signup', '/forgot-password', '/email-confirmation'];
+    const videoRoutes = ['/', '/login', '/signup', '/forgot-password', '/email-confirmation', '/select-country'];
     const showVideo = videoRoutes.includes(location.pathname);
 
     useEffect(() => {
@@ -120,8 +121,8 @@ const AnimatedRoutes = () => {
                     <Routes location={location}>
                         <Route path="/" element={<Welcome />} />
                         <Route path="/login" element={<Login />} />
-
                         <Route path="/signup" element={<Signup />} />
+                        <Route path="/select-country" element={<SelectCountryScreen />} />
                         <Route path="/email-confirmation" element={<EmailConfirmation />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/home" element={<HomeScreen />} />

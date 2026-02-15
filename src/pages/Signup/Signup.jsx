@@ -85,7 +85,7 @@ const Signup = () => {
             setIsLoading(true);
             setTimeout(() => {
                 setIsLoading(false);
-                navigateForward('/email-confirmation', { state: { email: formData.email } });
+                navigateForward('/select-country', { state: { email: formData.email } });
             }, 1500);
         }
     };

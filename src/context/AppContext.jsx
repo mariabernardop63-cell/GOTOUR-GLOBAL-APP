@@ -7,6 +7,7 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
     const [langCode, setLangCode] = useState('en-US');
     const [nationality, setNationality] = useState(''); // Stores ISO code
+    const [exploreCountry, setExploreCountry] = useState(localStorage.getItem('exploreCountry') || '');
     const [loadingIP, setLoadingIP] = useState(true);
 
     useEffect(() => {
@@ -44,6 +45,11 @@ export const AppProvider = ({ children }) => {
         setLangCode,
         nationality,
         setNationality,
+        exploreCountry,
+        setExploreCountry: (country) => {
+            setExploreCountry(country);
+            localStorage.setItem('exploreCountry', country);
+        },
         loadingIP,
         t: translations[langCode] || translations['en-US']
     };
