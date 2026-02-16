@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Lock, Eye, EyeOff, ArrowLeft, Check, X } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { useLocation } from 'react-router-dom';
@@ -9,7 +9,9 @@ import './CreatePassword.css';
 const CreatePassword = () => {
     const { navigateForward, navigateBack } = useNavigation();
     const location = useLocation();
-    const profileData = location.state?.profileData || {};
+
+    // Profile data may come from location state OR localStorage (after magic link redirect)
+    const [profileData, setProfileData] = useState(location.state?.profileData || {});
 
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,6 +19,38 @@ const CreatePassword = () => {
     const [showConfirm, setShowConfirm] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [isReady, setIsReady] = useState(false);
+
+    // On mount: recover profile data from localStorage if not in state (magic link redirect scenario)
+    useEffect(() => {
+        const stored = localStorage.getItem('pendingProfileData');
+        if (stored && Object.keys(profileData).length === 0) {
+            try {
+                setProfileData(JSON.parse(stored));
+            } catch (e) {
+                console.error('Failed to parse pendingProfileData:', e);
+            }
+        }
+
+        // Check that user is authenticated (magic link was clicked)
+        const checkSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                setIsReady(true);
+            } else {
+                // Wait a moment for Supabase to process the token from URL hash
+                setTimeout(async () => {
+                    const { data: { session: retrySession } } = await supabase.auth.getSession();
+                    if (retrySession) {
+                        setIsReady(true);
+                    } else {
+                        setIsReady(true); // Still show the page, but save will fail gracefully
+                    }
+                }, 2000);
+            }
+        };
+        checkSession();
+    }, []);
 
     // Password strength checks
     const hasMinLength = password.length >= 8;
@@ -59,27 +93,33 @@ const CreatePassword = () => {
                 return;
             }
 
-            // Save profile data
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user && profileData) {
-                const { error: profileError } = await supabase
-                    .from('profiles')
-                    .upsert({
-                        id: user.id,
-                        full_name: profileData.fullName || null,
-                        nationality: profileData.nationality || null,
-                        phone: profileData.phone || user.phone || null,
-                        date_of_birth: profileData.dateOfBirth || null,
-                        created_at: new Date().toISOString()
-                    });
+            // Save profile data if available (only for signup, not forgot password)
+            if (profileData && Object.keys(profileData).length > 0) {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    const { error: profileError } = await supabase
+                        .from('profiles')
+                        .upsert({
+                            id: user.id,
+                            full_name: profileData.fullName || null,
+                            nationality: profileData.nationality || null,
+                            phone: profileData.phone || user.phone || null,
+                            date_of_birth: profileData.dateOfBirth || null,
+                            created_at: new Date().toISOString()
+                        });
 
-                if (profileError) {
-                    console.error('Profile save error:', profileError);
+                    if (profileError) {
+                        console.error('Profile save error:', profileError);
+                    }
                 }
+
+                // Clear stored profile data
+                localStorage.removeItem('pendingProfileData');
             }
 
-            // Success — redirect to home
-            navigateForward('/select-country');
+            // Success — redirect to select country (signup) or home (forgot password)
+            const hasProfileData = Object.keys(profileData).length > 0;
+            navigateForward(hasProfileData ? '/select-country' : '/home');
         } catch (err) {
             setError('Ocorreu um erro inesperado. Tente novamente.');
             console.error('Create password error:', err);

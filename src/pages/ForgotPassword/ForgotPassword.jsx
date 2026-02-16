@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
+import { supabase } from '../../lib/supabase';
 import gotourIcon from '../../assets/images/gotour_icon.png';
-import bgImage from '../../assets/images/dubai_city.png'; // Consistent with Login
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {
@@ -11,18 +11,53 @@ const ForgotPassword = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!email) {
             setError('Por favor, digite seu e-mail');
             return;
         }
-        if (!email.includes('@')) {
+        if (!isValidEmail(email)) {
             setError('Digite um e-mail válido');
             return;
         }
 
         setIsLoading(true);
+
+        // ========== MOBILE FLOW (Supabase Magic Link for password reset) ==========
+        if (isMobile) {
+            try {
+                const redirectUrl = window.location.origin + '/create-password';
+                const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+                    redirectTo: redirectUrl
+                });
+
+                if (resetError) {
+                    setError(resetError.message || 'Erro ao enviar link. Tente novamente.');
+                    setIsLoading(false);
+                    return;
+                }
+
+                // Navigate to email confirmation
+                navigateForward('/email-confirmation', {
+                    state: {
+                        email,
+                        flow: 'forgot-password-mobile'
+                    }
+                });
+            } catch (err) {
+                setError('Erro de conexão. Verifique sua internet.');
+                console.error('Reset password error:', err);
+            } finally {
+                setIsLoading(false);
+            }
+            return;
+        }
+
+        // ========== DESKTOP FLOW (mock — unchanged) ==========
         setTimeout(() => {
             setIsLoading(false);
             navigateForward('/email-confirmation', { state: { email } });

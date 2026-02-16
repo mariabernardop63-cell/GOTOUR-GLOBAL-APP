@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [session, setSession] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [authEvent, setAuthEvent] = useState(null);
 
     useEffect(() => {
         // Get initial session
@@ -21,6 +22,7 @@ export const AuthProvider = ({ children }) => {
             async (event, session) => {
                 setSession(session);
                 setUser(session?.user ?? null);
+                setAuthEvent(event);
                 setLoading(false);
 
                 // Auto-create profile on first sign-in
@@ -64,12 +66,14 @@ export const AuthProvider = ({ children }) => {
         await supabase.auth.signOut();
         setUser(null);
         setSession(null);
+        setAuthEvent(null);
     };
 
     const value = {
         user,
         session,
         loading,
+        authEvent,
         signOut,
         supabase
     };

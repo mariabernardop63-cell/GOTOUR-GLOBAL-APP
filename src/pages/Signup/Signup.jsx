@@ -75,7 +75,7 @@ const Signup = () => {
             return;
         }
 
-        // ========== MOBILE FLOW (Supabase OTP) ==========
+        // ========== MOBILE FLOW (Supabase Magic Link) ==========
         if (isMobile) {
             if (step === 1) {
                 setStep(2);
@@ -86,38 +86,46 @@ const Signup = () => {
                 setIsLoading(true);
                 setErrors({});
                 try {
-                    // Build full phone with dial code
+                    // Build profile data to pass along
                     const fullPhone = (activeCountry?.dialCode || '') + formData.phone.replace(/[\s\-\(\)]/g, '');
+                    const profileData = {
+                        fullName: formData.fullName,
+                        nationality: formData.nationality,
+                        phone: fullPhone,
+                        dateOfBirth: formData.dobYear && formData.dobMonth && formData.dobDay
+                            ? `${formData.dobYear}-${String(formData.dobMonth).padStart(2, '0')}-${String(formData.dobDay).padStart(2, '0')}`
+                            : null
+                    };
 
-                    // Send OTP via Supabase
+                    // Send Magic Link via Supabase email
+                    const redirectUrl = window.location.origin + '/create-password';
                     const { error } = await supabase.auth.signInWithOtp({
-                        phone: fullPhone
+                        email: formData.email,
+                        options: {
+                            emailRedirectTo: redirectUrl
+                        }
                     });
 
                     if (error) {
-                        setErrors({ phone: error.message || 'Erro ao enviar OTP. Tente novamente.' });
+                        setErrors({ email: error.message || 'Erro ao enviar magic link. Tente novamente.' });
                         setIsLoading(false);
                         return;
                     }
 
-                    // Navigate to OTP verification with data
-                    navigateForward('/otp-verification', {
+                    // Store profile data in localStorage for after magic link click
+                    localStorage.setItem('pendingProfileData', JSON.stringify(profileData));
+
+                    // Navigate to email confirmation screen
+                    navigateForward('/email-confirmation', {
                         state: {
-                            phone: fullPhone,
-                            flow: 'signup-mobile',
-                            profileData: {
-                                fullName: formData.fullName,
-                                nationality: formData.nationality,
-                                phone: fullPhone,
-                                dateOfBirth: formData.dobYear && formData.dobMonth && formData.dobDay
-                                    ? `${formData.dobYear}-${String(formData.dobMonth).padStart(2, '0')}-${String(formData.dobDay).padStart(2, '0')}`
-                                    : null
-                            }
+                            email: formData.email,
+                            flow: 'signup-mobile-magic',
+                            profileData: profileData
                         }
                     });
                 } catch (err) {
-                    setErrors({ phone: 'Erro de conexão. Verifique sua internet.' });
-                    console.error('OTP send error:', err);
+                    setErrors({ email: 'Erro de conexão. Verifique sua internet.' });
+                    console.error('Magic link send error:', err);
                 } finally {
                     setIsLoading(false);
                 }
@@ -126,14 +134,6 @@ const Signup = () => {
         }
 
         // ========== DESKTOP FLOW (unchanged mock) ==========
-        if (step === 2 && !isMobile) {
-            // Desktop: Email Confirmation flow (stays the same)
-            if (step < 3) {
-                setStep(prev => prev + 1);
-            }
-            return;
-        }
-
         if (step < 3) {
             setStep(prev => prev + 1);
         } else {
@@ -166,9 +166,9 @@ const Signup = () => {
 
     const getButtonText = () => {
         if (isLoading) {
-            return isMobile && step === 2 ? 'Enviando OTP...' : 'Processando...';
+            return isMobile && step === 2 ? 'Enviando link...' : 'Processando...';
         }
-        if (isMobile && step === 2) return 'Enviar Código';
+        if (isMobile && step === 2) return 'Enviar Magic Link';
         return step === 3 ? 'Criar Conta' : 'Continuar';
     };
 

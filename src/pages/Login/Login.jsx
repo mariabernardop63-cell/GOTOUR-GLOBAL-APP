@@ -46,7 +46,14 @@ const Login = () => {
                 });
 
                 if (loginError) {
-                    setError(loginError.message || 'Email ou senha incorretos');
+                    // Specific error messages for common cases
+                    if (loginError.message?.includes('Invalid login credentials')) {
+                        setError('Email ou palavra-passe incorretos. Se ainda não criou conta, registe-se primeiro.');
+                    } else if (loginError.message?.includes('Email not confirmed')) {
+                        setError('Email ainda não confirmado. Verifique sua caixa de entrada.');
+                    } else {
+                        setError(loginError.message || 'Erro ao iniciar sessão');
+                    }
                     setIsLoading(false);
                     return;
                 }
