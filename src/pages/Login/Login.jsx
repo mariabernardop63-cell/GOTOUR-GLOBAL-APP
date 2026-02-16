@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
+import { supabase } from '../../lib/supabase';
 import './Login.css';
 
 const Login = () => {
@@ -10,12 +11,17 @@ const Login = () => {
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+
+    // Validation helpers
+    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         setError('');
     };
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
 
@@ -24,8 +30,39 @@ const Login = () => {
             return;
         }
 
+        if (!isValidEmail(formData.email)) {
+            setError('Email inválido');
+            return;
+        }
+
         setIsLoading(true);
 
+        // ========== MOBILE FLOW (Supabase) ==========
+        if (isMobile) {
+            try {
+                const { data, error: loginError } = await supabase.auth.signInWithPassword({
+                    email: formData.email,
+                    password: formData.password
+                });
+
+                if (loginError) {
+                    setError(loginError.message || 'Email ou senha incorretos');
+                    setIsLoading(false);
+                    return;
+                }
+
+                // Success
+                navigateForward('/home');
+            } catch (err) {
+                setError('Erro de conexão. Verifique sua internet.');
+                console.error('Login error:', err);
+            } finally {
+                setIsLoading(false);
+            }
+            return;
+        }
+
+        // ========== DESKTOP FLOW (mock — unchanged) ==========
         setTimeout(() => {
             setIsLoading(false);
             navigateForward('/home');

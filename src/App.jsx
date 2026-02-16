@@ -6,6 +6,8 @@ import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import EmailConfirmation from './pages/EmailConfirmation/EmailConfirmation';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import OtpVerification from './pages/OtpVerification/OtpVerification';
+import CreatePassword from './pages/CreatePassword/CreatePassword';
 import HomeScreen from './pages/Home/HomeScreen';
 import CategoriesScreen from './pages/Categories/CategoriesScreen';
 import MapScreen from './pages/Map/MapScreen';
@@ -19,6 +21,7 @@ import StoryViewer from './pages/StoryViewer/StoryViewer';
 import ChatScreen from './pages/Chat/ChatScreen';
 import MessageSettings from './pages/MessageSettings/MessageSettings';
 import { AppProvider } from './context/AppContext';
+import { AuthProvider } from './context/AuthContext';
 import PageTransition from './components/PageTransition/PageTransition';
 import VideoBackground from './components/VideoBackground/VideoBackground';
 import './App.css';
@@ -54,10 +57,10 @@ const NavigationProvider = ({ children }) => {
         return () => window.removeEventListener('popstate', handlePopState);
     }, []);
 
-    const navigateForward = useCallback((path) => {
+    const navigateForward = useCallback((path, options) => {
         directionRef.current = 'forward';
         isNavigatingRef.current = true;
-        navigate(path);
+        navigate(path, options);
     }, [navigate]);
 
     const navigateBack = useCallback((path) => {
@@ -88,7 +91,7 @@ const AnimatedRoutes = () => {
     const direction = getDirection();
 
     // Routes where video background should be active
-    const videoRoutes = ['/', '/login', '/signup', '/forgot-password', '/email-confirmation', '/select-country'];
+    const videoRoutes = ['/', '/login', '/signup', '/forgot-password', '/email-confirmation', '/select-country', '/otp-verification', '/create-password'];
     const showVideo = videoRoutes.includes(location.pathname);
 
     useEffect(() => {
@@ -125,6 +128,8 @@ const AnimatedRoutes = () => {
                         <Route path="/select-country" element={<SelectCountryScreen />} />
                         <Route path="/email-confirmation" element={<EmailConfirmation />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
+                        <Route path="/otp-verification" element={<OtpVerification />} />
+                        <Route path="/create-password" element={<CreatePassword />} />
                         <Route path="/home" element={<HomeScreen />} />
                         <Route path="/categories" element={<CategoriesScreen />} />
                         <Route path="/feed" element={<FeedScreen />} />
@@ -145,11 +150,13 @@ const AnimatedRoutes = () => {
 
 function App() {
     return (
-        <AppProvider>
-            <NavigationProvider>
-                <AnimatedRoutes />
-            </NavigationProvider>
-        </AppProvider>
+        <AuthProvider>
+            <AppProvider>
+                <NavigationProvider>
+                    <AnimatedRoutes />
+                </NavigationProvider>
+            </AppProvider>
+        </AuthProvider>
     );
 }
 

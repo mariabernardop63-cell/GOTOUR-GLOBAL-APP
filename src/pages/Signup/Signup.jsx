@@ -3,6 +3,7 @@ import { User, Mail, Globe, Phone, Calendar, Lock, Eye, EyeOff, ArrowLeft } from
 import { useNavigation } from '../../App';
 import { countries } from '../../data/countries';
 import { useApp } from '../../context/AppContext';
+import { supabase } from '../../lib/supabase';
 import './Signup.css';
 
 const Signup = () => {
@@ -27,6 +28,7 @@ const Signup = () => {
     const [errors, setErrors] = useState({});
 
     const activeCountry = countries.find(c => c.code === nationality) || countries[0];
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -37,18 +39,26 @@ const Signup = () => {
     const handleNationalityChange = (e) => {
         setNationality(e.target.value);
         setFormData(prev => ({ ...prev, nationality: e.target.value }));
+        if (errors.nationality) setErrors(prev => ({ ...prev, nationality: '' }));
     };
+
+    // Validation helpers
+    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const isValidPhone = (phone) => /^\d{7,15}$/.test(phone.replace(/[\s\-\(\)]/g, ''));
 
     const validateStep = (currentStep) => {
         const newErrors = {};
         if (currentStep === 1) {
             if (!formData.fullName.trim()) newErrors.fullName = 'Nome obrigatório';
+            else if (formData.fullName.trim().length < 2) newErrors.fullName = 'Nome deve ter no mínimo 2 caracteres';
             if (!formData.email.trim()) newErrors.email = 'Email obrigatório';
+            else if (!isValidEmail(formData.email)) newErrors.email = 'Email inválido';
         }
         if (currentStep === 2) {
-            if (!formData.nationality) newErrors.nationality = 'Selecione nacionalidade';
+            if (!formData.nationality) newErrors.nationality = 'Selecione a nacionalidade';
             if (!formData.phone) newErrors.phone = 'Telefone obrigatório';
-            if (!formData.dobDay || !formData.dobMonth || !formData.dobYear) newErrors.dob = 'Data obrigatória';
+            else if (!isValidPhone(formData.phone)) newErrors.phone = 'Número de telefone inválido (mín. 7 dígitos)';
+            if (!formData.dobDay || !formData.dobMonth || !formData.dobYear) newErrors.dob = 'Data de nascimento obrigatória';
         }
         if (currentStep === 3) {
             if (formData.password.length < 6) newErrors.password = 'Mínimo 6 caracteres';
@@ -58,30 +68,76 @@ const Signup = () => {
         return newErrors;
     };
 
-    const handleNext = () => {
+    const handleNext = async () => {
         const stepErrors = validateStep(step);
         if (Object.keys(stepErrors).length > 0) {
             setErrors(stepErrors);
             return;
         }
 
-        const isMobile = window.innerWidth <= 768;
+        // ========== MOBILE FLOW (Supabase OTP) ==========
+        if (isMobile) {
+            if (step === 1) {
+                setStep(2);
+                return;
+            }
 
-        if (step === 2 && isMobile) {
-            // Mobile Flow: Step 2 -> Email Confirmation -> Step 3
-            navigateForward('/email-confirmation', {
-                state: {
-                    email: formData.email,
-                    flow: 'signup-mobile',
-                    formData: formData
+            if (step === 2) {
+                setIsLoading(true);
+                setErrors({});
+                try {
+                    // Build full phone with dial code
+                    const fullPhone = (activeCountry?.dialCode || '') + formData.phone.replace(/[\s\-\(\)]/g, '');
+
+                    // Send OTP via Supabase
+                    const { error } = await supabase.auth.signInWithOtp({
+                        phone: fullPhone
+                    });
+
+                    if (error) {
+                        setErrors({ phone: error.message || 'Erro ao enviar OTP. Tente novamente.' });
+                        setIsLoading(false);
+                        return;
+                    }
+
+                    // Navigate to OTP verification with data
+                    navigateForward('/otp-verification', {
+                        state: {
+                            phone: fullPhone,
+                            flow: 'signup-mobile',
+                            profileData: {
+                                fullName: formData.fullName,
+                                nationality: formData.nationality,
+                                phone: fullPhone,
+                                dateOfBirth: formData.dobYear && formData.dobMonth && formData.dobDay
+                                    ? `${formData.dobYear}-${String(formData.dobMonth).padStart(2, '0')}-${String(formData.dobDay).padStart(2, '0')}`
+                                    : null
+                            }
+                        }
+                    });
+                } catch (err) {
+                    setErrors({ phone: 'Erro de conexão. Verifique sua internet.' });
+                    console.error('OTP send error:', err);
+                } finally {
+                    setIsLoading(false);
                 }
-            });
+                return;
+            }
+        }
+
+        // ========== DESKTOP FLOW (unchanged mock) ==========
+        if (step === 2 && !isMobile) {
+            // Desktop: Email Confirmation flow (stays the same)
+            if (step < 3) {
+                setStep(prev => prev + 1);
+            }
             return;
         }
 
         if (step < 3) {
             setStep(prev => prev + 1);
         } else {
+            // Desktop step 3: mock submit
             setIsLoading(true);
             setTimeout(() => {
                 setIsLoading(false);
@@ -90,13 +146,11 @@ const Signup = () => {
         }
     };
 
-    // Handle return from Email Confirmation on mobile
+    // Handle return from Email Confirmation on mobile (legacy)
     React.useEffect(() => {
         if (location.state?.returnStep === 3 && location.state?.formData) {
             setFormData(prev => ({ ...prev, ...location.state.formData }));
             setStep(3);
-            // Clear state to prevent loop if page refreshes (though Router state is usually persistent)
-            // Ideally we'd replace the history entry, but basic handling is fine for now.
         }
     }, [location.state]);
 
@@ -111,7 +165,10 @@ const Signup = () => {
     const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
     const getButtonText = () => {
-        if (isLoading) return 'Processando...';
+        if (isLoading) {
+            return isMobile && step === 2 ? 'Enviando OTP...' : 'Processando...';
+        }
+        if (isMobile && step === 2) return 'Enviar Código';
         return step === 3 ? 'Criar Conta' : 'Continuar';
     };
 
