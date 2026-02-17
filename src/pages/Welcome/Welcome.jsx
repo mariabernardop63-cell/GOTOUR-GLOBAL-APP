@@ -29,6 +29,7 @@ const Welcome = () => {
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [loadingBtn, setLoadingBtn] = useState(null);
     const [showBottomSheet, setShowBottomSheet] = useState(false);
+    const [sheetAnimating, setSheetAnimating] = useState(false);
 
     useEffect(() => {
         const textInterval = setInterval(() => {
@@ -48,10 +49,20 @@ const Welcome = () => {
 
     const handleComecarAgora = () => {
         setShowBottomSheet(true);
+        // Trigger animation after render
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                setSheetAnimating(true);
+            });
+        });
     };
 
     const handleCloseSheet = () => {
-        setShowBottomSheet(false);
+        setSheetAnimating(false);
+        // Wait for animation to finish before removing from DOM
+        setTimeout(() => {
+            setShowBottomSheet(false);
+        }, 350);
     };
 
     return (
@@ -192,17 +203,27 @@ const Welcome = () => {
 
             </div>
 
-            {/* ===== MOBILE BOTTOM SHEET (ChatGPT style) ===== */}
+            {/* ===== MOBILE BOTTOM SHEET ===== */}
             {showBottomSheet && (
-                <div className="bottom-sheet-overlay" onClick={handleCloseSheet}>
-                    <div className="bottom-sheet" onClick={(e) => e.stopPropagation()}>
+                <div
+                    className={`bottom-sheet-overlay ${sheetAnimating ? 'active' : ''}`}
+                    onClick={handleCloseSheet}
+                >
+                    <div
+                        className={`bottom-sheet ${sheetAnimating ? 'active' : ''}`}
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className="bottom-sheet-handle" />
 
-                        <div className="bottom-sheet-content">
+                        {/* Fixed header */}
+                        <div className="bottom-sheet-fixed-header">
                             <p className="bottom-sheet-label">Iniciar sessão ou Registar-se</p>
                             <h2 className="bottom-sheet-title">Bem-vindo à GoTour</h2>
+                        </div>
 
-                            {/* Social Buttons (ChatGPT style) */}
+                        {/* Scrollable content */}
+                        <div className="bottom-sheet-scroll-content">
+                            {/* Social Buttons */}
                             <div className="social-buttons-list">
                                 <button className="social-auth-btn" onClick={() => { }}>
                                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="social-auth-icon" />

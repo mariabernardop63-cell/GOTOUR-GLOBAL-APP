@@ -6,10 +6,9 @@
     justify-content: center;
     position: relative;
     padding: 20px;
-    /* Video background handled by App.js (VideoBackground component) */
 }
 
-/* Dark overlay to ensure text readability over video */
+/* Dark overlay (desktop) */
 .email-conf-overlay {
     position: absolute;
     top: 0;
@@ -20,7 +19,7 @@
     z-index: 1;
 }
 
-/* Logo Section */
+/* Logo Section (desktop only) */
 .email-conf-logo-section {
     position: absolute;
     top: 40px;
@@ -44,7 +43,7 @@
     text-transform: uppercase;
 }
 
-/* Glassmorphism Container */
+/* Glass Container (desktop default) */
 .email-conf-glass-container {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);
@@ -64,11 +63,29 @@
     text-align: center;
 }
 
-.icon-wrapper {
-    background: rgba(16, 185, 129, 0.1);
-    padding: 20px;
-    border-radius: 50%;
-    margin-bottom: 10px;
+/* Back button — no background */
+.email-conf-back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    background: none;
+    border: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.email-conf-back-btn svg {
+    color: #ffffff;
+}
+
+.email-conf-back-btn:hover {
+    opacity: 0.7;
 }
 
 .email-conf-header h1 {
@@ -134,32 +151,12 @@
     box-shadow: 0 10px 15px -3px rgba(4, 140, 131, 0.6);
 }
 
-.email-conf-secondary-btn {
-    width: 100%;
-    padding: 14px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #e2e8f0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}
-
-.email-conf-secondary-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-}
-
-.skip-hint {
-    font-size: 0.8rem;
+.email-conf-hint {
+    font-size: 0.85rem;
     color: #94a3b8;
+    text-align: center;
     margin-top: 4px;
+    line-height: 1.4;
 }
 
 .resend-link {
@@ -181,13 +178,32 @@
     text-decoration: underline;
 }
 
-/* Mobile Responsive */
+/* Animations */
+@keyframes emailConfFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: emailConfFadeInUp 0.6s ease-out;
+}
+
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
     .email-conf-page {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100vw;
+        right: 0;
+        bottom: 0;
+        width: 100%;
         min-height: 100dvh;
         background: linear-gradient(to bottom, #307573 0%, #ffffff 100%) !important;
         padding: 0;
@@ -222,21 +238,18 @@
         justify-content: center;
     }
 
-    /* Hide Icon as requested */
-    .icon-wrapper {
-        display: none;
+    .email-conf-back-btn svg {
+        color: #1e293b;
     }
 
-    /* Text Colors - Black for contrast */
     .email-conf-header h1 {
-        color: #000000;
+        color: #1e293b;
         font-size: 26px;
-        margin-top: 20px;
     }
 
     .email-conf-header p {
-        color: #000000;
-        font-weight: 500;
+        color: #475569;
+        font-weight: 400;
     }
 
     .email-display {
@@ -252,21 +265,8 @@
         color: #000000;
     }
 
-    /* Update Buttons for Light Background */
-    .email-conf-secondary-btn {
-        background: transparent;
-        color: #000000;
-        border: 1px solid #000000;
-    }
-
-    .email-conf-secondary-btn:hover {
-        background: rgba(0, 0, 0, 0.05);
-        color: #000000;
-    }
-
-    .skip-hint {
-        color: #000000;
-        opacity: 0.7;
+    .email-conf-hint {
+        color: #475569;
     }
 
     .resend-link {

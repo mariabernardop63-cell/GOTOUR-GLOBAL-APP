@@ -46,13 +46,17 @@ const Login = () => {
                 });
 
                 if (loginError) {
-                    // Specific error messages for common cases
-                    if (loginError.message?.includes('Invalid login credentials')) {
-                        setError('Email ou palavra-passe incorretos. Se ainda não criou conta, registe-se primeiro.');
-                    } else if (loginError.message?.includes('Email not confirmed')) {
-                        setError('Email ainda não confirmado. Verifique sua caixa de entrada.');
+                    const msg = loginError.message || '';
+
+                    if (msg.includes('Invalid login credentials')) {
+                        // Supabase doesn't distinguish between wrong password and non-existent user
+                        // We check if user exists by trying signInWithOtp (which only sends if email exists)
+                        // For now, show a professional combined message
+                        setError('Email ou palavra-passe incorretos. Verifique os seus dados ou crie uma nova conta.');
+                    } else if (msg.includes('Email not confirmed')) {
+                        setError('O seu email ainda não foi confirmado. Verifique a sua caixa de entrada.');
                     } else {
-                        setError(loginError.message || 'Erro ao iniciar sessão');
+                        setError(loginError.message || 'Não foi possível iniciar sessão. Tente novamente.');
                     }
                     setIsLoading(false);
                     return;
@@ -61,7 +65,7 @@ const Login = () => {
                 // Success
                 navigateForward('/home');
             } catch (err) {
-                setError('Erro de conexão. Verifique sua internet.');
+                setError('Erro de conexão. Verifique a sua ligação à internet.');
                 console.error('Login error:', err);
             } finally {
                 setIsLoading(false);
@@ -125,7 +129,7 @@ const Login = () => {
                         className="login-main-btn"
                         disabled={isLoading}
                     >
-                        {isLoading ? 'Entrando...' : 'Entrar'}
+                        {isLoading ? 'A entrar...' : 'Entrar'}
                     </button>
                 </form>
 

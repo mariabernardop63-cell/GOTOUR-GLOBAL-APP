@@ -34,7 +34,7 @@
     position: absolute;
     top: 24px;
     left: 24px;
-    background: rgba(255, 255, 255, 0.1);
+    background: none;
     border: none;
     border-radius: 50%;
     width: 36px;
@@ -43,11 +43,11 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: opacity 0.2s;
 }
 
 .back-icon-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
+    opacity: 0.7;
 }
 
 .back-icon-btn svg {
@@ -346,8 +346,8 @@
         top: 20px;
         left: 20px;
         z-index: 100;
-        background: rgba(255, 255, 255, 0.8);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        background: none;
+        box-shadow: none;
     }
 
     .back-icon-btn svg {

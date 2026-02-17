@@ -97,7 +97,7 @@ const Signup = () => {
                             : null
                     };
 
-                    // Send Magic Link via Supabase email
+                    // Send verification email via Supabase
                     const redirectUrl = window.location.origin + '/create-password';
                     const { error } = await supabase.auth.signInWithOtp({
                         email: formData.email,
@@ -107,12 +107,12 @@ const Signup = () => {
                     });
 
                     if (error) {
-                        setErrors({ email: error.message || 'Erro ao enviar magic link. Tente novamente.' });
+                        setErrors({ email: error.message || 'Erro ao enviar verificação. Tente novamente.' });
                         setIsLoading(false);
                         return;
                     }
 
-                    // Store profile data in localStorage for after magic link click
+                    // Store profile data in localStorage for after email verification
                     localStorage.setItem('pendingProfileData', JSON.stringify(profileData));
 
                     // Navigate to email confirmation screen
@@ -125,7 +125,7 @@ const Signup = () => {
                     });
                 } catch (err) {
                     setErrors({ email: 'Erro de conexão. Verifique sua internet.' });
-                    console.error('Magic link send error:', err);
+                    console.error('Verification send error:', err);
                 } finally {
                     setIsLoading(false);
                 }
@@ -166,9 +166,9 @@ const Signup = () => {
 
     const getButtonText = () => {
         if (isLoading) {
-            return isMobile && step === 2 ? 'Enviando link...' : 'Processando...';
+            return isMobile && step === 2 ? 'A verificar...' : 'Processando...';
         }
-        if (isMobile && step === 2) return 'Enviar Magic Link';
+        if (isMobile && step === 2) return 'Verificar';
         return step === 3 ? 'Criar Conta' : 'Continuar';
     };
 
