@@ -48,13 +48,17 @@ const Welcome = () => {
     };
 
     const handleComecarAgora = () => {
-        setShowBottomSheet(true);
-        // Trigger animation after render
-        requestAnimationFrame(() => {
+        setLoadingBtn('primary');
+        setTimeout(() => {
+            setLoadingBtn(null);
+            setShowBottomSheet(true);
+            // Trigger animation after render
             requestAnimationFrame(() => {
-                setSheetAnimating(true);
+                requestAnimationFrame(() => {
+                    setSheetAnimating(true);
+                });
             });
-        });
+        }, 2500);
     };
 
     const handleCloseSheet = () => {
@@ -67,10 +71,9 @@ const Welcome = () => {
 
     return (
         <div className="welcome-page-content">
-            {/* Elements visible on Mobile Only (Logo) - Top Right Absolute */}
+            {/* Mobile logo icon only — top right corner */}
             <div className="mobile-logo-area fade-in">
                 <img src={gotourIcon} alt="GoTour Icon" className="gotour-icon" />
-                <span className="gotour-text">GOTOUR</span>
             </div>
 
             <div className="welcome-desktop-grid">
@@ -157,6 +160,7 @@ const Welcome = () => {
                                     size="lg"
                                     fullWidth
                                     onClick={handleComecarAgora}
+                                    isLoading={loadingBtn === 'primary'}
                                 >
                                     Começar Agora
                                 </Button>
