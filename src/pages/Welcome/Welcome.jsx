@@ -30,6 +30,7 @@ const Welcome = () => {
     const [loadingBtn, setLoadingBtn] = useState(null);
     const [showBottomSheet, setShowBottomSheet] = useState(false);
     const [sheetAnimating, setSheetAnimating] = useState(false);
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
     useEffect(() => {
         const textInterval = setInterval(() => {
@@ -47,18 +48,21 @@ const Welcome = () => {
         }, 2000);
     };
 
-    const handleComecarAgora = () => {
-        setLoadingBtn('primary');
+    const handleOpenSheet = (btnType) => {
+        setLoadingBtn(btnType);
         setTimeout(() => {
             setLoadingBtn(null);
             setShowBottomSheet(true);
-            // Trigger animation after render
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     setSheetAnimating(true);
                 });
             });
-        }, 2500);
+        }, isMobile ? 2500 : 1500);
+    };
+
+    const handleComecarAgora = () => {
+        handleOpenSheet('primary');
     };
 
     const handleCloseSheet = () => {
@@ -184,7 +188,7 @@ const Welcome = () => {
                                     variant="primary"
                                     size="lg"
                                     fullWidth
-                                    onClick={() => handleNavigation('/signup', 'primary')}
+                                    onClick={() => handleOpenSheet('primary')}
                                     isLoading={loadingBtn === 'primary'}
                                 >
                                     Começar Agora
@@ -195,7 +199,7 @@ const Welcome = () => {
                                     variant="secondary"
                                     size="lg"
                                     fullWidth
-                                    onClick={() => handleNavigation('/login', 'secondary')}
+                                    onClick={() => handleOpenSheet('secondary')}
                                     isLoading={loadingBtn === 'secondary'}
                                 >
                                     Já tenho conta
