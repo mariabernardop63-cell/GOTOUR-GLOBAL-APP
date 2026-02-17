@@ -13,7 +13,6 @@ const ForgotPassword = () => {
     const [error, setError] = useState('');
     const { cooldown, startCooldown, isCoolingDown } = useCooldown('gotour_forgot_cooldown');
 
-    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
     const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
     const handleSubmit = async (e) => {
@@ -34,49 +33,38 @@ const ForgotPassword = () => {
 
         setIsLoading(true);
 
-        // ========== MOBILE FLOW (Supabase) ==========
-        if (isMobile) {
-            try {
-                const redirectUrl = window.location.origin + '/create-password';
-                const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-                    redirectTo: redirectUrl
-                });
+        try {
+            const redirectUrl = window.location.origin + '/create-password';
+            const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: redirectUrl
+            });
 
-                if (resetError) {
-                    const msg = resetError.message || '';
-                    if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
-                        setError('Você tentou muitas vezes. Aguarde alguns minutos e tente novamente.');
-                        startCooldown();
-                    } else {
-                        setError(resetError.message || 'Não foi possível enviar o email. Tente novamente.');
-                    }
-                    setIsLoading(false);
-                    return;
+            if (resetError) {
+                const msg = resetError.message || '';
+                if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
+                    setError('Você tentou muitas vezes. Aguarde alguns minutos e tente novamente.');
+                    startCooldown();
+                } else {
+                    setError(resetError.message || 'Não foi possível enviar o email. Tente novamente.');
                 }
-
-                // Success — start cooldown
-                startCooldown();
-
-                navigateForward('/email-confirmation', {
-                    state: {
-                        email,
-                        flow: 'forgot-password-mobile'
-                    }
-                });
-            } catch (err) {
-                setError('Erro de conexão. Verifique a sua ligação à internet.');
-                console.error('Reset password error:', err);
-            } finally {
                 setIsLoading(false);
+                return;
             }
-            return;
-        }
 
-        // ========== DESKTOP FLOW (mock — unchanged) ==========
-        setTimeout(() => {
+            startCooldown();
+
+            navigateForward('/email-confirmation', {
+                state: {
+                    email,
+                    flow: 'forgot-password-mobile'
+                }
+            });
+        } catch (err) {
+            setError('Erro de conexão. Verifique a sua ligação à internet.');
+            console.error('Reset password error:', err);
+        } finally {
             setIsLoading(false);
-            navigateForward('/email-confirmation', { state: { email } });
-        }, 1500);
+        }
     };
 
     const getButtonText = () => {

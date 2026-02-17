@@ -1,47 +1,56 @@
-/* Login.css - Premium Design */
+/* Login.css - Mobile-First Design (identical on all screen sizes) */
 
 .login-page-content {
-    width: 100%;
-    min-height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    position: relative;
-    /* Desktop: Transparent (for video bg) */
-    background: transparent;
+    align-items: stretch;
+    padding: 0;
+    min-height: 100dvh;
+    width: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, #307573 0%, #ffffff 100%);
+    z-index: 20;
 }
 
 .login-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(2px);
-    z-index: 1;
-    display: block;
+    display: none;
 }
 
-/* Glass Container (Desktop Default) */
+/* Glass Container */
 .login-glass-container {
     position: relative;
     z-index: 10;
-    width: 90%;
-    max-width: 460px;
-    background: rgba(255, 255, 255, 0.1);
+    width: 100%;
+    max-width: none;
+    min-height: 100dvh;
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 24px;
-    padding: 40px 32px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 0;
+    padding: 30px 24px 40px;
+    margin: 0;
+    flex: 1;
+    box-shadow: none;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     animation: fadeInUp 0.6s ease-out;
 }
 
 .back-icon-btn {
-    position: absolute;
-    top: 24px;
-    left: 24px;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
     background: none;
     border: none;
     border-radius: 50%;
@@ -52,6 +61,7 @@
     justify-content: center;
     cursor: pointer;
     transition: opacity 0.2s;
+    box-shadow: none;
 }
 
 .back-icon-btn:hover {
@@ -59,51 +69,51 @@
 }
 
 .back-icon-btn svg {
-    color: #ffffff;
+    color: #1e293b;
 }
 
 .login-header {
-    margin-top: 10px;
+    text-align: left;
+    margin-top: 60px;
     margin-bottom: 32px;
-    text-align: center;
 }
 
 .login-header h1 {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
-    color: #ffffff;
+    color: #1e293b;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
 }
 
 .login-header p {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.85);
+    color: #475569;
     line-height: 1.5;
 }
 
-/* Inputs (Desktop Default: Glass) */
+/* Inputs — Teal Theme */
 .input-field {
     position: relative;
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.5);
+    border: 1.5px solid #307573;
     border-radius: 14px;
     padding: 0 16px;
     height: 52px;
     margin-bottom: 16px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
 
 .input-field:focus-within {
-    border-color: rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: none;
+    border-color: #307573;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(48, 117, 115, 0.1);
 }
 
 .input-field svg {
-    color: rgba(255, 255, 255, 0.7);
+    color: #307573;
     margin-right: 12px;
     flex-shrink: 0;
 }
@@ -112,20 +122,21 @@
     flex: 1;
     background: transparent;
     border: none;
-    color: #ffffff;
+    color: #000000;
     font-size: 15px;
     outline: none;
     width: 100%;
 }
 
 .input-field input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: #307573;
+    opacity: 0.7;
 }
 
 .eye-btn {
     cursor: pointer;
     padding: 4px;
-    color: rgba(255, 255, 255, 0.7);
+    color: #307573;
     display: flex;
 }
 
@@ -136,7 +147,7 @@
 }
 
 .forgot-password-row span {
-    color: rgba(255, 255, 255, 0.8);
+    color: #000000;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -144,7 +155,7 @@
 }
 
 .forgot-password-row span:hover {
-    color: #ffffff;
+    color: #307573;
     text-decoration: underline;
 }
 
@@ -197,7 +208,7 @@
 }
 
 .social-login-section p {
-    color: rgba(255, 255, 255, 0.7);
+    color: #000000;
     font-size: 13px;
     margin-bottom: 12px;
 }
@@ -235,12 +246,12 @@
     margin-top: 24px;
     text-align: center;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    color: #000000;
 }
 
 .signup-link span {
-    color: #ffffff;
-    font-weight: 600;
+    color: #307573;
+    font-weight: 700;
     cursor: pointer;
     margin-left: 4px;
 }
@@ -264,134 +275,4 @@
 
 .fade-in-up {
     animation: fadeInUp 0.6s ease-out;
-}
-
-/* ===== MOBILE: Apply Teal Gradient Theme (New Design) ===== */
-@media (max-width: 768px) {
-    .login-page-content {
-        position: absolute;
-        /* Force out of flow to cover parent */
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: stretch;
-        padding: 0;
-        min-height: 100dvh;
-        width: 100%;
-        margin: 0;
-        overflow-x: hidden;
-        background: linear-gradient(to bottom, #307573 0%, #ffffff 100%);
-        z-index: 20;
-    }
-
-    .login-overlay {
-        display: none;
-    }
-
-    .login-glass-container {
-        width: 100%;
-        max-width: none;
-        /* Override max-width */
-        min-height: 100dvh;
-        /* Force full height */
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: none;
-        border-top: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 0;
-        padding: 30px 24px 40px;
-        margin: 0;
-        flex: 1;
-        box-shadow: none;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .back-icon-btn {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        z-index: 100;
-        background: none;
-        box-shadow: none;
-    }
-
-    .back-icon-btn svg {
-        color: #1e293b;
-    }
-
-    .login-header {
-        text-align: left;
-        margin-top: 60px;
-    }
-
-    .login-header h1 {
-        font-size: 26px;
-        color: #1e293b;
-    }
-
-    .login-header p {
-        font-size: 14px;
-        color: #475569;
-    }
-
-    /* Mobile Inputs - Dark Theme */
-    .input-field {
-        background: rgba(255, 255, 255, 0.5);
-        border: 1.5px solid #307573;
-    }
-
-    .input-field:focus-within {
-        border-color: #307573;
-        background: #ffffff;
-        box-shadow: 0 0 0 2px rgba(48, 117, 115, 0.1);
-    }
-
-    .input-field svg {
-        color: #307573;
-    }
-
-    .input-field input {
-        color: #000000;
-        /* Pure black as requested */
-    }
-
-    .input-field input::placeholder {
-        color: #307573;
-        /* Teal placeholder to match border/icon style or dark gray if preferred, user said "combine with elements" */
-        opacity: 0.7;
-    }
-
-    .eye-btn {
-        color: #307573;
-    }
-
-    /* Links on Mobile */
-    .forgot-password-row span {
-        color: #000000;
-        font-weight: 500;
-    }
-
-    .forgot-password-row span:hover {
-        color: #307573;
-    }
-
-    .social-login-section p {
-        color: #000000;
-    }
-
-    .signup-link {
-        color: #000000;
-    }
-
-    .signup-link span {
-        color: #307573;
-        font-weight: 700;
-    }
 }

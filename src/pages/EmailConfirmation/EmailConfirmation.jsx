@@ -12,7 +12,6 @@ const EmailConfirmation = () => {
     const location = useLocation();
     const email = location.state?.email || 'seu email';
     const flow = location.state?.flow || '';
-    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
     const [resendLoading, setResendLoading] = useState(false);
     const [resendSuccess, setResendSuccess] = useState(false);
     const [resendError, setResendError] = useState('');
@@ -46,7 +45,7 @@ const EmailConfirmation = () => {
     const handleResend = async () => {
         if (isCoolingDown) return;
 
-        if (isMagicLinkFlow && isMobile) {
+        if (isMagicLinkFlow) {
             setResendLoading(true);
             setResendSuccess(false);
             setResendError('');

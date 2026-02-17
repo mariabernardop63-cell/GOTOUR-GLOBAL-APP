@@ -30,7 +30,6 @@ const Signup = () => {
     const [errors, setErrors] = useState({});
 
     const activeCountry = countries.find(c => c.code === nationality) || countries[0];
-    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -77,91 +76,70 @@ const Signup = () => {
             return;
         }
 
-        // ========== MOBILE FLOW (Supabase Magic Link) ==========
-        if (isMobile) {
-            if (step === 1) {
-                setStep(2);
+        // Use Supabase Magic Link flow
+        if (step === 1) {
+            setStep(2);
+            return;
+        }
+
+        if (step === 2) {
+            if (isCoolingDown) {
+                setErrors({ email: `Aguarde ${cooldown}s antes de tentar novamente.` });
                 return;
             }
+            setIsLoading(true);
+            setErrors({});
+            try {
+                const fullPhone = (activeCountry?.dialCode || '') + formData.phone.replace(/[\s\-\(\)]/g, '');
+                const profileData = {
+                    fullName: formData.fullName,
+                    nationality: formData.nationality,
+                    phone: fullPhone,
+                    dateOfBirth: formData.dobYear && formData.dobMonth && formData.dobDay
+                        ? `${formData.dobYear}-${String(formData.dobMonth).padStart(2, '0')}-${String(formData.dobDay).padStart(2, '0')}`
+                        : null
+                };
 
-            if (step === 2) {
-                // Block if cooling down
-                if (isCoolingDown) {
-                    setErrors({ email: `Aguarde ${cooldown}s antes de tentar novamente.` });
+                const redirectUrl = window.location.origin + '/create-password';
+                const { error } = await supabase.auth.signInWithOtp({
+                    email: formData.email,
+                    options: { emailRedirectTo: redirectUrl }
+                });
+
+                if (error) {
+                    const msg = error.message || '';
+                    if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
+                        setErrors({ email: 'Você tentou muitas vezes. Aguarde alguns minutos e tente novamente.' });
+                        startCooldown();
+                    } else if (msg.toLowerCase().includes('already registered') || msg.toLowerCase().includes('already exists')) {
+                        setErrors({ email: 'Este email já está registado. Faça login ou recupere a sua conta.' });
+                    } else {
+                        setErrors({ email: error.message || 'Erro ao enviar verificação. Tente novamente.' });
+                    }
+                    setIsLoading(false);
                     return;
                 }
-                setIsLoading(true);
-                setErrors({});
-                try {
-                    // Build profile data to pass along
-                    const fullPhone = (activeCountry?.dialCode || '') + formData.phone.replace(/[\s\-\(\)]/g, '');
-                    const profileData = {
-                        fullName: formData.fullName,
-                        nationality: formData.nationality,
-                        phone: fullPhone,
-                        dateOfBirth: formData.dobYear && formData.dobMonth && formData.dobDay
-                            ? `${formData.dobYear}-${String(formData.dobMonth).padStart(2, '0')}-${String(formData.dobDay).padStart(2, '0')}`
-                            : null
-                    };
 
-                    // Send verification email via Supabase
-                    const redirectUrl = window.location.origin + '/create-password';
-                    const { error } = await supabase.auth.signInWithOtp({
+                startCooldown();
+                localStorage.setItem('pendingProfileData', JSON.stringify(profileData));
+
+                navigateForward('/email-confirmation', {
+                    state: {
                         email: formData.email,
-                        options: {
-                            emailRedirectTo: redirectUrl
-                        }
-                    });
-
-                    if (error) {
-                        const msg = error.message || '';
-                        if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
-                            setErrors({ email: 'Você tentou muitas vezes. Aguarde alguns minutos e tente novamente.' });
-                            startCooldown();
-                        } else if (msg.toLowerCase().includes('already registered') || msg.toLowerCase().includes('already exists')) {
-                            setErrors({ email: 'Este email já está registado. Faça login ou recupere a sua conta.' });
-                        } else {
-                            setErrors({ email: error.message || 'Erro ao enviar verificação. Tente novamente.' });
-                        }
-                        setIsLoading(false);
-                        return;
+                        flow: 'signup-mobile-magic',
+                        profileData: profileData
                     }
-
-                    // Success — start cooldown
-                    startCooldown();
-
-                    // Store profile data in localStorage for after email verification
-                    localStorage.setItem('pendingProfileData', JSON.stringify(profileData));
-
-                    // Navigate to email confirmation screen
-                    navigateForward('/email-confirmation', {
-                        state: {
-                            email: formData.email,
-                            flow: 'signup-mobile-magic',
-                            profileData: profileData
-                        }
-                    });
-                } catch (err) {
-                    setErrors({ email: 'Erro de conexão. Verifique sua internet.' });
-                    console.error('Verification send error:', err);
-                } finally {
-                    setIsLoading(false);
-                }
-                return;
-            }
-        }
-
-        // ========== DESKTOP FLOW (unchanged mock) ==========
-        if (step < 3) {
-            setStep(prev => prev + 1);
-        } else {
-            // Desktop step 3: mock submit
-            setIsLoading(true);
-            setTimeout(() => {
+                });
+            } catch (err) {
+                setErrors({ email: 'Erro de conexão. Verifique sua internet.' });
+                console.error('Verification send error:', err);
+            } finally {
                 setIsLoading(false);
-                navigateForward('/select-country', { state: { email: formData.email } });
-            }, 1500);
+            }
+            return;
         }
+
+
     };
 
     // Handle return from Email Confirmation on mobile (legacy)
@@ -183,14 +161,10 @@ const Signup = () => {
     const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
     const getButtonText = () => {
-        if (isLoading) {
-            return isMobile && step === 2 ? 'A enviar...' : 'Processando...';
-        }
-        if (isMobile && step === 2) {
-            if (isCoolingDown) return `Aguarde ${cooldown}s`;
-            return 'Verificar';
-        }
-        return step === 3 ? 'Criar Conta' : 'Continuar';
+        if (isLoading) return step === 2 ? 'A enviar...' : 'Processando...';
+        if (step === 2 && isCoolingDown) return `Aguarde ${cooldown}s`;
+        if (step === 2) return 'Verificar';
+        return 'Continuar';
     };
 
     return (
@@ -337,7 +311,7 @@ const Signup = () => {
                     <button
                         className="signup-main-btn"
                         onClick={handleNext}
-                        disabled={isLoading || (isMobile && step === 2 && isCoolingDown)}
+                        disabled={isLoading || (step === 2 && isCoolingDown)}
                     >
                         {getButtonText()}
                     </button>
