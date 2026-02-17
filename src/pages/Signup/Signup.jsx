@@ -283,6 +283,13 @@ const Signup = () => {
                                 </div>
                             </div>
                             {errors.dob && <span className="error-msg">{errors.dob}</span>}
+
+                            {/* General error display for step 2 (Supabase errors, rate limit, etc.) */}
+                            {errors.email && (
+                                <div className="error-msg" style={{ marginTop: '12px', textAlign: 'center', fontSize: '13px' }}>
+                                    {errors.email}
+                                </div>
+                            )}
                         </div>
                     )}
 
