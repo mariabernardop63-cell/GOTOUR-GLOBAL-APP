@@ -3,6 +3,7 @@ import { Mail, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import gotourIcon from '../../assets/images/gotour_icon.png';
 import './EmailConfirmation.css';
 
 const EmailConfirmation = () => {
@@ -89,7 +90,7 @@ const EmailConfirmation = () => {
 
             {/* Logo Section (desktop only) */}
             <div className="email-conf-logo-section fade-in">
-                <img src={require('../../assets/images/gotour_icon.png')} alt="GoTour" className="email-conf-logo-img" />
+                <img src={gotourIcon} alt="GoTour" className="email-conf-logo-img" />
                 <span className="email-conf-logo-text">GOTOUR</span>
             </div>
 

@@ -5,8 +5,67 @@
     flex-direction: column;
     padding: 0;
     position: relative;
-    /* Uses the same background as auth pages defined in App.jsx via video-active class */
     z-index: 1;
+}
+
+/* Mobile: teal gradient background (same as Login/Signup) */
+@media (max-width: 768px) {
+    .select-country-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, #307573 0%, #ffffff 100%);
+        min-height: 100dvh;
+        width: 100%;
+        margin: 0;
+        z-index: 20;
+        overflow-x: hidden;
+    }
+
+    .select-country-header {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .select-country-header h1 {
+        color: #ffffff;
+    }
+
+    .select-country-header p {
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .search-bar-wrapper input {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.3);
+        color: #ffffff;
+    }
+
+    .search-bar-wrapper input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .country-card {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .country-card:hover {
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+    .country-card.selected {
+        background: rgba(4, 140, 131, 0.25);
+        border-color: #048c83;
+    }
+
+    .select-country-footer {
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+    }
 }
 
 .select-country-header {
