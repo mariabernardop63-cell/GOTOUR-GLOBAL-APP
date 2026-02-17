@@ -1,0 +1,136 @@
+/* SignupForm.css */
+
+.signup-form-panel {
+    width: 100%;
+}
+
+/* Step indicator */
+.signup-steps-indicator {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.step-dot {
+    width: 32px;
+    height: 4px;
+    border-radius: 4px;
+    background: rgba(48, 117, 115, 0.2);
+    transition: all 0.3s ease;
+}
+
+.step-dot.active {
+    background: #048c83;
+    width: 48px;
+}
+
+/* Back button inside signup form */
+.signup-form-back {
+    background: none;
+    border: none;
+    color: #307573;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 16px;
+    padding: 0;
+    font-family: inherit;
+    transition: opacity 0.2s;
+}
+
+.signup-form-back:hover {
+    opacity: 0.7;
+}
+
+/* Form step fade in */
+.form-step {
+    margin-bottom: 8px;
+}
+
+.form-step.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Date field layout */
+.date-field {
+    height: auto !important;
+    min-height: 52px;
+    padding: 8px 16px !important;
+}
+
+.date-selects {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+}
+
+.date-selects select {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #1e293b;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Custom select inside input-field */
+.custom-select {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #1e293b;
+    font-size: 15px;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Phone prefix */
+.prefix {
+    color: #307573;
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 8px;
+    white-space: nowrap;
+}
+
+/* Login link at bottom of signup */
+.signup-login-link {
+    text-align: center;
+    font-size: 14px;
+    color: #475569;
+    margin-top: 20px;
+}
+
+.signup-login-link button {
+    background: none;
+    border: none;
+    color: #048c83;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 0;
+    margin-left: 4px;
+}
+
+.signup-login-link button:hover {
+    text-decoration: underline;
+}

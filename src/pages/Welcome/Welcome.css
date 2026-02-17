@@ -578,6 +578,24 @@
         padding: 0 36px 48px;
     }
 
+    /* Hide the action card when panel is open */
+    .action-glass-card.card-hidden {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.95);
+        transition: all 0.35s ease;
+    }
+
+    /* Social buttons text on teal background */
+    .sheet-auth-mode .sheet-divider-text {
+        color: #475569;
+    }
+
+    .sheet-auth-mode .sheet-login-btn,
+    .sheet-auth-mode .sheet-signup-btn {
+        border-color: #307573;
+    }
+
     .action-glass-card {
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(20px);

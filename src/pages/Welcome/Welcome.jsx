@@ -4,6 +4,7 @@ import Button from '../../components/Button/Button';
 import { Globe, Hotel, MapPin, Map as MapIcon, Users, X, ArrowLeft } from 'lucide-react';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import ForgotPasswordForm from '../../components/ForgotPasswordForm/ForgotPasswordForm';
+import SignupForm from '../../components/SignupForm/SignupForm';
 import './Welcome.css';
 
 import gotourIcon from '../../assets/images/gotour_icon.png';
@@ -32,7 +33,7 @@ const Welcome = () => {
     const [loadingBtn, setLoadingBtn] = useState(null);
     const [showBottomSheet, setShowBottomSheet] = useState(false);
     const [sheetAnimating, setSheetAnimating] = useState(false);
-    const [sheetMode, setSheetMode] = useState('social'); // 'social' | 'login'
+    const [sheetMode, setSheetMode] = useState('social'); // 'social' | 'login' | 'signup' | 'forgot'
     const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
     useEffect(() => {
@@ -153,7 +154,7 @@ const Welcome = () => {
                     </div>
 
                     {/* Glass Card Container (Desktop) / Standard (Mobile) */}
-                    <div className="action-glass-card slide-up">
+                    <div className={`action-glass-card slide-up ${showBottomSheet ? 'card-hidden' : ''}`}>
                         <div className="desktop-card-header">
                             <h2>Comece sua jornada</h2>
                             <p>Crie sua conta ou faça login para continuar.</p>
@@ -222,7 +223,7 @@ const Welcome = () => {
                     onClick={handleCloseSheet}
                 >
                     <div
-                        className={`bottom-sheet ${sheetAnimating ? 'active' : ''} ${sheetMode !== 'social' ? 'sheet-auth-mode' : ''}`}
+                        className={`bottom-sheet ${sheetAnimating ? 'active' : ''} sheet-auth-mode`}
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="bottom-sheet-handle" />
@@ -232,7 +233,7 @@ const Welcome = () => {
                             {sheetMode !== 'social' && (
                                 <button
                                     className="sheet-back-btn"
-                                    onClick={() => setSheetMode(sheetMode === 'forgot' ? 'login' : 'social')}
+                                    onClick={() => setSheetMode(sheetMode === 'forgot' ? 'login' : sheetMode === 'signup' ? 'social' : 'social')}
                                     style={{
                                         background: 'none',
                                         border: 'none',
@@ -250,10 +251,10 @@ const Welcome = () => {
                                 </button>
                             )}
                             <p className="bottom-sheet-label">
-                                {sheetMode === 'login' ? 'Aceder à conta' : sheetMode === 'forgot' ? 'Recuperar acesso' : 'Iniciar sessão ou Registar-se'}
+                                {sheetMode === 'login' ? 'Aceder à conta' : sheetMode === 'forgot' ? 'Recuperar acesso' : sheetMode === 'signup' ? 'Criar nova conta' : 'Iniciar sessão ou Registar-se'}
                             </p>
                             <h2 className="bottom-sheet-title">
-                                {sheetMode === 'login' ? 'Bem-vindo de volta' : sheetMode === 'forgot' ? 'Esqueceu a senha?' : 'Bem-vindo à GoTour'}
+                                {sheetMode === 'login' ? 'Bem-vindo de volta' : sheetMode === 'forgot' ? 'Esqueceu a senha?' : sheetMode === 'signup' ? 'Registe-se' : 'Bem-vindo à GoTour'}
                             </h2>
                         </div>
 
@@ -267,6 +268,10 @@ const Welcome = () => {
                                 <LoginForm
                                     onSuccess={() => navigateForward('/home')}
                                     onForgotPassword={() => setSheetMode('forgot')}
+                                />
+                            ) : sheetMode === 'signup' ? (
+                                <SignupForm
+                                    onLoginClick={() => setSheetMode('login')}
                                 />
                             ) : (
                                 <>
@@ -309,9 +314,9 @@ const Welcome = () => {
                                     {/* Manual Auth Buttons */}
                                     <div className="sheet-auth-buttons">
                                         <button className="sheet-login-btn" onClick={() => setSheetMode('login')}>
-                                            Iniciar sessão
+                                            Iniciar sessão com email
                                         </button>
-                                        <button className="sheet-signup-btn" onClick={() => { handleCloseSheet(); navigateForward('/signup'); }}>
+                                        <button className="sheet-signup-btn" onClick={() => setSheetMode('signup')}>
                                             Criar conta
                                         </button>
                                     </div>
