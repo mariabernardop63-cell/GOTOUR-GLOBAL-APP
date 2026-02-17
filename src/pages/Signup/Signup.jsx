@@ -4,6 +4,7 @@ import { useNavigation } from '../../App';
 import { countries } from '../../data/countries';
 import { useApp } from '../../context/AppContext';
 import { supabase } from '../../lib/supabase';
+import useCooldown from '../../hooks/useCooldown';
 import './Signup.css';
 
 const Signup = () => {
@@ -12,6 +13,7 @@ const Signup = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(1);
     const [showPasswords, setShowPasswords] = useState(false);
+    const { cooldown, startCooldown, isCoolingDown } = useCooldown('gotour_signup_cooldown');
 
     const [formData, setFormData] = useState({
         fullName: '',
@@ -83,6 +85,11 @@ const Signup = () => {
             }
 
             if (step === 2) {
+                // Block if cooling down
+                if (isCoolingDown) {
+                    setErrors({ email: `Aguarde ${cooldown}s antes de tentar novamente.` });
+                    return;
+                }
                 setIsLoading(true);
                 setErrors({});
                 try {
@@ -109,7 +116,8 @@ const Signup = () => {
                     if (error) {
                         const msg = error.message || '';
                         if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
-                            setErrors({ email: 'Aguarde alguns minutos antes de tentar novamente. Limite de envios atingido.' });
+                            setErrors({ email: 'Você tentou muitas vezes. Aguarde alguns minutos e tente novamente.' });
+                            startCooldown();
                         } else if (msg.toLowerCase().includes('already registered') || msg.toLowerCase().includes('already exists')) {
                             setErrors({ email: 'Este email já está registado. Faça login ou recupere a sua conta.' });
                         } else {
@@ -118,6 +126,9 @@ const Signup = () => {
                         setIsLoading(false);
                         return;
                     }
+
+                    // Success — start cooldown
+                    startCooldown();
 
                     // Store profile data in localStorage for after email verification
                     localStorage.setItem('pendingProfileData', JSON.stringify(profileData));
@@ -173,9 +184,12 @@ const Signup = () => {
 
     const getButtonText = () => {
         if (isLoading) {
-            return isMobile && step === 2 ? 'A verificar...' : 'Processando...';
+            return isMobile && step === 2 ? 'A enviar...' : 'Processando...';
         }
-        if (isMobile && step === 2) return 'Verificar';
+        if (isMobile && step === 2) {
+            if (isCoolingDown) return `Aguarde ${cooldown}s`;
+            return 'Verificar';
+        }
         return step === 3 ? 'Criar Conta' : 'Continuar';
     };
 
@@ -316,7 +330,7 @@ const Signup = () => {
                     <button
                         className="signup-main-btn"
                         onClick={handleNext}
-                        disabled={isLoading}
+                        disabled={isLoading || (isMobile && step === 2 && isCoolingDown)}
                     >
                         {getButtonText()}
                     </button>

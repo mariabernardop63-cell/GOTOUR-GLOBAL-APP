@@ -3,6 +3,7 @@ import { Mail, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import useCooldown from '../../hooks/useCooldown';
 import gotourIcon from '../../assets/images/gotour_icon.png';
 import './EmailConfirmation.css';
 
@@ -14,8 +15,18 @@ const EmailConfirmation = () => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
     const [resendLoading, setResendLoading] = useState(false);
     const [resendSuccess, setResendSuccess] = useState(false);
+    const [resendError, setResendError] = useState('');
 
     const isMagicLinkFlow = flow === 'signup-mobile-magic' || flow === 'forgot-password-mobile';
+
+    // Use the same cooldown key as the screen that sent the email
+    const cooldownKey = flow === 'signup-mobile-magic'
+        ? 'gotour_signup_cooldown'
+        : flow === 'forgot-password-mobile'
+            ? 'gotour_forgot_cooldown'
+            : 'gotour_resend_cooldown';
+
+    const { cooldown, startCooldown, isCoolingDown } = useCooldown(cooldownKey);
 
     const handleOpenEmail = () => {
         const emailDomain = email.split('@')[1];
@@ -33,9 +44,12 @@ const EmailConfirmation = () => {
     };
 
     const handleResend = async () => {
+        if (isCoolingDown) return;
+
         if (isMagicLinkFlow && isMobile) {
             setResendLoading(true);
             setResendSuccess(false);
+            setResendError('');
             try {
                 if (flow === 'signup-mobile-magic') {
                     const redirectUrl = window.location.origin + '/create-password';
@@ -44,9 +58,16 @@ const EmailConfirmation = () => {
                         options: { emailRedirectTo: redirectUrl }
                     });
                     if (error) {
-                        alert('Não foi possível reenviar. Tente novamente.');
+                        const msg = error.message || '';
+                        if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
+                            setResendError('Você tentou muitas vezes. Aguarde alguns minutos.');
+                            startCooldown();
+                        } else {
+                            setResendError('Não foi possível reenviar. Tente novamente.');
+                        }
                     } else {
                         setResendSuccess(true);
+                        startCooldown();
                     }
                 } else if (flow === 'forgot-password-mobile') {
                     const redirectUrl = window.location.origin + '/create-password';
@@ -54,13 +75,20 @@ const EmailConfirmation = () => {
                         redirectTo: redirectUrl
                     });
                     if (error) {
-                        alert('Não foi possível reenviar. Tente novamente.');
+                        const msg = error.message || '';
+                        if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
+                            setResendError('Você tentou muitas vezes. Aguarde alguns minutos.');
+                            startCooldown();
+                        } else {
+                            setResendError('Não foi possível reenviar. Tente novamente.');
+                        }
                     } else {
                         setResendSuccess(true);
+                        startCooldown();
                     }
                 }
             } catch (err) {
-                alert('Erro ao reenviar. Verifique a sua conexão.');
+                setResendError('Erro ao reenviar. Verifique a sua conexão.');
             } finally {
                 setResendLoading(false);
             }
@@ -68,6 +96,13 @@ const EmailConfirmation = () => {
         }
 
         alert(`Email reenviado para ${email}`);
+    };
+
+    const getResendText = () => {
+        if (resendLoading) return 'A enviar...';
+        if (resendSuccess && isCoolingDown) return `Reenviado ✓ (${cooldown}s)`;
+        if (isCoolingDown) return `Aguarde ${cooldown}s`;
+        return 'Reenviar';
     };
 
     const getTitle = () => {
@@ -125,10 +160,19 @@ const EmailConfirmation = () => {
                     )}
                 </div>
 
+                {resendError && (
+                    <p className="resend-error" style={{ color: '#ef4444', fontSize: '13px', textAlign: 'center', marginBottom: '8px' }}>
+                        {resendError}
+                    </p>
+                )}
+
                 <p className="resend-link">
                     Não recebeu?{' '}
-                    <span onClick={!resendLoading ? handleResend : undefined}>
-                        {resendLoading ? 'A enviar...' : resendSuccess ? 'Reenviado ✓' : 'Reenviar'}
+                    <span
+                        onClick={!resendLoading && !isCoolingDown ? handleResend : undefined}
+                        style={{ opacity: isCoolingDown ? 0.6 : 1, cursor: isCoolingDown ? 'default' : 'pointer' }}
+                    >
+                        {getResendText()}
                     </span>
                 </p>
             </div>

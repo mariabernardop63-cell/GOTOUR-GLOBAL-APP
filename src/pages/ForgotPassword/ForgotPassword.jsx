@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { supabase } from '../../lib/supabase';
+import useCooldown from '../../hooks/useCooldown';
 import gotourIcon from '../../assets/images/gotour_icon.png';
 import './ForgotPassword.css';
 
@@ -10,18 +11,24 @@ const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const { cooldown, startCooldown, isCoolingDown } = useCooldown('gotour_forgot_cooldown');
 
     const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
     const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!email) {
             setError('Por favor, introduza o seu email');
             return;
         }
         if (!isValidEmail(email)) {
             setError('Introduza um email válido');
+            return;
+        }
+        if (isCoolingDown) {
+            setError(`Aguarde ${cooldown}s antes de tentar novamente.`);
             return;
         }
 
@@ -38,13 +45,17 @@ const ForgotPassword = () => {
                 if (resetError) {
                     const msg = resetError.message || '';
                     if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
-                        setError('Aguarde alguns minutos antes de tentar novamente. Limite de envios atingido.');
+                        setError('Você tentou muitas vezes. Aguarde alguns minutos e tente novamente.');
+                        startCooldown();
                     } else {
                         setError(resetError.message || 'Não foi possível enviar o email. Tente novamente.');
                     }
                     setIsLoading(false);
                     return;
                 }
+
+                // Success — start cooldown
+                startCooldown();
 
                 navigateForward('/email-confirmation', {
                     state: {
@@ -66,6 +77,12 @@ const ForgotPassword = () => {
             setIsLoading(false);
             navigateForward('/email-confirmation', { state: { email } });
         }, 1500);
+    };
+
+    const getButtonText = () => {
+        if (isLoading) return 'A enviar...';
+        if (isCoolingDown) return `Aguarde ${cooldown}s`;
+        return 'Recuperar';
     };
 
     return (
@@ -109,9 +126,9 @@ const ForgotPassword = () => {
                     <button
                         type="submit"
                         className="forgot-main-btn"
-                        disabled={isLoading}
+                        disabled={isLoading || isCoolingDown}
                     >
-                        {isLoading ? 'A enviar...' : 'Recuperar'}
+                        {getButtonText()}
                     </button>
                 </form>
 
