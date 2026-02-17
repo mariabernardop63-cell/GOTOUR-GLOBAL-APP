@@ -8,20 +8,19 @@ const GoTourSplashScreen = ({ onComplete }) => {
     useEffect(() => {
         const schedule = [
             [200, 1],     // Bar fade-in
-            [500, 2],     // Text reveals from center
-            [1400, 3],    // Shine sweep
-            [2100, 4],    // Text hides back to center
-            [2800, 5],    // Bar rotates horizontal
-            [3200, 6],    // Line up + logo appears
-            [3700, 7],    // Loading dots
-            [4500, 8],    // Fade out
+            [600, 2],     // Text reveals from center (slower)
+            [2400, 4],    // Text hides back to center (skip shine/phase 3)
+            [3400, 5],    // Bar rotates horizontal
+            [3900, 6],    // Line up + logo appears
+            [4500, 7],    // Loading dots
+            [5400, 8],    // Fade out
         ];
 
         const timers = schedule.map(([delay, p]) =>
             setTimeout(() => setPhase(p), delay)
         );
 
-        const done = setTimeout(() => onComplete && onComplete(), 4900);
+        const done = setTimeout(() => onComplete && onComplete(), 5800);
 
         return () => {
             timers.forEach(clearTimeout);
@@ -53,7 +52,7 @@ const GoTourSplashScreen = ({ onComplete }) => {
 
             {/* Text "NOVA ERA" */}
             <div className={textClasses}>
-                <span className={`splash-text ${phase === 3 ? 'shine-active' : ''}`}>
+                <span className="splash-text">
                     NOVA ERA
                 </span>
             </div>
