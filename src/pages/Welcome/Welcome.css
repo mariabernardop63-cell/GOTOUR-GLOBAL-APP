@@ -553,6 +553,31 @@
         font-size: 15px;
     }
 
+    /* Auth mode panel styling (login/forgot) — matches mobile teal gradient */
+    .bottom-sheet.sheet-auth-mode {
+        background: linear-gradient(to bottom, #307573 0%, #ffffff 100%);
+    }
+
+    .sheet-auth-mode .bottom-sheet-fixed-header {
+        padding: 48px 36px 20px;
+    }
+
+    .sheet-auth-mode .bottom-sheet-label {
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .sheet-auth-mode .bottom-sheet-title {
+        color: #ffffff;
+    }
+
+    .sheet-auth-mode .sheet-back-btn {
+        color: rgba(255, 255, 255, 0.85) !important;
+    }
+
+    .sheet-auth-mode .bottom-sheet-scroll-content {
+        padding: 0 36px 48px;
+    }
+
     .action-glass-card {
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(20px);

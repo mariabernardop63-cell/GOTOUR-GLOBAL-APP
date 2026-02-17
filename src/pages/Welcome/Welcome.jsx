@@ -3,6 +3,7 @@ import { useNavigation } from '../../App';
 import Button from '../../components/Button/Button';
 import { Globe, Hotel, MapPin, Map as MapIcon, Users, X, ArrowLeft } from 'lucide-react';
 import LoginForm from '../../components/LoginForm/LoginForm';
+import ForgotPasswordForm from '../../components/ForgotPasswordForm/ForgotPasswordForm';
 import './Welcome.css';
 
 import gotourIcon from '../../assets/images/gotour_icon.png';
@@ -221,17 +222,17 @@ const Welcome = () => {
                     onClick={handleCloseSheet}
                 >
                     <div
-                        className={`bottom-sheet ${sheetAnimating ? 'active' : ''}`}
+                        className={`bottom-sheet ${sheetAnimating ? 'active' : ''} ${sheetMode !== 'social' ? 'sheet-auth-mode' : ''}`}
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="bottom-sheet-handle" />
 
                         {/* Fixed header */}
                         <div className="bottom-sheet-fixed-header">
-                            {sheetMode === 'login' && (
+                            {sheetMode !== 'social' && (
                                 <button
                                     className="sheet-back-btn"
-                                    onClick={() => setSheetMode('social')}
+                                    onClick={() => setSheetMode(sheetMode === 'forgot' ? 'login' : 'social')}
                                     style={{
                                         background: 'none',
                                         border: 'none',
@@ -241,25 +242,31 @@ const Welcome = () => {
                                         gap: '8px',
                                         color: '#64748b',
                                         cursor: 'pointer',
-                                        padding: 0
+                                        padding: 0,
+                                        fontFamily: 'inherit',
+                                        fontSize: '14px'
                                     }}>
                                     <ArrowLeft size={20} /> Voltar
                                 </button>
                             )}
                             <p className="bottom-sheet-label">
-                                {sheetMode === 'login' ? 'Aceder à conta' : 'Iniciar sessão ou Registar-se'}
+                                {sheetMode === 'login' ? 'Aceder à conta' : sheetMode === 'forgot' ? 'Recuperar acesso' : 'Iniciar sessão ou Registar-se'}
                             </p>
                             <h2 className="bottom-sheet-title">
-                                {sheetMode === 'login' ? 'Bem-vindo de volta' : 'Bem-vindo à GoTour'}
+                                {sheetMode === 'login' ? 'Bem-vindo de volta' : sheetMode === 'forgot' ? 'Esqueceu a senha?' : 'Bem-vindo à GoTour'}
                             </h2>
                         </div>
 
                         {/* Scrollable content */}
                         <div className="bottom-sheet-scroll-content">
-                            {sheetMode === 'login' ? (
+                            {sheetMode === 'forgot' ? (
+                                <ForgotPasswordForm
+                                    onBack={() => setSheetMode('login')}
+                                />
+                            ) : sheetMode === 'login' ? (
                                 <LoginForm
                                     onSuccess={() => navigateForward('/home')}
-                                    onForgotPassword={() => navigateForward('/forgot-password')}
+                                    onForgotPassword={() => setSheetMode('forgot')}
                                 />
                             ) : (
                                 <>
