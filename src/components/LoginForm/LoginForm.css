@@ -1,0 +1,143 @@
+/* LoginForm.css */
+
+.login-form-content {
+    width: 100%;
+}
+
+/* Input Fields */
+.input-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1.5px solid #307573;
+    border-radius: 14px;
+    padding: 0 16px;
+    height: 52px;
+    margin-bottom: 16px;
+    transition: all 0.2s;
+}
+
+.input-field:focus-within {
+    border-color: #307573;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(48, 117, 115, 0.1);
+}
+
+.input-field svg {
+    color: #307573;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.input-field input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #1e293b;
+    font-size: 15px;
+    outline: none;
+    width: 100%;
+}
+
+.input-field input::placeholder {
+    color: #307573;
+    opacity: 0.7;
+}
+
+/* Password Toggle */
+.password-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: #307573;
+    display: flex;
+    align-items: center;
+}
+
+.password-toggle:hover {
+    opacity: 0.8;
+}
+
+/* Forgot Password Link */
+.forgot-password-link {
+    text-align: right;
+    margin-bottom: 24px;
+}
+
+.forgot-password-link button {
+    background: none;
+    border: none;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+}
+
+.forgot-password-link button:hover {
+    color: #307573;
+    text-decoration: underline;
+}
+
+/* Submit Button */
+.login-btn {
+    width: 100%;
+    height: 52px;
+    background: #048c83;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    box-shadow: 0 4px 12px rgba(4, 140, 131, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+}
+
+.login-btn:hover {
+    background: #037069;
+    transform: translateY(-1px);
+}
+
+.login-btn:active {
+    transform: scale(0.98);
+}
+
+.login-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Error Message */
+.error-message {
+    background: #fee2e2;
+    color: #ef4444;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    text-align: center;
+    border: 1px solid #fecaca;
+}
+
+/* Loader */
+.btn-loader {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
