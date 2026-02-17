@@ -107,7 +107,14 @@ const Signup = () => {
                     });
 
                     if (error) {
-                        setErrors({ email: error.message || 'Erro ao enviar verificação. Tente novamente.' });
+                        const msg = error.message || '';
+                        if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
+                            setErrors({ email: 'Aguarde alguns minutos antes de tentar novamente. Limite de envios atingido.' });
+                        } else if (msg.toLowerCase().includes('already registered') || msg.toLowerCase().includes('already exists')) {
+                            setErrors({ email: 'Este email já está registado. Faça login ou recupere a sua conta.' });
+                        } else {
+                            setErrors({ email: error.message || 'Erro ao enviar verificação. Tente novamente.' });
+                        }
                         setIsLoading(false);
                         return;
                     }

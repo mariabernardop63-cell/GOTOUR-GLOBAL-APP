@@ -36,7 +36,12 @@ const ForgotPassword = () => {
                 });
 
                 if (resetError) {
-                    setError(resetError.message || 'Não foi possível enviar o email. Tente novamente.');
+                    const msg = resetError.message || '';
+                    if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
+                        setError('Aguarde alguns minutos antes de tentar novamente. Limite de envios atingido.');
+                    } else {
+                        setError(resetError.message || 'Não foi possível enviar o email. Tente novamente.');
+                    }
                     setIsLoading(false);
                     return;
                 }
@@ -106,11 +111,11 @@ const ForgotPassword = () => {
                         className="forgot-main-btn"
                         disabled={isLoading}
                     >
-                        {isLoading ? 'A enviar...' : 'Enviar link de recuperação'}
+                        {isLoading ? 'A enviar...' : 'Recuperar'}
                     </button>
                 </form>
 
-                <p className="back-link" onClick={() => navigateBack('/login')}>
+                <p className="back-link" style={{ marginTop: '32px' }} onClick={() => navigateBack('/login')}>
                     <ArrowLeft size={16} style={{ marginRight: '6px' }} /> Voltar para Iniciar Sessão
                 </p>
             </div>
