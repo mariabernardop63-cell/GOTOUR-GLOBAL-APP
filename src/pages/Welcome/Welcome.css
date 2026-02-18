@@ -5,31 +5,16 @@
     min-height: 100vh;
     padding: var(--spacing-lg);
     position: relative;
+    background: #ffffff;
 }
 
-/* Slideshow Backgrounds */
+/* Slideshow Backgrounds (Disabled as per user request for white background) */
 .welcome-bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-    z-index: 0;
-    pointer-events: none;
-}
-
-.welcome-bg.active {
-    opacity: 1;
+    display: none;
 }
 
 .welcome-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.2) 100%);
-    z-index: 1;
-    pointer-events: none;
+    display: none;
 }
 
 /* --- MOBILE LAYOUT DEFAULT --- */
@@ -73,11 +58,10 @@
 .gotour-icon {
     height: 52px;
     width: auto;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
 }
 
 .mobile-intro {
-    color: #fff;
+    color: #1e293b;
     margin-bottom: 24px;
     width: 100%;
 }
@@ -87,12 +71,12 @@
     font-weight: 700;
     margin-bottom: 12px;
     line-height: 1.1;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: #1e293b;
 }
 
 .welcome-subtitle {
     font-size: 1rem;
-    opacity: 0.9;
+    color: #475569;
     font-weight: 400;
     line-height: 1.5;
 }
@@ -335,7 +319,7 @@
         flex-direction: column;
         justify-content: center;
         height: 100%;
-        color: #fff;
+        color: #1e293b;
         padding-right: 40px;
         padding-top: 100px;
     }
@@ -358,7 +342,7 @@
         font-size: 1.5rem;
         font-weight: 800;
         letter-spacing: 2px;
-        color: #fff;
+        color: #1e293b;
     }
 
     /* Rotating Text */
@@ -390,23 +374,20 @@
         font-weight: 800;
         line-height: 1.1;
         margin-bottom: 16px;
-        background: linear-gradient(to right, #ffffff, #e2e8f0);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        color: #1e293b;
     }
 
     .marketing-subtitle {
         font-size: 1.5rem;
         font-weight: 500;
-        color: #f1f5f9;
+        color: #334155;
         margin-bottom: 12px;
         line-height: 1.4;
     }
 
     .marketing-desc {
         font-size: 1.1rem;
-        color: #cbd5e1;
+        color: #64748b;
         font-weight: 300;
         max-width: 600px;
     }
@@ -422,7 +403,7 @@
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.3);
+        background-color: rgba(30, 41, 59, 0.1);
         transition: all 0.3s ease;
     }
 
@@ -438,7 +419,7 @@
         align-items: center;
         gap: 16px;
         font-size: 0.9rem;
-        color: #e2e8f0;
+        color: #475569;
         margin-bottom: 40px;
         font-weight: 500;
     }
@@ -450,7 +431,7 @@
     }
 
     .feat-separator {
-        color: rgba(255, 255, 255, 0.3);
+        color: rgba(30, 41, 59, 0.2);
     }
 
     .stats-row {
@@ -466,7 +447,7 @@
     .stat-num {
         font-size: 1.8rem;
         font-weight: 700;
-        color: #fff;
+        color: #1e293b;
     }
 
     .stat-label {
@@ -522,10 +503,8 @@
         height: 100vh;
         border-radius: 24px 0 0 24px;
         transform: translateX(100%);
-        background: rgba(255, 255, 255, 0.97);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        box-shadow: -8px 0 40px rgba(0, 0, 0, 0.25);
+        background: #ffffff;
+        box-shadow: -8px 0 40px rgba(0, 0, 0, 0.1);
     }
 
     .bottom-sheet.active {
@@ -553,9 +532,18 @@
         font-size: 15px;
     }
 
-    /* Auth mode panel styling (login/forgot) — matches mobile teal gradient */
+    /* Auth mode panel styling (login/forgot) — matches mobile teal gradient with white overlay */
     .bottom-sheet.sheet-auth-mode {
-        background: linear-gradient(to bottom, #307573 0%, #ffffff 100%);
+        background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
+            linear-gradient(to bottom, #307573 0%, #ffffff 100%);
+        background-blend-mode: overlay;
+        /* or just use multiple backgrounds */
+    }
+
+    /* Alternative: if blend-mode behaves weird, use stacked linear-gradients */
+    .bottom-sheet.sheet-auth-mode {
+        background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
+            linear-gradient(to bottom, #307573 0%, #ffffff 100%);
     }
 
     .sheet-auth-mode .bottom-sheet-fixed-header {
@@ -661,7 +649,7 @@
     .desktop-card-header {
         display: block;
         text-align: center;
-        color: #fff;
+        color: #1e293b;
     }
 
     .desktop-card-header h2 {
@@ -672,6 +660,6 @@
 
     .desktop-card-header p {
         font-size: 1rem;
-        color: #cbd5e1;
+        color: #475569;
     }
 }
