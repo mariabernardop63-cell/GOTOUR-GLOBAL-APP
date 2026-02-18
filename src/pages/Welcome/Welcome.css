@@ -104,9 +104,10 @@
 }
 
 .action-glass-card.card-hidden {
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(0.95);
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: scale(0.95) !important;
+    visibility: hidden;
 }
 
 .desktop-card-header {
