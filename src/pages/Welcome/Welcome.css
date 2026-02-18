@@ -177,7 +177,7 @@
 
 .bottom-sheet-label {
     font-size: 13px;
-    color: #64748b;
+    color: #1e293b;
     font-weight: 500;
     margin-bottom: 6px;
     letter-spacing: 0.2px;
@@ -563,11 +563,11 @@
     }
 
     .sheet-auth-mode .bottom-sheet-label {
-        color: rgba(255, 255, 255, 0.85);
+        color: #1e293b;
     }
 
     .sheet-auth-mode .bottom-sheet-title {
-        color: #ffffff;
+        color: #1e293b;
     }
 
     .sheet-auth-mode .sheet-back-btn {
