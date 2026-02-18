@@ -47,10 +47,8 @@ const SelectCountryScreen = () => {
     const { setExploreCountry, exploreCountry } = useApp();
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCountry, setSelectedCountry] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isSelecting, setIsSelecting] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
-
-    const isMobile = window.innerWidth <= 768;
 
     const filteredCountries = useMemo(() => {
         if (!searchQuery) return countriesByContinent;
@@ -68,19 +66,16 @@ const SelectCountryScreen = () => {
     }, [searchQuery]);
 
     const handleSelectCountry = (country) => {
+        if (isSelecting) return;
+
         setSelectedCountry(country);
-    };
+        setIsSelecting(true);
+        setExploreCountry(country.name);
 
-    const handleContinue = () => {
-        if (selectedCountry) {
-            setIsLoading(true);
-            setExploreCountry(selectedCountry.name);
-
-            setTimeout(() => {
-                setIsLoading(false);
-                navigateForward('/home');
-            }, 1000);
-        }
+        // Auto-navigate after 2 seconds
+        setTimeout(() => {
+            navigateForward('/home');
+        }, 2000);
     };
 
     return (
@@ -101,6 +96,7 @@ const SelectCountryScreen = () => {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onFocus={() => setIsFocused(true)}
                                 onBlur={() => setIsFocused(false)}
+                                disabled={isSelecting}
                             />
                         </div>
                     </div>
@@ -111,24 +107,30 @@ const SelectCountryScreen = () => {
                         <div key={continent} className="continent-block">
                             <h2 className="continent-title">{continent}</h2>
                             <div className="countries-list-vertical">
-                                {filteredCountries[continent].map((country) => (
-                                    <div
-                                        key={country.code}
-                                        className={`country-item-row ${selectedCountry?.code === country.code ? 'selected' : ''}`}
-                                        onClick={() => handleSelectCountry(country)}
-                                    >
-                                        <div className="country-left-info">
-                                            <span className="country-flag-emoji">{country.flag}</span>
-                                            <span className="country-name-text">{country.name}</span>
+                                {filteredCountries[continent].map((country) => {
+                                    const isThisSelected = selectedCountry?.code === country.code;
+                                    return (
+                                        <div
+                                            key={country.code}
+                                            className={`country-item-row ${isThisSelected ? 'selected' : ''} ${isThisSelected && isSelecting ? 'is-processing' : ''}`}
+                                            onClick={() => handleSelectCountry(country)}
+                                        >
+                                            <div className="country-left-info">
+                                                <span className="country-flag-emoji">{country.flag}</span>
+                                                <span className="country-name-text">{country.name}</span>
+                                            </div>
+                                            {isThisSelected ? (
+                                                isSelecting ? (
+                                                    <div className="processing-spinner" />
+                                                ) : (
+                                                    <Check className="check-icon-active" size={18} />
+                                                )
+                                            ) : (
+                                                <div className="selection-circle" />
+                                            )}
                                         </div>
-                                        {selectedCountry?.code === country.code && (
-                                            <Check className="check-icon-active" size={18} />
-                                        )}
-                                        {selectedCountry?.code !== country.code && (
-                                            <div className="selection-circle" />
-                                        )}
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </div>
                     ))}
@@ -138,19 +140,6 @@ const SelectCountryScreen = () => {
                             Nenhum país encontrado para "{searchQuery}"
                         </div>
                     )}
-                </div>
-
-                <div className="select-country-action-footer">
-                    <Button
-                        variant="primary"
-                        fullWidth
-                        size="lg"
-                        disabled={!selectedCountry}
-                        isLoading={isLoading}
-                        onClick={handleContinue}
-                    >
-                        Continuar
-                    </Button>
                 </div>
             </div>
         </div>
