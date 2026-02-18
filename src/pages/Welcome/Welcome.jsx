@@ -54,16 +54,18 @@ const Welcome = () => {
 
     const handleOpenSheet = (btnType, mode = 'social') => {
         setLoadingBtn(btnType);
+        setSheetMode(mode);
+        setShowBottomSheet(true); // Hide the card immediately
+
+        // Shorter delay for the sheet to appear
         setTimeout(() => {
             setLoadingBtn(null);
-            setSheetMode(mode);
-            setShowBottomSheet(true);
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     setSheetAnimating(true);
                 });
             });
-        }, isMobile ? 2500 : 1500);
+        }, isMobile ? 800 : 500);
     };
 
     const handleComecarAgora = () => {
