@@ -72,6 +72,17 @@ const CreatePassword = () => {
         setIsLoading(true);
 
         try {
+            // Test User Bypass
+            if (location.state?.email === '111111111111') {
+                setTimeout(() => {
+                    localStorage.removeItem('pendingProfileData');
+                    setIsLoading(false);
+                    const hasProfile = Object.keys(profileData).length > 0;
+                    navigateForward(hasProfile ? '/select-country' : '/home');
+                }, 1000);
+                return;
+            }
+
             const { error: updateError } = await supabase.auth.updateUser({
                 password: password
             });

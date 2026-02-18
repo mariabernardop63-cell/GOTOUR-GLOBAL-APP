@@ -44,7 +44,7 @@ const SignupForm = ({ onLoginClick }) => {
         if (errors.nationality) setErrors(prev => ({ ...prev, nationality: '' }));
     };
 
-    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email === '111111111111';
     const isValidPhone = (phone) => /^\d{7,15}$/.test(phone.replace(/[\s\-\(\)]/g, ''));
 
     const validateStep = (currentStep) => {
@@ -83,6 +83,33 @@ const SignupForm = ({ onLoginClick }) => {
         }
 
         if (step === 2) {
+            const fullPhone = (activeCountry?.dialCode || '') + formData.phone.replace(/[\s\-\(\)]/g, '');
+            const profileData = {
+                fullName: formData.fullName,
+                nationality: formData.nationality,
+                phone: fullPhone,
+                dateOfBirth: formData.dobYear && formData.dobMonth && formData.dobDay
+                    ? `${formData.dobYear}-${String(formData.dobMonth).padStart(2, '0')}-${String(formData.dobDay).padStart(2, '0')}`
+                    : null
+            };
+
+            // Test User Bypass
+            if (formData.email === '111111111111') {
+                setIsLoading(true);
+                setTimeout(() => {
+                    setIsLoading(false);
+                    localStorage.setItem('pendingProfileData', JSON.stringify(profileData));
+                    navigateForward('/create-password', {
+                        state: {
+                            email: formData.email,
+                            flow: 'signup-test-bypass',
+                            profileData: profileData
+                        }
+                    });
+                }, 1000);
+                return;
+            }
+
             if (isCoolingDown) {
                 setErrors({ email: `Aguarde ${cooldown}s antes de tentar novamente.` });
                 return;
@@ -90,16 +117,6 @@ const SignupForm = ({ onLoginClick }) => {
             setIsLoading(true);
             setErrors({});
             try {
-                const fullPhone = (activeCountry?.dialCode || '') + formData.phone.replace(/[\s\-\(\)]/g, '');
-                const profileData = {
-                    fullName: formData.fullName,
-                    nationality: formData.nationality,
-                    phone: fullPhone,
-                    dateOfBirth: formData.dobYear && formData.dobMonth && formData.dobDay
-                        ? `${formData.dobYear}-${String(formData.dobMonth).padStart(2, '0')}-${String(formData.dobDay).padStart(2, '0')}`
-                        : null
-                };
-
                 const redirectUrl = window.location.origin + '/create-password';
                 const { error } = await supabase.auth.signInWithOtp({
                     email: formData.email,

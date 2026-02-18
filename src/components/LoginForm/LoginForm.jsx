@@ -12,7 +12,7 @@ const LoginForm = ({ onSuccess, onForgotPassword, showSocial, showSignupLink, on
     const [showPassword, setShowPassword] = useState(false);
 
     // Validation helpers
-    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email === '111111111111';
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,6 +34,19 @@ const LoginForm = ({ onSuccess, onForgotPassword, showSocial, showSignupLink, on
         }
 
         setIsLoading(true);
+
+        // Test User Bypass
+        if (formData.email === '111111111111' && formData.password === '111111111111') {
+            setTimeout(() => {
+                setIsLoading(false);
+                if (onSuccess) {
+                    onSuccess();
+                } else {
+                    navigateForward('/home');
+                }
+            }, 1000); // Simulate network
+            return;
+        }
 
         try {
             const { data, error: loginError } = await supabase.auth.signInWithPassword({
