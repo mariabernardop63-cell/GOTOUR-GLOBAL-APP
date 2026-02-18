@@ -270,6 +270,9 @@ const Welcome = () => {
                                 <LoginForm
                                     onSuccess={() => navigateForward('/home')}
                                     onForgotPassword={() => setSheetMode('forgot')}
+                                    showSocial={!isMobile}
+                                    showSignupLink={!isMobile}
+                                    onSignupClick={() => setSheetMode('signup')}
                                 />
                             ) : sheetMode === 'signup' ? (
                                 <SignupForm

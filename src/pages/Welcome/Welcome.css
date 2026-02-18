@@ -103,12 +103,6 @@
     transition: all 0.35s ease;
 }
 
-.action-glass-card.card-hidden {
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transform: scale(0.95) !important;
-    visibility: hidden;
-}
 
 .desktop-card-header {
     display: none;
@@ -595,6 +589,15 @@
     .sheet-auth-mode .sheet-login-btn,
     .sheet-auth-mode .sheet-signup-btn {
         border-color: #307573;
+    }
+
+    /* Hide the action card when panel is open (Desktop Only) */
+    .action-glass-card.card-hidden {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transform: scale(0.95) !important;
+        visibility: hidden;
+        transition: all 0.35s ease;
     }
 
     .action-glass-card {
