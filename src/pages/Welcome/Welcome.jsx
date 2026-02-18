@@ -87,135 +87,72 @@ const Welcome = () => {
                 <img src={gotourIcon} alt="GoTour Icon" className="gotour-icon" />
             </div>
 
-            <div className="welcome-desktop-grid">
+            {/* Mobile Title (Hidden on Desktop) */}
+            <div className="mobile-intro slide-up">
+                <h1 className="welcome-title">Explore o Mundo <br />Como um Local</h1>
+                <p className="welcome-subtitle">
+                    Descubra destinos incríveis, conecte-se com guias locais e viva experiências autênticas.
+                </p>
+            </div>
 
-                {/* LEFT COL: Marketing Text (Desktop Only) */}
-                <div className="welcome-left-col">
-                    <div className="logo-brand-area">
-                        <img src={gotourIcon} alt="GoTour" className="brand-logo-img" />
-                        <span className="brand-name-text">GOTOUR</span>
-                    </div>
-
-                    <div className="rotating-text-container">
-                        {marketingTexts.map((item, index) => (
-                            <div
-                                key={index}
-                                className={`text-slide ${index === currentTextIndex ? 'active' : ''}`}
-                            >
-                                <h1 className="marketing-title">{item.title}</h1>
-                                <h2 className="marketing-subtitle">{item.subtitle}</h2>
-                                {item.desc && <p className="marketing-desc">{item.desc}</p>}
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Dots Indicators */}
-                    <div className="rotation-indicators">
-                        {marketingTexts.map((_, idx) => (
-                            <div
-                                key={idx}
-                                className={`dot ${idx === currentTextIndex ? 'active' : ''}`}
-                            ></div>
-                        ))}
-                    </div>
-
-                    {/* Mini Features Line */}
-                    <div className="mini-features">
-                        <div className="feat-item"><Globe size={16} /> Destinos reais</div>
-                        <div className="feat-separator">•</div>
-                        <div className="feat-item"><Hotel size={16} /> Lugares incríveis</div>
-                        <div className="feat-separator">•</div>
-                        <div className="feat-item"><MapIcon size={16} /> Exploração inteligente</div>
-                    </div>
-
-                    {/* Stats */}
-                    <div className="stats-row">
-                        <div className="stat-box">
-                            <span className="stat-num">+500</span>
-                            <span className="stat-label">destinos</span>
-                        </div>
-                        <div className="stat-box">
-                            <span className="stat-num">+10</span>
-                            <span className="stat-label">províncias</span>
-                        </div>
-                        <div className="stat-box">
-                            <span className="stat-num">+2k</span>
-                            <span className="stat-label">viajantes</span>
-                        </div>
-                    </div>
+            {/* Glass Card Container (Desktop) / Standard (Mobile) */}
+            <div className={`action-glass-card slide-up ${showBottomSheet ? 'card-hidden' : ''}`}>
+                <div className="desktop-card-header">
+                    <h2>Comece sua jornada</h2>
+                    <p>Crie sua conta ou faça login para continuar.</p>
                 </div>
 
-                {/* RIGHT COL: Action Container (Desktop puts this in right col, Mobile centers it) */}
-                <div className="welcome-right-col">
-                    {/* Mobile Title (Hidden on Desktop) */}
-                    <div className="mobile-intro slide-up">
-                        <h1 className="welcome-title">Explore o Mundo <br />Como um Local</h1>
-                        <p className="welcome-subtitle">
-                            Descubra destinos incríveis, conecte-se com guias locais e viva experiências autênticas.
-                        </p>
+                <div className="welcome-actions">
+                    {/* Mobile: opens bottom sheet | Desktop: navigates directly */}
+                    <div className="mobile-only-actions">
+                        <Button
+                            type="button"
+                            variant="primary"
+                            size="lg"
+                            fullWidth
+                            onClick={handleComecarAgora}
+                            isLoading={loadingBtn === 'primary'}
+                        >
+                            Começar Agora
+                        </Button>
+
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            size="lg"
+                            fullWidth
+                            onClick={() => isMobile ? navigateForward('/login') : handleOpenSheet('secondary', 'login')}
+                            isLoading={loadingBtn === 'secondary'}
+                        >
+                            Já tenho conta
+                        </Button>
                     </div>
 
-                    {/* Glass Card Container (Desktop) / Standard (Mobile) */}
-                    <div className={`action-glass-card slide-up ${showBottomSheet ? 'card-hidden' : ''}`}>
-                        <div className="desktop-card-header">
-                            <h2>Comece sua jornada</h2>
-                            <p>Crie sua conta ou faça login para continuar.</p>
-                        </div>
+                    {/* Desktop only buttons */}
+                    <div className="desktop-only-actions">
+                        <Button
+                            type="button"
+                            variant="primary"
+                            size="lg"
+                            fullWidth
+                            onClick={() => handleOpenSheet('primary', 'social')}
+                            isLoading={loadingBtn === 'primary'}
+                        >
+                            Começar Agora
+                        </Button>
 
-                        <div className="welcome-actions">
-                            {/* Mobile: opens bottom sheet | Desktop: navigates directly */}
-                            <div className="mobile-only-actions">
-                                <Button
-                                    type="button"
-                                    variant="primary"
-                                    size="lg"
-                                    fullWidth
-                                    onClick={handleComecarAgora}
-                                    isLoading={loadingBtn === 'primary'}
-                                >
-                                    Começar Agora
-                                </Button>
-
-                                <Button
-                                    type="button"
-                                    variant="secondary"
-                                    size="lg"
-                                    fullWidth
-                                    onClick={() => isMobile ? navigateForward('/login') : handleOpenSheet('secondary', 'login')}
-                                    isLoading={loadingBtn === 'secondary'}
-                                >
-                                    Já tenho conta
-                                </Button>
-                            </div>
-
-                            {/* Desktop only buttons */}
-                            <div className="desktop-only-actions">
-                                <Button
-                                    type="button"
-                                    variant="primary"
-                                    size="lg"
-                                    fullWidth
-                                    onClick={() => handleOpenSheet('primary', 'social')}
-                                    isLoading={loadingBtn === 'primary'}
-                                >
-                                    Começar Agora
-                                </Button>
-
-                                <Button
-                                    type="button"
-                                    variant="secondary"
-                                    size="lg"
-                                    fullWidth
-                                    onClick={() => handleOpenSheet('secondary', 'login')}
-                                    isLoading={loadingBtn === 'secondary'}
-                                >
-                                    Já tenho conta
-                                </Button>
-                            </div>
-                        </div>
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            size="lg"
+                            fullWidth
+                            onClick={() => handleOpenSheet('secondary', 'login')}
+                            isLoading={loadingBtn === 'secondary'}
+                        >
+                            Já tenho conta
+                        </Button>
                     </div>
                 </div>
-
             </div>
 
             {/* ===== MOBILE BOTTOM SHEET ===== */}

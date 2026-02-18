@@ -135,56 +135,54 @@ const CreatePassword = () => {
     const buttonText = isSignup ? 'Registar' : 'Alterar Senha';
 
     return (
-        <div className="create-pwd-page">
-            <div className="create-pwd-container fade-in-up">
-                <button className="create-pwd-back-btn" onClick={() => navigateBack()}>
-                    <ArrowLeft size={24} />
+        <div className="create-pwd-container fade-in-up">
+            <button className="create-pwd-back-btn" onClick={() => navigateBack()}>
+                <ArrowLeft size={24} />
+            </button>
+
+            <div className="create-pwd-header">
+                <h1>Criar nova senha</h1>
+                <p>Crie uma senha forte e segura para proteger a sua conta GoTour.</p>
+            </div>
+
+            <div className="create-pwd-form">
+                {/* Password */}
+                <div className="create-pwd-field">
+                    <Lock size={18} />
+                    <input
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Nova palavra-passe"
+                        value={password}
+                        onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                    />
+                    <div className="create-pwd-eye" onClick={() => setShowPassword(!showPassword)}>
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </div>
+                </div>
+
+                {/* Confirm Password */}
+                <div className="create-pwd-field">
+                    <Lock size={18} />
+                    <input
+                        type={showConfirm ? 'text' : 'password'}
+                        placeholder="Confirmar palavra-passe"
+                        value={confirmPassword}
+                        onChange={(e) => { setConfirmPassword(e.target.value); setError(''); }}
+                    />
+                    <div className="create-pwd-eye" onClick={() => setShowConfirm(!showConfirm)}>
+                        {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </div>
+                </div>
+
+                {error && <p className="create-pwd-error">{error}</p>}
+
+                <button
+                    className="create-pwd-btn"
+                    onClick={handleSave}
+                    disabled={!isValid || isLoading}
+                >
+                    {isLoading ? 'A processar...' : buttonText}
                 </button>
-
-                <div className="create-pwd-header">
-                    <h1>{headerTitle}</h1>
-                    <p>{headerDesc}</p>
-                </div>
-
-                <div className="create-pwd-form">
-                    {/* Password */}
-                    <div className="create-pwd-field">
-                        <Lock size={18} />
-                        <input
-                            type={showPassword ? 'text' : 'password'}
-                            placeholder="Nova palavra-passe"
-                            value={password}
-                            onChange={(e) => { setPassword(e.target.value); setError(''); }}
-                        />
-                        <div className="create-pwd-eye" onClick={() => setShowPassword(!showPassword)}>
-                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                        </div>
-                    </div>
-
-                    {/* Confirm Password */}
-                    <div className="create-pwd-field">
-                        <Lock size={18} />
-                        <input
-                            type={showConfirm ? 'text' : 'password'}
-                            placeholder="Confirmar palavra-passe"
-                            value={confirmPassword}
-                            onChange={(e) => { setConfirmPassword(e.target.value); setError(''); }}
-                        />
-                        <div className="create-pwd-eye" onClick={() => setShowConfirm(!showConfirm)}>
-                            {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
-                        </div>
-                    </div>
-
-                    {error && <p className="create-pwd-error">{error}</p>}
-
-                    <button
-                        className="create-pwd-btn"
-                        onClick={handleSave}
-                        disabled={!isValid || isLoading}
-                    >
-                        {isLoading ? 'A processar...' : buttonText}
-                    </button>
-                </div>
             </div>
         </div>
     );

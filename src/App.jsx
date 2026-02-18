@@ -25,6 +25,7 @@ import { AppProvider } from './context/AppContext';
 import { AuthProvider } from './context/AuthContext';
 import PageTransition from './components/PageTransition/PageTransition';
 import VideoBackground from './components/VideoBackground/VideoBackground';
+import AuthLayout from './components/AuthLayout/AuthLayout';
 import './App.css';
 
 // Navigation context for direction tracking
@@ -110,8 +111,8 @@ const AnimatedRoutes = () => {
     const direction = getDirection();
 
     // Routes where video background should be active
-    const videoRoutes = ['/', '/login', '/signup', '/forgot-password', '/email-confirmation', '/select-country', '/otp-verification', '/create-password'];
-    const showVideo = videoRoutes.includes(location.pathname);
+    const authRoutes = ['/', '/login', '/signup', '/forgot-password', '/email-confirmation', '/otp-verification', '/create-password'];
+    const showVideo = authRoutes.includes(location.pathname);
 
     useEffect(() => {
         if (showVideo) {
@@ -124,6 +125,14 @@ const AnimatedRoutes = () => {
         };
     }, [showVideo]);
 
+    // Content for auth routes will be wrapped in AuthLayout
+    const renderRoute = (element) => {
+        if (showVideo) {
+            return <AuthLayout>{element}</AuthLayout>;
+        }
+        return element;
+    };
+
     return (
         <div style={{
             position: 'relative',
@@ -135,20 +144,17 @@ const AnimatedRoutes = () => {
             // Ensure proper stacking context
             isolation: 'isolate'
         }}>
-            {/* Global Video Background for Auth Pages */}
-            {showVideo && <VideoBackground />}
-
             <AnimatePresence mode="popLayout" initial={false}>
                 <PageTransition key={location.pathname} direction={direction}>
                     <Routes location={location}>
-                        <Route path="/" element={<SplashWrapper />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/signup" element={<Signup />} />
+                        <Route path="/" element={renderRoute(<SplashWrapper />)} />
+                        <Route path="/login" element={renderRoute(<Login />)} />
+                        <Route path="/signup" element={renderRoute(<Signup />)} />
                         <Route path="/select-country" element={<SelectCountryScreen />} />
-                        <Route path="/email-confirmation" element={<EmailConfirmation />} />
-                        <Route path="/forgot-password" element={<ForgotPassword />} />
-                        <Route path="/otp-verification" element={<OtpVerification />} />
-                        <Route path="/create-password" element={<CreatePassword />} />
+                        <Route path="/email-confirmation" element={renderRoute(<EmailConfirmation />)} />
+                        <Route path="/forgot-password" element={renderRoute(<ForgotPassword />)} />
+                        <Route path="/otp-verification" element={renderRoute(<OtpVerification />)} />
+                        <Route path="/create-password" element={renderRoute(<CreatePassword />)} />
                         <Route path="/home" element={<HomeScreen />} />
                         <Route path="/categories" element={<CategoriesScreen />} />
                         <Route path="/feed" element={<FeedScreen />} />

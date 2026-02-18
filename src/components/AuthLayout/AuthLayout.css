@@ -1,0 +1,166 @@
+.auth-layout-container {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-desktop-grid {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    z-index: 10;
+}
+
+.auth-left-col {
+    display: none;
+    flex: 1;
+    padding: 60px 80px;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-right-col {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+}
+
+@media (min-width: 1024px) {
+    .auth-left-col {
+        display: flex;
+    }
+
+    .auth-right-col {
+        width: 440px;
+        flex-shrink: 0;
+    }
+
+    .auth-desktop-grid {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}
+
+/* Marketing Panel Styles moved from Welcome.css */
+.auth-marketing-panel {
+    max-width: 600px;
+}
+
+.logo-brand-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 60px;
+}
+
+.brand-logo-img {
+    width: 40px;
+    height: 40px;
+}
+
+.brand-name-text {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.marketing-title {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.marketing-subtitle {
+    font-size: 18px;
+    font-weight: 500;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.marketing-desc {
+    margin-top: 15px;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.rotating-text-container {
+    height: 160px;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.text-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.8s, transform 0.8s;
+    transform: translateY(20px);
+}
+
+.text-slide.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.rotation-indicators {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 60px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s;
+}
+
+.dot.active {
+    width: 24px;
+    border-radius: 4px;
+    background: white;
+}
+
+.mini-features {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.6;
+    margin-bottom: 40px;
+}
+
+.feat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.stats-row {
+    display: flex;
+    gap: 40px;
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-num {
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.6;
+}
