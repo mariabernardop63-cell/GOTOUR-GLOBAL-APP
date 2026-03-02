@@ -89,12 +89,12 @@ const DrawerMenu = ({ isOpen, onClose }) => {
                             <span>Mensagens</span>
                             <span className="drawer-shortcut-count">0</span>
                         </button>
-                        <button className="drawer-shortcut">
+                        <button className="drawer-shortcut" onClick={() => handleNav('/friends')}>
                             <div className="drawer-shortcut-icon"><Users size={20} /></div>
                             <span>Amigos</span>
                             <span className="drawer-shortcut-count">0</span>
                         </button>
-                        <button className="drawer-shortcut">
+                        <button className="drawer-shortcut" onClick={() => handleNav('/notifications')}>
                             <div className="drawer-shortcut-icon"><Bell size={20} /></div>
                             <span>Notificações</span>
                             <span className="drawer-shortcut-count">0</span>
@@ -112,8 +112,8 @@ const DrawerMenu = ({ isOpen, onClose }) => {
                     <p className="drawer-section-label">Ferramentas</p>
                     <nav className="drawer-nav">
                         <DrawerItem icon={MessageCircle} label="Mensagens" onClick={() => handleNav('/messages')} />
-                        <DrawerItem icon={BellRing} label="Notificações" />
-                        <DrawerItem icon={Users} label="Amigos" />
+                        <DrawerItem icon={BellRing} label="Notificações" onClick={() => handleNav('/notifications')} />
+                        <DrawerItem icon={Users} label="Amigos" onClick={() => handleNav('/friends')} />
                         <DrawerItem icon={Compass} label="Interesses" />
                         <DrawerItem icon={Layers} label="Coleções" />
                         <DrawerItem icon={MapPin} label="Notas de Viagem" />
@@ -131,11 +131,11 @@ const DrawerMenu = ({ isOpen, onClose }) => {
                     {/* Definições */}
                     <p className="drawer-section-label">Definições</p>
                     <nav className="drawer-nav">
-                        <DrawerItem icon={SlidersHorizontal} label="Conta" onClick={() => handleNav('/edit-profile')} />
-                        <DrawerItem icon={Globe} label="Idioma & País" />
-                        <DrawerItem icon={Palette} label="Aparência" />
-                        <DrawerItem icon={Bell} label="Notificações" />
-                        <DrawerItem icon={ShieldCheck} label="Segurança" />
+                        <DrawerItem icon={SlidersHorizontal} label="Conta" onClick={() => handleNav('/settings')} />
+                        <DrawerItem icon={Globe} label="Idioma & País" onClick={() => handleNav('/settings')} />
+                        <DrawerItem icon={Palette} label="Aparência" onClick={() => handleNav('/settings')} />
+                        <DrawerItem icon={Bell} label="Notificações" onClick={() => handleNav('/notifications')} />
+                        <DrawerItem icon={ShieldCheck} label="Segurança" onClick={() => handleNav('/settings')} />
                     </nav>
 
                     <div className="drawer-sep" />
@@ -143,10 +143,10 @@ const DrawerMenu = ({ isOpen, onClose }) => {
                     {/* Privacidade */}
                     <p className="drawer-section-label">Privacidade</p>
                     <nav className="drawer-nav">
-                        <DrawerItem icon={Lock} label="Privacidade da Conta" />
-                        <DrawerItem icon={UserX} label="Bloqueados" />
-                        <DrawerItem icon={Smartphone} label="Permissões do App" />
-                        <DrawerItem icon={FileText} label="Termos e Políticas" />
+                        <DrawerItem icon={Lock} label="Privacidade da Conta" onClick={() => handleNav('/settings')} />
+                        <DrawerItem icon={UserX} label="Bloqueados" onClick={() => handleNav('/settings')} />
+                        <DrawerItem icon={Smartphone} label="Permissões do App" onClick={() => handleNav('/settings')} />
+                        <DrawerItem icon={FileText} label="Termos e Políticas" onClick={() => handleNav('/settings')} />
                     </nav>
 
                     <div className="drawer-sep" />

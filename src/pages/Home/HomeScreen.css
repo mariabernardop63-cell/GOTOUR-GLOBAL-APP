@@ -109,3 +109,81 @@
 .search-results-content {
     padding: 0 20px;
 }
+
+/* ===== Desktop Nav Strip (hidden on mobile) ===== */
+.desktop-nav-strip {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .home-page {
+        padding-bottom: 0;
+    }
+
+    /* Search + Nav on same row */
+    .desktop-search-nav-row {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        gap: 16px;
+        padding: 0 20px;
+    }
+
+    .desktop-search-nav-row .search-bar-container {
+        flex: 1;
+        min-width: 300px;
+    }
+
+    /* Desktop nav strip — pushed to the right */
+    .desktop-nav-strip {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin-left: auto;
+    }
+
+    .desktop-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        background: none;
+        border: none;
+        border-radius: 24px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        color: #6b7280;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .desktop-nav-item:hover {
+        background: #f3f4f6;
+        color: #1f2937;
+    }
+
+    .desktop-nav-item.active {
+        background: #1e293b;
+        color: #ffffff;
+    }
+
+    /* Globe top-right on desktop */
+    .globe-selector {
+        position: fixed !important;
+        top: 24px;
+        right: 70px;
+        z-index: 200;
+    }
+
+    .search-row-glass {
+        justify-content: flex-start;
+    }
+
+    .search-bar-glass {
+        height: 54px;
+    }
+}

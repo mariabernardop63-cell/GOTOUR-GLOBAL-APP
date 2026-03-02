@@ -1,0 +1,188 @@
+.testimonials-container {
+    position: absolute;
+    bottom: 40px;
+    right: 0;
+    /* Flush to the right, to allow off-screen effect */
+    width: 380px;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    /* Align items towards the right edge */
+    pointer-events: none;
+    /* Let clicks pass through empty areas */
+    z-index: 20;
+    overflow: hidden;
+    /* Prevent horizontal scrollbars on body, though position fixed/abs on body usually handles it. Better safe. */
+}
+
+/* We must allow pointer events on the actual cards */
+.testimonial-card {
+    position: absolute;
+    width: 260px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    color: #ffffff;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: all 0.6s ease-out;
+    /* Smoother, no bounce */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    right: 40px;
+    /* Base position from right */
+}
+
+/* State Classes */
+.testimonial-card.state-hidden-top {
+    transform: translateY(-200%) translateX(100px) scale(0.6);
+    opacity: 0;
+    z-index: 1;
+}
+
+.testimonial-card.state-prev {
+    transform: translateY(-110%) translateX(40px) scale(0.85);
+    opacity: 0.5;
+    z-index: 2;
+}
+
+.testimonial-card.state-active {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+    z-index: 3;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.testimonial-card.state-next {
+    transform: translateY(110%) translateX(40px) scale(0.85);
+    opacity: 0.5;
+    z-index: 2;
+}
+
+.testimonial-card.state-hidden-bottom {
+    transform: translateY(200%) translateX(100px) scale(0.6);
+    opacity: 0;
+    z-index: 1;
+}
+
+/* Hover effect on adjacent cards */
+.testimonial-card.state-prev:hover,
+.testimonial-card.state-next:hover {
+    opacity: 0.8;
+    transform: translateY(calc(var(--base-transform) * 1.15)) translateX(30px) scale(0.88);
+}
+
+/* Internal Layout */
+.testi-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.testi-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.testi-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.testi-name {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 2px;
+    letter-spacing: -0.2px;
+}
+
+.testi-stars {
+    display: flex;
+    gap: 2px;
+    color: #fbbf24;
+    /* Yellowish */
+}
+
+.testi-text {
+    font-size: 13px;
+    font-family: 'Rubik', sans-serif;
+    line-height: 1.4;
+    opacity: 0.9;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* =========================================
+   MODIFIERS FOR LEFT POSITION
+   ========================================= */
+
+.testimonials-container.position-left {
+    right: auto;
+    left: 0;
+    justify-content: flex-start;
+    /* Align items towards the left edge */
+}
+
+.testimonial-card.position-left {
+    right: auto;
+    left: 40px;
+    /* Base position from left */
+}
+
+/* State Classes for Left Side */
+.testimonial-card.position-left.state-hidden-top {
+    transform: translateY(-200%) translateX(-100px) scale(0.6);
+}
+
+.testimonial-card.position-left.state-prev {
+    transform: translateY(-110%) translateX(-40px) scale(0.85);
+}
+
+.testimonial-card.position-left.state-active {
+    transform: translateY(0) translateX(0) scale(1);
+}
+
+.testimonial-card.position-left.state-next {
+    transform: translateY(110%) translateX(-40px) scale(0.85);
+}
+
+.testimonial-card.position-left.state-hidden-bottom {
+    transform: translateY(200%) translateX(-100px) scale(0.6);
+}
+
+/* Hover effect on adjacent cards (Left Side) */
+.testimonial-card.position-left.state-prev:hover,
+.testimonial-card.position-left.state-next:hover {
+    transform: translateY(calc(var(--base-transform) * 1.15)) translateX(-30px) scale(0.88);
+}
+
+/* Internal Layout Mirrored for Left */
+.testimonial-card.position-left .testi-header {
+    flex-direction: row-reverse;
+    /* Avatar on right, text on left */
+    justify-content: flex-end;
+}
+
+.testimonial-card.position-left .testi-info {
+    align-items: flex-end;
+}
+
+.testimonial-card.position-left .testi-stars {
+    justify-content: flex-end;
+}
+
+.testimonial-card.position-left .testi-text {
+    text-align: right;
+    /* Text aligns right so flat edge is on the outside */
+}

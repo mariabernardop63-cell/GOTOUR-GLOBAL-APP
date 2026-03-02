@@ -3,7 +3,9 @@ import { Mail, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { supabase } from '../../lib/supabase';
 import useCooldown from '../../hooks/useCooldown';
+import DesktopForgotPassword from '../DesktopForgotPassword/DesktopForgotPassword';
 import gotourIcon from '../../assets/images/gotour_icon.png';
+import '../Login/Login.css';
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {
@@ -12,6 +14,14 @@ const ForgotPassword = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const { cooldown, startCooldown, isCoolingDown } = useCooldown('gotour_forgot_cooldown');
+
+    // Responsive check
+    const [isMobile, setIsMobile] = React.useState(typeof window !== 'undefined' && window.innerWidth <= 1024);
+    React.useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -68,24 +78,19 @@ const ForgotPassword = () => {
     };
 
     const getButtonText = () => {
-        if (isLoading) return 'A enviar...';
+        if (isLoading) return 'Processando...';
         if (isCoolingDown) return `Aguarde ${cooldown}s`;
-        return 'Recuperar';
+        return 'Recuperar senha';
     };
 
+    if (!isMobile) {
+        return <DesktopForgotPassword />;
+    }
+
     return (
-        <div className="forgot-page">
-            <div className="forgot-overlay"></div>
-
-            {/* Logo Section */}
-            <div className="forgot-logo-section fade-in">
-                <img src={gotourIcon} alt="GoTour" className="forgot-logo-img" />
-                <span className="forgot-logo-text">GOTOUR</span>
-            </div>
-
-            <div className="forgot-glass-container fade-in-up">
-                {/* Back button — no background */}
-                <button className="forgot-back-btn" onClick={() => navigateBack('/login')}>
+        <div className="login-page-content forgot-page-override">
+            <div className="login-glass-container fade-in-up" style={{ justifyContent: 'center' }}>
+                <button className="back-icon-btn" onClick={() => navigateBack('/login')}>
                     <ArrowLeft size={24} />
                 </button>
 
@@ -113,7 +118,8 @@ const ForgotPassword = () => {
 
                     <button
                         type="submit"
-                        className="forgot-main-btn"
+                        className="login-main-btn"
+                        style={{ marginTop: '8px' }}
                         disabled={isLoading || isCoolingDown}
                     >
                         {getButtonText()}

@@ -1,0 +1,82 @@
+.hero-stats-carousel-wrapper {
+    width: 660px;
+    /* Fits exactly 3 cards (200px each + 30px gaps) */
+    height: 80px;
+    overflow: hidden;
+    position: relative;
+    /* Gradient mask to fade out left and right edges smoothly */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.hero-stats-carousel-track {
+    display: flex;
+    gap: 30px;
+    width: max-content;
+    animation: scrollStats 12s linear infinite;
+}
+
+.hero-stats-carousel-track:hover {
+    animation-play-state: paused;
+}
+
+.hero-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 200px;
+    /* Fixed width so 3 items fit perfectly */
+    padding: 10px 0;
+    justify-content: flex-start;
+}
+
+.stat-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.08);
+    /* Minimal styling, no heavy borders */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.stat-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #ffffff;
+}
+
+.stat-num {
+    font-size: 20px;
+    font-weight: 800;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.9;
+    font-family: 'Rubik', sans-serif;
+    text-transform: capitalize;
+}
+
+@keyframes scrollStats {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        /* Shift exactly the width of the original 4 items (200px + 30px gap * 4 = 920px) */
+        transform: translateX(-920px);
+    }
+}

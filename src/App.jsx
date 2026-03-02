@@ -13,6 +13,7 @@ import HomeScreen from './pages/Home/HomeScreen';
 import CategoriesScreen from './pages/Categories/CategoriesScreen';
 import MapScreen from './pages/Map/MapScreen';
 import ProfileScreen from './pages/Profile/ProfileScreen';
+import UserProfileScreen from './pages/UserProfile/UserProfileScreen';
 import FeedScreen from './pages/Feed/FeedScreen';
 import DestinoDetalhes from './pages/DestinoDetalhes/DestinoDetalhes';
 import SelectCountryScreen from './pages/SelectCountry/SelectCountryScreen';
@@ -21,11 +22,12 @@ import MessagesScreen from './pages/Messages/MessagesScreen';
 import StoryViewer from './pages/StoryViewer/StoryViewer';
 import ChatScreen from './pages/Chat/ChatScreen';
 import MessageSettings from './pages/MessageSettings/MessageSettings';
+import SettingsScreen from './pages/Settings/SettingsScreen';
+import NotificationsScreen from './pages/Notifications/NotificationsScreen';
+import FriendsScreen from './pages/Friends/FriendsScreen';
 import { AppProvider } from './context/AppContext';
 import { AuthProvider } from './context/AuthContext';
 import PageTransition from './components/PageTransition/PageTransition';
-import VideoBackground from './components/VideoBackground/VideoBackground';
-import AuthLayout from './components/AuthLayout/AuthLayout';
 import './App.css';
 
 // Navigation context for direction tracking
@@ -110,62 +112,43 @@ const AnimatedRoutes = () => {
     const { getDirection } = useNavigation();
     const direction = getDirection();
 
-    // Routes where video background should be active
-    const authRoutes = ['/', '/login', '/signup', '/forgot-password', '/email-confirmation', '/otp-verification', '/create-password'];
-    const showVideo = authRoutes.includes(location.pathname);
-
-    useEffect(() => {
-        if (showVideo) {
-            document.body.classList.add('video-active');
-        } else {
-            document.body.classList.remove('video-active');
-        }
-        return () => {
-            document.body.classList.remove('video-active');
-        };
-    }, [showVideo]);
-
-    // Content for auth routes will be wrapped in AuthLayout
-    const renderRoute = (element) => {
-        if (showVideo) {
-            return <AuthLayout>{element}</AuthLayout>;
-        }
-        return element;
-    };
-
     return (
         <div style={{
             position: 'relative',
             width: '100%',
             minHeight: '100vh',
             overflowX: 'hidden',
-            // Make background transparent when video is showing so video is visible
-            background: showVideo ? 'transparent' : '#F0F9FF',
+            background: '#F0F9FF',
             // Ensure proper stacking context
             isolation: 'isolate'
         }}>
             <AnimatePresence mode="popLayout" initial={false}>
                 <PageTransition key={location.pathname} direction={direction}>
                     <Routes location={location}>
-                        <Route path="/" element={renderRoute(<SplashWrapper />)} />
-                        <Route path="/login" element={renderRoute(<Login />)} />
-                        <Route path="/signup" element={renderRoute(<Signup />)} />
+                        {/* Welcome screen detached from AuthLayout for full-bleed hero */}
+                        <Route path="/" element={<SplashWrapper />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<Signup />} />
                         <Route path="/select-country" element={<SelectCountryScreen />} />
-                        <Route path="/email-confirmation" element={renderRoute(<EmailConfirmation />)} />
-                        <Route path="/forgot-password" element={renderRoute(<ForgotPassword />)} />
-                        <Route path="/otp-verification" element={renderRoute(<OtpVerification />)} />
-                        <Route path="/create-password" element={renderRoute(<CreatePassword />)} />
+                        <Route path="/email-confirmation" element={<EmailConfirmation />} />
+                        <Route path="/forgot-password" element={<ForgotPassword />} />
+                        <Route path="/otp-verification" element={<OtpVerification />} />
+                        <Route path="/create-password" element={<CreatePassword />} />
                         <Route path="/home" element={<HomeScreen />} />
                         <Route path="/categories" element={<CategoriesScreen />} />
                         <Route path="/feed" element={<FeedScreen />} />
                         <Route path="/map" element={<MapScreen />} />
                         <Route path="/profile" element={<ProfileScreen />} />
+                        <Route path="/user/:id" element={<UserProfileScreen />} />
                         <Route path="/edit-profile" element={<EditProfile />} />
                         <Route path="/messages" element={<MessagesScreen />} />
                         <Route path="/story-viewer" element={<StoryViewer />} />
                         <Route path="/chat" element={<ChatScreen />} />
                         <Route path="/message-settings" element={<MessageSettings />} />
                         <Route path="/destino-detalhes" element={<DestinoDetalhes />} />
+                        <Route path="/settings" element={<SettingsScreen />} />
+                        <Route path="/notifications" element={<NotificationsScreen />} />
+                        <Route path="/friends" element={<FriendsScreen />} />
                     </Routes>
                 </PageTransition>
             </AnimatePresence>

@@ -1,0 +1,138 @@
+/* Base Navbar Styles (Mobile Hidden) */
+.desktop-navbar {
+    display: none;
+    /* Hidden by default for mobile-first */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(247, 249, 252, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Container for alignment */
+.navbar-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 16px clamp(60px, 6vw, 120px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    box-sizing: border-box;
+    transition: padding 0.4s ease, height 0.4s ease;
+}
+
+/* Scrolled State */
+.desktop-navbar.scrolled {
+    background: rgba(247, 249, 252, 0.95);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.desktop-navbar.scrolled .navbar-container {
+    height: 64px;
+}
+
+/* Left Section grouping Brand and Links */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+}
+
+/* Left: Brand */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-logo {
+    height: 38px;
+    width: auto;
+}
+
+.navbar-brand-name {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #111111;
+    letter-spacing: -0.3px;
+}
+
+/* Center: Links */
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #5F6368;
+    transition: color 0.2s ease;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: #111111;
+}
+
+/* Right: Actions */
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #5F6368;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 8px 12px;
+}
+
+.nav-btn-text:hover {
+    color: #111111;
+}
+
+/* Styles for the 'Começar' button */
+.desktop-navbar .btn.nav-btn-primary,
+.desktop-navbar button.nav-btn-primary {
+    background: #111111 !important;
+    border-radius: 10px !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    height: 40px !important;
+    padding: 0 20px !important;
+    box-shadow: none !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+
+.desktop-navbar .btn.nav-btn-primary:hover,
+.desktop-navbar button.nav-btn-primary:hover {
+    background: #000000 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    transform: none !important;
+}
+
+
+/* --- DISPLAY ON DESKTOP --- */
+@media (min-width: 1024px) {
+    .desktop-navbar {
+        display: block;
+    }
+}

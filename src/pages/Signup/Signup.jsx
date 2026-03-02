@@ -5,6 +5,7 @@ import { countries } from '../../data/countries';
 import { useApp } from '../../context/AppContext';
 import { supabase } from '../../lib/supabase';
 import useCooldown from '../../hooks/useCooldown';
+import DesktopSignup from '../DesktopSignup/DesktopSignup';
 import './Signup.css';
 
 const Signup = () => {
@@ -14,6 +15,17 @@ const Signup = () => {
     const [step, setStep] = useState(1);
     const [showPasswords, setShowPasswords] = useState(false);
     const { cooldown, startCooldown, isCoolingDown } = useCooldown('gotour_signup_cooldown');
+
+    const [isMobile, setIsMobile] = React.useState(typeof window !== 'undefined' && window.innerWidth <= 1024);
+    React.useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    if (!isMobile) {
+        return <DesktopSignup onBack={() => navigateBack('/')} onNavigateLogin={() => navigateForward('/login')} />;
+    }
 
     const [formData, setFormData] = useState({
         fullName: '',

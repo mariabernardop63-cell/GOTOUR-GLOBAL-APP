@@ -106,7 +106,7 @@ const SignupForm = ({ onLoginClick }) => {
                             profileData: profileData
                         }
                     });
-                }, 1000);
+                }, 2000);
                 return;
             }
 

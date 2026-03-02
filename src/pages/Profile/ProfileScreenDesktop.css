@@ -1,0 +1,80 @@
+/* ===== DESKTOP LAYOUT (min-width: 1024px) ===== */
+@media (min-width: 1024px) {
+    .profile-page {
+        flex-direction: row;
+        background: #f8fafc;
+        /* Lighter background for desktop */
+    }
+
+    /* Hide Mobile Header elements */
+    .profile-fixed-header {
+        display: none !important;
+    }
+
+    /* Hide Mobile Bottom Nav */
+    .bottom-nav {
+        display: none !important;
+    }
+
+    /* Shift content to the right of the sidebar */
+    .profile-scroll-content {
+        margin-left: 280px;
+        /* Width of DesktopSidebar */
+        padding-top: 0;
+        /* Remove top padding since header is gone */
+        padding-bottom: 40px;
+        /* Less bottom padding needed */
+        max-width: 1000px;
+        margin: 0 auto 0 280px;
+        /* Center content in the remaining space */
+    }
+
+    /* Adjust banner for desktop */
+    .profile-banner {
+        height: 280px;
+        border-radius: 0 0 24px 24px;
+    }
+
+    /* Adjust profile header container */
+    .profile-header-container {
+        padding: 0 40px;
+        margin-top: -60px;
+        /* Pull up to overlap banner more smoothly */
+    }
+
+    .profile-avatar-section {
+        margin-bottom: 0;
+        /* Horizontal layout adjustment */
+    }
+
+    .profile-avatar {
+        width: 160px;
+        height: 160px;
+        border-width: 6px;
+        /* Thicker border on desktop */
+    }
+
+    .profile-info-section {
+        margin-top: 16px;
+        align-items: flex-start;
+        /* Align left */
+        text-align: left;
+    }
+
+    .profile-user-info {
+        align-items: flex-start;
+        /* Align left */
+    }
+
+    .profile-user-name {
+        font-size: 28px;
+    }
+
+    .profile-actions {
+        padding: 0 40px;
+        padding-left: 120px;
+        /* Shift buttons to the right twice */
+        justify-content: flex-start;
+        /* Align left */
+    }
+}

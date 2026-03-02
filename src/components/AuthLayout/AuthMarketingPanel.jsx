@@ -34,11 +34,6 @@ const AuthMarketingPanel = () => {
 
     return (
         <div className="auth-marketing-panel">
-            <div className="logo-brand-area">
-                <img src={gotourIcon} alt="GoTour" className="brand-logo-img" />
-                <span className="brand-name-text">GOTOUR</span>
-            </div>
-
             <div className="rotating-text-container">
                 {marketingTexts.map((item, index) => (
                     <div

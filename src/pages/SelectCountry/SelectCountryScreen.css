@@ -103,13 +103,14 @@
 }
 
 .continent-title {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
-    color: #94a3b8;
+    color: #475569;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 16px;
-    padding-left: 4px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f1f5f9;
 }
 
 .countries-list-vertical {
@@ -195,8 +196,12 @@
     z-index: 1;
 }
 
-.country-flag-emoji {
-    font-size: 24px;
+.country-flag-img {
+    width: 28px;
+    height: 20px;
+    border-radius: 4px;
+    object-fit: cover;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .country-name-text {
@@ -238,11 +243,75 @@
 
 /* Footer Action Removed */
 
-/* DESKTOP LAYOUT (Side Panel) */
+/* MOBILE ELEMENTS (Desktop hidden) */
+.mobile-hidden {
+    display: none !important;
+}
+
+/* DESKTOP TITLE STYLING */
+.desktop-title-centered {
+    font-size: 32px !important;
+    text-align: center !important;
+    margin-bottom: 32px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.5px !important;
+}
+
+/* DESKTOP LAYOUT (Full Screen Grid) */
 @media (min-width: 1024px) {
+    .select-country-page {
+        justify-content: center;
+        width: 100vw;
+        height: 100vh;
+        z-index: 99999;
+        /* Higher than Auth video */
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #ffffff;
+    }
+
     .select-country-container {
-        width: 440px;
-        /* Same as Login/Signup panel */
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        box-shadow: none;
+        background: #ffffff;
+    }
+
+    .select-country-header {
+        background: #ffffff;
+        padding-top: 40px;
+        text-align: center;
+    }
+
+    .search-bar-wrapper-ai {
+        max-width: 600px;
+        margin: 0 auto 32px auto;
+    }
+
+    /* Horizontal Scroll for continents on Desktop */
+    .continents-grid-container {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 32px;
+        align-items: start;
+        padding-bottom: 24px;
+        /* Space for scrollbar */
+    }
+
+    .continent-block {
+        flex: 0 0 280px;
+        /* Fixed width so they stay side-by-side */
+    }
+
+    .desktop-hidden {
+        display: none !important;
+    }
+
+    .mobile-hidden {
+        display: block !important;
     }
 }
 

@@ -1,0 +1,130 @@
+.user-profile-more-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 260px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+    z-index: 100;
+}
+
+.user-profile-more-dropdown .dropdown-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-profile-more-dropdown button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    color: #475569;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.user-profile-more-dropdown button:hover {
+    background: rgba(241, 245, 249, 0.8);
+    color: #0f172a;
+}
+
+.user-profile-more-dropdown button.danger-text {
+    color: #ef4444;
+}
+
+.user-profile-more-dropdown button.danger-text:hover {
+    background: rgba(254, 226, 226, 0.5);
+    color: #dc2626;
+}
+
+.user-profile-more-dropdown .menu-divider {
+    height: 1px;
+    background: rgba(226, 232, 240, 0.8);
+    margin: 8px 0;
+}
+
+/* Avatar Viewer Overlay */
+.avatar-viewer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 900;
+    /* Stays below DesktopSidebar (1000) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-viewer-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 901;
+}
+
+.avatar-viewer-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.avatar-viewer-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.avatar-viewer-image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.avatar-viewer-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    /* Optional, slight rounding or none */
+}
+
+/* Make avatar clickable in profile header */
+.profile-avatar-clickable {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.profile-avatar-clickable:active {
+    transform: scale(0.95);
+}

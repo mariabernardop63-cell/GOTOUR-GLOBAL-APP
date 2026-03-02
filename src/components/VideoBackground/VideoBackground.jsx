@@ -34,8 +34,10 @@ const VideoBackground = () => {
         return () => clearInterval(interval);
     }, []);
 
+
+
     return (
-        <div className="video-background-container">
+        <div className="video-background-container" style={{ backgroundColor: '#000' }}>
             {/* --- Mobile Slideshow --- */}
             <div className="mobile-slideshow">
                 {mobileImages.map((img, index) => (

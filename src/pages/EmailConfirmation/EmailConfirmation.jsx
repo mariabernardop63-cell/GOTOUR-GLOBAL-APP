@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Mail, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { useLocation } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
 import useCooldown from '../../hooks/useCooldown';
+import DesktopEmailConfirmation from '../DesktopEmailConfirmation/DesktopEmailConfirmation';
 import gotourIcon from '../../assets/images/gotour_icon.png';
 import './EmailConfirmation.css';
 
@@ -17,6 +17,14 @@ const EmailConfirmation = () => {
     const [resendError, setResendError] = useState('');
 
     const isMagicLinkFlow = flow === 'signup-mobile-magic' || flow === 'forgot-password-mobile';
+
+    // Responsive check
+    const [isMobile, setIsMobile] = React.useState(typeof window !== 'undefined' && window.innerWidth <= 1024);
+    React.useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Use the same cooldown key as the screen that sent the email
     const cooldownKey = flow === 'signup-mobile-magic'
@@ -117,6 +125,10 @@ const EmailConfirmation = () => {
         }
         return 'Enviámos um email de confirmação. Verifique a sua caixa de entrada para prosseguir com segurança.';
     };
+
+    if (!isMobile) {
+        return <DesktopEmailConfirmation />;
+    }
 
     return (
         <div className="email-conf-page">

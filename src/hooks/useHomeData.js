@@ -12,9 +12,9 @@ import { useState, useEffect, useCallback } from 'react';
 const CACHE_KEY = 'gotour_home_data';
 
 // Check if data is already cached in this session
-const getCachedData = () => {
+const getCachedData = (countryCode) => {
     try {
-        const cached = sessionStorage.getItem(CACHE_KEY);
+        const cached = sessionStorage.getItem(`${CACHE_KEY}_${countryCode || 'default'}`);
         if (cached) {
             return JSON.parse(cached);
         }
@@ -24,44 +24,50 @@ const getCachedData = () => {
     return null;
 };
 
-const setCachedData = (data) => {
+const setCachedData = (countryCode, data) => {
     try {
-        sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
+        sessionStorage.setItem(`${CACHE_KEY}_${countryCode || 'default'}`, JSON.stringify(data));
     } catch (e) {
         // Storage full or not available
     }
 };
 
-const useHomeData = () => {
-    const cached = getCachedData();
+const useHomeData = (selectedCountryCode) => {
+    const cached = getCachedData(selectedCountryCode);
     const hasCachedData = cached !== null;
 
-    // Section loading states — instant if cached
-    const [chipsLoaded, setChipsLoaded] = useState(hasCachedData);
-    const [mustSeeLoaded, setMustSeeLoaded] = useState(hasCachedData);
-    const [nearYouLoaded, setNearYouLoaded] = useState(hasCachedData);
-    const [recommendationsLoaded, setRecommendationsLoaded] = useState(hasCachedData);
-    const [searchBarLoaded, setSearchBarLoaded] = useState(hasCachedData);
+    // Section loading states — always start as false to guarantee skeleton shows
+    const [chipsLoaded, setChipsLoaded] = useState(false);
+    const [mustSeeLoaded, setMustSeeLoaded] = useState(false);
+    const [nearYouLoaded, setNearYouLoaded] = useState(false);
+    const [recommendationsLoaded, setRecommendationsLoaded] = useState(false);
+    const [searchBarLoaded, setSearchBarLoaded] = useState(false);
 
     useEffect(() => {
-        // If already cached, everything is instant — no skeletons
-        if (hasCachedData) return;
+        // Enforce a minimum 500ms loading state for smooth UX
+        const MIN_DELAY = 500;
 
-        // Simulate progressive loading with realistic staggered timing
-        // Search bar loads first (smallest payload)
-        const t1 = setTimeout(() => setSearchBarLoaded(true), 300);
-        // Chips load next
-        const t2 = setTimeout(() => setChipsLoaded(true), 500);
-        // MustSee section (images take longer)
-        const t3 = setTimeout(() => setMustSeeLoaded(true), 900);
-        // Near You section
-        const t4 = setTimeout(() => setNearYouLoaded(true), 1200);
-        // Recommendations (last)
+        // If already cached, we still wait 500ms before showing
+        if (hasCachedData) {
+            const tCached = setTimeout(() => {
+                setSearchBarLoaded(true);
+                setChipsLoaded(true);
+                setMustSeeLoaded(true);
+                setNearYouLoaded(true);
+                setRecommendationsLoaded(true);
+            }, MIN_DELAY);
+            return () => clearTimeout(tCached);
+        }
+
+        // Simulate progressive loading with realistic staggered timing (starting after MIN_DELAY)
+        const t1 = setTimeout(() => setSearchBarLoaded(true), MIN_DELAY);
+        const t2 = setTimeout(() => setChipsLoaded(true), MIN_DELAY + 200);
+        const t3 = setTimeout(() => setMustSeeLoaded(true), MIN_DELAY + 400);
+        const t4 = setTimeout(() => setNearYouLoaded(true), MIN_DELAY + 700);
         const t5 = setTimeout(() => {
             setRecommendationsLoaded(true);
-            // Cache after all loaded
-            setCachedData({ loaded: true, timestamp: Date.now() });
-        }, 1500);
+            setCachedData(selectedCountryCode, { loaded: true, timestamp: Date.now() });
+        }, MIN_DELAY + 1000);
 
         return () => {
             clearTimeout(t1);
@@ -70,12 +76,12 @@ const useHomeData = () => {
             clearTimeout(t4);
             clearTimeout(t5);
         };
-    }, [hasCachedData]);
+    }, [hasCachedData, selectedCountryCode]);
 
     // Force refresh (clears cache and reloads)
     const refresh = useCallback(() => {
         try {
-            sessionStorage.removeItem(CACHE_KEY);
+            sessionStorage.removeItem(`${CACHE_KEY}_${selectedCountryCode || 'default'}`);
         } catch (e) { }
         setChipsLoaded(false);
         setMustSeeLoaded(false);
@@ -83,16 +89,27 @@ const useHomeData = () => {
         setRecommendationsLoaded(false);
         setSearchBarLoaded(false);
 
+        const MIN_DELAY = 500;
+
         // Re-trigger progressive load
-        setTimeout(() => setSearchBarLoaded(true), 300);
-        setTimeout(() => setChipsLoaded(true), 500);
-        setTimeout(() => setMustSeeLoaded(true), 900);
-        setTimeout(() => setNearYouLoaded(true), 1200);
+        setTimeout(() => setSearchBarLoaded(true), MIN_DELAY);
+        setTimeout(() => setChipsLoaded(true), MIN_DELAY + 200);
+        setTimeout(() => setMustSeeLoaded(true), MIN_DELAY + 400);
+        setTimeout(() => setNearYouLoaded(true), MIN_DELAY + 700);
         setTimeout(() => {
             setRecommendationsLoaded(true);
-            setCachedData({ loaded: true, timestamp: Date.now() });
-        }, 1500);
-    }, []);
+            setCachedData(selectedCountryCode, { loaded: true, timestamp: Date.now() });
+        }, MIN_DELAY + 1000);
+    }, [selectedCountryCode]);
+
+    // Reset state and trigger loading if selectedCountryCode changes
+    useEffect(() => {
+        setChipsLoaded(false);
+        setMustSeeLoaded(false);
+        setNearYouLoaded(false);
+        setRecommendationsLoaded(false);
+        setSearchBarLoaded(false);
+    }, [selectedCountryCode]);
 
     return {
         searchBar: { isLoading: !searchBarLoaded },

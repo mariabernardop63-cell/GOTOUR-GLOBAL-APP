@@ -1,0 +1,173 @@
+/* src/components/DesktopSidebar/DesktopSidebar.css */
+
+.desktop-sidebar {
+    display: none;
+    /* Hidden by default (Mobile) */
+}
+
+/* Base styles for screens > 1024px */
+@media (min-width: 1024px) {
+    .desktop-sidebar {
+        display: flex;
+        flex-direction: column;
+        width: 280px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #ffffff;
+        border-right: 1px solid #f1f5f9;
+        z-index: 1000;
+        /* Above profile content */
+        padding: 24px 20px;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.02);
+    }
+
+    .desktop-sidebar-header {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        margin-bottom: 32px;
+    }
+
+    .desktop-sidebar-logo {
+        height: 36px;
+        width: auto;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .desktop-sidebar-logo:hover {
+        transform: scale(1.05);
+    }
+
+    /* Search Area */
+    .desktop-sidebar-search {
+        margin-bottom: 24px;
+        padding: 0;
+    }
+
+    .sidebar-search-container {
+        display: flex;
+        align-items: center;
+        background: #f8fafc;
+        border-radius: 999px;
+        /* full pill */
+        padding: 12px 16px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.2s ease;
+    }
+
+    .sidebar-search-container:focus-within {
+        background: #ffffff;
+        border-color: #0d9488;
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+    }
+
+    .sidebar-search-icon {
+        color: #94a3b8;
+        margin-right: 12px;
+        flex-shrink: 0;
+        transition: color 0.2s;
+    }
+
+    .sidebar-search-container:focus-within .sidebar-search-icon {
+        color: #0d9488;
+    }
+
+    .sidebar-search-input {
+        border: none;
+        background: transparent;
+        outline: none;
+        width: 100%;
+        font-size: 15px;
+        color: #0f172a;
+        font-family: inherit;
+    }
+
+    .sidebar-search-input::placeholder {
+        color: #94a3b8;
+    }
+
+    /* Navigation Items */
+    .desktop-sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .sidebar-nav-item {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 14px 16px;
+        background: transparent;
+        border: none;
+        border-radius: 999px;
+        /* Pill shape */
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        text-align: left;
+    }
+
+    .sidebar-nav-icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 16px;
+        color: #475569;
+        transition: transform 0.2s ease, color 0.2s;
+    }
+
+    .sidebar-nav-label {
+        font-size: 17px;
+        font-weight: 500;
+        color: #475569;
+        transition: color 0.2s;
+    }
+
+    /* Hover States */
+    .sidebar-nav-item:hover {
+        background: #f1f5f9;
+        transform: translateX(4px);
+    }
+
+    .sidebar-nav-item:hover .sidebar-nav-icon-wrapper {
+        transform: scale(1.1);
+    }
+
+    /* Active States */
+    .sidebar-nav-item.active {
+        background: #f0fdfa;
+        /* Light teal */
+    }
+
+    .sidebar-nav-item.active .sidebar-nav-icon-wrapper {
+        color: #0d9488;
+        transform: scale(1.1);
+    }
+
+    .sidebar-nav-item.active .sidebar-nav-label {
+        font-weight: 700;
+        color: #0d9488;
+    }
+
+    /* Processing / Loading State */
+    .sidebar-nav-item.processing {
+        opacity: 0.8 !important;
+        cursor: wait !important;
+        transform: scale(0.98) !important;
+        background: transparent !important;
+    }
+
+    .sidebar-loading-spinner {
+        animation: spin 1s linear infinite;
+        color: #0d9488;
+    }
+
+    @keyframes spin {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}

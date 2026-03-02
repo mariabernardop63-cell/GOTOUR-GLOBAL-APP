@@ -1,0 +1,200 @@
+.cc-dropdown-container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+/* Base styles for the selector (trigger) */
+.ds-country-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    min-width: 110px;
+    height: 100%;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+}
+
+.ds-country-selector:hover {
+    background: #F8F9FA;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.cc-flag-img {
+    width: 20px;
+    height: 14px;
+    object-fit: cover;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    margin-right: 10px;
+    display: block;
+}
+
+.cc-flag-emoji {
+    font-size: 16px;
+    line-height: 1;
+    margin-right: 10px;
+}
+
+.ds-country-code {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #111827;
+    margin-right: 14px;
+}
+
+.ds-country-arrow {
+    color: #6B7280;
+    transition: transform 0.2s ease, color 0.15s ease;
+}
+
+.ds-country-arrow.rotated {
+    transform: rotate(180deg);
+}
+
+.ds-country-selector:hover .ds-country-arrow {
+    color: #374151;
+}
+
+/* Dropdown Body elements */
+.cc-dropdown-body {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 320px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Lighter shadow for premium feel */
+    border: 1px solid #E5E7EB;
+    z-index: 9999;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.fade-in-up-fast {
+    animation: fadeInUpFast 0.2s ease forwards;
+}
+
+@keyframes fadeInUpFast {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cc-dropdown-search {
+    padding: 12px;
+    border-bottom: 1px solid #E5E7EB;
+    background: #F9FAFB;
+}
+
+.cc-dropdown-search input {
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.cc-dropdown-search input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.cc-dropdown-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+.cc-dropdown-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.cc-dropdown-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.cc-dropdown-list::-webkit-scrollbar-thumb {
+    background: #D1D5DB;
+    border-radius: 10px;
+}
+
+.cc-dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.cc-dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.cc-dropdown-item:hover {
+    background: #F3F4F6;
+}
+
+.cc-dropdown-item.selected {
+    background: #EFF6FF; /* Suave marca azul */
+}
+
+/* Item content */
+.cc-item-code-name {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.cc-item-name {
+    font-size: 14px;
+    color: #111827;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 6px;
+}
+
+.cc-item-iso {
+    font-size: 13px;
+    color: #6B7280;
+    white-space: nowrap;
+}
+
+.cc-item-dialcode {
+    font-size: 14px;
+    color: #4B5563;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    margin-left: 12px;
+}
+
+.cc-dropdown-empty {
+    padding: 24px;
+    text-align: center;
+    color: #6B7280;
+    font-size: 14px;
+}

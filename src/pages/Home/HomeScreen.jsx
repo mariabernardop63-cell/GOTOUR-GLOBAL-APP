@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import HomeHeader from '../../components/HomeHeader/HomeHeader';
 import SearchBarAI from '../../components/SearchBarAI/SearchBarAI';
 import FilterChipsRow from '../../components/FilterChipsRow/FilterChipsRow';
@@ -11,11 +12,13 @@ import NearYouSection from '../../components/NearYouSection/NearYouSection';
 import { SkeletonSearchBar, SkeletonChips, SkeletonMustSee, SkeletonNearYou, SkeletonRecommendations } from '../../components/SkeletonHome/SkeletonHome';
 import useHomeData from '../../hooks/useHomeData';
 import useScrollDirection from '../../hooks/useScrollDirection';
-import { Loader2 } from 'lucide-react';
+import { Loader2, LayoutGrid, MapPinned, User, Rss, Home } from 'lucide-react';
 import './HomeScreen.css';
 import '../../components/HomeHeader/HomeFixedHeaderStyles.css';
 
 const HomeScreen = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     // Search State
@@ -29,8 +32,8 @@ const HomeScreen = () => {
     // Country State
     const [selectedCountry, setSelectedCountry] = useState({ code: 'MZ', flag: '🇲🇿', name: 'Moçambique' });
 
-    // Progressive data loading with caching
-    const homeData = useHomeData();
+    // Progressive data loading with caching, now re-triggered by country changes
+    const homeData = useHomeData(selectedCountry.code);
 
     const handleSearch = (query) => {
         setIsSearching(true);
@@ -80,21 +83,45 @@ const HomeScreen = () => {
                     onLogoClick={handleLogoClick}
                     isDrawerOpen={isDrawerOpen}
                 />
-                {/* SearchBar: skeleton while loading, real when ready */}
-                {homeData.searchBar.isLoading ? (
-                    <SkeletonSearchBar />
-                ) : (
-                    <SearchBarAI
-                        onSearch={handleSearch}
-                        isSearching={isSearching}
-                        isLoading={isLoading}
-                        selectedCountry={selectedCountry}
-                        onCountryChange={setSelectedCountry}
-                    />
-                )}
+                {/* Search + Desktop Nav in one row */}
+                <div className="desktop-search-nav-row">
+                    {/* SearchBar: skeleton while loading, real when ready */}
+                    {homeData.searchBar.isLoading ? (
+                        <SkeletonSearchBar />
+                    ) : (
+                        <SearchBarAI
+                            onSearch={handleSearch}
+                            isSearching={isSearching}
+                            isLoading={isLoading}
+                            selectedCountry={selectedCountry}
+                            onCountryChange={setSelectedCountry}
+                        />
+                    )}
+
+                    {/* Desktop-only horizontal nav strip */}
+                    <nav className="desktop-nav-strip">
+                        {[
+                            { id: 'home', label: 'Home', icon: Home, path: '/home' },
+                            { id: 'categories', label: 'Categorias', icon: LayoutGrid, path: '/categories' },
+                            { id: 'feed', label: 'Feed', icon: Rss, path: '/feed' },
+                            { id: 'map', label: 'Mapa', icon: MapPinned, path: '/map' },
+                            { id: 'profile', label: 'Perfil', icon: User, path: '/profile' },
+                        ].map(item => (
+                            <button
+                                key={item.id}
+                                className={`desktop-nav-item ${location.pathname === item.path ? 'active' : ''}`}
+                                onClick={() => navigate(item.path)}
+                                aria-label={item.label}
+                            >
+                                <item.icon size={22} strokeWidth={location.pathname === item.path ? 2.2 : 1.5} />
+                            </button>
+                        ))}
+                    </nav>
+                </div>
+
                 {/* Chips: skeleton while loading, real when ready */}
                 {!isSearching && (
-                    homeData.chips.isLoading ? <SkeletonChips /> : <FilterChipsRow />
+                    homeData.chips.isLoading ? <SkeletonChips /> : <div className="content-fade-in"><FilterChipsRow /></div>
                 )}
             </div>
 
@@ -106,21 +133,25 @@ const HomeScreen = () => {
                         {homeData.mustSee.isLoading ? (
                             <SkeletonMustSee />
                         ) : (
-                            <MustSeeSection countryName={selectedCountry.name} />
+                            <div className="content-fade-in">
+                                <MustSeeSection countryName={selectedCountry.name} />
+                            </div>
                         )}
 
                         {/* NearYou Section */}
                         {homeData.nearYou.isLoading ? (
                             <SkeletonNearYou />
                         ) : (
-                            <NearYouSection />
+                            <div className="content-fade-in">
+                                <NearYouSection />
+                            </div>
                         )}
 
                         {/* Recommendations Section */}
                         {homeData.recommendations.isLoading ? (
                             <SkeletonRecommendations />
                         ) : (
-                            <div className="home-content">
+                            <div className="home-content content-fade-in">
                                 <h2 className="section-title">Recomendações para você em {selectedCountry.name}</h2>
                                 <div className="recommendations-list">
                                     {[1, 2, 3].map((item) => (

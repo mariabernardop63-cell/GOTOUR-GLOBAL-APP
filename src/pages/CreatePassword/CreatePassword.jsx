@@ -3,6 +3,7 @@ import { Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import DesktopCreatePassword from '../DesktopCreatePassword/DesktopCreatePassword';
 import './CreatePassword.css';
 
 const CreatePassword = () => {
@@ -19,6 +20,14 @@ const CreatePassword = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [isReady, setIsReady] = useState(false);
+
+    // Responsive check
+    const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth <= 1024);
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Determine if this is a signup flow or forgot password flow
     const isSignup = Object.keys(profileData).length > 0;
@@ -133,6 +142,10 @@ const CreatePassword = () => {
         ? 'Escolha uma palavra-passe segura para proteger a sua conta GoTour.'
         : 'Introduza a sua nova palavra-passe para recuperar o acesso à sua conta.';
     const buttonText = isSignup ? 'Registar' : 'Alterar Senha';
+
+    if (!isMobile) {
+        return <DesktopCreatePassword />;
+    }
 
     return (
         <div className="create-pwd-container fade-in-up">

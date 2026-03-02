@@ -44,7 +44,7 @@ const LoginForm = ({ onSuccess, onForgotPassword, showSocial, showSignupLink, on
                 } else {
                     navigateForward('/home');
                 }
-            }, 1000); // Simulate network
+            }, 2000); // Simulate network
             return;
         }
 
@@ -125,7 +125,7 @@ const LoginForm = ({ onSuccess, onForgotPassword, showSocial, showSignupLink, on
             {error && <div className="error-message">{error}</div>}
 
             <button type="submit" className="login-btn" disabled={isLoading}>
-                {isLoading ? <span className="btn-loader"></span> : 'Entrar'}
+                {isLoading ? 'Processando...' : 'Entrar'}
             </button>
 
             {showSocial && (
