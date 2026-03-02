@@ -46,7 +46,7 @@ const CustomDropdown = ({ options, value, onChange, placeholder, mode }) => {
                 {selectedOption ? (
                     <div className="custom-dropdown-selected">
                         {renderFlag(selectedOption)}
-                        <span className="dropdown-name">{selectedOption.name}</span>
+                        {mode !== 'language' && <span className="dropdown-name">{selectedOption.name}</span>}
                     </div>
                 ) : (
                     <span className="dropdown-placeholder-text">{placeholder}</span>

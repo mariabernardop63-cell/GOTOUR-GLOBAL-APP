@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ArrowLeft, Loader2, User, Mail, Globe, Phone, Calendar, Lock, Eye, EyeOff, ChevronDown } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { countries } from '../../data/countries';
@@ -14,18 +15,13 @@ import CountryCodeDropdown from '../../components/CountryCodeDropdown/CountryCod
 import SkeletonAuth from '../../components/SkeletonAuth/SkeletonAuth';
 
 const DesktopSignup = ({ onBack, onNavigateLogin }) => {
+    const location = useLocation();
     const { navigateForward, navigateBack } = useNavigation();
     const [step, setStep] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [showPasswords, setShowPasswords] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
-    const [isScreenReady, setIsScreenReady] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
-
-    useEffect(() => {
-        const t = setTimeout(() => setIsScreenReady(true), 500);
-        return () => clearTimeout(t);
-    }, []);
 
     // Extra states for Magic Link / Flow
     const { cooldown, startCooldown, isCoolingDown } = useCooldown('gotour_signup_cooldown_desktop');
@@ -41,6 +37,21 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
         password: '',
         confirmPassword: ''
     });
+
+    const [isOAuthFlow, setIsOAuthFlow] = useState(false);
+
+    useEffect(() => {
+        if (location.state?.requireProfileCompletion) {
+            setFormData(prev => ({
+                ...prev,
+                fullName: location.state.fullName || '',
+                email: location.state.email || ''
+            }));
+            setIsOAuthFlow(true);
+            setStep(2); // Jump to "Quase lá"
+        }
+    }, [location.state]);
+
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [errors, setErrors] = useState({});
     const [langCode, setLangCode] = useState('PT');
@@ -256,7 +267,6 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
             setErrors({});
 
             try {
-                // Here we trigger Supabase OTP (also known as Email Link, but sends a 6 digit code as well)
                 const fullPhone = (phoneDialCode || '') + formData.phone.replace(/[\s\-\(\)]/g, '');
                 const profileData = {
                     fullName: formData.fullName,
@@ -265,6 +275,26 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                     dateOfBirth: `${formData.dobYear}-${String(formData.dobMonth).padStart(2, '0')}-${String(formData.dobDay).padStart(2, '0')}`
                 };
 
+                // If user is coming from Google OAuth, skip OTP because email is verified
+                if (isOAuthFlow) {
+                    // Update their profile in Supabase database
+                    const { data: sessionData } = await supabase.auth.getSession();
+                    if (sessionData?.session?.user) {
+                        await supabase.from('profiles').update({
+                            phone: fullPhone,
+                            nationality: formData.nationality
+                        }).eq('id', sessionData.session.user.id);
+                    }
+
+                    // Proceed to step 5 (Choose country) immediately or create-password if you want
+                    // Because it's Google Auth, we skip create-password natively since they used SSO,
+                    // but the flow usually sets 'pendingProfileData'. Let's jump to 5.
+                    setStep(5);
+                    setIsLoading(false);
+                    return;
+                }
+
+                // Normal OTP Flow ...
                 const { error } = await supabase.auth.signInWithOtp({
                     email: formData.email
                 });
@@ -372,6 +402,30 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                 onBack();
             }
         }, 1500);
+    };
+
+    const handleGoogleSignup = async () => {
+        try {
+            setIsLoading(true);
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    queryParams: {
+                        access_type: 'offline',
+                        prompt: 'select_account',
+                    },
+                    redirectTo: `${window.location.origin}/oauth-callback`,
+                },
+            });
+
+            if (error) {
+                setErrors({ submit: error.message });
+                setIsLoading(false);
+            }
+        } catch (err) {
+            setErrors({ submit: 'Erro ao ligar ao Google.' });
+            setIsLoading(false);
+        }
     };
 
     const handleOpenEmail = () => {
@@ -709,71 +763,49 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                     </div>
                 </div>
 
-                {!isScreenReady ? (
-                    <div className="dl-content-wrapper">
-                        <SkeletonAuth />
-                    </div>
-                ) : (
-                    <div className="dl-content-wrapper content-fade-in">
-                        <div className="dl-form-section" style={step === 3 ? { margin: '0 auto' } : {}}>
-                            <h1 className="dl-title" style={step === 3 ? { textAlign: 'center' } : {}}>{getTitle()}</h1>
+                <div className="dl-content-wrapper content-fade-in">
+                    <div className="dl-form-section" style={step === 3 ? { margin: '0 auto' } : {}}>
+                        <h1 className="dl-title" style={step === 3 ? { textAlign: 'center' } : {}}>{getTitle()}</h1>
 
-                            {step === 3 && (
-                                <p className="ds-subtitle" style={{ color: '#5F6368', fontSize: '15px', marginBottom: '32px', textAlign: 'center' }}>
-                                    {getSubtitle()}
-                                </p>
-                            )}
+                        {step === 3 && (
+                            <p className="ds-subtitle" style={{ color: '#5F6368', fontSize: '15px', marginBottom: '32px', textAlign: 'center' }}>
+                                {getSubtitle()}
+                            </p>
+                        )}
 
-                            {/* Dynamic Step Content */}
-                            <div className="dl-form">
-                                {renderStepContent()}
-                            </div>
+                        {/* Dynamic Step Content */}
+                        <div className="dl-form">
+                            {renderStepContent()}
                         </div>
 
                         {step === 1 && (
                             <div className="dl-social-section">
-                                <div className="dl-social-buttons">
+                                <div className="dl-divider">
+                                    <div className="dl-divider-line"></div>
+                                    <div className="dl-divider-text">ou continuar com</div>
+                                    <div className="dl-divider-line"></div>
+                                </div>
+                                <div className="dl-social-row">
                                     {/* Google */}
-                                    <button className="dl-social-btn">
+                                    <button className="dl-social-icon-btn" onClick={handleGoogleSignup} aria-label="Continuar com Google">
                                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="24" height="24" />
-                                        Continue with Google
                                     </button>
                                     {/* Facebook */}
-                                    <button className="dl-social-btn">
+                                    <button className="dl-social-icon-btn" aria-label="Continuar com Facebook">
                                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" width="24" height="24" />
-                                        Continue with Facebook
                                     </button>
                                     {/* X (Twitter) */}
-                                    <button className="dl-social-btn">
+                                    <button className="dl-social-icon-btn" aria-label="Continuar com X">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="black" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M18.901 1.153H22.58L14.541 10.342L24 22.846H16.592L10.787 15.253L4.148 22.846H0.466L8.981 13.116L0 1.153H7.587L12.84 8.093L18.901 1.153ZM17.61 20.644H19.648L6.486 3.24H4.314L17.61 20.644Z" />
                                         </svg>
-                                        Continue with X
                                     </button>
                                 </div>
                             </div>
                         )}
                     </div>
-                )}
+                </div>
 
-                {/* Bottom Bar: Contains only the Centered Login Link if on step 1 */}
-                {step === 1 && (
-                    <div className="dl-bottom-bar">
-                        <span
-                            className="dl-create-account-centered"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => {
-                                if (onNavigateLogin) {
-                                    onNavigateLogin();
-                                } else {
-                                    navigateForward('/login');
-                                }
-                            }}
-                        >
-                            Já tenho conta. Iniciar sessão
-                        </span>
-                    </div>
-                )}
             </div>
         </div>
     );

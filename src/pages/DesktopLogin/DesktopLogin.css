@@ -154,10 +154,16 @@
     width: 65%;
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    /* keep horizontal center */
     justify-content: flex-start;
+    /* top alignment to allow padding push down */
+    padding-top: 15vh;
+    /* Lowers the entire form contents */
     padding-left: 8%;
     background: #ffffff;
+    overflow-y: auto;
 }
 
 /* Back Button */
@@ -396,47 +402,62 @@ select.dl-input~.dl-floating-label {
     display: flex;
     flex-direction: column;
     width: 100%;
-    /* Pushes it down slightly to visually align with the inputs rather than the title */
-    margin-top: 68px;
+    margin-top: 24px;
 }
 
-.dl-social-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-    max-width: 320px;
-    margin-left: 0;
-}
-
-.dl-social-btn {
-    height: 52px;
-    border-radius: 0;
-    border: 1px solid #E6E6E6;
-    background: #FFFFFF;
+/* Divider AU */
+.dl-divider {
     display: flex;
     align-items: center;
-    padding-left: 20px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #1A1A1A;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: inherit;
+    gap: 12px;
+    margin-bottom: 24px;
 }
 
-.dl-social-btn:hover {
+.dl-divider-line {
+    flex: 1;
+    height: 1px;
+    background: #E2E8F0;
+}
+
+.dl-divider-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: #94a3b8;
+}
+
+.dl-social-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.dl-social-icon-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dl-social-icon-btn:hover {
+    transform: scale(1.05);
     background: #FAFAFA;
     border-color: #D0D0D0;
 }
 
-.dl-social-btn:active {
-    transform: scale(0.98);
+.dl-social-icon-btn:active {
+    transform: scale(0.95);
 }
 
-.dl-social-btn svg,
-.dl-social-btn img {
-    margin-right: 14px;
+.dl-social-icon-btn svg,
+.dl-social-icon-btn img {
+    margin: 0;
 }
 
 /* Base Create Account (Left aligned, fallback) */
@@ -456,12 +477,12 @@ select.dl-input~.dl-floating-label {
 
 /* --- TOP RIGHT ACTIONS --- */
 .dl-top-right-actions {
-    position: absolute;
+    position: fixed;
     top: 32px;
-    right: 4px;
+    right: -80px;
     display: flex;
     align-items: center;
-    z-index: 20;
+    z-index: 1000;
 }
 
 /* Language Switcher */
@@ -542,7 +563,8 @@ select.dl-input~.dl-floating-label {
         align-items: center;
         width: 100%;
         max-width: 420px;
-        gap: 40px;
+        gap: 0px;
+        /* Reduced gap since social is now inside form section */
     }
 
     .dl-form-section {

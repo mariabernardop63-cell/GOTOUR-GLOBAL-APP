@@ -15,7 +15,6 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
     const [error, setError] = useState('');
     const [langCode, setLangCode] = useState('PT');
     const [imageLoaded, setImageLoaded] = useState(false);
-    const [isScreenReady, setIsScreenReady] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
 
     const handleCloseClick = () => {
@@ -24,11 +23,6 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
             onBack();
         }, 1500);
     };
-
-    useEffect(() => {
-        const t = setTimeout(() => setIsScreenReady(true), 500);
-        return () => clearTimeout(t);
-    }, []);
 
     // Fetch user IP country on mount for language
     useEffect(() => {
@@ -156,6 +150,31 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
         }
     };
 
+    const handleGoogleLogin = async () => {
+        try {
+            setIsLoading(true);
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    queryParams: {
+                        access_type: 'offline',
+                        prompt: 'select_account',
+                    },
+                    redirectTo: `${window.location.origin}/oauth-callback`,
+                },
+            });
+
+            if (error) {
+                setError(error.message);
+                setIsLoading(false);
+            }
+            // If successful, Supabase redirects the page, so no need for further logic here.
+        } catch (err) {
+            setError('Erro ao ligar ao Google.');
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="desktop-login-container">
             {/* Left Image Pane: 35% Width */}
@@ -198,109 +217,88 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
                     </div>
                 </div>
 
-                {!isScreenReady ? (
-                    <div className="dl-content-wrapper">
-                        <SkeletonAuth />
-                    </div>
-                ) : (
-                    <div className="dl-content-wrapper content-fade-in">
-                        <div className="dl-form-section">
-                            <h1 className="dl-title">Acesse Sua Conta</h1>
+                <div className="dl-content-wrapper content-fade-in">
+                    <div className="dl-form-section">
+                        <h1 className="dl-title">Acesse Sua Conta</h1>
 
-                            <form className="dl-form" onSubmit={handleLogin}>
-                                <div className="dl-input-group">
-                                    <input
-                                        type="email"
-                                        className={`dl-input${email ? ' has-value' : ''}`}
-                                        placeholder="Email"
-                                        value={email}
-                                        onChange={(e) => { setEmail(e.target.value); setError(''); }}
-                                        required
-                                    />
-                                    <label className="dl-floating-label">Email</label>
-                                </div>
+                        <form className="dl-form" onSubmit={handleLogin}>
+                            <div className="dl-input-group">
+                                <input
+                                    type="email"
+                                    className={`dl-input${email ? ' has-value' : ''}`}
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                                    required
+                                />
+                                <label className="dl-floating-label">Email</label>
+                            </div>
 
-                                <div className="dl-input-group dl-mt-18 dl-password-wrapper">
-                                    <input
-                                        type="text"
-                                        className={`dl-input dl-input-password${displayPassword ? ' has-value' : ''}`}
-                                        placeholder="Senha"
-                                        value={displayPassword}
-                                        onChange={handlePasswordChange}
-                                        required
-                                        autoComplete="off"
-                                    />
-                                    <label className="dl-floating-label">Senha</label>
-                                    <button
-                                        type="button"
-                                        className="dl-password-toggle"
-                                        onClick={togglePasswordVisibility}
-                                        aria-label={showPassword ? "Esconder senha" : "Mostrar senha"}
-                                    >
-                                        {showPassword ? (
-                                            <EyeOff size={20} color="#80868B" />
-                                        ) : (
-                                            <Eye size={20} color="#80868B" />
-                                        )}
-                                    </button>
-                                </div>
-
+                            <div className="dl-input-group dl-mt-18 dl-password-wrapper">
+                                <input
+                                    type="text"
+                                    className={`dl-input dl-input-password${displayPassword ? ' has-value' : ''}`}
+                                    placeholder="Senha"
+                                    value={displayPassword}
+                                    onChange={handlePasswordChange}
+                                    required
+                                    autoComplete="off"
+                                />
+                                <label className="dl-floating-label">Senha</label>
                                 <button
                                     type="button"
-                                    className="dl-forgot-link"
-                                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left' }}
-                                    onClick={(e) => { e.preventDefault(); navigateForward('/forgot-password'); }}
+                                    className="dl-password-toggle"
+                                    onClick={togglePasswordVisibility}
+                                    aria-label={showPassword ? "Esconder senha" : "Mostrar senha"}
                                 >
-                                    Esqueci a Senha
+                                    {showPassword ? (
+                                        <EyeOff size={20} color="#80868B" />
+                                    ) : (
+                                        <Eye size={20} color="#80868B" />
+                                    )}
                                 </button>
+                            </div>
 
-                                {error && <span className="error-msg-ds" style={{ display: 'block', marginTop: '12px' }}>{error}</span>}
+                            <button
+                                type="button"
+                                className="dl-forgot-link"
+                                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left' }}
+                                onClick={(e) => { e.preventDefault(); navigateForward('/forgot-password'); }}
+                            >
+                                Esqueci a Senha
+                            </button>
 
-                                <button type="submit" className={`dl-submit-btn ${email.trim().length > 0 || displayPassword.length > 0 ? 'is-active' : ''}`} disabled={isLoading}>
-                                    {isLoading ? 'Processando...' : 'Entrar'}
-                                </button>
-                            </form>
-                        </div>
+                            {error && <span className="error-msg-ds" style={{ display: 'block', marginTop: '12px' }}>{error}</span>}
+
+                            <button type="submit" className={`dl-submit-btn ${email.trim().length > 0 || displayPassword.length > 0 ? 'is-active' : ''}`} disabled={isLoading}>
+                                {isLoading ? 'Processando...' : 'Entrar'}
+                            </button>
+                        </form>
 
                         <div className="dl-social-section">
-                            <div className="dl-social-buttons">
+                            <div className="dl-divider">
+                                <div className="dl-divider-line"></div>
+                                <div className="dl-divider-text">ou continuar com</div>
+                                <div className="dl-divider-line"></div>
+                            </div>
+                            <div className="dl-social-row">
                                 {/* Google */}
-                                <button className="dl-social-btn">
+                                <button className="dl-social-icon-btn" onClick={handleGoogleLogin} aria-label="Continuar com Google">
                                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="24" height="24" />
-                                    Continue with Google
                                 </button>
                                 {/* Facebook */}
-                                <button className="dl-social-btn">
+                                <button className="dl-social-icon-btn" aria-label="Continuar com Facebook">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" width="24" height="24" />
-                                    Continue with Facebook
                                 </button>
                                 {/* X (Twitter) */}
-                                <button className="dl-social-btn">
+                                <button className="dl-social-icon-btn" aria-label="Continuar com X">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="black" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M18.901 1.153H22.58L14.541 10.342L24 22.846H16.592L10.787 15.253L4.148 22.846H0.466L8.981 13.116L0 1.153H7.587L12.84 8.093L18.901 1.153ZM17.61 20.644H19.648L6.486 3.24H4.314L17.61 20.644Z" />
                                     </svg>
-                                    Continue with X
                                 </button>
                             </div>
                         </div>
                     </div>
-                )}
-
-                {/* Bottom Bar: Contains only the Centered Create Account Link */}
-                <div className="dl-bottom-bar">
-                    <span
-                        className="dl-create-account-centered"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                            if (onNavigateSignup) {
-                                onNavigateSignup();
-                            } else {
-                                navigateForward('/signup');
-                            }
-                        }}
-                    >
-                        Criar uma nova conta
-                    </span>
                 </div>
 
             </div>

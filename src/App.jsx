@@ -25,6 +25,7 @@ import MessageSettings from './pages/MessageSettings/MessageSettings';
 import SettingsScreen from './pages/Settings/SettingsScreen';
 import NotificationsScreen from './pages/Notifications/NotificationsScreen';
 import FriendsScreen from './pages/Friends/FriendsScreen';
+import OAuthCallback from './pages/OAuthCallback/OAuthCallback';
 import { AppProvider } from './context/AppContext';
 import { AuthProvider } from './context/AuthContext';
 import PageTransition from './components/PageTransition/PageTransition';
@@ -127,6 +128,7 @@ const AnimatedRoutes = () => {
                     <Routes location={location}>
                         {/* Welcome screen detached from AuthLayout for full-bleed hero */}
                         <Route path="/" element={<SplashWrapper />} />
+                        <Route path="/oauth-callback" element={<OAuthCallback />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
                         <Route path="/select-country" element={<SelectCountryScreen />} />

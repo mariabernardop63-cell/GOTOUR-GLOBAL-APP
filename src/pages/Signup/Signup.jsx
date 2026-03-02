@@ -14,6 +14,7 @@ const Signup = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(1);
     const [showPasswords, setShowPasswords] = useState(false);
+    const [isOAuthFlow, setIsOAuthFlow] = useState(false);
     const { cooldown, startCooldown, isCoolingDown } = useCooldown('gotour_signup_cooldown');
 
     const [isMobile, setIsMobile] = React.useState(typeof window !== 'undefined' && window.innerWidth <= 1024);
@@ -113,6 +114,21 @@ const Signup = () => {
                 };
 
                 const redirectUrl = window.location.origin + '/create-password';
+
+                if (isOAuthFlow) {
+                    // Update their profile in Supabase database
+                    const { data: sessionData } = await supabase.auth.getSession();
+                    if (sessionData?.session?.user) {
+                        await supabase.from('profiles').update({
+                            phone: fullPhone,
+                            nationality: formData.nationality
+                        }).eq('id', sessionData.session.user.id);
+                    }
+                    navigateForward('/select-country');
+                    setIsLoading(false);
+                    return;
+                }
+
                 const { error } = await supabase.auth.signInWithOtp({
                     email: formData.email,
                     options: { emailRedirectTo: redirectUrl }
@@ -162,6 +178,19 @@ const Signup = () => {
         }
     }, [location.state]);
 
+    // Handle OAuth return requirement for profile completion
+    React.useEffect(() => {
+        if (location.state?.requireProfileCompletion) {
+            setFormData(prev => ({
+                ...prev,
+                fullName: location.state.fullName || '',
+                email: location.state.email || ''
+            }));
+            setIsOAuthFlow(true);
+            setStep(2);
+        }
+    }, [location.state]);
+
     const handleBack = () => {
         if (step > 1) setStep(prev => prev - 1);
         else navigateBack('/');
@@ -171,6 +200,29 @@ const Signup = () => {
     const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
+
+    const handleGoogleSignup = async () => {
+        try {
+            setIsLoading(true);
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    queryParams: {
+                        access_type: 'offline',
+                        prompt: 'select_account',
+                    },
+                    redirectTo: `${window.location.origin}/oauth-callback`,
+                },
+            });
+            if (error) {
+                setErrors({ email: error.message });
+                setIsLoading(false);
+            }
+        } catch (err) {
+            setErrors({ email: 'Erro ao ligar ao Google.' });
+            setIsLoading(false);
+        }
+    };
 
     const getButtonText = () => {
         if (isLoading) return step === 2 ? 'A enviar...' : 'Processando...';
@@ -332,7 +384,7 @@ const Signup = () => {
                         <div className="social-login-section">
                             <p>Ou continue com</p>
                             <div className="social-row">
-                                <button className="social-btn google"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" /></button>
+                                <button className="social-btn google" onClick={handleGoogleSignup}><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" /></button>
                                 <button className="social-btn facebook"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="F" /></button>
                                 <button className="social-btn apple"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Apple_logo_grey.svg" alt="A" /></button>
                             </div>
