@@ -89,27 +89,9 @@ const OAuthCallback = () => {
 
     return (
         <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
             height: '100vh',
-            backgroundColor: '#00B4A9',
-            color: '#FFFFFF'
-        }}>
-            <Loader2 size={48} className="spin" style={{ animation: 'spin 1s linear infinite' }} />
-            <h2 style={{ marginTop: '24px', fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
-                {status}
-            </h2>
-            <style>
-                {`
-                @keyframes spin {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(360deg); }
-                }
-                `}
-            </style>
-        </div>
+            backgroundColor: '#00B4A9'
+        }} />
     );
 };
 

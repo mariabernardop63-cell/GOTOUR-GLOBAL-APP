@@ -286,10 +286,14 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                         }).eq('id', sessionData.session.user.id);
                     }
 
-                    // Proceed to step 5 (Choose country) immediately or create-password if you want
-                    // Because it's Google Auth, we skip create-password natively since they used SSO,
-                    // but the flow usually sets 'pendingProfileData'. Let's jump to 5.
-                    setStep(5);
+                    localStorage.setItem('pendingProfileData', JSON.stringify(profileData));
+                    navigateForward('/create-password', {
+                        state: {
+                            email: formData.email,
+                            flow: 'signup-oauth',
+                            profileData: profileData
+                        }
+                    });
                     setIsLoading(false);
                     return;
                 }

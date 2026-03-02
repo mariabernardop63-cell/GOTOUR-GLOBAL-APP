@@ -124,7 +124,13 @@ const Signup = () => {
                             nationality: formData.nationality
                         }).eq('id', sessionData.session.user.id);
                     }
-                    navigateForward('/select-country');
+                    navigateForward('/create-password', {
+                        state: {
+                            email: formData.email,
+                            flow: 'signup-oauth',
+                            profileData: profileData
+                        }
+                    });
                     setIsLoading(false);
                     return;
                 }
