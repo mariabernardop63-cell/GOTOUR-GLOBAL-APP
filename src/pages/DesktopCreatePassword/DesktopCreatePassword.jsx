@@ -67,8 +67,9 @@ const DesktopCreatePassword = () => {
     const handleSave = async () => {
         setError('');
 
-        if (password.length < 6) {
-            setError('Mínimo 6 caracteres');
+        const hasLetter = /[a-zA-Z]/.test(password);
+        if (password.length < 6 || !hasLetter) {
+            setError('A senha deve ter no mínimo 6 caracteres e uma letra');
             return;
         }
         if (password !== confirmPassword) {
@@ -232,7 +233,13 @@ const DesktopCreatePassword = () => {
 
                             {error && <span className="error-msg-ds" style={{ marginTop: '16px', display: 'block' }}>{error}</span>}
 
-                            <button type="button" className="dl-submit-btn" style={{ marginTop: '24px' }} onClick={handleSave} disabled={isLoading}>
+                            <button
+                                type="button"
+                                className={`dl-submit-btn ${password.length >= 1 ? 'has-input' : ''}`}
+                                style={{ marginTop: '24px', ...(password.length >= 1 ? { backgroundColor: '#000000', color: '#FFFFFF' } : {}) }}
+                                onClick={handleSave}
+                                disabled={isLoading}
+                            >
                                 {isLoading ? 'Processando...' : (isSignup ? 'Registar' : 'Alterar Senha')}
                             </button>
 

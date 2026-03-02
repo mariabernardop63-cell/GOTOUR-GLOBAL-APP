@@ -253,6 +253,11 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                 console.error('Email check error:', err);
             }
 
+            // Save step progress
+            localStorage.setItem('signupStep', '2');
+            localStorage.setItem('signupEmail', formData.email.trim());
+            localStorage.setItem('signupFullName', formData.fullName);
+
             setIsLoading(false);
             setStep(2);
             return;

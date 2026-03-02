@@ -91,6 +91,36 @@ const Signup = () => {
 
         // Use Supabase Magic Link flow
         if (step === 1) {
+            setIsLoading(true);
+            setErrors({});
+
+            try {
+                // Check if email already exists using OTP with shouldCreateUser: false
+                const { error: checkError } = await supabase.auth.signInWithOtp({
+                    email: formData.email.trim(),
+                    options: { shouldCreateUser: false }
+                });
+
+                if (!checkError) {
+                    // No error = user EXISTS in Auth (OTP was sent successfully)
+                    // Sign them out to clear any session
+                    await supabase.auth.signOut();
+
+                    // We shouldn't block them entirely if they abandoned signup.
+                    // But we should warn them they might already have an account.
+                    // However, per user request, we just let them proceed to step 2 
+                    // where they will finish creating their profile and overwrite the password.
+                }
+            } catch (err) {
+                console.error('Email check error:', err);
+            }
+
+            // Save step progress
+            localStorage.setItem('signupStep', '2');
+            localStorage.setItem('signupEmail', formData.email.trim());
+            localStorage.setItem('signupFullName', formData.fullName);
+
+            setIsLoading(false);
             setStep(2);
             return;
         }
@@ -173,8 +203,38 @@ const Signup = () => {
             return;
         }
 
-
     };
+
+    // On Mount: Check for incomplete signup state to restore
+    React.useEffect(() => {
+        // If we came from OAuth, don't override with localStorage
+        if (location.state?.requireProfileCompletion) return;
+
+        const savedStep = localStorage.getItem('signupStep');
+        if (savedStep && parseInt(savedStep) > 1) {
+            setStep(parseInt(savedStep));
+
+            // Restore form data from localStorage
+            setFormData(prev => ({
+                ...prev,
+                email: localStorage.getItem('signupEmail') || prev.email,
+                fullName: localStorage.getItem('signupFullName') || prev.fullName
+            }));
+
+            // If they had pending profile data, restore that too
+            const pendingProfile = localStorage.getItem('pendingProfileData');
+            if (pendingProfile) {
+                try {
+                    const parsed = JSON.parse(pendingProfile);
+                    setFormData(prev => ({
+                        ...prev,
+                        nationality: parsed.nationality || prev.nationality,
+                        phone: (parsed.phone || '').replace(activeCountry?.dialCode || '', ''), // naive strip
+                    }));
+                } catch (e) { console.error(e) }
+            }
+        }
+    }, [location.state, activeCountry]);
 
     // Handle return from Email Confirmation on mobile (legacy)
     React.useEffect(() => {

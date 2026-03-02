@@ -60,17 +60,16 @@ const CreatePassword = () => {
     }, []);
 
     // Password validation
-    const hasMinLength = password.length >= 8;
+    const hasMinLength = password.length >= 6;
     const hasLetter = /[a-zA-Z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
     const passwordsMatch = password === confirmPassword && confirmPassword.length > 0;
-    const isValid = hasMinLength && hasLetter && hasNumber && passwordsMatch;
+    const isValid = hasMinLength && hasLetter && passwordsMatch;
 
     const handleSave = async () => {
         setError('');
 
-        if (!hasMinLength) {
-            setError('A palavra-passe deve ter no mínimo 8 caracteres');
+        if (!hasMinLength || !hasLetter) {
+            setError('A palavra-passe deve ter no mínimo 6 caracteres e incluir uma letra');
             return;
         }
         if (!passwordsMatch) {
@@ -190,7 +189,8 @@ const CreatePassword = () => {
                 {error && <p className="create-pwd-error">{error}</p>}
 
                 <button
-                    className="create-pwd-btn"
+                    className={`create-pwd-btn ${password.length >= 1 ? 'has-input' : ''}`}
+                    style={password.length >= 1 ? { backgroundColor: '#000000', color: '#FFFFFF' } : {}}
                     onClick={handleSave}
                     disabled={!isValid || isLoading}
                 >

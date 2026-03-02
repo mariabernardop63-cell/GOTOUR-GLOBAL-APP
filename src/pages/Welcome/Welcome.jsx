@@ -100,6 +100,15 @@ const Welcome = () => {
     };
 
     const handleComecarAgora = () => {
+        // Check for incomplete signup before showing standard auth sheet
+        const savedStep = localStorage.getItem('signupStep');
+        const pendingProfile = localStorage.getItem('pendingProfileData');
+
+        if ((savedStep && parseInt(savedStep) > 1) || pendingProfile) {
+            navigateForward('/signup');
+            return;
+        }
+
         handleOpenSheet('primary', 'social');
     };
 
@@ -194,7 +203,15 @@ const Welcome = () => {
                             <div className="hero-ctas">
                                 <button
                                     className="hero-btn-primary"
-                                    onClick={() => setShowDesktopSignup(true)}
+                                    onClick={() => {
+                                        const savedStep = localStorage.getItem('signupStep');
+                                        const pendingProfile = localStorage.getItem('pendingProfileData');
+                                        if ((savedStep && parseInt(savedStep) > 1) || pendingProfile) {
+                                            navigateForward('/signup');
+                                            return;
+                                        }
+                                        setShowDesktopSignup(true);
+                                    }}
                                 >
                                     Começar agora
                                 </button>
