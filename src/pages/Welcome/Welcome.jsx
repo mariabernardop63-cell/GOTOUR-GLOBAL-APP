@@ -15,10 +15,10 @@ import gotourIcon from '../../assets/images/gotour_icon.png';
 
 /* ── Rotating headlines for the desktop hero ── */
 const HERO_HEADLINES = [
-    { line1: 'Descubra destinos', line2: 'pelo mundo inteiro', line3: 'com a GoTour' },
+    { line1: 'Descubra destinos', line2: 'pelo mundo inteiro', line3: 'com a GO TOUR' },
     { line1: 'Conecte-se a', line2: 'culturas autênticas', line3: 'e viva aventuras' },
     { line1: 'Planeje sua', line2: 'próxima jornada', line3: 'explore sem limites' },
-    { line1: 'Experiências únicas', line2: 'esperam por você', line3: 'comece hoje' },
+    { line1: 'A sua plataforma', line2: 'digital de turismo', line3: 'comece hoje' },
 ];
 
 
@@ -138,9 +138,9 @@ const Welcome = () => {
 
                     {/* Mobile Title */}
                     <div className="mobile-intro slide-up">
-                        <h1 className="welcome-title">Explore o Mundo <br />Como um Local</h1>
+                        <h1 className="welcome-title">Bem-vindo à <br />GO TOUR</h1>
                         <p className="welcome-subtitle">
-                            Descubra destinos incríveis, conecte-se com guias locais e viva experiências autênticas.
+                            Plataforma digital de turismo para descoberta de destinos, planeamento inteligente e gestão segura de reservas online.
                         </p>
                     </div>
 
@@ -190,14 +190,15 @@ const Welcome = () => {
                         <div className="hero-left">
                             <div className={`hero-headline-wrapper ${headlineVisible ? 'visible' : 'hidden'}`}>
                                 <h1 className="hero-h1">
-                                    <span className="hero-h1-line">{currentHeadline.line1}</span>
-                                    <span className="hero-h1-line">{currentHeadline.line2}</span>
-                                    <span className="hero-h1-line">{currentHeadline.line3}</span>
+                                    <span className="hero-h1-line" style={{ fontSize: '1.2em' }}>GO TOUR</span>
+                                    <span className="hero-h1-line" style={{ fontSize: '0.6em', color: '#048c83', marginTop: '10px' }}>{currentHeadline.line1}</span>
+                                    <span className="hero-h1-line" style={{ fontSize: '0.6em', color: '#048c83' }}>{currentHeadline.line2}</span>
+                                    <span className="hero-h1-line" style={{ fontSize: '0.6em', color: '#048c83' }}>{currentHeadline.line3}</span>
                                 </h1>
                             </div>
 
-                            <p className="hero-sub">
-                                Conecte-se com viajantes, explore destinos{'\n'}e viva experiências autênticas.
+                            <p className="hero-sub" style={{ maxWidth: '450px' }}>
+                                A GO TOUR permite pesquisar destinos, comparar alojamentos, organizar itinerários personalizados e gerir reservas numa única plataforma segura.
                             </p>
 
                             <div className="hero-ctas">
@@ -222,7 +223,7 @@ const Welcome = () => {
                                     Já tenho conta
                                 </button>
                             </div>
-                            
+
                             {/* Desktop Legal Links */}
                             <div className="hero-legal-links" style={{ marginTop: '24px', fontSize: '14px', color: '#6B7280' }}>
                                 Aceder aos <button onClick={() => navigateForward('/terms-of-service')} style={{ background: 'none', border: 'none', color: '#1E90FF', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Termos de Serviço</button> e à <button onClick={() => navigateForward('/privacy-policy')} style={{ background: 'none', border: 'none', color: '#1E90FF', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Política de Privacidade</button>.
