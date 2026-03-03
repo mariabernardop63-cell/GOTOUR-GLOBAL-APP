@@ -4,77 +4,160 @@
 <head>
   <meta name="google-site-verification" content="BvyiGHKrWUX3Agyzch5Lepe9AxUbhLefum8DZYOsqpA" />
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GO TOUR</title>
+
+  <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-32x32.png" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  <link rel="manifest" href="/site.webmanifest" />
-  <meta name="theme-color" content="#048c83" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
     rel="stylesheet">
 
-  <!-- Preload Critical Media Assets for Desktop Optimization -->
-  <link rel="preload" as="video" href="https://video-hostingnew.vercel.app/video-bg.mp4" type="video/mp4"
-    fetchpriority="high" />
-  <link rel="preload" as="image" href="/src/assets/images/explore_mundo.jpg" fetchpriority="high" />
+  <!-- Estilos básicos -->
+  <style>
+    body {
+      font-family: 'Playfair Display', serif;
+      margin: 0;
+      padding: 0;
+      background-color: #F7F9FC;
+      color: #1a1a1a;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      box-sizing: border-box;
+    }
 
-  <title>GO TOUR</title>
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 15px;
+      color: #000;
+      letter-spacing: 1px;
+    }
+
+    h2 {
+      font-family: sans-serif;
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 25px;
+      max-width: 800px;
+      line-height: 1.4;
+      color: #333;
+    }
+
+    p.description {
+      font-family: sans-serif;
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin-bottom: 40px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .btn-primary {
+      padding: 14px 28px;
+      background-color: #048c83;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-google {
+      padding: 14px 28px;
+      background-color: white;
+      color: #333;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-google img {
+      width: 20px;
+      height: 20px;
+    }
+
+    p.oauth-info {
+      font-family: sans-serif;
+      font-size: 0.95rem;
+      max-width: 650px;
+      margin-bottom: 40px;
+      color: #666;
+      line-height: 1.5;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .footer-links {
+      font-family: sans-serif;
+      font-size: 1rem;
+      margin-top: auto;
+      padding-top: 20px;
+    }
+
+    .footer-links a {
+      color: #048c83;
+      font-weight: bold;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+  </style>
 </head>
 
 <body>
-  <div id="root">
-    <!-- Initial Pre-Rendered Content for Google OAuth Verification & SEO Setup -->
-    <div
-      style="font-family: 'Playfair Display', serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #F7F9FC; color: #1a1a1a; text-align: center; padding: 40px 20px; box-sizing: border-box;">
-      <h1 style="font-size: 3.5rem; margin-bottom: 15px; color: #000; letter-spacing: 1px;">GO TOUR</h1>
 
-      <h2
-        style="font-family: sans-serif; font-size: 1.4rem; font-weight: 500; margin-bottom: 25px; max-width: 800px; line-height: 1.4; color: #333;">
-        Plataforma digital de turismo para descoberta de destinos, planeamento inteligente e gestão segura de reservas
-        online.
-      </h2>
+  <!-- Conteúdo visível para Google -->
+  <h1>GO TOUR</h1>
 
-      <p
-        style="font-family: sans-serif; font-size: 1.1rem; max-width: 700px; margin-bottom: 40px; color: #555; line-height: 1.6;">
-        A GO TOUR permite pesquisar destinos, comparar alojamentos, organizar itinerários personalizados e gerir
-        reservas numa única plataforma segura.
-      </p>
+  <h2>Plataforma digital de turismo para descoberta de destinos, planeamento inteligente e gestão segura de reservas online.</h2>
 
-      <div
-        style="margin-bottom: 40px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; font-family: sans-serif;">
-        <div
-          style="padding: 14px 28px; background-color: #048c83; color: white; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-          Começar Agora</div>
-        <div
-          style="padding: 14px 28px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 8px; font-weight: bold; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
-            style="width: 20px; height: 20px;" />
-          Login com Google
-        </div>
-      </div>
+  <p class="description">
+    A GO TOUR permite pesquisar destinos, comparar alojamentos, organizar itinerários personalizados e gerir reservas numa única plataforma segura.
+  </p>
 
-      <p
-        style="font-family: sans-serif; font-size: 0.95rem; max-width: 650px; margin-bottom: 40px; color: #666; line-height: 1.5; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
-        O login pode ser feito via Google. Os dados da sua conta Google (nome, email, foto de perfil, identificador
-        único) serão utilizados apenas para fins de autenticação e personalização da sua experiência na nossa
-        plataforma.
-      </p>
-
-      <div style="font-family: sans-serif; font-size: 1rem; margin-top: auto; padding-top: 20px;">
-        <a href='/politica-de-privacidade'
-          style='color:#048c83; font-weight:bold; text-decoration: none; margin: 0 10px;'>Política de Privacidade</a>
-        &amp;
-        <a href='/termos-de-servico'
-          style='color:#048c83; font-weight:bold; text-decoration: none; margin: 0 10px;'>Termos de Serviço</a>
-      </div>
+  <div class="buttons">
+    <div class="btn-primary">Começar Agora</div>
+    <div class="btn-google">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+      Login com Google
     </div>
   </div>
-  <script type="module" src="/src/main.jsx"></script>
+
+  <p class="oauth-info">
+    O login pode ser feito via Google. Os dados da sua conta Google (nome, email, foto de perfil, identificador único) serão utilizados apenas para fins de autenticação e personalização da sua experiência na nossa plataforma.
+  </p>
+
+  <div class="footer-links">
+    <a href='/politica-de-privacidade'>Política de Privacidade</a> & 
+    <a href='/termos-de-servico'>Termos de Serviço</a>
+  </div>
+
 </body>
 
 </html>
