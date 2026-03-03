@@ -6,7 +6,7 @@ import { countries } from '../../data/countries';
 import { supabase } from '../../lib/supabase';
 import useCooldown from '../../hooks/useCooldown';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
-import exploreMundoLocal from '../../assets/images/explore_mundo.jpg';
+import authBgNew from '../../assets/images/auth_bg_new.jpg';
 // We import login css for the left pane layout, and signup css for the right pane form
 import '../DesktopLogin/DesktopLogin.css';
 import './DesktopSignup.css';
@@ -748,7 +748,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                     <div className="dl-cover-image shimmer" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1, borderRadius: 0 }}></div>
                 )}
                 <img
-                    src={exploreMundoLocal}
+                    src={authBgNew}
                     alt="Explore o mundo como um local"
                     className={`dl-cover-image ${imageLoaded ? 'content-fade-in' : ''}`}
                     onLoad={() => setImageLoaded(true)}

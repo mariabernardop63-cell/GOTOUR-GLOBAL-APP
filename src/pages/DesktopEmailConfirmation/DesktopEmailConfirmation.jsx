@@ -4,7 +4,7 @@ import { useNavigation } from '../../App';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import useCooldown from '../../hooks/useCooldown';
-import favelaDrone from '../../assets/images/favela_drone.png';
+import authBgNew from '../../assets/images/auth_bg_new.jpg';
 import gotourIcon from '../../assets/images/gotour_icon.png';
 import HeroStatsCarousel from '../../components/HeroStatsCarousel/HeroStatsCarousel';
 import CustomDropdown from '../../components/CustomDropdown/CustomDropdown';
@@ -160,7 +160,7 @@ const DesktopEmailConfirmation = () => {
                     <HeroStatsCarousel />
                 </div>
 
-                <img src={favelaDrone} alt="Brazilian Favela" className="dl-cover-image" />
+                <img src={authBgNew} alt="Brazilian Favela" className="dl-cover-image" />
             </div>
 
             {/* Right Content Pane: 65% Width */}

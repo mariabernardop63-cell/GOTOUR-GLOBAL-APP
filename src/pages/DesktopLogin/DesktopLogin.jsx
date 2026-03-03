@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Eye, EyeOff, ChevronDown, ArrowLeft, Loader2 } from 'lucide-react';
-import exploreMundoLocal from '../../assets/images/explore_mundo.jpg';
+import authBgNew from '../../assets/images/auth_bg_new.jpg';
 import { useNavigation } from '../../App';
 import { supabase } from '../../lib/supabase';
 import CustomDropdown from '../../components/CustomDropdown/CustomDropdown';
@@ -192,7 +192,7 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
                     <div className="dl-cover-image shimmer" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1, borderRadius: 0 }}></div>
                 )}
                 <img
-                    src={exploreMundoLocal}
+                    src={authBgNew}
                     alt="Explore o mundo como um local"
                     className={`dl-cover-image ${imageLoaded ? 'content-fade-in' : ''}`}
                     onLoad={() => setImageLoaded(true)}

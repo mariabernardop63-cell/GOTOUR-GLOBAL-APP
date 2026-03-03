@@ -1,0 +1,344 @@
+.legal-page-container {
+    min-height: 100vh;
+    background-color: #F8FAFC;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding-top: 80px;
+    /* Offset for DesktopNavbar */
+    display: flex;
+    justify-content: center;
+}
+
+/* Ensure the navbar has a solid background on this page */
+.legal-page-container .desktop-navbar {
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.legal-page-container .desktop-navbar .nav-link,
+.legal-page-container .desktop-navbar .nav-btn-text,
+.legal-page-container .desktop-navbar .navbar-brand-name {
+    color: #111827 !important;
+}
+
+.legal-page-content-wrapper {
+    width: 100%;
+    max-width: 800px;
+    /* 70-80% of typical viewport width */
+    margin: 40px 24px 80px 24px;
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    min-height: 75vh;
+}
+
+.legal-page-main {
+    padding: 56px;
+}
+
+.legal-page-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.legal-page-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 12px 0;
+    line-height: 1.2;
+}
+
+.legal-page-date {
+    font-size: 15px;
+    color: #6B7280;
+    margin: 0 0 32px 0;
+}
+
+.legal-page-search {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.legal-search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9CA3AF;
+}
+
+.legal-search-input {
+    width: 100%;
+    height: 56px;
+    padding: 0 48px;
+    border: 1px solid #E5E7EB;
+    border-radius: 28px;
+    font-size: 16px;
+    color: #374151;
+    background: #F9FAFB;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.legal-search-input:focus {
+    background: #FFFFFF;
+    border-color: var(--primary, #1e90ff);
+    box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.15);
+}
+
+.legal-search-clear {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #9CA3AF;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.legal-search-clear:hover {
+    background: #F3F4F6;
+    color: #4B5563;
+}
+
+/* Typography for Article Content */
+.legal-page-article {
+    color: #374151;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.legal-section {
+    margin-bottom: 40px;
+    transition: opacity 0.3s ease;
+}
+
+.legal-section.hidden {
+    display: none;
+}
+
+.legal-section h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 16px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.legal-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1F2937;
+    margin: 24px 0 12px 0;
+}
+
+.legal-section p {
+    margin: 0 0 16px 0;
+}
+
+.legal-section ul {
+    margin: 0 0 16px 0;
+    padding-left: 24px;
+}
+
+.legal-section li {
+    margin-bottom: 8px;
+}
+
+.legal-info-box {
+    background: #F0F9FF;
+    /* Light blue */
+    border-left: 4px solid var(--primary, #1e90ff);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 24px 0;
+}
+
+.legal-info-box p {
+    margin: 0;
+    color: #0369A1;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.legal-page-footer {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid #E5E7EB;
+    text-align: center;
+}
+
+.legal-footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.legal-footer-links button {
+    background: none;
+    border: none;
+    color: #6B7280;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 0;
+}
+
+.legal-footer-links button:hover {
+    color: var(--primary, #1e90ff);
+}
+
+.legal-footer-dot {
+    color: #D1D5DB;
+    font-size: 12px;
+}
+
+.legal-footer-copyright {
+    color: #9CA3AF;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Support Widget */
+.legal-support-widget {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.legal-support-fab {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background: var(--primary, #1e90ff);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 16px rgba(30, 144, 255, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.legal-support-fab:hover {
+    transform: scale(1.05);
+    background: #187bcd;
+}
+
+.legal-support-chat {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 320px;
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    transform-origin: bottom right;
+}
+
+.legal-chat-header {
+    background: var(--primary, #1e90ff);
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.legal-chat-title {
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.legal-chat-status {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legal-chat-status::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #4ADE80;
+    border-radius: 50%;
+    display: block;
+}
+
+.legal-chat-body {
+    padding: 24px 20px;
+}
+
+.legal-chat-greeting {
+    font-size: 15px;
+    color: #374151;
+    line-height: 1.5;
+    margin: 0 0 20px 0;
+    background: #F3F4F6;
+    padding: 16px;
+    border-radius: 12px 12px 12px 0;
+}
+
+.legal-chat-action-btn {
+    width: 100%;
+    background: var(--primary, #1e90ff);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.legal-chat-action-btn:hover {
+    background: #187bcd;
+}
+
+.legal-chat-note {
+    font-size: 12px;
+    color: #9CA3AF;
+    text-align: center;
+    margin: 12px 0 0 0;
+}
+
+/* Animations */
+.fade-in-up {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.fade-in-up-fast {
+    animation: fadeInUp 0.3s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

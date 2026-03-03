@@ -26,6 +26,8 @@ import SettingsScreen from './pages/Settings/SettingsScreen';
 import NotificationsScreen from './pages/Notifications/NotificationsScreen';
 import FriendsScreen from './pages/Friends/FriendsScreen';
 import OAuthCallback from './pages/OAuthCallback/OAuthCallback';
+import PrivacyPolicy from './pages/Legal/PrivacyPolicy';
+import TermsOfService from './pages/Legal/TermsOfService';
 import { AppProvider } from './context/AppContext';
 import { AuthProvider } from './context/AuthContext';
 import PageTransition from './components/PageTransition/PageTransition';
@@ -148,6 +150,8 @@ const AnimatedRoutes = () => {
                         <Route path="/chat" element={<ChatScreen />} />
                         <Route path="/message-settings" element={<MessageSettings />} />
                         <Route path="/destino-detalhes" element={<DestinoDetalhes />} />
+                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="/terms-of-service" element={<TermsOfService />} />
                         <Route path="/settings" element={<SettingsScreen />} />
                         <Route path="/notifications" element={<NotificationsScreen />} />
                         <Route path="/friends" element={<FriendsScreen />} />

@@ -3,7 +3,7 @@ import { Mail, ArrowLeft, ChevronDown } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { supabase } from '../../lib/supabase';
 import useCooldown from '../../hooks/useCooldown';
-import exploreMundoLocal from '../../assets/images/explore_mundo.jpg';
+import authBgNew from '../../assets/images/auth_bg_new.jpg';
 import gotourIcon from '../../assets/images/gotour_icon.png';
 import HeroStatsCarousel from '../../components/HeroStatsCarousel/HeroStatsCarousel';
 import CustomDropdown from '../../components/CustomDropdown/CustomDropdown';
@@ -196,7 +196,7 @@ const DesktopForgotPassword = () => {
                     <ArrowLeft size={24} color="#FFFFFF" />
                 </button>
 
-                <img src={exploreMundoLocal} alt="Explore o mundo como um local" className="dl-cover-image" />
+                <img src={authBgNew} alt="Explore o mundo como um local" className="dl-cover-image" />
             </div>
 
             {/* Right Content Pane: 65% Width */}

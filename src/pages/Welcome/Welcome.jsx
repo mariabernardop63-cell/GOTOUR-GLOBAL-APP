@@ -222,6 +222,11 @@ const Welcome = () => {
                                     Já tenho conta
                                 </button>
                             </div>
+                            
+                            {/* Desktop Legal Links */}
+                            <div className="hero-legal-links" style={{ marginTop: '24px', fontSize: '14px', color: '#6B7280' }}>
+                                Aceder aos <button onClick={() => navigateForward('/terms-of-service')} style={{ background: 'none', border: 'none', color: '#1E90FF', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Termos de Serviço</button> e à <button onClick={() => navigateForward('/privacy-policy')} style={{ background: 'none', border: 'none', color: '#1E90FF', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Política de Privacidade</button>.
+                            </div>
                         </div>
 
                         {/* ── RIGHT COLUMN — PREMIUM VIDEO ── */}

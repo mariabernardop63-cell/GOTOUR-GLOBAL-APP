@@ -24,10 +24,6 @@ const Signup = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    if (!isMobile) {
-        return <DesktopSignup onBack={() => navigateBack('/')} onNavigateLogin={() => navigateForward('/login')} />;
-    }
-
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -43,6 +39,73 @@ const Signup = () => {
     const [errors, setErrors] = useState({});
 
     const activeCountry = countries.find(c => c.code === nationality) || countries[0];
+
+    // On Mount: Check for incomplete signup state to restore
+    React.useEffect(() => {
+        // If we came from OAuth, don't override with localStorage
+        const locState = location.state || {};
+        if (locState.requireProfileCompletion) return;
+
+        const savedStep = localStorage.getItem('signupStep');
+        if (savedStep && parseInt(savedStep) > 1) {
+            setStep(parseInt(savedStep));
+
+            // Restore form data from localStorage
+            setFormData(prev => ({
+                ...prev,
+                email: localStorage.getItem('signupEmail') || prev.email,
+                fullName: localStorage.getItem('signupFullName') || prev.fullName
+            }));
+
+            // If they had pending profile data, restore that too
+            const pendingProfile = localStorage.getItem('pendingProfileData');
+            if (pendingProfile) {
+                try {
+                    const parsed = JSON.parse(pendingProfile);
+                    let cleanPhone = parsed.phone || '';
+                    if (activeCountry && activeCountry.dialCode && cleanPhone.startsWith(activeCountry.dialCode)) {
+                        cleanPhone = cleanPhone.substring(activeCountry.dialCode.length);
+                    }
+
+                    setFormData(prev => ({
+                        ...prev,
+                        nationality: parsed.nationality || prev.nationality,
+                        phone: cleanPhone
+                    }));
+                } catch (e) {
+                    console.error('Error parsing pendingProfileData:', e);
+                }
+            }
+        }
+    }, [location.state, activeCountry]);
+
+    // Handle return from Email Confirmation on mobile
+    React.useEffect(() => {
+        const locState = location.state || {};
+        if (locState.returnStep === 3 && locState.formData) {
+            setFormData(prev => ({ ...prev, ...locState.formData }));
+            setStep(3);
+        }
+    }, [location.state]);
+
+    // Handle OAuth return requirement for profile completion
+    React.useEffect(() => {
+        const locState = location.state || {};
+        if (locState.requireProfileCompletion) {
+            setFormData(prev => ({
+                ...prev,
+                fullName: locState.fullName || '',
+                email: locState.email || ''
+            }));
+            setIsOAuthFlow(true);
+            setStep(2); // Jump to demographic info
+        }
+    }, [location.state]);
+
+    if (!isMobile) {
+        return <DesktopSignup onBack={() => navigateBack('/')} onNavigateLogin={() => navigateForward('/login')} />;
+    }
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -205,57 +268,7 @@ const Signup = () => {
 
     };
 
-    // On Mount: Check for incomplete signup state to restore
-    React.useEffect(() => {
-        // If we came from OAuth, don't override with localStorage
-        if (location.state?.requireProfileCompletion) return;
 
-        const savedStep = localStorage.getItem('signupStep');
-        if (savedStep && parseInt(savedStep) > 1) {
-            setStep(parseInt(savedStep));
-
-            // Restore form data from localStorage
-            setFormData(prev => ({
-                ...prev,
-                email: localStorage.getItem('signupEmail') || prev.email,
-                fullName: localStorage.getItem('signupFullName') || prev.fullName
-            }));
-
-            // If they had pending profile data, restore that too
-            const pendingProfile = localStorage.getItem('pendingProfileData');
-            if (pendingProfile) {
-                try {
-                    const parsed = JSON.parse(pendingProfile);
-                    setFormData(prev => ({
-                        ...prev,
-                        nationality: parsed.nationality || prev.nationality,
-                        phone: (parsed.phone || '').replace(activeCountry?.dialCode || '', ''), // naive strip
-                    }));
-                } catch (e) { console.error(e) }
-            }
-        }
-    }, [location.state, activeCountry]);
-
-    // Handle return from Email Confirmation on mobile (legacy)
-    React.useEffect(() => {
-        if (location.state?.returnStep === 3 && location.state?.formData) {
-            setFormData(prev => ({ ...prev, ...location.state.formData }));
-            setStep(3);
-        }
-    }, [location.state]);
-
-    // Handle OAuth return requirement for profile completion
-    React.useEffect(() => {
-        if (location.state?.requireProfileCompletion) {
-            setFormData(prev => ({
-                ...prev,
-                fullName: location.state.fullName || '',
-                email: location.state.email || ''
-            }));
-            setIsOAuthFlow(true);
-            setStep(2);
-        }
-    }, [location.state]);
 
     const handleBack = () => {
         if (step > 1) setStep(prev => prev - 1);
