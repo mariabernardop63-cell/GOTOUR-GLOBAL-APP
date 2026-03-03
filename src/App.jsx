@@ -93,19 +93,7 @@ const NavigationProvider = ({ children }) => {
 
 // Splash wrapper — shows splash once per session, then Welcome
 const SplashWrapper = () => {
-    const [showSplash, setShowSplash] = useState(
-        () => !sessionStorage.getItem('gotour_splash_shown')
-    );
-
-    const handleSplashComplete = useCallback(() => {
-        sessionStorage.setItem('gotour_splash_shown', 'true');
-        setShowSplash(false);
-    }, []);
-
-    if (showSplash) {
-        return <GoTourSplashScreen onComplete={handleSplashComplete} />;
-    }
-
+    // FORCE WELCOME SCREEN IMMEDIATELY FOR GOOGLE OAUTH VALIDATION CRAWLERS
     return <Welcome />;
 };
 
