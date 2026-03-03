@@ -7,72 +7,83 @@ const PrivacyPolicy = () => {
     const sections = [
         {
             id: 'intro',
-            title: '1. Introdução e Objetivo',
+            title: '1. Introdução',
             content: (
                 <>
-                    <p>
-                        A <strong>GOTOUR</strong> está fortemente comprometida em proteger a privacidade e os dados pessoais
-                        dos nossos utilizadores. Esta Política de Privacidade explica de forma clara e transparente como
-                        recolhemos, utilizamos, partilhamos e protegemos as suas informações quando utiliza a nossa plataforma,
-                        aplicação móvel e serviços de planeamento de viagens.
-                    </p>
-                    <p>
-                        Ao aceder ou utilizar os serviços da GOTOUR, concorda com as práticas descritas nesta política.
-                        Recomendamos a leitura atenta de todo o documento para compreender os seus direitos.
-                    </p>
+                    <p>A GOTOUR é uma plataforma digital de turismo dedicada à descoberta de destinos, planeamento de viagens e gestão de reservas.</p>
+                    <p>A presente Política de Privacidade descreve de forma transparente como recolhemos, utilizamos, armazenamos e protegemos os dados pessoais dos utilizadores que acedem ao nosso website e aplicação.</p>
+                    <p>Ao utilizar os serviços da GOTOUR, o utilizador declara que leu, compreendeu e concorda com as práticas aqui descritas.</p>
                 </>
             )
         },
         {
-            id: 'coleta',
-            title: '2. Recolha de Dados Pessoais',
+            id: 'dados-recolhidos',
+            title: '2. Dados Pessoais Recolhidos',
             content: (
                 <>
-                    <p>
-                        A GOTOUR recolhe informações que nos fornece diretamente e dados recolhidos automaticamente durante
-                        a utilização da nossa plataforma:
-                    </p>
+                    <p>A GOTOUR pode recolher as seguintes categorias de dados:</p>
+
+                    <strong>2.1 Dados fornecidos diretamente pelo utilizador</strong>
                     <ul>
-                        <li><strong>Dados de Registo:</strong> Nome, endereço de email, número de telemóvel, data de nascimento e nacionalidade.</li>
-                        <li><strong>Dados de Viagem:</strong> Destinos de interesse, histórico de reservas, preferências de alojamento e datas de viagem.</li>
-                        <li><strong>Dados de Pagamento:</strong> Informações de faturação e detalhes de cartão de crédito (processados de forma segura por prestadores externos).</li>
-                        <li><strong>Dados de Utilização:</strong> Endereço IP, tipo de dispositivo, sistema operativo, páginas visitadas e interações com a aplicação.</li>
+                        <li>Nome completo</li>
+                        <li>Endereço de email</li>
+                        <li>Número de telemóvel</li>
+                        <li>Nacionalidade</li>
+                        <li>Data de nascimento</li>
+                        <li>Informações de faturação</li>
                     </ul>
+
+                    <strong>2.2 Dados recolhidos automaticamente</strong>
+                    <ul>
+                        <li>Endereço IP</li>
+                        <li>Tipo de dispositivo</li>
+                        <li>Sistema operativo</li>
+                        <li>Navegador utilizado</li>
+                        <li>Páginas visitadas</li>
+                        <li>Preferências de navegação</li>
+                    </ul>
+
+                    <strong>2.3 Dados provenientes de autenticação via Google</strong>
+                    <p>Caso o utilizador opte por iniciar sessão através da conta Google, a GOTOUR poderá receber:</p>
+                    <ul>
+                        <li>Nome associado à conta Google</li>
+                        <li>Endereço de email</li>
+                        <li>Fotografia de perfil</li>
+                        <li>Identificador único da conta Google</li>
+                    </ul>
+                    <p>A GOTOUR não tem acesso à palavra-passe do utilizador nem à sua conta Google além das informações autorizadas.</p>
                 </>
             )
         },
         {
-            id: 'uso',
-            title: '3. Utilização das Informações',
+            id: 'finalidade',
+            title: '3. Finalidade do Tratamento',
             content: (
                 <>
-                    <p>
-                        Os dados recolhidos são utilizados exclusivamente para melhorar a sua experiência e garantir
-                        a prestação dos nossos serviços de excelência. Utilizamos as suas informações para:
-                    </p>
+                    <p>Os dados pessoais são utilizados exclusivamente para:</p>
                     <ul>
-                        <li>Criar e gerir a sua conta na plataforma GOTOUR.</li>
-                        <li>Personalizar recomendações de destinos e itinerários de viagem com base nas suas preferências.</li>
-                        <li>Processar reservas, pagamentos e enviar confirmações ou atualizações de viagem importantes.</li>
-                        <li>Melhorar continuamente a segurança, o design e as funcionalidades da nossa aplicação.</li>
-                        <li>Enviar comunicações de marketing relevantes (apenas com o seu consentimento explícito).</li>
+                        <li>Criar e gerir contas de utilizador</li>
+                        <li>Processar reservas e pagamentos</li>
+                        <li>Personalizar recomendações de destinos</li>
+                        <li>Melhorar funcionalidades e segurança</li>
+                        <li>Comunicar atualizações importantes</li>
+                        <li>Cumprir obrigações legais</li>
                     </ul>
+                    <p>Os dados obtidos através do login Google são utilizados apenas para autenticação e identificação segura do utilizador.</p>
                 </>
             )
         },
         {
-            id: 'compartilhamento',
+            id: 'partilha',
             title: '4. Partilha de Dados',
             content: (
                 <>
-                    <p>
-                        A GOTOUR valoriza a sua confiança. Não vendemos, alugamos ou comercializamos os seus dados pessoais
-                        a terceiros. Contudo, podemos partilhar informações estritamente necessárias nas seguintes situações:
-                    </p>
+                    <p>A GOTOUR não vende, aluga ou comercializa dados pessoais.</p>
+                    <p>Poderá ocorrer partilha limitada nas seguintes situações:</p>
                     <ul>
-                        <li><strong>Fornecedores de Serviços:</strong> Companhias aéreas, hotéis e operadores turísticos necessários para concluir a sua reserva.</li>
-                        <li><strong>Prestadores de Serviços Tecnológicos:</strong> Plataformas de alojamento em cloud, processadores de pagamento e ferramentas num contexto de análise de dados.</li>
-                        <li><strong>Obrigação Legal:</strong> Em resposta a intimações ou ordens judiciais, para cumprir a legislação aplicável.</li>
+                        <li>Parceiros de viagem (hotéis, companhias aéreas, operadores turísticos) exclusivamente para execução de reservas</li>
+                        <li>Prestadores tecnológicos (cloud, processamento de pagamento, análise de dados)</li>
+                        <li>Cumprimento de obrigação legal ou ordem judicial</li>
                     </ul>
                 </>
             )
@@ -82,96 +93,99 @@ const PrivacyPolicy = () => {
             title: '5. Cookies e Tecnologias Semelhantes',
             content: (
                 <>
-                    <p>
-                        Utilizamos cookies e tecnologias de rastreamento semelhantes para analisar tendências, administrar
-                        o site, rastrear os movimentos dos utilizadores e recolher informações demográficas sobre a nossa base
-                        de utilizadores no geral. Pode controlar a utilização de cookies ao nível do seu navegador individual,
-                        mas se optar por desativar os cookies, isso pode limitar a utilização de certas funcionalidades na nossa plataforma.
-                    </p>
-                    <div className="legal-info-box">
-                        <p>Dica: Pode gerir as suas preferências de cookies a qualquer momento através das Configurações da sua Conta GOTOUR.</p>
-                    </div>
+                    <p>Utilizamos cookies para:</p>
+                    <ul>
+                        <li>Garantir funcionamento técnico do site</li>
+                        <li>Melhorar desempenho</li>
+                        <li>Analisar tráfego</li>
+                        <li>Personalizar experiência</li>
+                    </ul>
+                    <p>O utilizador pode gerir preferências através das configurações do navegador.</p>
                 </>
             )
         },
         {
             id: 'seguranca',
-            title: '6. Segurança e Proteção de Dados',
+            title: '6. Segurança da Informação',
             content: (
                 <>
-                    <p>
-                        A GOTOUR implementa rigorosas medidas de segurança técnicas, administrativas e físicas projetadas para
-                        proteger as suas informações pessoais contra acesso não autorizado, destruição, perda, alteração ou
-                        divulgação. Todos os dados sensíveis transmitidos (como detalhes de cartões de crédito) são
-                        encriptados utilizando tecnologia <em>Secure Socket Layer</em> (SSL).
-                    </p>
+                    <p>A GOTOUR implementa medidas técnicas e organizacionais adequadas para proteger dados contra:</p>
+                    <ul>
+                        <li>Acesso não autorizado</li>
+                        <li>Alteração</li>
+                        <li>Perda</li>
+                        <li>Divulgação indevida</li>
+                    </ul>
+                    <p>As transmissões sensíveis são protegidas por encriptação SSL.</p>
                 </>
             )
         },
         {
             id: 'direitos',
-            title: '7. Os Seus Direitos',
+            title: '7. Direitos do Utilizador',
             content: (
                 <>
-                    <p>
-                        De acordo com o Regulamento Geral sobre a Proteção de Dados (RGPD) e leis de privacidade aplicáveis,
-                        garantimos-lhe o direito total sobre a sua informação:
-                    </p>
+                    <p>Nos termos da legislação aplicável, o utilizador pode:</p>
                     <ul>
-                        <li>Acesso rápido a todos os dados pessoais que mantemos sobre si.</li>
-                        <li>Retificação e atualização de informações incorretas ou incompletas.</li>
-                        <li>Apagamento ("Direito ao esquecimento") dos seus dados dos nossos servidores.</li>
-                        <li>Restrição e oposição ao processamento dos seus dados.</li>
-                        <li>Portabilidade dos dados para outros serviços num formato estruturado.</li>
+                        <li>Solicitar acesso aos seus dados</li>
+                        <li>Corrigir informações incorretas</li>
+                        <li>Solicitar eliminação</li>
+                        <li>Opor-se ao tratamento</li>
+                        <li>Solicitar portabilidade</li>
+                    </ul>
+                    <p>Pedidos podem ser feitos através do contacto oficial abaixo.</p>
+                </>
+            )
+        },
+        {
+            id: 'retencao',
+            title: '8. Retenção de Dados',
+            content: (
+                <>
+                    <p>Os dados pessoais são mantidos apenas pelo período necessário para:</p>
+                    <ul>
+                        <li>Cumprimento contratual</li>
+                        <li>Obrigações legais</li>
+                        <li>Finalidades legítimas da plataforma</li>
                     </ul>
                 </>
             )
         },
         {
             id: 'alteracoes',
-            title: '8. Alterações à Política',
+            title: '9. Alterações à Política',
             content: (
                 <>
-                    <p>
-                        A GOTOUR reserva-se o direito de modificar esta Política de Privacidade periodicamente para refletir
-                        alterações nas nossas práticas ou na regulamentação legal. Notificaremos os utilizadores sobre
-                        quaisquer mudanças substanciais através de um aviso destacado na aplicação ou via email antes que
-                        entrem em vigor.
-                    </p>
+                    <p>A GOTOUR reserva-se o direito de atualizar esta Política sempre que necessário. Alterações relevantes serão comunicadas na plataforma.</p>
                 </>
             )
         },
         {
-            id: 'contato',
-            title: '9. Contacto',
+            id: 'contacto',
+            title: '10. Contacto Oficial',
             content: (
                 <>
-                    <p>
-                        Se tiver questões, preocupações ou reclamações relativamente à nossa Política de Privacidade
-                        ou ao tratamento dos seus dados, entre em contacto connosco através do endereço oficial de
-                        apoio e privacidade:
-                    </p>
+                    <p>Para questões relacionadas com privacidade:</p>
                     <p>
                         <strong>Email:</strong> privacidade@gotour.com<br />
-                        <strong>Morada Sede:</strong> Av. da Liberdade, 110, Lisboa, Portugal<br />
-                        <strong>Encarregado de Proteção de Dados (DPO):</strong> dpo@gotour.com
+                        <strong>Suporte Geral:</strong> suporte@gotour.com
                     </p>
                 </>
             )
-        },
+        }
     ];
 
     const filteredSections = sections.filter(section => {
         if (!searchQuery) return true;
         const query = searchQuery.toLowerCase();
         return section.title.toLowerCase().includes(query) ||
-            section.id.toLowerCase().includes(query); // We search IDs just to catch keywords like "cookies"
+            section.id.toLowerCase().includes(query);
     });
 
     return (
         <LegalPageLayout
             title="Política de Privacidade"
-            lastUpdated="20 de Janeiro, 2026"
+            lastUpdated="Março de 2026"
             onSearch={setSearchQuery}
         >
             {filteredSections.map(section => (
