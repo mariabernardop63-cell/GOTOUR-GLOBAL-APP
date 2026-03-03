@@ -319,8 +319,8 @@
     .welcome-page-content {
         padding: 0;
         justify-content: flex-start;
-        overflow-x: hidden;
-        min-height: 100vh;
+        overflow: hidden;
+        height: 100vh;
         background-color: #F7F9FC;
     }
 
