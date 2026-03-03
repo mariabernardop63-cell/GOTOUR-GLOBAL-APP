@@ -189,11 +189,11 @@ const Welcome = () => {
                         {/* ── LEFT COLUMN ── */}
                         <div className="hero-left">
                             <div className={`hero-headline-wrapper ${headlineVisible ? 'visible' : 'hidden'}`}>
-                                <h1 className="hero-h1">
-                                    <span className="hero-h1-line" style={{ fontSize: '1.2em' }}>GO TOUR</span>
-                                    <span className="hero-h1-line" style={{ fontSize: '0.6em', color: '#048c83', marginTop: '10px' }}>{currentHeadline.line1}</span>
-                                    <span className="hero-h1-line" style={{ fontSize: '0.6em', color: '#048c83' }}>{currentHeadline.line2}</span>
-                                    <span className="hero-h1-line" style={{ fontSize: '0.6em', color: '#048c83' }}>{currentHeadline.line3}</span>
+                                <h1 className="hero-h1" style={{ marginBottom: '10px' }}>GO TOUR</h1>
+                                <h1 className="hero-h1" style={{ fontSize: '0.6em', color: '#048c83', marginBottom: 0 }}>
+                                    <span className="hero-h1-line">{currentHeadline.line1}</span>
+                                    <span className="hero-h1-line">{currentHeadline.line2}</span>
+                                    <span className="hero-h1-line">{currentHeadline.line3}</span>
                                 </h1>
                             </div>
 
