@@ -138,9 +138,9 @@ const Welcome = () => {
 
                     {/* Mobile Title */}
                     <div className="mobile-intro slide-up">
-                        <h1 className="welcome-title" style={{ fontSize: '1.8rem', lineHeight: '1.2' }}>Plataforma digital de turismo para descoberta de destinos, planeamento inteligente e gestão segura de reservas online.</h1>
+                        <h1 className="welcome-title">Explore o Mundo <br />Como um Local</h1>
                         <p className="welcome-subtitle">
-                            A GOTOUR permite aos utilizadores pesquisar destinos, comparar opções de hospedagem, organizar itinerários personalizados e gerir reservas de forma prática e segura, tudo numa única plataforma.
+                            Descubra destinos incríveis, conecte-se com guias locais e viva experiências autênticas.
                         </p>
                     </div>
 
@@ -188,14 +188,16 @@ const Welcome = () => {
                     <div className="desktop-hero">
                         {/* ── LEFT COLUMN ── */}
                         <div className="hero-left">
-                            <div className="hero-headline-wrapper visible">
-                                <h1 className="hero-h1" style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)', lineHeight: '1.2' }}>
-                                    Plataforma digital de turismo para descoberta de destinos, planeamento inteligente e gestão segura de reservas online.
+                            <div className={`hero-headline-wrapper ${headlineVisible ? 'visible' : 'hidden'}`}>
+                                <h1 className="hero-h1">
+                                    <span className="hero-h1-line">{currentHeadline.line1}</span>
+                                    <span className="hero-h1-line">{currentHeadline.line2}</span>
+                                    <span className="hero-h1-line">{currentHeadline.line3}</span>
                                 </h1>
                             </div>
 
                             <p className="hero-sub">
-                                A GOTOUR permite aos utilizadores pesquisar destinos, comparar opções de hospedagem, organizar itinerários personalizados e gerir reservas de forma prática e segura, tudo numa única plataforma.
+                                Conecte-se com viajantes, explore destinos{'\n'}e viva experiências autênticas.
                             </p>
 
                             <div className="hero-ctas">
@@ -220,7 +222,7 @@ const Welcome = () => {
                                     Já tenho conta
                                 </button>
                             </div>
-
+                            
                             {/* Desktop Legal Links */}
                             <div className="hero-legal-links" style={{ marginTop: '24px', fontSize: '14px', color: '#6B7280' }}>
                                 Aceder aos <button onClick={() => navigateForward('/terms-of-service')} style={{ background: 'none', border: 'none', color: '#1E90FF', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Termos de Serviço</button> e à <button onClick={() => navigateForward('/privacy-policy')} style={{ background: 'none', border: 'none', color: '#1E90FF', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Política de Privacidade</button>.
