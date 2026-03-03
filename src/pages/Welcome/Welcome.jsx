@@ -13,13 +13,7 @@ import DesktopSignup from '../DesktopSignup/DesktopSignup';
 
 import gotourIcon from '../../assets/images/gotour_icon.png';
 
-/* ── Rotating headlines for the desktop hero ── */
-const HERO_HEADLINES = [
-    { line1: 'Descubra destinos', line2: 'pelo mundo inteiro', line3: 'com a GO TOUR' },
-    { line1: 'Conecte-se a', line2: 'culturas autênticas', line3: 'e viva aventuras' },
-    { line1: 'Planeje sua', line2: 'próxima jornada', line3: 'explore sem limites' },
-    { line1: 'A sua plataforma', line2: 'digital de turismo', line3: 'comece hoje' },
-];
+/* ── Static headline for Google validation ── */
 
 
 
@@ -33,13 +27,6 @@ const Welcome = () => {
     const [showDesktopLogin, setShowDesktopLogin] = useState(false);
     const [showDesktopSignup, setShowDesktopSignup] = useState(false);
 
-    /* Rotating headline index */
-    const [headlineIdx, setHeadlineIdx] = useState(0);
-    const [headlineVisible, setHeadlineVisible] = useState(true);
-    const headlineTimerRef = useRef(null);
-
-
-
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 1024);
@@ -47,19 +34,6 @@ const Welcome = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-    /* ── Headline rotation every 5 s ── */
-    useEffect(() => {
-        if (isMobile) return;
-        headlineTimerRef.current = setInterval(() => {
-            setHeadlineVisible(false);
-            setTimeout(() => {
-                setHeadlineIdx((prev) => (prev + 1) % HERO_HEADLINES.length);
-                setHeadlineVisible(true);
-            }, 500); // fade-out duration before switching
-        }, 5000);
-        return () => clearInterval(headlineTimerRef.current);
-    }, [isMobile]);
 
 
 
@@ -119,7 +93,7 @@ const Welcome = () => {
         }, 350);
     };
 
-    const currentHeadline = HERO_HEADLINES[headlineIdx];
+
 
 
     return (
@@ -139,9 +113,9 @@ const Welcome = () => {
 
                         {/* Mobile Title */}
                         <div className="mobile-intro slide-up">
-                            <h1 className="welcome-title">Bem-vindo à <br />GO TOUR</h1>
-                            <p className="welcome-subtitle">
-                                Plataforma digital de turismo para descoberta de destinos, planeamento inteligente e gestão segura de reservas online.
+                            <h1 className="welcome-title">GO TOUR</h1>
+                            <p className="welcome-subtitle" style={{ lineHeight: '1.5' }}>
+                                Plataforma digital de turismo para descoberta de destinos, planeamento inteligente e gestão segura de reservas online. A GO TOUR permite pesquisar destinos, comparar alojamentos, organizar itinerários personalizados e gerir reservas numa única plataforma segura.
                             </p>
                         </div>
 
@@ -189,17 +163,12 @@ const Welcome = () => {
                         <div className="desktop-hero">
                             {/* ── LEFT COLUMN ── */}
                             <div className="hero-left">
-                                <div className={`hero-headline-wrapper ${headlineVisible ? 'visible' : 'hidden'}`}>
+                                <div className="hero-headline-wrapper visible">
                                     <h1 className="hero-h1" style={{ marginBottom: '10px' }}>GO TOUR</h1>
-                                    <h1 className="hero-h1" style={{ fontSize: '0.6em', color: '#048c83', marginBottom: 0 }}>
-                                        <span className="hero-h1-line">{currentHeadline.line1}</span>
-                                        <span className="hero-h1-line">{currentHeadline.line2}</span>
-                                        <span className="hero-h1-line">{currentHeadline.line3}</span>
-                                    </h1>
                                 </div>
 
-                                <p className="hero-sub" style={{ maxWidth: '450px' }}>
-                                    A GO TOUR permite pesquisar destinos, comparar alojamentos, organizar itinerários personalizados e gerir reservas numa única plataforma segura.
+                                <p className="hero-sub" style={{ maxWidth: '480px' }}>
+                                    Plataforma digital de turismo para descoberta de destinos, planeamento inteligente e gestão segura de reservas online. A GO TOUR permite pesquisar destinos, comparar alojamentos, organizar itinerários personalizados e gerir reservas numa única plataforma segura.
                                 </p>
 
                                 <div className="hero-ctas">
