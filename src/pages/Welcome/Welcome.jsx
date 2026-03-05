@@ -10,6 +10,7 @@ import VideoBackground from '../../components/VideoBackground/VideoBackground';
 import DesktopNavbar from '../../components/DesktopNavbar/DesktopNavbar';
 import DesktopLogin from '../DesktopLogin/DesktopLogin';
 import DesktopSignup from '../DesktopSignup/DesktopSignup';
+import DesktopSlideshow from '../../components/DesktopSlideshow/DesktopSlideshow';
 
 import gotourIcon from '../../assets/images/gotour_icon.png';
 
@@ -72,8 +73,8 @@ const Welcome = () => {
             document.body.style.backgroundColor = '#000';
         } else {
             document.body.classList.remove('video-active');
-            document.body.style.background = '#F7F9FC';
-            document.body.style.backgroundColor = '#F7F9FC';
+            document.body.style.background = 'none';
+            document.body.style.backgroundColor = '#000';
         }
 
         return () => {
@@ -176,6 +177,7 @@ const Welcome = () => {
                 </>
             ) : (
                 <>
+                    <DesktopSlideshow />
                     {/* ═══════ DESKTOP ═══════ */}
                     <DesktopNavbar
                         onLoginClick={() => setShowDesktopLogin(true)}
@@ -221,26 +223,14 @@ const Welcome = () => {
                             </div>
 
                             {/* Desktop Legal Links */}
-                            <div className="hero-legal-links" style={{ marginTop: '24px', fontSize: '14px', color: '#6B7280' }}>
-                                Aceder aos <button onClick={() => navigateForward('/terms-of-service')} style={{ background: 'none', border: 'none', color: '#1E90FF', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Termos de Serviço</button> e à <button onClick={() => navigateForward('/privacy-policy')} style={{ background: 'none', border: 'none', color: '#1E90FF', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Política de Privacidade</button>.
+                            <div className="hero-legal-links" style={{ marginTop: '24px', fontSize: '14px', color: '#E5E7EB' }}>
+                                Aceder aos <button onClick={() => navigateForward('/terms-of-service')} style={{ background: 'none', border: 'none', color: '#3B82F6', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Termos de Serviço</button> e à <button onClick={() => navigateForward('/privacy-policy')} style={{ background: 'none', border: 'none', color: '#3B82F6', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Política de Privacidade</button>.
                             </div>
                         </div>
 
-                        {/* ── RIGHT COLUMN — PREMIUM VIDEO ── */}
+                        {/* ── RIGHT COLUMN — REMOVED ── */}
                         <div className="hero-right">
-                            <div className="hero-video-wrapper">
-                                <video
-                                    className="hero-video"
-                                    autoPlay
-                                    muted
-                                    loop
-                                    playsInline
-                                    preload="auto"
-                                    src="https://video-hostingnew.vercel.app/video-bg.mp4"
-                                >
-                                    <source src="https://video-hostingnew.vercel.app/video-bg.mp4" type="video/mp4" />
-                                </video>
-                            </div>
+                            {/* Empty or can hold something else in the future */}
                         </div>
                     </div>
 

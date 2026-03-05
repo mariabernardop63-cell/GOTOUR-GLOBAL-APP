@@ -157,26 +157,8 @@ const Signup = () => {
             setIsLoading(true);
             setErrors({});
 
-            try {
-                // Check if email already exists using OTP with shouldCreateUser: false
-                const { error: checkError } = await supabase.auth.signInWithOtp({
-                    email: formData.email.trim(),
-                    options: { shouldCreateUser: false }
-                });
-
-                if (!checkError) {
-                    // No error = user EXISTS in Auth (OTP was sent successfully)
-                    // Sign them out to clear any session
-                    await supabase.auth.signOut();
-
-                    // We shouldn't block them entirely if they abandoned signup.
-                    // But we should warn them they might already have an account.
-                    // However, per user request, we just let them proceed to step 2 
-                    // where they will finish creating their profile and overwrite the password.
-                }
-            } catch (err) {
-                console.error('Email check error:', err);
-            }
+            // We no longer block users here because unverified users would get locked out forever.
+            // Supabase will automatically send/resend the OTP when they reach the next step.
 
             // Save step progress
             localStorage.setItem('signupStep', '2');

@@ -52,7 +52,7 @@
 }
 
 .dl-input-group .custom-dropdown-header.open:not(.no-border) {
-    border: 2px solid #1A73E8;
+    border: 2px solid var(--gotour-primary, #3BB2B8);
     padding: 0 15px;
     /* Offset the border increase */
 }
@@ -79,8 +79,9 @@
 }
 
 .ds-phone-container:focus-within {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    border-color: var(--gotour-primary, #3BB2B8);
+    box-shadow: 0 0 0 3px rgba(59, 178, 184, 0.15);
+    /* Teal focus glow */
 }
 
 .ds-phone-container.invalid {

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Eye, EyeOff, ChevronDown, ArrowLeft, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, ChevronDown, ArrowLeft, Loader2, Mail, Lock } from 'lucide-react';
 import authBgNew from '../../assets/images/auth_bg_new.jpg';
 import { useNavigation } from '../../App';
 import { supabase } from '../../lib/supabase';
@@ -222,7 +222,8 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
                         <h1 className="dl-title">Acesse Sua Conta</h1>
 
                         <form className="dl-form" onSubmit={handleLogin}>
-                            <div className="dl-input-group">
+                            <div className="dl-input-group has-icon-left">
+                                <Mail size={20} color="#8E8E93" className="dl-input-icon-left" />
                                 <input
                                     type="email"
                                     className={`dl-input${email ? ' has-value' : ''}`}
@@ -234,7 +235,8 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
                                 <label className="dl-floating-label">Email</label>
                             </div>
 
-                            <div className="dl-input-group dl-mt-18 dl-password-wrapper">
+                            <div className="dl-input-group dl-mt-18 dl-password-wrapper has-icon-left">
+                                <Lock size={20} color="#8E8E93" className="dl-input-icon-left" />
                                 <input
                                     type="text"
                                     className={`dl-input dl-input-password${displayPassword ? ' has-value' : ''}`}
@@ -299,6 +301,17 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className="dl-bottom-bar" style={{ position: 'absolute', bottom: '32px', left: 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <span style={{ fontSize: '14px', color: '#5F6368', marginRight: '4px' }}>Novo por aqui?</span>
+                    <button
+                        onClick={() => navigateForward('/signup')}
+                        className="dl-create-account-btn"
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: 'var(--gotour-primary)', fontWeight: '600' }}
+                    >
+                        Crie sua conta agora
+                    </button>
                 </div>
 
             </div>

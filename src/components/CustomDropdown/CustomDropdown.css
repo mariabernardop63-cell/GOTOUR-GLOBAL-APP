@@ -21,7 +21,7 @@
 }
 
 .custom-dropdown-header.open {
-    border-color: #048c83;
+    border-color: var(--gotour-primary, #3BB2B8);
     background: #ffffff;
 }
 
@@ -104,7 +104,7 @@
 }
 
 .custom-dropdown-search input:focus {
-    border-color: #048c83;
+    border-color: var(--gotour-primary, #3BB2B8);
 }
 
 .custom-dropdown-list {
@@ -142,7 +142,8 @@
 }
 
 .custom-dropdown-item.selected {
-    background: #E0F2F1;
+    background: #E5F7F8;
+    /* Light teal background */
 }
 
 .dropdown-item-name {

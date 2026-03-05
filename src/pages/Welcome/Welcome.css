@@ -321,7 +321,7 @@
         justify-content: flex-start;
         overflow: hidden;
         height: 100vh;
-        background-color: #F7F9FC;
+        background-color: transparent;
     }
 
     /* ═══════ TWO-COLUMN HERO ═══════ */
@@ -330,9 +330,11 @@
         align-items: center;
         height: calc(100vh - 72px);
         margin-top: 72px;
-        padding: 0 clamp(40px, 5vw, 80px);
+        padding: 0 clamp(24px, 3vw, 40px);
+        /* Reduced horizontal padding */
         gap: 40px;
         max-width: 1440px;
+        /* Expand to fill more width of the screen */
         margin-left: auto;
         margin-right: auto;
         width: 100%;
@@ -342,7 +344,8 @@
     /* ── LEFT COLUMN ── */
     .hero-left {
         flex: 1 1 0;
-        max-width: 560px;
+        max-width: 720px;
+        /* Give texts even more space */
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -370,7 +373,7 @@
         font-weight: 600;
         line-height: 1.2;
         letter-spacing: -0.5px;
-        color: #111111;
+        color: #ffffff;
         margin: 0;
         display: flex;
         flex-direction: column;
@@ -387,7 +390,7 @@
         font-size: 18px;
         font-weight: 400;
         line-height: 1.6;
-        color: #5F6368;
+        color: rgba(255, 255, 255, 0.9);
         margin-top: 24px;
         max-width: 520px;
         white-space: pre-line;
@@ -426,13 +429,14 @@
     }
 
     .hero-btn-secondary {
-        background: transparent;
-        color: #111111;
-        border: 1.5px solid #DADCE0;
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        border: 1.5px solid rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(8px);
     }
 
     .hero-btn-secondary:hover {
-        background: #F0F2F5;
+        background: rgba(255, 255, 255, 0.2);
     }
 
     /* ── RIGHT COLUMN — PREMIUM VIDEO ── */
@@ -466,7 +470,7 @@
         display: block;
     }
 
-    /* Elegant left-side fade overlay */
+    /* Elegant left-side fade overlay removed or darkened */
     .hero-video-wrapper::before {
         content: '';
         position: absolute;
@@ -474,7 +478,7 @@
         left: 0;
         width: 80px;
         height: 100%;
-        background: linear-gradient(to right, #F7F9FC 0%, rgba(247, 249, 252, 0) 100%);
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
         z-index: 2;
         pointer-events: none;
     }

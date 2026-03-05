@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 import { ArrowLeft, Loader2, User, Mail, Globe, Phone, Calendar, Lock, Eye, EyeOff, ChevronDown } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { countries } from '../../data/countries';
@@ -13,6 +12,7 @@ import './DesktopSignup.css';
 import CustomDropdown from '../../components/CustomDropdown/CustomDropdown';
 import CountryCodeDropdown from '../../components/CountryCodeDropdown/CountryCodeDropdown';
 import SkeletonAuth from '../../components/SkeletonAuth/SkeletonAuth';
+import { useLocation } from 'react-router-dom';
 
 const DesktopSignup = ({ onBack, onNavigateLogin }) => {
     const location = useLocation();
@@ -161,7 +161,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
         }
     };
 
-    const validateStep = (currentStep) => {
+    const validateStep = (currentStep, explicitOtp = null) => {
         const newErrors = {};
         if (currentStep === 1) {
             if (!formData.fullName.trim()) newErrors.fullName = 'Nome obrigatório';
@@ -182,7 +182,8 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
             if (!formData.dobDay || !formData.dobMonth || !formData.dobYear) newErrors.dob = 'Data de nascimento obrigatória';
         }
         if (currentStep === 3) {
-            if (otp.join('').length < 8) newErrors.otp = 'Insira o código de 8 dígitos completo';
+            const currentOtp = explicitOtp ? explicitOtp.join('') : otp.join('');
+            if (currentOtp.length < 8) newErrors.otp = 'Insira o código de 8 dígitos completo';
         }
         if (currentStep === 4) {
             if (formData.password.length < 6) newErrors.password = 'Mínimo 6 caracteres';
@@ -218,7 +219,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
     };
 
     const handleNext = async (explicitOtp) => {
-        const stepErrors = validateStep(step);
+        const stepErrors = validateStep(step, explicitOtp);
         if (Object.keys(stepErrors).length > 0) {
             setErrors(stepErrors);
             return;
@@ -228,30 +229,9 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
             setIsLoading(true);
             setErrors({});
 
-            try {
-                // Check if email already exists using OTP with shouldCreateUser: false
-                // If user exists, Supabase will send OTP successfully (no error)
-                // If user does NOT exist, Supabase will return an error
-                const { error: checkError } = await supabase.auth.signInWithOtp({
-                    email: formData.email.trim(),
-                    options: { shouldCreateUser: false }
-                });
+            // We no longer block users here because unverified users would get locked out forever.
+            // Supabase will automatically send/resend the OTP when they reach the next step.
 
-                if (!checkError) {
-                    // No error = user EXISTS (OTP was sent successfully)
-                    // Sign them out to clear any session
-                    await supabase.auth.signOut();
-                    setErrors({ email: 'Este email já está registado. Faça login ou recupere a sua conta.' });
-                    setIsLoading(false);
-                    return;
-                }
-
-                // Error means user does NOT exist - they can proceed with registration
-                // (error is usually "Signups not allowed for otp" or "User not found")
-            } catch (err) {
-                // Network error - let them proceed anyway
-                console.error('Email check error:', err);
-            }
 
             // Save step progress
             localStorage.setItem('signupStep', '2');
@@ -348,7 +328,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                 const { data, error } = await supabase.auth.verifyOtp({
                     email: formData.email,
                     token: code,
-                    type: 'email'
+                    type: 'signup'
                 });
 
                 if (error) {
@@ -523,7 +503,8 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                         </div>
                         {errors.fullName && <span className="error-msg-ds">{errors.fullName}</span>}
 
-                        <div className="dl-input-group" style={{ marginTop: '18px' }}>
+                        <div className="dl-input-group dl-mt-18 has-icon-left">
+                            <Mail size={20} color="#8E8E93" className="dl-input-icon-left" />
                             <input
                                 type="email"
                                 name="email"

@@ -21,6 +21,10 @@
     z-index: 99999;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
     animation: smoothScaleFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    --gotour-primary: #3BB2B8;
+    /* Teal match */
+    --gotour-primary-hover: #299399;
+    /* Darker Teal */
 }
 
 /* 35% Left Pane (Favela Image) */
@@ -146,6 +150,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center bottom;
     display: block;
 }
 
@@ -155,14 +160,13 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    /* keep horizontal center */
-    justify-content: flex-start;
-    /* top alignment to allow padding push down */
-    padding-top: 15vh;
-    /* Lowers the entire form contents */
-    padding-left: 8%;
-    background: #ffffff;
+    align-items: flex-start;
+    /* Left aligned, not centered */
+    justify-content: center;
+    /* Vertically centered */
+    padding-left: 10%;
+    /* Offset from the left image edge */
+    background: #F9FAFB;
     overflow-y: auto;
 }
 
@@ -220,10 +224,17 @@
     width: 100%;
 }
 
-/* Form Section */
+/* Form Section -> Rendered as an elevated Card Block */
 .dl-form-section {
     width: 100%;
-    max-width: 420px;
+    max-width: 480px;
+    /* Slightly wider to accommodate padding */
+    background: #FFFFFF;
+    padding: 48px;
+    border-radius: 24px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.05);
+    /* Clean, modern elevation */
 }
 
 .dl-title {
@@ -254,9 +265,10 @@
     width: 100%;
     height: 56px;
     border: 1px solid #DADCE0;
-    border-radius: 4px;
+    border-radius: 10px;
+    /* More rounded */
     padding: 24px 16px 8px;
-    /* Make room for floating label */
+    /* Default without left icon */
     font-size: 16px;
     color: #202124;
     transition: all 0.2s ease;
@@ -265,10 +277,29 @@
     outline: none;
 }
 
+/* Modifier for inputs with left icon */
+.has-icon-left .dl-input {
+    padding-left: 48px;
+}
+
+.dl-input-icon-left {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    pointer-events: none;
+    transition: color 0.2s ease;
+}
+
 .dl-input:focus {
-    border: 2px solid #1A73E8;
+    border: 2px solid var(--gotour-primary);
     padding: 23px 15px 7px;
     /* Offset the +1px border */
+}
+
+.has-icon-left .dl-input:focus {
+    padding-left: 47px;
 }
 
 /* Hide placeholder since we use floating label */
@@ -294,6 +325,11 @@
     background: transparent;
 }
 
+/* Adjust label starting pos if input has icon */
+.has-icon-left .dl-floating-label {
+    left: 48px;
+}
+
 .dl-input:focus~.dl-floating-label,
 .dl-input.has-value~.dl-floating-label,
 select.dl-input~.dl-floating-label {
@@ -303,10 +339,21 @@ select.dl-input~.dl-floating-label {
 }
 
 .dl-input:focus~.dl-floating-label {
-    color: #1A73E8;
+    color: var(--gotour-primary);
+    left: 16px;
+    /* Reset left when focused / has value since it goes to top */
 }
 
-/* Password Wrapper & Toggle */
+.has-icon-left .dl-input.has-value~.dl-floating-label,
+.has-icon-left .dl-input:focus~.dl-floating-label {
+    left: 48px;
+}
+
+/* Highlight icon when focused */
+.dl-input:focus~.dl-input-icon-left {
+    color: var(--gotour-primary) !important;
+}
+
 .dl-password-wrapper {
     position: relative;
     display: flex;
@@ -314,11 +361,12 @@ select.dl-input~.dl-floating-label {
 }
 
 .dl-input-password {
-    padding: 24px 48px 8px 16px;
+    padding: 24px 48px 8px 48px;
+    /* right for eye, left for lock */
 }
 
-.dl-input-password:focus {
-    padding: 23px 47px 7px 15px;
+.has-icon-left .dl-input-password:focus {
+    padding: 23px 47px 7px 47px;
 }
 
 .dl-password-toggle {
@@ -344,7 +392,7 @@ select.dl-input~.dl-floating-label {
 /* Forgot Password Link */
 .dl-forgot-link {
     display: inline-block;
-    color: #111111;
+    color: var(--gotour-primary);
     font-size: 14px;
     text-decoration: none;
     margin-top: 12px;
@@ -354,7 +402,7 @@ select.dl-input~.dl-floating-label {
 
 .dl-forgot-link:hover {
     text-decoration: underline;
-    color: #333333;
+    opacity: 0.8;
 }
 
 /* Primary Button (Updated to match inputs) */
@@ -366,10 +414,10 @@ select.dl-input~.dl-floating-label {
     background: #e5e5e5;
     color: #A0A0A0;
     border: none;
-    border-radius: 4px;
-    /* Matches .dl-input */
+    border-radius: 10px;
+    /* Match input */
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: default;
     transition: all 0.25s ease;
     font-family: inherit;
@@ -377,14 +425,14 @@ select.dl-input~.dl-floating-label {
 
 /* Active State: At least one input has text */
 .dl-submit-btn.is-active {
-    background: #111111;
-    /* Preta */
+    background: var(--gotour-primary);
+    /* Teal cyan */
     color: #FFFFFF;
     cursor: pointer;
 }
 
 .dl-submit-btn.is-active:hover {
-    background: #000000;
+    background: var(--gotour-primary-hover);
 }
 
 .dl-submit-btn.is-active:active {

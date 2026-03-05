@@ -56,18 +56,25 @@ const DesktopForgotPassword = () => {
         setIsLoading(true);
 
         try {
-            const redirectUrl = window.location.origin + '/create-password';
-            const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: redirectUrl
+            // Em vez de usar resetPasswordForEmail e expor a conta ou criar lixo com o dummy signUp,
+            // usamos signInWithOtp com a opção 'shouldCreateUser: false'. 
+            // O Supabase enviará o código de 8 dígitos para a conta SE ela existir.
+            // Se NÃO existir, devolve um erro imediato bloqueando o envio.
+            const { error: signInError } = await supabase.auth.signInWithOtp({
+                email: email,
+                options: {
+                    shouldCreateUser: false
+                }
             });
 
-            if (resetError) {
-                const msg = resetError.message || '';
-                if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
+            if (signInError) {
+                const msg = signInError.message.toLowerCase();
+                if (msg.includes('rate limit') || msg.includes('rate_limit')) {
                     setError('Voce tentou inumeras vezes,Volte a tentar mais tarde.');
                     startCooldown();
                 } else {
-                    setError(resetError.message || 'Não foi possível enviar o email. Tente novamente.');
+                    // Se der qualquer outro erro, assumimos que a conta não foi encontrada ou não é permitida.
+                    setError('Esta conta ainda não esta registada');
                 }
                 setIsLoading(false);
                 return;
@@ -125,11 +132,13 @@ const DesktopForgotPassword = () => {
         setError('');
 
         try {
-            const redirectUrl = window.location.origin + '/create-password';
-            const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: redirectUrl
+            const { error: resendError } = await supabase.auth.signInWithOtp({
+                email: email,
+                options: {
+                    shouldCreateUser: false
+                }
             });
-            if (resetError) throw resetError;
+            if (resendError) throw resendError;
             startCooldown();
         } catch (err) {
             setError('Erro ao reenviar código. Tente novamente.');
@@ -138,23 +147,21 @@ const DesktopForgotPassword = () => {
         }
     };
 
-    const handleVerifyOtp = async () => {
+    const handleVerifyOtp = async (explicitOtp) => {
         setIsLoading(true);
         setError('');
 
         try {
             // Check if passed explicitly from handleOtpChange, else use state
             let code = otp.join('');
-            // If the first argument passed to handleVerifyOtp is a string, use it
-            // (Note: we avoid 'arguments' keyword because arrow functions don't have it)
-            if (arguments.length > 0 && typeof arguments[0] === 'string') {
-                code = arguments[0];
+            if (explicitOtp && typeof explicitOtp === 'string') {
+                code = explicitOtp;
             }
 
             const { data, error: vError } = await supabase.auth.verifyOtp({
                 email: email,
                 token: code,
-                type: 'recovery'
+                type: 'email'
             });
 
             if (vError) {
@@ -225,10 +232,11 @@ const DesktopForgotPassword = () => {
                                     Introduza o email associado à sua conta e enviaremos um link seguro para redefinir a sua palavra-passe.
                                 </p>
 
-                                <div className="dl-input-group">
+                                <div className="dl-input-group has-icon-left">
+                                    <Mail size={20} color="#8E8E93" className="dl-input-icon-left" />
                                     <input
                                         type="email"
-                                        className="dl-input"
+                                        className={`dl-input${email ? ' has-value' : ''}`}
                                         placeholder="O seu email"
                                         value={email}
                                         onChange={(e) => {
@@ -313,10 +321,10 @@ const DesktopForgotPassword = () => {
                                 navigateBack('/login');
                             }
                         }}
-                        className="dl-create-account-centered"
-                        style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                        className="dl-create-account-btn"
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: 'var(--gotour-primary)', fontWeight: '600' }}
                     >
-                        {step === 2 ? 'Voltar' : 'Voltar para Iniciar Sessão'}
+                        {step === 2 ? 'Voltar' : 'Já tem uma conta? Inciar Sessão'}
                     </button>
                 </div>
             </div>

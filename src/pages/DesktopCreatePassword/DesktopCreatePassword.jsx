@@ -36,6 +36,7 @@ const DesktopCreatePassword = () => {
     // Default to true manually if we want to show terms for signup flow
     // A simplistic check: if profileData has keys, it's a signup flow
     const isSignup = Object.keys(profileData).length > 0;
+    const isPasswordReset = location.state?.flow === 'password-reset-verified';
 
     // On mount: recover profile data from localStorage
     useEffect(() => {
@@ -187,7 +188,7 @@ const DesktopCreatePassword = () => {
 
                 <div className="dl-content-wrapper">
                     <div className="dl-form-section">
-                        <h1 className="dl-title">{isSignup ? 'Segurança' : 'Nova Palavra-passe'}</h1>
+                        <h1 className="dl-title">{isSignup ? 'Segurança' : (isPasswordReset ? 'Recupere a sua conta' : 'Nova Palavra-passe')}</h1>
 
                         <div className="form-step fade-in-up">
                             <div className="dl-input-group dl-password-wrapper">

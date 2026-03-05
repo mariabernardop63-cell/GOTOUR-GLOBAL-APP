@@ -8,30 +8,34 @@
     width: 100%;
     z-index: 100;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    background: rgba(247, 249, 252, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: none;
 }
 
-/* Container for alignment */
 .navbar-container {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 16px clamp(60px, 6vw, 120px);
+    padding: 16px clamp(24px, 3vw, 40px);
+    /* Reduced horizontal padding further */
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 72px;
     box-sizing: border-box;
     transition: padding 0.4s ease, height 0.4s ease;
+    position: relative;
+    /* Anchor for mega dropdown */
 }
 
 /* Scrolled State */
 .desktop-navbar.scrolled {
-    background: rgba(247, 249, 252, 0.95);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .desktop-navbar.scrolled .navbar-container {
@@ -60,9 +64,25 @@
 .navbar-brand-name {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.15rem;
-    font-weight: 700;
-    color: #111111;
+    font-weight: 500;
+    color: #ffffff;
     letter-spacing: -0.3px;
+}
+
+.navbar-menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    margin-right: 8px;
+    transition: transform 0.2s ease;
+}
+
+.navbar-menu-btn:hover {
+    transform: scale(1.05);
 }
 
 /* Center: Links */
@@ -73,16 +93,17 @@
 }
 
 .nav-link {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #5F6368;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
     transition: color 0.2s ease;
     text-decoration: none;
+    letter-spacing: 0.2px;
 }
 
 .nav-link:hover {
-    color: #111111;
+    color: #ffffff;
 }
 
 /* Right: Actions */
@@ -93,41 +114,200 @@
 }
 
 .nav-btn-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #5F6368;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
     background: none;
     border: none;
     cursor: pointer;
     transition: color 0.2s ease;
     padding: 8px 12px;
+    letter-spacing: 0.2px;
 }
 
 .nav-btn-text:hover {
-    color: #111111;
+    color: #ffffff;
 }
 
 /* Styles for the 'Começar' button */
 .desktop-navbar .btn.nav-btn-primary,
 .desktop-navbar button.nav-btn-primary {
-    background: #111111 !important;
+    background: rgba(255, 255, 255, 0.1) !important;
     border-radius: 10px !important;
-    font-size: 0.9rem !important;
+    font-size: 0.95rem !important;
     font-weight: 500 !important;
     height: 40px !important;
     padding: 0 20px !important;
     box-shadow: none !important;
-    border: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
     color: #ffffff !important;
+    backdrop-filter: blur(8px);
 }
 
 .desktop-navbar .btn.nav-btn-primary:hover,
 .desktop-navbar button.nav-btn-primary:hover {
-    background: #000000 !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
-    transform: none !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-1px) !important;
 }
+
+/* --- Dropdown Container System --- */
+.nav-item-container {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    /* requested medium weight */
+    color: #ffffff;
+    /* fallback light color on dark bg */
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    text-decoration: none;
+    letter-spacing: 0.2px;
+    padding: 8px 12px;
+}
+
+/* We invert text color when not scrolled for better visibility, this might depend on Welcome.css hero */
+.desktop-navbar:not(.scrolled) .nav-link {
+    color: rgba(255, 255, 255, 0.85); /* Reverted to the original light gray/translucent white */
+    font-weight: 500;
+}
+
+.desktop-navbar:not(.scrolled) .navbar-brand-name {
+    color: #ffffff;
+    /* adjust brand name color */
+}
+
+.desktop-navbar:not(.scrolled) .navbar-menu-btn svg {
+    stroke: #ffffff;
+    /* adjust menu color */
+}
+
+.desktop-navbar:not(.scrolled) .nav-btn-text {
+    color: rgba(255, 255, 255, 0.85); /* Reverted to light gray */
+}
+
+
+.nav-link:hover,
+.nav-link.active {
+    color: #3B82F6;
+    /* Slight color change on hover as requested */
+}
+
+.desktop-navbar.scrolled .nav-link:hover,
+.desktop-navbar.scrolled .nav-link.active {
+    color: #ffffff;
+}
+
+
+/* --- Mega Dropdown Panel (Dark Glassmorphism) --- */
+.nav-mega-dropdown {
+    position: absolute;
+    top: 100%;
+    /* Right below navbar */
+    left: 0;
+    right: 0;
+    width: 100%;
+
+    background: rgba(10, 15, 30, 0.2);
+    /* Dark background with 80% transparency */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border-radius: 0;
+    /* Remove rounded corners */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    /* Soft, diffuse bottom shadow */
+
+    padding: 24px 0 32px 0;
+    /* Adjusted vertical padding for vertical list */
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-5px);
+    /* Subtler entrance movement */
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    /* Very subtle separator from the navbar */
+}
+
+/* State when show class is applied */
+.nav-mega-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* --- Dropdown Items Layout --- */
+.mega-dropdown-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 1440px;
+    margin: 0 auto;
+    /* Match navbar padding horizontally to keep text aligned */
+    padding: 0 clamp(24px, 3vw, 40px);
+    box-sizing: border-box;
+    justify-content: flex-start;
+    align-items: flex-start;
+    /* Align flex items to left */
+}
+
+.mega-dropdown-item {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    /* Optional: add some padding to make clickable area larger */
+    padding: 4px 0;
+}
+
+.mega-dropdown-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    /* Medium to Semibold */
+    font-size: 1.05rem;
+    /* Slightly larger clean font */
+    color: rgba(255, 255, 255, 0.85);
+    /* Light gray/white text */
+    transition: color 0.2s ease, transform 0.2s ease;
+    position: relative;
+    letter-spacing: 0.2px;
+}
+
+/* Elegant Hover Effect (Slight color brightening and subtle underline) */
+.mega-dropdown-title::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 1.5px;
+    background-color: #ffffff;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mega-dropdown-item:hover .mega-dropdown-title {
+    color: #ffffff;
+}
+
+.mega-dropdown-item:hover .mega-dropdown-title::after {
+    width: 100%;
+}
+
 
 
 /* --- DISPLAY ON DESKTOP --- */
