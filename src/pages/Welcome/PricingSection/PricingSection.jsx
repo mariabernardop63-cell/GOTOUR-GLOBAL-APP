@@ -1,285 +1,144 @@
 import React, { useState } from 'react';
-import { Check, Info } from 'lucide-react';
+import { Check } from 'lucide-react';
 import './PricingSection.css';
 
 const PricingSection = () => {
-    const [billingCycle, setBillingCycle] = useState('monthly');
+    const [billingCycle, setBillingCycle] = useState('Mensal');
 
     return (
-        <section id="planos" className="framer-pricing-section">
-            <div className="framer-pricing-container">
+        <section id="planos" className="pricing-section-wrapper">
+            <div className="pricing-content-max">
 
-                {/* Header matching Framer's clean typography */}
-                <div className="framer-pricing-header">
-                    <h1 className="framer-pricing-title">Find the perfect plan for your travels.</h1>
-                    <p className="framer-pricing-subtitle">Start for free, upgrade when you need more power and global reach.</p>
-                </div>
+                {/* Header matching Stitch/Framer layout */}
+                <header className="stitch-pricing-header">
+                    <h1 className="stitch-pricing-title">Planos para todos os viajantes.</h1>
+                    <p className="stitch-pricing-subtitle"> Escolha o plano perfeito para a sua próxima aventura. Simples, transparente e sem surpresas. </p>
 
-                {/* Billing Toggle (Framer style) */}
-                <div className="framer-billing-toggle">
-                    <button
-                        className={`toggle-btn ${billingCycle === 'monthly' ? 'active' : ''}`}
-                        onClick={() => setBillingCycle('monthly')}
-                    >
-                        Monthly
-                    </button>
-                    <button
-                        className={`toggle-btn ${billingCycle === 'yearly' ? 'active' : ''}`}
-                        onClick={() => setBillingCycle('yearly')}
-                    >
-                        Yearly <span className="discount-badge">Save 20%</span>
-                    </button>
-                </div>
+                    {/* Billing Toggle (Pill shape) */}
+                    <div className="stitch-toggle-container">
+                        <button
+                            className={`stitch-toggle-label ${billingCycle === 'Mensal' ? 'active' : ''}`}
+                            onClick={() => setBillingCycle('Mensal')}
+                        >
+                            Mensal
+                        </button>
+                        <button
+                            className={`stitch-toggle-label ${billingCycle === 'Anual' ? 'active' : ''}`}
+                            onClick={() => setBillingCycle('Anual')}
+                        >
+                            Anual
+                            <span className="stitch-toggle-badge">Economize 20%</span>
+                        </button>
+                    </div>
+                </header>
 
-                {/* Pricing Cards Grid */}
-                <div className="framer-pricing-grid">
+                {/* 3-Column Grid */}
+                <div className="stitch-pricing-grid">
 
-                    {/* PLAN 1: Explorador */}
-                    <div className="framer-card">
-                        <div className="card-top">
-                            <h3 className="plan-name">Explorador</h3>
-                            <div className="plan-price-block">
-                                <span className="currency">€</span>
-                                <span className="price">{billingCycle === 'monthly' ? '4.99' : '4'}</span>
-                                <span className="period">/mo</span>
-                            </div>
-                            <p className="plan-description">
-                                Plano ideal para quem quer começar a explorar o mundo com a GoTour e ter acesso às funcionalidades essenciais de viagem, descoberta e socialização.
-                            </p>
-                            <button className="framer-btn outline-btn">Começar Grátis</button>
+                    {/* PLAN 1: Explorador (Left Column) */}
+                    <div className="stitch-card stitch-card-basic">
+                        <h3 className="s-plan-name text-sec">Explorador</h3>
+                        <div className="s-price-wrap">
+                            <span className="s-price-val">{billingCycle === 'Mensal' ? '4.99€' : '4€'}</span>
+                            <span className="s-price-per">/mês</span>
                         </div>
-                        <div className="card-features-list">
-                            <h4 className="features-heading">Tudo que está incluído:</h4>
-                            <ul>
-                                <li><Check size={16} /> Assistente Turístico Inteligente – Sasha IA (Modelo 2.3)</li>
-                                <li><Check size={16} /> Mapa Inteligente</li>
-                                <li><Check size={16} /> Coleção de Memórias – 3GB (Cloud Storage)</li>
-                                <li><Check size={16} /> Sistema Social básico (até 50 amigos)</li>
-                                <li><Check size={16} /> Planeador de Viagens</li>
-                                <li><Check size={16} /> Recomendações Inteligentes</li>
-                                <li><Check size={16} /> Serviços Locais (pagamentos básicos para farmácias, táxis e serviços do país)</li>
-                                <li><Check size={16} /> Experiências (conteúdos de viajantes e experiências oficiais GoTour)</li>
-                                <li><Check size={16} /> Grupos & Comunidades (criar ou participar mediante aprovação)</li>
-                                <li><Check size={16} /> Reservas (voos e serviços locais)</li>
-                                <li><Check size={16} /> Vlogs até 10 minutos</li>
-                                <li><Check size={16} /> Anúncios reduzidos</li>
-                                <li><Check size={16} /> Acesso a mais de 70 países</li>
-                            </ul>
+                        <p className="s-plan-desc">Perfeito para viagens ocasionais e planeamento básico e exploração.</p>
+
+                        <button className="s-btn s-btn-outline">Começar agora</button>
+
+                        <div className="s-features-list">
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Assistente Turístico Inteligente – Sasha IA (Modelo 2.3)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Mapa Inteligente</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Coleção de Memórias – 3GB (Cloud Storage)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Sistema Social básico (até 50 amigos)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Planeador de Viagens</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Recomendações Inteligentes</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Serviços Locais (pagamentos básicos para farmácias, táxis e serviços do país)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Experiências (conteúdos de viajantes e experiências oficiais GoTour)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Grupos & Comunidades (criar ou participar mediante aprovação)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Reservas (voos e serviços locais)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Vlogs até 10 minutos</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Anúncios reduzidos</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Acesso a mais de 70 países</span></div>
                         </div>
                     </div>
 
-                    {/* PLAN 2: Pro+ (Highlighted) */}
-                    <div className="framer-card highlighted-card">
-                        <div className="card-badge">⭐ Mais Popular</div>
-                        <div className="card-top">
-                            <h3 className="plan-name">Pro+</h3>
-                            <div className="plan-price-block">
-                                <span className="currency">€</span>
-                                <span className="price">{billingCycle === 'monthly' ? '9.99' : '8'}</span>
-                                <span className="period">/mo</span>
-                            </div>
-                            <p className="plan-description">
-                                Plano ideal para viajantes que querem mais liberdade, mais funcionalidades e uma experiência mais completa dentro da GoTour.
-                            </p>
-                            <button className="framer-btn solid-btn">Assinar Pro+</button>
+                    {/* PLAN 2: Pro+ (Center Highlighted Column) */}
+                    <div className="stitch-card stitch-card-pro">
+                        <div className="stitch-badge-popular">Mais Popular ⭐</div>
+                        <h3 className="s-plan-name text-pri mt-2">Pro+</h3>
+                        <div className="s-price-wrap">
+                            <span className="s-price-val">{billingCycle === 'Mensal' ? '9.99€' : '8€'}</span>
+                            <span className="s-price-per">/mês</span>
                         </div>
-                        <div className="card-features-list">
-                            <h4 className="features-heading">Tudo no Explorador, mais:</h4>
-                            <ul>
-                                <li><Check size={16} /> Assistente Turístico Inteligente – Sasha IA (Modelo 3.5)</li>
-                                <li><Check size={16} /> Mapa Inteligente com Sasha IA integrada</li>
-                                <li><Check size={16} /> Coleção de Memórias – 7GB (Cloud Storage)</li>
-                                <li><Check size={16} /> Sistema Social Avançado (até 1000 amigos)</li>
-                                <li><Check size={16} /> Recomendações Inteligentes Avançadas</li>
-                                <li><Check size={16} /> Serviços Locais com suporte</li>
-                                <li><Check size={16} /> Experiências completas e conteúdos exclusivos</li>
-                                <li><Check size={16} /> Grupos & Comunidades sem restrições</li>
-                                <li><Check size={16} /> Planeador de Viagens avançado</li>
-                                <li><Check size={16} /> Estatísticas de Viagem</li>
-                                <li><Check size={16} /> Reservas de voos e serviços locais</li>
-                                <li><Check size={16} /> Vlogs até 1 hora</li>
-                                <li><Check size={16} /> Suporte direto com a equipa GoTour</li>
-                                <li><Check size={16} /> Sem anúncios</li>
-                                <li><Check size={16} /> Acesso a mais de 120 países</li>
-                            </ul>
+                        <p className="s-plan-desc">A melhor experiência para viajantes frequentes e aventureiros sem fronteiras.</p>
+
+                        <button className="s-btn s-btn-solid">Escolher Pro+</button>
+
+                        <div className="s-features-list">
+                            <div className="s-feature-item highlight-text text-pri">
+                                <Check size={18} className="s-icon s-icon-pri" />
+                                <span>Tudo do Explorador, mais:</span>
+                            </div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Assistente Turístico Inteligente – Sasha IA (Modelo 3.5)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Mapa Inteligente com Sasha IA integrada</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Coleção de Memórias – 7GB (Cloud Storage)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Sistema Social Avançado (até 1000 amigos)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Recomendações Inteligentes Avançadas</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Serviços Locais com suporte</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Experiências completas e conteúdos exclusivos</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Grupos & Comunidades sem restrições</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Planeador de Viagens avançado</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Estatísticas de Viagem</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Reservas de voos e serviços locais</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Vlogs até 1 hora</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Suporte direto com a equipa GoTour</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Sem anúncios</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-pri" /><span className="s-feat-text">Acesso a mais de 120 países</span></div>
                         </div>
                     </div>
 
-                    {/* PLAN 3: Avançado (VIP) */}
-                    <div className="framer-card vip-card">
-                        <div className="card-badge vip-badge">👑 Experiência VIP</div>
-                        <div className="card-top">
-                            <h3 className="plan-name">Avançado</h3>
-                            <div className="plan-price-block">
-                                <span className="currency">€</span>
-                                <span className="price">{billingCycle === 'monthly' ? '20' : '16'}</span>
-                                <span className="period">/mo</span>
+                    {/* PLAN 3: Avançado (Right Column) */}
+                    <div className="stitch-card stitch-card-vip">
+                        <div className="flex justify-between items-start mb-4">
+                            <h3 className="s-plan-name text-sec">Avançado</h3>
+                            <span className="stitch-badge-vip"> VIP <span className="text-sm">👑</span> </span>
+                        </div>
+                        <div className="s-price-wrap">
+                            <span className="s-price-val">{billingCycle === 'Mensal' ? '20€' : '16€'}</span>
+                            <span className="s-price-per">/mês</span>
+                        </div>
+                        <p className="s-plan-desc">Para agências, nómadas Premium e quem exige o máximo 24 horas por dia.</p>
+
+                        <button className="s-btn s-btn-solid" style={{ backgroundColor: '#ffffff', color: '#0d1b1a', border: '1px solid #E5E7EB' }}>Contactar Vendas</button>
+
+                        <div className="s-features-list">
+                            <div className="s-feature-item highlight-text">
+                                <Check size={18} className="s-icon s-icon-gray" />
+                                <span>Tudo do Pro+, mais:</span>
                             </div>
-                            <p className="plan-description">
-                                Plano premium para viajantes exigentes que querem a experiência mais completa e inteligente da GoTour.
-                            </p>
-                            <button className="framer-btn solid-btn black-btn">Assinar Avançado</button>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Assistente Turístico Inteligente – Sasha IA (Modelo 5)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Mapa Inteligente Premium com Sasha IA integrada</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Coleção de Memórias – 15GB (Cloud Storage)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Sistema Social VIP (até 5000 amigos)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Recomendações Inteligentes integradas com Sasha IA 5</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Serviços Locais com suporte 24h</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Experiências exclusivas e conteúdos premium</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Grupos & Comunidades VIP</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Planeador de Viagens VIP com sugestões automáticas</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Estatísticas avançadas de viagem</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Reservas premium (voos, hotéis e serviços locais)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Vlogs até 2 horas com ferramentas avançadas</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Suporte prioritário GoTour</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Concierge de viagem 24/7</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Alertas inteligentes (promoções, eventos, clima, segurança)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Eventos e networking exclusivos</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Descontos com parceiros GoTour</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Modo offline (mapas e roteiros)</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Integração com dispositivos de viagem</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Sem anúncios</span></div>
+                            <div className="s-feature-item"><Check size={18} className="s-icon s-icon-gray" /><span className="s-feat-text-dark">Acesso global a mais de 200 países</span></div>
                         </div>
-                        <div className="card-features-list">
-                            <h4 className="features-heading">Tudo no Pro+, mais:</h4>
-                            <ul>
-                                <li><Check size={16} /> Assistente Turístico Inteligente – Sasha IA (Modelo 5)</li>
-                                <li><Check size={16} /> Mapa Inteligente Premium com Sasha IA integrada</li>
-                                <li><Check size={16} /> Coleção de Memórias – 15GB (Cloud Storage)</li>
-                                <li><Check size={16} /> Sistema Social VIP (até 5000 amigos)</li>
-                                <li><Check size={16} /> Recomendações Inteligentes integradas com Sasha IA 5</li>
-                                <li><Check size={16} /> Serviços Locais com suporte 24h</li>
-                                <li><Check size={16} /> Experiências exclusivas e conteúdos premium</li>
-                                <li><Check size={16} /> Grupos & Comunidades VIP</li>
-                                <li><Check size={16} /> Planeador de Viagens VIP com sugestões automáticas</li>
-                                <li><Check size={16} /> Estatísticas avançadas de viagem</li>
-                                <li><Check size={16} /> Reservas premium (voos, hotéis e serviços locais)</li>
-                                <li><Check size={16} /> Vlogs até 2 horas com ferramentas avançadas</li>
-                                <li><Check size={16} /> Suporte prioritário GoTour</li>
-                                <li><Check size={16} /> Concierge de viagem 24/7</li>
-                                <li><Check size={16} /> Alertas inteligentes (promoções, eventos, clima, segurança)</li>
-                                <li><Check size={16} /> Eventos e networking exclusivos</li>
-                                <li><Check size={16} /> Descontos com parceiros GoTour</li>
-                                <li><Check size={16} /> Modo offline (mapas e roteiros)</li>
-                                <li><Check size={16} /> Integração com dispositivos de viagem</li>
-                                <li><Check size={16} /> Sem anúncios</li>
-                                <li><Check size={16} /> Acesso global a mais de 200 países</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Comprehensive Feature Compare Table mirroring the cards */}
-                <div className="framer-compare-section">
-                    <h2 className="compare-heading">Compare todos os planos em detalhe</h2>
-                    <div className="table-responsive-wrapper">
-                        <table className="framer-compare-table">
-                            <thead>
-                                <tr>
-                                    <th>Funcionalidade</th>
-                                    <th>Explorador</th>
-                                    <th className="highlight-col">Pro+</th>
-                                    <th>Avançado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr className="table-category"><td colSpan="4">Inteligência Artificial & Mapa</td></tr>
-                                <tr>
-                                    <td>Assistente Sasha IA <Info size={14} className="info-icon" /></td>
-                                    <td>Modelo 2.3</td>
-                                    <td className="highlight-col">Modelo 3.5</td>
-                                    <td>Modelo 5.0</td>
-                                </tr>
-                                <tr>
-                                    <td>Mapa Inteligente</td>
-                                    <td>Básico</td>
-                                    <td className="highlight-col">Com Sasha IA</td>
-                                    <td>Premium com Sasha IA</td>
-                                </tr>
-                                <tr>
-                                    <td>Planeador de Viagens</td>
-                                    <td>Básico</td>
-                                    <td className="highlight-col">Avançado</td>
-                                    <td>VIP Automático</td>
-                                </tr>
-                                <tr>
-                                    <td>Recomendações Inteligentes</td>
-                                    <td>Básicas</td>
-                                    <td className="highlight-col">Avançadas</td>
-                                    <td>Integradas c/ Sasha 5</td>
-                                </tr>
-                                <tr>
-                                    <td>Alertas inteligentes (clima, eventos)</td>
-                                    <td>—</td>
-                                    <td className="highlight-col">—</td>
-                                    <td>Sim</td>
-                                </tr>
-
-                                <tr className="table-category"><td colSpan="4">Conteúdo & Armazenamento</td></tr>
-                                <tr>
-                                    <td>Coleção de Memórias (Cloud)</td>
-                                    <td>3GB</td>
-                                    <td className="highlight-col">7GB</td>
-                                    <td>15GB</td>
-                                </tr>
-                                <tr>
-                                    <td>Vlogs</td>
-                                    <td>Até 10 min</td>
-                                    <td className="highlight-col">Até 1 hora</td>
-                                    <td>Até 2 horas + Ferramentas</td>
-                                </tr>
-                                <tr>
-                                    <td>Experiências</td>
-                                    <td>Básico</td>
-                                    <td className="highlight-col">Completas & Exclusivos</td>
-                                    <td>Exclusivas Premium</td>
-                                </tr>
-                                <tr>
-                                    <td>Modo offline</td>
-                                    <td>—</td>
-                                    <td className="highlight-col">—</td>
-                                    <td>Mapas e roteiros</td>
-                                </tr>
-
-                                <tr className="table-category"><td colSpan="4">Social & Comunidade</td></tr>
-                                <tr>
-                                    <td>Sistema Social (Amigos)</td>
-                                    <td>Lim. a 50</td>
-                                    <td className="highlight-col">Lim. a 1000</td>
-                                    <td>VIP (Lim. a 5000)</td>
-                                </tr>
-                                <tr>
-                                    <td>Grupos & Comunidades</td>
-                                    <td>C/ Aprovação</td>
-                                    <td className="highlight-col">Sem restrições</td>
-                                    <td>VIP</td>
-                                </tr>
-                                <tr>
-                                    <td>Eventos e networking</td>
-                                    <td>—</td>
-                                    <td className="highlight-col">—</td>
-                                    <td>Exclusivos</td>
-                                </tr>
-
-                                <tr className="table-category"><td colSpan="4">Serviços & Suporte</td></tr>
-                                <tr>
-                                    <td>Serviços Locais</td>
-                                    <td>Básico</td>
-                                    <td className="highlight-col">Com suporte</td>
-                                    <td>Com suporte 24h</td>
-                                </tr>
-                                <tr>
-                                    <td>Reservas</td>
-                                    <td>Voos / Serviços</td>
-                                    <td className="highlight-col">Voos / Serviços</td>
-                                    <td>Premium (Hotéis inc.)</td>
-                                </tr>
-                                <tr>
-                                    <td>Suporte GoTour</td>
-                                    <td>Comunitário</td>
-                                    <td className="highlight-col">Direto</td>
-                                    <td>Prioritário + Concierge 24/7</td>
-                                </tr>
-                                <tr>
-                                    <td>Acesso Global</td>
-                                    <td>+70 países</td>
-                                    <td className="highlight-col">+120 países</td>
-                                    <td>+200 países</td>
-                                </tr>
-                                <tr>
-                                    <td>Anúncios</td>
-                                    <td>Reduzidos</td>
-                                    <td className="highlight-col">Sem anúncios</td>
-                                    <td>Sem anúncios</td>
-                                </tr>
-                                <tr>
-                                    <td>Descontos com Parceiros</td>
-                                    <td>—</td>
-                                    <td className="highlight-col">—</td>
-                                    <td>Sim</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
 
