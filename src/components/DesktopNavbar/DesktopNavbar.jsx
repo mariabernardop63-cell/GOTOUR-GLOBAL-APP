@@ -15,9 +15,18 @@ const NAV_MENUS = [
 
 const DesktopNavbar = ({ onLoginClick, onSignupClick }) => {
     const navigate = useNavigate();
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
-        <nav className="desktop-navbar">
+        <nav className={`desktop-navbar ${isScrolled ? 'scrolled' : ''}`}>
             <div className="navbar-container">
                 <div className="navbar-left">
                     {/* Left: Brand */}
@@ -30,7 +39,19 @@ const DesktopNavbar = ({ onLoginClick, onSignupClick }) => {
                     <div className="navbar-links">
                         {NAV_MENUS.map((menu) => (
                             <div key={menu.id} className="nav-item-container">
-                                <button className="nav-link">
+                                <button
+                                    className="nav-link"
+                                    onClick={() => {
+                                        if (menu.id === 'inicio') {
+                                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                                        } else {
+                                            const el = document.getElementById(menu.id);
+                                            if (el) {
+                                                el.scrollIntoView({ behavior: 'smooth' });
+                                            }
+                                        }
+                                    }}
+                                >
                                     <span className="nav-link-text">{menu.label}</span>
                                 </button>
                             </div>

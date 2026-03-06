@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GO TOUR - Messages &amp; Community</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col antialiased">
+<!-- Navigation Bar (Contextual for Desktop App) -->
+<nav class="w-full px-8 py-6 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold tracking-tighter">GT</div>
+<span class="text-slate-900 dark:text-slate-100 font-bold text-xl tracking-tight">GO TOUR</span>
+</div>
+<div class="flex gap-6 text-slate-600 dark:text-slate-400 font-medium">
+<a class="hover:text-primary transition-colors" href="#">Discover</a>
+<a class="text-primary" href="#">Community</a>
+<a class="hover:text-primary transition-colors" href="#">My Trips</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-slate-300 dark:bg-slate-700 bg-cover bg-center border-2 border-white dark:border-slate-900" data-alt="User profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAd6HOdspB6XnG0vpnq2zgpeX-WRo2gwj7ObhTitcL1Ets8T4WuIM89rpQJVIAvRAl9Dxj1Lv6enJHQP4vhxPr1tNeAs1fERRo_oA5YB-uvTzRGlvOK3GF5x8-JcV4noIGTdgB_E-LG8sejNOAX_1b7bBd-AOqCtvtM41jTAkA3ihCL0WVe0KgxDwUTYECLOixudofnI6kN943z8u5cYn60hxGb5s4pWwsjIbRDMvrnfVvTq0gf7HKe0utqDBPhzNTzrzqoope8qfDK');"></div>
+</div>
+</nav>
+<!-- Main Slide Content -->
+<main class="flex-1 flex items-center justify-center p-8 lg:p-16 overflow-hidden">
+<div class="max-w-[1200px] w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+<!-- Left Column: Text & Actions -->
+<div class="flex flex-col gap-8 z-10">
+<div class="flex flex-col gap-4">
+<div class="inline-flex items-center gap-2 text-primary font-bold text-sm tracking-wider uppercase">
+<span class="material-symbols-outlined text-base">stars</span>
+                        Premium Feature
+                    </div>
+<h1 class="text-slate-900 dark:text-slate-100 text-5xl lg:text-6xl font-black leading-[1.1] tracking-[-0.02em]">
+                        Conecte-se com<br/>Outros Viajantes
+                    </h1>
+<p class="text-slate-600 dark:text-slate-400 text-lg lg:text-xl font-normal leading-relaxed max-w-md mt-2">
+                        Enhance your journey by connecting with people who share your interests. Join vibrant communities, plan together, and make lasting memories.
+                    </p>
+</div>
+<div class="flex items-center gap-4 mt-4">
+<button class="flex items-center justify-center gap-2 h-14 px-8 rounded-xl bg-primary text-white text-lg font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/30">
+<span>Join Community</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="flex items-center justify-center h-14 px-6 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-lg font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+                        Learn More
+                    </button>
+</div>
+<!-- Horizontal Navigation Cues -->
+<div class="flex items-center gap-3 mt-12">
+<div class="w-10 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700 cursor-pointer hover:bg-slate-400"></div>
+<div class="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700 cursor-pointer hover:bg-slate-400"></div>
+<div class="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700 cursor-pointer hover:bg-slate-400"></div>
+</div>
+</div>
+<!-- Right Column: Visual Composition -->
+<div class="relative w-full aspect-square max-w-[600px] mx-auto hidden lg:block">
+<!-- Background decorative element -->
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent rounded-full scale-110"></div>
+<!-- Main Avatar Composition (Center) -->
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] bg-white dark:bg-slate-900 rounded-full shadow-2xl border-8 border-white dark:border-slate-800 flex items-center justify-center z-20 overflow-hidden">
+<div class="w-full h-full relative">
+<!-- Simulated 3D Avatars (using highly stylized images) -->
+<div class="absolute inset-0 bg-cover bg-center opacity-90" data-alt="Two smiling travelers looking at a map" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCG87-shC8l-T0-RL8D-7TqDAWiIxmw6mXjXdIKtp4OGuXk1VfwPYu2a314EEb1vaCd5bXduInC8JCdxfHk1-RZDIRp2cyC5vtUJBgIUIRZFIUmyi6mXroOXdE7waHjetW5FYFi7C8KeBq37HmiMYhi5_yVu0mw_L077hXWLO3SiuYkuBXdzOKrXiHGPNZNVrMv1yfp-t_hoUW_yKGgSWUfUiwLYrL1VFYxF6c3tbmguxGWb7MGlu4mceUOjaod0ykef4VGHAzILCgs');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent flex items-end justify-center pb-8">
+<div class="flex -space-x-4">
+<img class="w-16 h-16 rounded-full border-4 border-white dark:border-slate-900 object-cover shadow-md z-20" data-alt="3D style avatar portrait one" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAczknvjLF0VPDC86ZeeDKFdqpIkSQn9Nd-yRg2lvH4f33uoydhrz0U5svxXJo5KQ7u45I3VBD4DfK0kVbl9epsdsUgxIRvFJEhPLSdiCjLNyN9-gIerqvfB0zuRCrhS-MJoEY1Ro4SgXePIDG1hRw7i-zw_Sv0xLL9vUiSi3dAB2AzoygxqzAv7089UyZK7m57msQSHnjYlnBBc1LXSqxYNRrKQBUtLmJ2yoXkSxURJo-doUQv1FgJVLQefP8E5OZWpU0SaHkr1kKj"/>
+<img class="w-16 h-16 rounded-full border-4 border-white dark:border-slate-900 object-cover shadow-md z-10" data-alt="3D style avatar portrait two" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTmhitWV3A7wFvwTPzXIOMtku1ess9-EdnmpT-TOF2TiQpGNds0dqiVuKnSXwkPytFZbGED-y1vJqdvZxd-lZSHlmH0-NQDaT6PMBFPtrHVk1ivwTdoIQwoJ2whM0Nl_IYTE88mnUv2qvvPW7PC4q9KsZ--ZcdNCYGBtjWwJgobNtwSgaIJ8AHrhbKazbe8EiNi72DhCosM10vbaOS3LAYBfBLkc3N0XiaWANU4t0YVX82-JzZzxcqElu9KXcRx8yxzO1ElnxXnS4s"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Bubble Icon (Top Left) -->
+<div class="absolute top-[10%] left-[5%] w-32 h-32 bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-700 flex items-center justify-center z-30 transform -rotate-6">
+<div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-5xl text-primary" style="font-variation-settings: 'FILL' 1;">forum</span>
+</div>
+</div>
+<!-- Group Icon (Bottom Right) -->
+<div class="absolute bottom-[15%] right-[5%] w-36 h-36 bg-white dark:bg-slate-800 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-700 flex items-center justify-center z-30 transform rotate-3">
+<div class="w-24 h-24 bg-primary rounded-[1.5rem] flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-6xl text-white" style="font-variation-settings: 'FILL' 1;">groups</span>
+</div>
+</div>
+<!-- Small decorative dot -->
+<div class="absolute top-[25%] right-[15%] w-6 h-6 rounded-full bg-amber-400 shadow-lg z-10"></div>
+<div class="absolute bottom-[20%] left-[10%] w-4 h-4 rounded-full bg-primary/50 shadow-lg z-10"></div>
+</div>
+</div>
+</main>
+</body></html>

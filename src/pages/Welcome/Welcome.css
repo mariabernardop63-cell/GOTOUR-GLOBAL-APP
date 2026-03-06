@@ -320,8 +320,7 @@
         padding: 0;
         justify-content: flex-start;
         /* Reverting back to original fixed screen size */
-        overflow: hidden;
-        height: 100vh;
+        min-height: 100vh;
         background-color: transparent;
     }
 
@@ -329,7 +328,7 @@
     .desktop-hero {
         display: flex;
         align-items: center;
-        height: calc(100vh - 72px);
+        min-height: calc(100vh - 72px);
         margin-top: 72px;
         padding: 0 clamp(24px, 3vw, 40px);
         /* Reduced horizontal padding */
