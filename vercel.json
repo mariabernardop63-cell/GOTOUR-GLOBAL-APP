@@ -3,7 +3,7 @@
     "rewrites": [
         {
             "source": "/((?!privacy-policy|terms-of-service).*)",
-            "destination": "/"
+            "destination": "/index.html"
         }
     ]
 }
