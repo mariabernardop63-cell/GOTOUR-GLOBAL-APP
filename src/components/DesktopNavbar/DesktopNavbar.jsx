@@ -65,7 +65,17 @@ const DesktopNavbar = ({ onLoginClick, onSignupClick }) => {
                     <div className="navbar-links">
                         {NAV_MENUS.map((menu) => (
                             <div key={menu.id} className="nav-item-container">
-                                <button className="nav-link">
+                                <button
+                                    className="nav-link"
+                                    onClick={() => {
+                                        if (menu.id === 'sobre') {
+                                            const el = document.getElementById('sobre');
+                                            if (el) {
+                                                el.scrollIntoView({ behavior: 'smooth' });
+                                            }
+                                        }
+                                    }}
+                                >
                                     <span className="nav-link-text">{menu.label}</span>
                                 </button>
                             </div>

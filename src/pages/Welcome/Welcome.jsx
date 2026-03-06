@@ -11,6 +11,7 @@ import DesktopNavbar from '../../components/DesktopNavbar/DesktopNavbar';
 import DesktopLogin from '../DesktopLogin/DesktopLogin';
 import DesktopSignup from '../DesktopSignup/DesktopSignup';
 import DesktopSlideshow from '../../components/DesktopSlideshow/DesktopSlideshow';
+import AboutSection from './AboutSection/AboutSection';
 
 import gotourIcon from '../../assets/images/gotour_icon.png';
 
@@ -239,6 +240,8 @@ const Welcome = () => {
                             {/* Empty or can hold something else in the future */}
                         </div>
                     </div>
+
+                    <AboutSection />
 
 
 
