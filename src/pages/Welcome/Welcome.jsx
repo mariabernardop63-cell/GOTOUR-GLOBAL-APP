@@ -240,40 +240,7 @@ const Welcome = () => {
                         </div>
                     </div>
 
-                    {/* ── Desktop Footer — visible for Google Cloud OAuth verification ── */}
-                    <footer className="welcome-footer">
-                        <div className="welcome-footer-inner">
-                            <div className="welcome-footer-brand">
-                                <h2 className="welcome-footer-title">GO TOUR</h2>
-                                <p className="welcome-footer-desc">
-                                    GO TOUR é a plataforma digital de turismo que conecta viajantes a destinos, guias locais e experiências autênticas pelo mundo inteiro.
-                                    Descubra destinos, planeie itinerários personalizados, compare alojamentos e reserve experiências — tudo num só lugar.
-                                </p>
-                            </div>
-                            <div className="welcome-footer-features">
-                                <div className="welcome-footer-col">
-                                    <h3>Explorar</h3>
-                                    <span>Destinos Globais</span>
-                                    <span>Guias Locais</span>
-                                    <span>Experiências Autênticas</span>
-                                </div>
-                                <div className="welcome-footer-col">
-                                    <h3>Planear</h3>
-                                    <span>Itinerários Personalizados</span>
-                                    <span>Comparar Alojamentos</span>
-                                    <span>Reservas Seguras</span>
-                                </div>
-                                <div className="welcome-footer-col">
-                                    <h3>Legal</h3>
-                                    <span style={{ cursor: 'pointer' }} onClick={() => navigateForward('/privacy-policy')}>Política de Privacidade</span>
-                                    <span style={{ cursor: 'pointer' }} onClick={() => navigateForward('/terms-of-service')}>Termos de Serviço</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="welcome-footer-bottom">
-                            <span>© 2025 GO TOUR — Plataforma Digital de Turismo. Todos os direitos reservados.</span>
-                        </div>
-                    </footer>
+
 
                     {/* Desktop Login Full Screen Overlay */}
                     {showDesktopLogin && (
