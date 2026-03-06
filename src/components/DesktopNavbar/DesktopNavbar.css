@@ -179,8 +179,34 @@
 
 /* We invert text color when not scrolled for better visibility, this might depend on Welcome.css hero */
 .desktop-navbar:not(.scrolled) .nav-link {
-    color: rgba(255, 255, 255, 0.85); /* Reverted to the original light gray/translucent white */
+    color: rgba(255, 255, 255, 0.85);
+    /* Reverted to the original light gray/translucent white */
     font-weight: 500;
+}
+
+/* Elegant Hover Effect on Main Links (Subtle underline) */
+.nav-link-text {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-link-text::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 1.5px;
+    background-color: #ffffff;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link:hover .nav-link-text {
+    color: #ffffff;
+}
+
+.nav-link:hover .nav-link-text::after {
+    width: 100%;
 }
 
 .desktop-navbar:not(.scrolled) .navbar-brand-name {
@@ -194,7 +220,8 @@
 }
 
 .desktop-navbar:not(.scrolled) .nav-btn-text {
-    color: rgba(255, 255, 255, 0.85); /* Reverted to light gray */
+    color: rgba(255, 255, 255, 0.85);
+    /* Reverted to light gray */
 }
 
 
@@ -209,104 +236,6 @@
     color: #ffffff;
 }
 
-
-/* --- Mega Dropdown Panel (Dark Glassmorphism) --- */
-.nav-mega-dropdown {
-    position: absolute;
-    top: 100%;
-    /* Right below navbar */
-    left: 0;
-    right: 0;
-    width: 100%;
-
-    background: rgba(10, 15, 30, 0.2);
-    /* Dark background with 80% transparency */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    border-radius: 0;
-    /* Remove rounded corners */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    /* Soft, diffuse bottom shadow */
-
-    padding: 24px 0 32px 0;
-    /* Adjusted vertical padding for vertical list */
-
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-5px);
-    /* Subtler entrance movement */
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    pointer-events: none;
-
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    /* Very subtle separator from the navbar */
-}
-
-/* State when show class is applied */
-.nav-mega-dropdown.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-
-/* --- Dropdown Items Layout --- */
-.mega-dropdown-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    max-width: 1440px;
-    margin: 0 auto;
-    /* Match navbar padding horizontally to keep text aligned */
-    padding: 0 clamp(24px, 3vw, 40px);
-    box-sizing: border-box;
-    justify-content: flex-start;
-    align-items: flex-start;
-    /* Align flex items to left */
-}
-
-.mega-dropdown-item {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    cursor: pointer;
-    /* Optional: add some padding to make clickable area larger */
-    padding: 4px 0;
-}
-
-.mega-dropdown-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    /* Medium to Semibold */
-    font-size: 1.05rem;
-    /* Slightly larger clean font */
-    color: rgba(255, 255, 255, 0.85);
-    /* Light gray/white text */
-    transition: color 0.2s ease, transform 0.2s ease;
-    position: relative;
-    letter-spacing: 0.2px;
-}
-
-/* Elegant Hover Effect (Slight color brightening and subtle underline) */
-.mega-dropdown-title::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0%;
-    height: 1.5px;
-    background-color: #ffffff;
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.mega-dropdown-item:hover .mega-dropdown-title {
-    color: #ffffff;
-}
-
-.mega-dropdown-item:hover .mega-dropdown-title::after {
-    width: 100%;
-}
 
 
 

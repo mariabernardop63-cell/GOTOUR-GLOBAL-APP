@@ -50,40 +50,6 @@ const NAV_MENUS = [
 
 const DesktopNavbar = ({ onLoginClick, onSignupClick }) => {
     const navigate = useNavigate();
-    const [activeDropdown, setActiveDropdown] = useState(null);
-    const dropdownTimeoutRef = React.useRef(null);
-
-    const handleMouseEnter = (id) => {
-        if (dropdownTimeoutRef.current) {
-            clearTimeout(dropdownTimeoutRef.current);
-        }
-        setActiveDropdown(id);
-    };
-
-    const handleMouseLeave = () => {
-        dropdownTimeoutRef.current = setTimeout(() => {
-            setActiveDropdown(null);
-        }, 300); // Small delay to allow moving mouse into the dropdown
-    };
-
-    const handleClick = (id) => {
-        if (activeDropdown === id) {
-            setActiveDropdown(null);
-        } else {
-            setActiveDropdown(id);
-        }
-    };
-
-    // Close dropdowns on outside click (very robust pattern)
-    useEffect(() => {
-        const handleOutsideClick = (e) => {
-            if (!e.target.closest('.nav-item-container')) {
-                setActiveDropdown(null);
-            }
-        };
-        document.addEventListener('mousedown', handleOutsideClick);
-        return () => document.removeEventListener('mousedown', handleOutsideClick);
-    }, []);
 
     return (
         <nav className="desktop-navbar">
@@ -95,20 +61,12 @@ const DesktopNavbar = ({ onLoginClick, onSignupClick }) => {
                         <span className="navbar-brand-name">GO TOUR</span>
                     </div>
 
-                    {/* Navigation Links with Dropdowns */}
+                    {/* Navigation Links (No Dropdowns) */}
                     <div className="navbar-links">
                         {NAV_MENUS.map((menu) => (
-                            <div
-                                key={menu.id}
-                                className="nav-item-container"
-                                onMouseEnter={() => handleMouseEnter(menu.id)}
-                                onMouseLeave={handleMouseLeave}
-                            >
-                                <button
-                                    className={`nav-link ${activeDropdown === menu.id ? 'active' : ''}`}
-                                    onClick={() => handleClick(menu.id)}
-                                >
-                                    {menu.label}
+                            <div key={menu.id} className="nav-item-container">
+                                <button className="nav-link">
+                                    <span className="nav-link-text">{menu.label}</span>
                                 </button>
                             </div>
                         ))}
@@ -133,22 +91,7 @@ const DesktopNavbar = ({ onLoginClick, onSignupClick }) => {
                     </Button>
                 </div>
 
-                {/* Mega Dropdown Panel */}
-                <div
-                    className={`nav-mega-dropdown ${activeDropdown ? 'show' : ''}`}
-                    onMouseEnter={() => {
-                        if (activeDropdown) handleMouseEnter(activeDropdown);
-                    }}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    <div className="mega-dropdown-grid">
-                        {activeDropdown && NAV_MENUS.find(m => m.id === activeDropdown)?.items.map((item, idx) => (
-                            <div key={idx} className="mega-dropdown-item">
-                                <span className="mega-dropdown-title">{item.title}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+
             </div>
         </nav>
     );
