@@ -138,7 +138,8 @@ const Welcome = () => {
                     <div className="mobile-intro slide-up">
                         <h1 className="welcome-title">GO TOUR</h1>
                         <p className="welcome-subtitle">
-                            Sua plataforma digital de turismo para descobrir destinos globais, planear viagens personalizadas e reservar experiências autênticas.
+                            <strong>A finalidade e objetivo da GO TOUR é ser uma Plataforma Digital de Turismo completa.</strong><br />
+                            O nosso aplicativo permite aos utilizadores descobrir destinos pelo mundo, planear itinerários personalizados, comparar alojamentos e reservar experiências autênticas com guias locais.
                         </p>
                     </div>
 
