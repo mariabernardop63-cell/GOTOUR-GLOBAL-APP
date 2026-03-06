@@ -1,42 +1,134 @@
-import React from 'react';
-import { MessageCircle, Users, ArrowRight, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import {
+    MessageCircle, Users, ArrowRight, Sparkles,
+    MapPin, Compass, Video, BookOpen, Map, Navigation,
+    Lightbulb, Share2, Cloud, HardDrive
+} from 'lucide-react';
 import './FeaturesSection.css';
 
+const SLIDES = [
+    {
+        title: "Descubra Destinos e Planeie Viagens",
+        subtitle: "Descubra locais incríveis ao redor do mundo. Pesquise hotéis, restaurantes, praias e atrações turísticas, encontre recomendações e planeie experiências de viagem de forma simples e inspiradora.",
+        IconMain: MapPin,
+        IconSecondary: Compass
+    },
+    {
+        title: "Descubra Experiências Reais de Viajantes",
+        subtitle: "Explore conteúdos autênticos partilhados por viajantes: vídeos, relatos, guias e descobertas. Acompanhe também experiências criadas pelos exploradores oficiais da GO TOUR.",
+        IconMain: Video,
+        IconSecondary: BookOpen
+    },
+    {
+        title: "Explore o Mundo com um Mapa Interativo",
+        subtitle: "Visualize destinos, atrações e experiências diretamente no mapa. Descubra locais próximos, explore novas cidades e encontre lugares interessantes com ferramentas avançadas de navegação.",
+        IconMain: Map,
+        IconSecondary: Navigation
+    },
+    {
+        title: "Partilhe Ideias e Descobertas",
+        subtitle: "Publique experiências, faça perguntas, partilhe opiniões e descubra novos pontos de vista de viajantes ao redor do mundo.",
+        IconMain: Lightbulb,
+        IconSecondary: Share2
+    },
+    {
+        title: "Conecte-se com Outros Viajantes",
+        subtitle: "Converse com pessoas que partilham os mesmos interesses, participe em grupos e comunidades e construa conexões com viajantes de diferentes países.",
+        IconMain: MessageCircle,
+        IconSecondary: Users
+    },
+    {
+        title: "Guarde Suas Memórias de Viagem",
+        subtitle: "Armazene fotos, vídeos e conteúdos importantes num espaço seguro na nuvem com até 2 GB disponíveis para guardar e organizar suas experiências.",
+        IconMain: Cloud,
+        IconSecondary: HardDrive
+    }
+];
+
 const FeaturesSection = () => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+
+    const changeSlide = (index) => {
+        if (isTransitioning || index === currentSlide) return;
+        setIsTransitioning(true);
+        setTimeout(() => {
+            setCurrentSlide(index);
+            setIsTransitioning(false);
+        }, 500); // 500ms fade out duration precisely matching user request
+    };
+
+    // Autoplay logic
+    useEffect(() => {
+        if (isPaused) return;
+        const interval = setInterval(() => {
+            changeSlide((currentSlide + 1) % SLIDES.length);
+        }, 7500); // 7.5s interval
+        return () => clearInterval(interval);
+    }, [currentSlide, isPaused, isTransitioning]);
+
+    // Keyboard navigation
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'ArrowRight') {
+                changeSlide((currentSlide + 1) % SLIDES.length);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide((currentSlide - 1 + SLIDES.length) % SLIDES.length);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [currentSlide, isTransitioning]);
+
+    const { title, subtitle, IconMain, IconSecondary } = SLIDES[currentSlide];
+
     return (
-        <section id="funcionalidades" className="features-section-container">
+        <section
+            id="funcionalidades"
+            className="features-section-container"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+        >
             <div className="features-grid-layout">
                 {/* Left Column: Text & Actions */}
                 <div className="features-content">
-                    <div className="features-header-wrap">
-                        <div className="premium-badge">
-                            <Sparkles size={16} />
-                            <span>Premium Feature</span>
+                    <div className={`slide-content-wrapper ${isTransitioning ? 'slide-exit' : 'slide-enter'}`}>
+                        <div className="features-header-wrap">
+                            <div className="premium-badge">
+                                <Sparkles size={16} />
+                                <span>Premium Feature</span>
+                            </div>
+                            <h2 className="features-main-title">
+                                {title.split(' e ').map((part, i, arr) => (
+                                    <React.Fragment key={i}>
+                                        {part}{i < arr.length - 1 ? <><br />e </> : ''}
+                                    </React.Fragment>
+                                ))}
+                            </h2>
+                            <p className="features-subtitle">
+                                {subtitle}
+                            </p>
                         </div>
-                        <h2 className="features-main-title">
-                            Conecte-se com<br />Outros Viajantes
-                        </h2>
-                        <p className="features-subtitle">
-                            Aprimore a sua viagem conectando-se com pessoas que partilham os seus interesses. Junte-se a comunidades vibrantes, planeiem juntos e criem memórias duradouras.
-                        </p>
                     </div>
 
                     <div className="features-actions">
                         <button className="btn-join-community">
-                            <span>Juntar à Comunidade</span>
+                            <span>Saber Mais</span>
                             <ArrowRight size={20} />
-                        </button>
-                        <button className="btn-learn-more">
-                            Saber Mais
                         </button>
                     </div>
 
                     {/* Horizontal Navigation Cues */}
                     <div className="nav-cues">
-                        <div className="cue-active"></div>
-                        <div className="cue-dot"></div>
-                        <div className="cue-dot"></div>
-                        <div className="cue-dot"></div>
+                        {SLIDES.map((_, idx) => (
+                            <div
+                                key={idx}
+                                className={idx === currentSlide ? 'cue-active' : 'cue-dot'}
+                                onClick={() => changeSlide(idx)}
+                                title={`Slide ${idx + 1}`}
+                            ></div>
+                        ))}
                     </div>
                 </div>
 
@@ -58,17 +150,21 @@ const FeaturesSection = () => {
                         </div>
                     </div>
 
-                    {/* Chat Bubble Icon (Top Left) */}
+                    {/* Main Dynamic Icon (Top Left) */}
                     <div className="floating-card chat-card">
                         <div className="icon-box chat-icon-box">
-                            <MessageCircle size={40} className="icon-blue" />
+                            <div className={`floating-icon-wrapper ${isTransitioning ? 'slide-exit' : 'slide-enter'}`}>
+                                <IconMain size={40} className="icon-blue" />
+                            </div>
                         </div>
                     </div>
 
-                    {/* Group Icon (Bottom Right) */}
+                    {/* Secondary Dynamic Icon (Bottom Right) */}
                     <div className="floating-card group-card">
                         <div className="icon-box group-icon-box">
-                            <Users size={48} className="icon-white" />
+                            <div className={`floating-icon-wrapper ${isTransitioning ? 'slide-exit' : 'slide-enter'}`}>
+                                <IconSecondary size={48} className="icon-white" />
+                            </div>
                         </div>
                     </div>
 
