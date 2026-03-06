@@ -43,9 +43,10 @@
 </head>
 
 <body>
-  <!-- Static content for crawlers (replaced by React on mount) -->
+  <!-- Crawler-readable content (visually hidden, replaced by React on mount) -->
   <div id="root">
-    <header style="padding:40px 24px;max-width:960px;margin:0 auto;font-family:system-ui,sans-serif">
+    <div
+      style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">
       <h1>GO TOUR — Plataforma Digital de Turismo</h1>
       <p>GO TOUR é a plataforma digital de turismo que conecta viajantes a destinos, guias locais e experiências
         autênticas pelo mundo inteiro. Descubra destinos, planeie itinerários personalizados, compare alojamentos e
@@ -61,14 +62,8 @@
       </ul>
       <p><a href="/signup">Criar conta no GO TOUR</a> | <a href="/login">Iniciar sessão</a></p>
       <p><a href="/privacy-policy">Política de Privacidade</a> | <a href="/terms-of-service">Termos de Serviço</a></p>
-    </header>
+    </div>
   </div>
-  <noscript>
-    <h1>GO TOUR — Plataforma Digital de Turismo</h1>
-    <p>GO TOUR é a plataforma digital de turismo que conecta viajantes a destinos, guias locais e experiências
-      autênticas pelo mundo inteiro.</p>
-    <p>Para utilizar a GO TOUR, por favor ative o JavaScript no seu navegador.</p>
-  </noscript>
   <script type="module" src="/src/main.jsx"></script>
 </body>
 
