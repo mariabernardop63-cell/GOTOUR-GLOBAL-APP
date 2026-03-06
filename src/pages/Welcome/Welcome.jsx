@@ -136,9 +136,9 @@ const Welcome = () => {
 
                     {/* Mobile Title */}
                     <div className="mobile-intro slide-up">
-                        <h1 className="welcome-title">GO TOUR — Explore o<br />Mundo Como um Local</h1>
+                        <h1 className="welcome-title">GO TOUR</h1>
                         <p className="welcome-subtitle">
-                            A plataforma digital de turismo para descobrir destinos, planear viagens e reservar experiências autênticas.
+                            Sua plataforma digital de turismo para descobrir destinos globais, planear viagens personalizadas e reservar experiências autênticas.
                         </p>
                     </div>
 
@@ -171,6 +171,11 @@ const Welcome = () => {
                                 >
                                     Já tenho conta
                                 </Button>
+
+                                <div className="mobile-legal-links" style={{ marginTop: '12px', textAlign: 'center', fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)' }}>
+                                    Ao continuar, concorda com a nossa <br />
+                                    <a href="/privacy-policy" style={{ color: 'rgba(255, 255, 255, 0.9)', textDecoration: 'underline' }}>Política de Privacidade</a> e <a href="/terms-of-service" style={{ color: 'rgba(255, 255, 255, 0.9)', textDecoration: 'underline' }}>Termos de Serviço</a>
+                                </div>
                             </div>
                         </div>
                     </div>
