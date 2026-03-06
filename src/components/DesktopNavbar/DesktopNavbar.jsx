@@ -6,51 +6,11 @@ import Button from '../Button/Button';
 
 // Menu data configuration
 const NAV_MENUS = [
-    {
-        id: 'inicio',
-        label: 'Início',
-        items: []
-    },
-    {
-        id: 'sobre',
-        label: 'Sobre',
-        items: [
-            { title: 'Quem Somos' },
-            { title: 'Nossa Visão' },
-            { title: 'Por que GoTour?' },
-            { title: 'Parcerias' }
-        ]
-    },
-    {
-        id: 'como-funciona',
-        label: 'Como Funciona',
-        items: [
-            { title: 'Descobrir Destinos' },
-            { title: 'Planear Viagens' },
-            { title: 'Reservar Experiências' },
-            { title: 'Viajar com Confiança' }
-        ]
-    },
-    {
-        id: 'planos',
-        label: 'Planos',
-        items: [
-            { title: 'Plano Free' },
-            { title: 'Plano Explorer' },
-            { title: 'Plano Premium' },
-            { title: 'Comparar Planos' }
-        ]
-    },
-    {
-        id: 'ajuda',
-        label: 'Ajuda',
-        items: [
-            { title: 'Centro de Ajuda' },
-            { title: 'Fale Connosco' },
-            { title: 'Segurança' },
-            { title: 'Termos e Políticas' }
-        ]
-    }
+    { id: 'inicio', label: 'Início' },
+    { id: 'funcionalidades', label: 'Funcionalidades' },
+    { id: 'planos', label: 'Planos' },
+    { id: 'sobre', label: 'Sobre' },
+    { id: 'ajuda', label: 'Ajuda' }
 ];
 
 const DesktopNavbar = ({ onLoginClick, onSignupClick }) => {
