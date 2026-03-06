@@ -40,10 +40,95 @@
       "operatingSystem": "All"
     }
   </script>
+
+  <!-- Static landing styles (shown before React mounts, matches app dark theme) -->
+  <style>
+    #static-landing {
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', system-ui, sans-serif;
+      padding: 40px 24px
+    }
+
+    #static-landing .sl-inner {
+      max-width: 680px;
+      text-align: center
+    }
+
+    #static-landing h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0 0 16px;
+      letter-spacing: 1px
+    }
+
+    #static-landing p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.75);
+      margin: 0 0 20px
+    }
+
+    #static-landing ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px
+    }
+
+    #static-landing li {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7)
+    }
+
+    #static-landing .sl-links {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.5)
+    }
+
+    #static-landing .sl-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none
+    }
+
+    #static-landing .sl-links a:hover {
+      color: #fff;
+      text-decoration: underline
+    }
+  </style>
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <div id="static-landing">
+      <div class="sl-inner">
+        <h1>GO TOUR</h1>
+        <p><strong>Plataforma Digital de Turismo</strong> — Descubra destinos pelo mundo, planeie itinerários
+          personalizados, compare alojamentos e reserve experiências autênticas com guias locais. Tudo num só lugar, de
+          forma segura e intuitiva.</p>
+        <ul>
+          <li>Destinos Globais</li>
+          <li>Guias Locais</li>
+          <li>Itinerários Personalizados</li>
+          <li>Reservas Seguras</li>
+          <li>Experiências Autênticas</li>
+        </ul>
+        <p class="sl-links">
+          <a href="/privacy-policy">Política de Privacidade</a> · <a href="/terms-of-service">Termos de Serviço</a>
+        </p>
+      </div>
+    </div>
+  </div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
 
