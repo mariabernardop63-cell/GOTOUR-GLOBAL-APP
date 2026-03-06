@@ -319,6 +319,7 @@
     .welcome-page-content {
         padding: 0;
         justify-content: flex-start;
+        /* Reverting back to original fixed screen size */
         overflow: hidden;
         height: 100vh;
         background-color: transparent;
