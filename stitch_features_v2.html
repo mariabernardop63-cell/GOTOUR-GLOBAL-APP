@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GO TOUR - Features</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d9488",
+                        "primary-dark": "#115e59",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#0a0a0a",
+                        "surface-dark": "rgba(255, 255, 255, 0.03)",
+                        "surface-border": "rgba(255, 255, 255, 0.08)"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px", "2xl": "1rem", "3xl": "1.5rem" },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #2dd4bf, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen">
+<div class="max-w-[1200px] mx-auto px-6 py-24">
+<div class="text-center mb-16">
+<span class="text-primary text-sm font-semibold tracking-wider uppercase mb-3 inline-block">Funcionalidades</span>
+<h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-gradient">Tudo que precisa para explorar o mundo.</h2>
+<p class="text-slate-400 max-w-2xl mx-auto text-lg">Descubra ferramentas poderosas desenhadas para tornar a sua próxima aventura inesquecível, desde o planeamento até à partilha das suas memórias.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 auto-rows-[minmax(180px,auto)] gap-6">
+<div class="glass-card rounded-3xl p-6 md:col-span-2 flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="z-10 mb-6">
+<h3 class="text-xl font-bold mb-1">Destinos</h3>
+<p class="text-slate-400 text-sm">Encontre os melhores locais com avaliações reais.</p>
+</div>
+<div class="bg-surface-dark border border-surface-border rounded-2xl p-4 z-10">
+<div class="flex items-center bg-black/40 rounded-full px-4 py-2 mb-4 border border-surface-border">
+<span class="material-symbols-outlined text-slate-400 mr-2 text-sm">search</span>
+<input class="bg-transparent border-none text-sm focus:ring-0 text-white w-full placeholder-slate-500 p-0" placeholder="Para onde quer ir?" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-black/40 border border-surface-border rounded-xl p-3 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-slate-800 bg-cover bg-center shrink-0" data-alt="Eiffel Tower Paris" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCBgpvbpz45xwAZCBvaohlkcVj577VnPpJH-kGwI-taZbA5I6DnjjXBvO8tT0ZwSCdsmFKFlXjraWk5ucNGHk8z3O8V81-uhR_NU9PCM69WY2rJVJhjo5qwZi5rBKD-16ryb-4g82Dd3rl5BB_1SMljqxfd03sZX6vIoLzBY08osuNnGRFSTSG6ay_7OHHZTCFAqk21hhxaJCg-ImAaOf1gWnxRswHZdpf5-dmvYlVbqcX77O1ZeBY2YKu_KAm-Q5g8aQHzwuUk1lk');"></div>
+<div>
+<h4 class="font-semibold text-sm">Paris</h4>
+<div class="flex items-center gap-1 text-xs">
+<span class="text-primary font-medium">$1200+</span>
+<span class="text-slate-500">•</span>
+<span class="flex items-center text-yellow-500"><span class="material-symbols-outlined text-[10px]">star</span> 4.8</span>
+</div>
+</div>
+</div>
+<div class="bg-black/40 border border-surface-border rounded-xl p-3 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-slate-800 bg-cover bg-center shrink-0" data-alt="Tokyo Cityscape Neon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_wOLgC4clHeucgjWRcihlABL2CJRa7ta7bWPwLHOwRYHOLKpA8T_P8jl3TCKSDjhpXpwdrCxcF8U04wOYA-Xs06k71ohrUtAq8M5fXrDnuwxJ8hkT040Hy-veoqgchEP4_Wev3lG838RftRDW290V8_EhbuAVWkXC3UtWNtE44_-avtPbSilllAd0u_KaSv8GyKnndPRh7f7ovz2M9pwA_fZSeO4G96uqU7-hMrpXJ4lsGy5JDhu5bR_hkZLsuzx8I_osOtCzoEk');"></div>
+<div>
+<h4 class="font-semibold text-sm">Tokyo</h4>
+<div class="flex items-center gap-1 text-xs">
+<span class="text-primary font-medium">$1500+</span>
+<span class="text-slate-500">•</span>
+<span class="flex items-center text-yellow-500"><span class="material-symbols-outlined text-[10px]">star</span> 4.9</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-3xl p-6 md:row-span-2 md:col-span-1 flex flex-col relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="z-10 mb-6">
+<h3 class="text-xl font-bold mb-1">Experiências</h3>
+<p class="text-slate-400 text-sm">Inspire-se com as viagens da comunidade.</p>
+</div>
+<div class="bg-surface-dark border border-surface-border rounded-2xl overflow-hidden flex-1 flex flex-col z-10">
+<div class="relative flex-1 bg-slate-800 min-h-[160px]" data-alt="Person hiking mountains" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDQUTLVmKS15P65AY6e-n1C9JkTqygOtDnZiNgc51F2SmeZ7XyCLmGUhtZuOkDcC2dahs4XAOJBY8I8e8upStLRhhxQHr1ru2obm6XRoynWWo8rI7qmHL-33ziCVwC1UMfmmMLWfAK1y5Xp-QOIF_KrEJeo1WfLkp_6MDPCQrJbL4HFbEO2ByfiVhEkd66vrol7vZzcQwN3u4S7zF-KQ98ODdJ_-GISNaYQ6oDrxjzrQy177r3O9SeSt1WKeF5WEPLlVDidkKv1b9c'); background-size: cover; background-position: center;">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-slate-600 border border-white/20" data-alt="User Avatar Profile" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBwuIjfEU8cAg6lduL1l1nVJ76rF7n8s9MPgymIYsceDtFm11PAdPIFz6JVCju19ZxmozQdk5UFtRfUQvxSlZk267bSIf99e4Anfqwvjle0a9zdUHWAvDAk9a4NHS2ey0TiEMJwyG6MASXpcrL4mEVYtzMX5fmk7UEq6qgct811ZQaAWwWiXEovNqzJ7AMpXB3aYaeT4gQKh0Nlybz4DtOa7HF8w_faSoKcFzAqHTvhPRZz4hRZTY82CvQjcbMENzFjEIRKQ9v5L9A'); background-size: cover;"></div>
+<div>
+<p class="text-xs font-medium text-white shadow-sm">Maria Silva</p>
+<p class="text-[10px] text-slate-300">Alpes Suíços</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30 text-white hover:bg-white/30 transition-colors">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+</button>
+</div>
+</div>
+<div class="p-3 bg-black/40 flex justify-between items-center text-xs text-slate-400">
+<div class="flex gap-3">
+<span class="flex items-center gap-1 hover:text-primary cursor-pointer transition-colors"><span class="material-symbols-outlined text-sm">favorite</span> 1.2k</span>
+<span class="flex items-center gap-1 hover:text-white cursor-pointer transition-colors"><span class="material-symbols-outlined text-sm">chat_bubble</span> 300</span>
+</div>
+<span class="material-symbols-outlined text-sm hover:text-white cursor-pointer transition-colors">bookmark</span>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-3xl p-6 md:col-span-2 lg:col-span-1 md:row-span-2 flex flex-col relative overflow-hidden group">
+<div class="absolute inset-0 bg-slate-900 z-0">
+<div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(#334155 1px, transparent 1px); background-size: 20px 20px;"></div>
+<svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+<path class="opacity-50" d="M50,150 C100,100 150,200 250,120" fill="none" stroke="#0d9488" stroke-dasharray="4 4" stroke-width="2"></path>
+<circle class="shadow-[0_0_10px_#0d9488]" cx="50" cy="150" fill="#0d9488" r="4"></circle>
+<circle class="shadow-[0_0_10px_#3b82f6]" cx="250" cy="120" fill="#3b82f6" r="4"></circle>
+</svg>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent z-0"></div>
+<div class="z-10 mt-auto">
+<h3 class="text-xl font-bold mb-1 text-white">Mapa Interativo</h3>
+<p class="text-slate-400 text-sm mb-4">Planeie rotas com precisão e descubra pontos de interesse pelo caminho.</p>
+<button class="bg-primary/20 hover:bg-primary/30 text-primary border border-primary/30 px-4 py-2 rounded-lg text-sm font-medium transition-colors w-full flex items-center justify-center gap-2">
+                        Explorar Mapa <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="glass-card rounded-3xl p-6 flex flex-col relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="z-10 mb-4">
+<h3 class="text-lg font-bold mb-1">Comunidade</h3>
+</div>
+<div class="bg-surface-dark border border-surface-border rounded-2xl p-3 flex-1 flex flex-col gap-3 z-10 justify-end">
+<div class="flex gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-700 shrink-0" data-alt="User Avatar Profile" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDltU1dR9bgqjfL0j6_jYSM4XVMYgfnrcoyPE5OjTOi2VpMr_OXhDJVIFMbytEX_ls_SgRAtHhM25bgIq8XU5CnlpNKGTwX7dQS7_702PNUGNxC6N_6INkjHgt9lWtMtUbYHaVqOviTU-cYT7sOPqu9VkQp1DtPeU5lCmB_o6qdOVnSPT6ZN7ufsZp6V8fTIaeurKc70nncGgYtTTKSS4LasUoHjcrWWQFQwBjxarR6O6klkqFGsA-Nd7x0E-E9t6yJ1aXEZnjAUCE'); background-size: cover;"></div>
+<div class="bg-slate-800 rounded-2xl rounded-tl-sm px-3 py-2 text-xs text-slate-300 max-w-[80%] border border-surface-border">
+                            Alguém conhece bons restaurantes em Roma? 🍝
+                        </div>
+</div>
+<div class="flex gap-2 flex-row-reverse">
+<div class="bg-primary/20 border border-primary/30 rounded-2xl rounded-tr-sm px-3 py-2 text-xs text-primary-100 max-w-[80%]">
+                            Tenta a Trattoria da Enzo! Fica no Trastevere.
+                        </div>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-3xl p-6 flex flex-col relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-bl from-teal-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="z-10 mb-4">
+<h3 class="text-lg font-bold mb-1">Partilhar</h3>
+</div>
+<div class="bg-surface-dark border border-surface-border rounded-2xl p-3 flex-1 flex flex-col z-10">
+<textarea class="w-full bg-transparent border-none text-sm text-slate-300 focus:ring-0 resize-none p-0 h-16 placeholder-slate-600" placeholder="Partilhe a sua aventura..."></textarea>
+<div class="mt-auto flex justify-between items-center border-t border-surface-border pt-3">
+<button class="text-slate-400 hover:text-primary transition-colors flex items-center justify-center w-8 h-8 rounded-full bg-black/40 border border-surface-border">
+<span class="material-symbols-outlined text-sm">image</span>
+</button>
+<button class="bg-primary hover:bg-primary-dark text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
+                            Publicar
+                        </button>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-3xl p-6 md:col-span-2 lg:col-span-2 flex flex-col relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+<div class="flex flex-col md:flex-row gap-6 h-full z-10">
+<div class="flex-1 flex flex-col justify-center">
+<h3 class="text-xl font-bold mb-2">Cloud Storage</h3>
+<p class="text-slate-400 text-sm mb-6">Guarde todas as fotos e documentos da viagem num só lugar seguro.</p>
+<div>
+<div class="flex justify-between text-xs text-slate-400 mb-2">
+<span>Usado: 45GB</span>
+<span>Total: 100GB</span>
+</div>
+<div class="w-full bg-slate-800 rounded-full h-1.5 border border-surface-border overflow-hidden">
+<div class="bg-gradient-to-r from-primary to-blue-500 h-1.5 rounded-full" style="width: 45%"></div>
+</div>
+</div>
+</div>
+<div class="flex-1 bg-surface-dark border border-surface-border rounded-2xl p-4 grid grid-cols-3 gap-2">
+<div class="aspect-square rounded-lg bg-slate-800 bg-cover bg-center border border-surface-border" data-alt="Paris street view thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDd3rVMAyyhiqcdGrbTNZRiAu6YM9saIxZsWXYpxFOMFr2OKKp3ps-6GgyZ4YPZgUAMVZbW7THQpRPEpISu3o6mn7Gz_wrsYBbuFQtRQe7Z7ADgsEjG2wsW5RDEDpvnE4FTrbzzc-57Cbk0lvMY0iHsy_nz_12Dumm1jLeAyGpN1VtJWjOjh7_CUdltTxgN5EAXvykOFPb_LFiP0HRdqtVYv6cAabR8n-qPariqGVg65kfLx5TCE_TMcTXxm3Pmo3NQrzFfHHuIfMU');"></div>
+<div class="aspect-square rounded-lg bg-slate-800 bg-cover bg-center border border-surface-border" data-alt="London Big Ben thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDEwg-WWYJ6POH_-r_MOKFWPUuM6snHZQWYO7vNDHglfpBHDEee6AncrZHcXpmeXz2v8DxnLK3oS3Ke11Sk-_DEp39YbFaWqd4WrKhRVp1ixbxo-2SGly8LGuum1zrsJv0Q9rrrgvxnYCkuJjkTUZOwc_3e16l4lv_ZqsPcgIsmgCLeBjaUkUyeKdqVqjYeLBYsgKzs1ObTT-A5rF9_oFAIGLziLTMH-fxdC9I0ThmEDt27SeEiSQ4z0krJhClvDboN8BIFmjE-FCk');"></div>
+<div class="aspect-square rounded-lg bg-slate-800 bg-cover bg-center border border-surface-border" data-alt="Colosseum Rome thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBfYtgUH0Nrf6egSMAivBkPPREFibcq8N44klJ3cjfSEErP44gHm8rrKhfYQFu8y93mnUJrGQguE4AUV7BZmqlr9YX3X4L15kDfDpOo8pOdsejMMW1G86QwG_PxFhts3JpeLskfOOWq0z0rhXMr2GWWPAYFwBWNbIb4q5ptcN-qfMDd0USWqchXDsI2UQNKct-aIAhI5kxdTVftCoeCF5MM0MTh9zCppAUCM15U-BTD0JtBbzWEzJOV6AfaGq_hqwle6t08mgbvHl0');"></div>
+<div class="aspect-square rounded-lg bg-slate-800 bg-cover bg-center border border-surface-border" data-alt="Mountain landscape thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBMSj6YRyg2Y1m1I9UvN-X_SWH4CUrkBu7QL-GOGJmWlewSnOyIFC1c0FBzrBSmCFIWbf3h-gkxVJCrnz86dgkEoqYprrtI6afqFNuShJ_ST2lN5N4HI81NS9m3x2syb-KjPE1RlO415Ztmf0D9FzBeShM30KzNWZOoG5Ks1D7RR-shL2YZt_8gZQdoOJ-14rBOLdka8BvxJwkOXJ2TAC3NAHXt7yzMzfO7qzWiHH0RNeHtsITgRS9N0kO-rA6PP_AELd-bSQ7xzO0');"></div>
+<div class="aspect-square rounded-lg bg-slate-800 bg-cover bg-center border border-surface-border" data-alt="Beach sunset thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD827pffJBsXP5LIt9ydFnRw1vTJ1mnlAN9Px_-2QGM8vGI-maFStT-yURJgDN9Q7lPtMO3E2Y2oh46f3mmKzw9ltY-fJL_X-p74206oq3DtVAg9zlOdYapkva0nivZjMA0bLexxI0TmBrysB_nhtu7PGULpAqpKg2hiP0_TbHfsiHYpWxXsFXm4DZnMxP0_JFjZnEEl0bhwS08lfXWZwDqCgJHuLmVEeeN4EKp840mTp-3vFeMbu2F49ip3SgfXacG4RnG8rG28Gk');"></div>
+<div class="aspect-square rounded-lg bg-black/40 border border-surface-border border-dashed flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary/50 cursor-pointer transition-colors">
+<span class="material-symbols-outlined">add</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>
