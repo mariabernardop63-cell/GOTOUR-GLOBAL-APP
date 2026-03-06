@@ -1,7 +1,6 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { createContext, useContext, useCallback, useRef, useEffect, useState } from 'react';
-import GoTourSplashScreen from './pages/GoTourSplashScreen/GoTourSplashScreen';
 import Welcome from './pages/Welcome/Welcome';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
@@ -91,23 +90,7 @@ const NavigationProvider = ({ children }) => {
     );
 };
 
-// Splash wrapper — shows splash once per session, then Welcome
-const SplashWrapper = () => {
-    const [showSplash, setShowSplash] = useState(
-        () => !sessionStorage.getItem('gotour_splash_shown')
-    );
 
-    const handleSplashComplete = useCallback(() => {
-        sessionStorage.setItem('gotour_splash_shown', 'true');
-        setShowSplash(false);
-    }, []);
-
-    if (showSplash) {
-        return <GoTourSplashScreen onComplete={handleSplashComplete} />;
-    }
-
-    return <Welcome />;
-};
 
 // Animated routes wrapper
 const AnimatedRoutes = () => {
@@ -129,7 +112,7 @@ const AnimatedRoutes = () => {
                 <PageTransition key={location.pathname} direction={direction}>
                     <Routes location={location}>
                         {/* Welcome screen detached from AuthLayout for full-bleed hero */}
-                        <Route path="/" element={<SplashWrapper />} />
+                        <Route path="/" element={<Welcome />} />
                         <Route path="/oauth-callback" element={<OAuthCallback />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />

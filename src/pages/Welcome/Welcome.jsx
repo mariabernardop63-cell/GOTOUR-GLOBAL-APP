@@ -16,10 +16,10 @@ import gotourIcon from '../../assets/images/gotour_icon.png';
 
 /* ── Rotating headlines for the desktop hero ── */
 const HERO_HEADLINES = [
-    { line1: 'Descubra destinos', line2: 'pelo mundo inteiro', line3: 'com a GO TOUR' },
-    { line1: 'Conecte-se a', line2: 'culturas autênticas', line3: 'e viva aventuras' },
-    { line1: 'Planeje sua', line2: 'próxima jornada', line3: 'explore sem limites' },
-    { line1: 'A sua plataforma', line2: 'digital de turismo', line3: 'comece hoje' },
+    { line1: 'GO TOUR — Sua', line2: 'Plataforma Digital', line3: 'de Turismo Global' },
+    { line1: 'Descubra destinos,', line2: 'planeie itinerários', line3: 'e reserve com segurança' },
+    { line1: 'Conecte-se a guias', line2: 'locais e viva', line3: 'experiências autênticas' },
+    { line1: 'Compare alojamentos,', line2: 'organize viagens', line3: 'tudo num só lugar' },
 ];
 
 
@@ -136,9 +136,9 @@ const Welcome = () => {
 
                     {/* Mobile Title */}
                     <div className="mobile-intro slide-up">
-                        <h1 className="welcome-title">Explore o Mundo <br />Como um Local</h1>
+                        <h1 className="welcome-title">GO TOUR — Explore o<br />Mundo Como um Local</h1>
                         <p className="welcome-subtitle">
-                            Descubra destinos incríveis, conecte-se com guias locais e viva experiências autênticas.
+                            A plataforma digital de turismo para descobrir destinos, planear viagens e reservar experiências autênticas.
                         </p>
                     </div>
 
@@ -196,7 +196,7 @@ const Welcome = () => {
                             </div>
 
                             <p className="hero-sub">
-                                Conecte-se com viajantes, explore destinos{'\n'}e viva experiências autênticas.
+                                GO TOUR é a plataforma digital de turismo que conecta viajantes a destinos, guias locais e experiências autênticas pelo mundo inteiro.
                             </p>
 
                             <div className="hero-ctas">
