@@ -1,320 +1,277 @@
 /* =========================================================
-   STITCH-GENERATED FRAMER PRICING SECTION
+   DARK THEME FRAMER PRICING (IMAGE EXACT MATCH)
    ========================================================= */
 
-.pricing-section-wrapper {
-    background-color: #ffffff;
-    color: #0d1b1a;
-    /* text-primary */
+.dark-pricing-section {
+    background-color: #000000;
+    color: #ffffff;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    padding: 80px 16px 120px;
-    border-top: 1px solid #E5E7EB;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    padding: 80px 24px 120px;
+    border-top: 1px solid #1f1f22;
 }
 
-.pricing-content-max {
-    max-width: 1200px;
+.dark-pricing-container {
+    max-width: 1100px;
     margin: 0 auto;
-    width: 100%;
 }
 
-/* --- Header Section --- */
-.stitch-pricing-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 768px;
-    margin: 0 auto 64px;
+/* Optional header just to introduce the section nicely */
+.dark-pricing-header {
     text-align: center;
+    margin-bottom: 64px;
 }
 
-.stitch-pricing-title {
-    font-size: 3.5rem;
-    font-weight: 900;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
-    margin: 0 0 24px;
-    color: #0d1b1a;
-}
-
-@media (min-width: 768px) {
-    .stitch-pricing-title {
-        font-size: 4rem;
-    }
-}
-
-.stitch-pricing-subtitle {
-    font-size: 1.125rem;
-    color: #4c9a92;
-    /* text-secondary */
-    margin: 0 0 40px;
-    max-width: 600px;
-}
-
-/* --- Billing Toggle --- */
-.stitch-toggle-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px;
-    border-radius: 9999px;
-    background-color: #f8fcfb;
-    /* bg-secondary */
-    border: 1px solid #E5E7EB;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    width: fit-content;
-    margin: 0 auto;
-}
-
-.stitch-toggle-label {
-    position: relative;
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    border-radius: 9999px;
-    padding: 10px 24px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #4c9a92;
-    transition: all 0.2s;
-}
-
-.stitch-toggle-label.active {
-    background-color: #ffffff;
-    color: #0d1b1a;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.stitch-toggle-badge {
-    display: inline-block;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background-color: rgba(19, 236, 214, 0.2);
-    /* primary/20 */
-    color: #0d1b1a;
-    padding: 2px 8px;
-    border-radius: 9999px;
+.dark-pricing-title {
+    font-size: 2.5rem;
     font-weight: 700;
-    margin-left: 8px;
+    letter-spacing: -0.04em;
+    margin: 0 0 16px;
+    color: #ffffff;
 }
 
-/* --- Grid Options --- */
-.stitch-pricing-grid {
+.dark-pricing-subtitle {
+    font-size: 1.1rem;
+    color: #a1a1aa;
+}
+
+/* --- Responsive Grid --- */
+.dark-pricing-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 24px;
-}
-
-@media (min-width: 768px) {
-    .stitch-pricing-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-        align-items: start;
-    }
+    align-items: stretch;
 }
 
 @media (min-width: 1024px) {
-    .stitch-pricing-grid {
-        gap: 32px;
+    .dark-pricing-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
-/* --- Common Card Styling --- */
-.stitch-card {
+/* --- Base Card Styling --- */
+.dark-card {
+    background-color: #09090b;
+    /* Very dark gray almost black */
+    border: 1px solid #27272a;
+    /* Subtle faint gray border */
+    border-radius: 16px;
+    padding: 32px 24px;
     display: flex;
     flex-direction: column;
-    border-radius: 24px;
-    background-color: #ffffff;
-    padding: 32px;
-    position: relative;
 }
 
-/* Explorador (Left) */
-.stitch-card-basic {
-    border: 1px solid #E5E7EB;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.2s;
+.pro-card {
+    background-color: #020815;
+    /* Very subtle deep blue tint */
+    border: 1px solid #1e3a8a;
+    /* Dark blue border */
+    box-shadow: 0 0 40px -10px rgba(29, 78, 216, 0.15);
+    /* Faint blue glow */
 }
 
-.stitch-card-basic:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+/* --- Card Header --- */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
 }
 
-/* Pro+ (Center - Highlighted) */
-.stitch-card-pro {
-    border: 2px solid #13ecd6;
-    /* primary */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 6px;
+    color: #ffffff;
 }
 
-@media (min-width: 768px) {
-    .stitch-card-pro {
-        transform: translateY(-16px);
-    }
+.card-subtitle {
+    font-size: 0.85rem;
+    color: #a1a1aa;
+    margin: 0;
 }
 
-/* Avançado (Right) */
-.stitch-card-vip {
-    border: 1px solid #E5E7EB;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.2s;
-}
-
-.stitch-card-vip:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-/* --- Badges --- */
-.stitch-badge-popular {
-    position: absolute;
-    top: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #13ecd6;
-    color: #0d1b1a;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 6px 16px;
-    border-radius: 9999px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    white-space: nowrap;
-}
-
-.stitch-badge-vip {
-    display: inline-flex;
+/* Inside-Card Toggle Match */
+.card-annual-toggle {
+    display: flex;
     align-items: center;
-    gap: 4px;
-    background-color: #f3f4f6;
-    color: #4b5563;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 9999px;
+    gap: 8px;
+    cursor: pointer;
 }
 
-/* --- Card Header Content --- */
-.s-plan-name {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin: 0 0 16px;
+.card-annual-toggle.disabled {
+    cursor: default;
 }
 
-.text-sec {
-    color: #4c9a92;
-}
-
-.text-pri {
-    color: #0d1b1a;
+.toggle-text {
+    font-size: 0.65rem;
     font-weight: 700;
+    color: #a1a1aa;
+    letter-spacing: 0.05em;
 }
 
-.s-price-wrap {
+.toggle-switch {
+    width: 32px;
+    height: 18px;
+    background-color: #27272a;
+    border-radius: 999px;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.toggle-switch.on {
+    background-color: #3b82f6;
+}
+
+/* Blue toggle */
+.pro-switch.on {
+    background-color: #0ea5e9;
+}
+
+/* Slightly brighter blue for Pro */
+
+.toggle-knob {
+    width: 14px;
+    height: 14px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s;
+}
+
+.toggle-switch.on .toggle-knob {
+    transform: translateX(14px);
+}
+
+/* --- Price Block --- */
+.card-price-block {
+    border-top: 1px solid #27272a;
+    border-bottom: 1px solid #27272a;
+    padding: 24px 0;
+    margin-bottom: 24px;
     display: flex;
     align-items: baseline;
-    gap: 4px;
-    font-weight: 900;
-}
-
-.s-price-val {
-    font-size: 3rem;
-    letter-spacing: -0.025em;
-    line-height: 1;
-    color: #0d1b1a;
-}
-
-.s-price-per {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #4c9a92;
-}
-
-.s-plan-desc {
-    font-size: 0.875rem;
-    color: #6b7280;
-    margin: 12px 0 32px;
-    line-height: 1.5;
-}
-
-/* --- Buttons --- */
-.s-btn {
-    width: 100%;
-    border-radius: 9999px;
-    height: 48px;
-    padding: 0 24px;
-    font-weight: 600;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    transition: all 0.2s;
-    cursor: pointer;
-    margin-bottom: 32px;
 }
 
-.s-btn-outline {
-    background: transparent;
-    border: 2px solid #E5E7EB;
-    color: #0d1b1a;
+.price-val {
+    font-size: 1rem;
+    color: #a1a1aa;
+    font-weight: 400;
 }
 
-.s-btn-outline:hover {
-    border-color: #0d1b1a;
-}
-
-.s-btn-solid {
-    background-color: #0d1b1a;
-    color: #ffffff;
-    border: none;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.s-btn-solid:hover {
-    opacity: 0.9;
+.price-per {
+    font-size: 1rem;
+    color: #a1a1aa;
+    margin-left: 4px;
 }
 
 /* --- Features List --- */
-.s-features-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.card-features {
     flex: 1;
 }
 
-.s-feature-item {
+.feature-intro {
+    font-size: 0.85rem;
+    color: #a1a1aa;
+    margin: 0 0 20px;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.feature-list li {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    font-size: 0.875rem;
+    font-size: 0.85rem;
+    color: #d4d4d8;
     line-height: 1.5;
 }
 
-.s-feature-item.highlight-text {
-    font-weight: 600;
-}
-
-.s-icon {
+.feature-list li svg {
+    color: #ffffff;
+    /* White icons */
     flex-shrink: 0;
     margin-top: 2px;
 }
 
-.s-icon-gray {
-    color: #9ca3af;
+.feature-list li strong {
+    color: #71717a;
+    /* Add-on text styling */
+    font-weight: 400;
+    margin-left: 4px;
 }
 
-.s-icon-pri {
-    color: #13ecd6;
+.feature-list li span {
+    flex: 1;
 }
 
-.s-feat-text {
-    color: #4b5563;
+/* Pro Card specifics */
+.pro-card .card-price-block {
+    border-color: #1e3a8a;
+    /* Dark blue borders for price block */
 }
 
-.s-feat-text-dark {
-    color: #374151;
+/* --- Buttons --- */
+.card-footer-action {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.dark-btn {
+    width: 100%;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-family: inherit;
+    margin-bottom: 16px;
+}
+
+.btn-gray {
+    background-color: #27272a;
+    color: #ffffff;
+}
+
+.btn-gray:hover {
+    background-color: #3f3f46;
+}
+
+.btn-blue {
+    background-color: #0088ff;
+    /* Bright blue from image */
+    color: #ffffff;
+}
+
+.btn-blue:hover {
+    background-color: #0070f3;
+}
+
+/* --- Footer Note --- */
+.footer-note {
+    font-size: 0.75rem;
+    color: #a1a1aa;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.footer-note a {
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.footer-note a:hover {
+    text-decoration: underline;
 }
