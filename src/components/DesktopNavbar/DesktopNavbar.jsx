@@ -9,8 +9,7 @@ const NAV_MENUS = [
     { id: 'inicio', label: 'Início' },
     { id: 'funcionalidades', label: 'Funcionalidades' },
     { id: 'planos', label: 'Planos' },
-    { id: 'sobre', label: 'Sobre' },
-    { id: 'ajuda', label: 'Ajuda' }
+    { id: 'sobre', label: 'Sobre' }
 ];
 
 const DesktopNavbar = ({ onLoginClick, onSignupClick }) => {
@@ -19,7 +18,15 @@ const DesktopNavbar = ({ onLoginClick, onSignupClick }) => {
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20);
+            // Only activate scrolled state when navbar touches the next section
+            const nextSection = document.getElementById('funcionalidades');
+            if (nextSection) {
+                const sectionTop = nextSection.offsetTop;
+                const navbarHeight = 72;
+                setIsScrolled(window.scrollY + navbarHeight >= sectionTop);
+            } else {
+                setIsScrolled(false);
+            }
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);

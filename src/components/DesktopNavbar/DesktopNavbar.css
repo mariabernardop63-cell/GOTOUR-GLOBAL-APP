@@ -29,13 +29,20 @@
     /* Anchor for mega dropdown */
 }
 
-/* Scrolled State - Premium White Transition */
+/* Scrolled State - Floating Pill with White Background */
 .desktop-navbar.scrolled {
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+    border-bottom: none;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 48px);
+    max-width: 1400px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .desktop-navbar.scrolled .navbar-container {
@@ -89,7 +96,7 @@
 .navbar-links {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 4px;
 }
 
 .nav-link {
@@ -198,7 +205,8 @@
     transition: color 0.2s ease;
     text-decoration: none;
     letter-spacing: 0.2px;
-    padding: 8px 12px;
+    padding: 6px 12px;
+    font-size: 0.88rem;
 }
 
 /* We invert text color when not scrolled for better visibility, this might depend on Welcome.css hero */
