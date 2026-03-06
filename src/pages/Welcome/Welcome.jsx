@@ -12,6 +12,7 @@ import DesktopLogin from '../DesktopLogin/DesktopLogin';
 import DesktopSignup from '../DesktopSignup/DesktopSignup';
 import DesktopSlideshow from '../../components/DesktopSlideshow/DesktopSlideshow';
 import FeaturesSection from './FeaturesSection/FeaturesSection';
+import PricingSection from './PricingSection/PricingSection';
 
 import gotourIcon from '../../assets/images/gotour_icon.png';
 
@@ -380,6 +381,7 @@ const Welcome = () => {
 
             {/* Render Features Section only on Desktop, completely outside the constrained hero div */}
             {!isMobile && <FeaturesSection />}
+            {!isMobile && <PricingSection />}
         </>
     );
 };
