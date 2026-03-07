@@ -11,7 +11,7 @@ const useIntersectionObserver = (options = {}) => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('premium-reveal');
+                    entry.target.classList.add('prem-reveal');
                 }
             });
         }, { threshold: 0.1, ...options });
