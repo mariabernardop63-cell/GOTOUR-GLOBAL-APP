@@ -145,8 +145,8 @@ const AboutSection = () => {
                             <p className="story-text prem-hidden delay-1" ref={setRef}>
                                 Num mundo fragmentado por dezenas de aplicações de viagens isoladas, percebemos que a verdadeira exploração estava a perder-se em processos burocráticos e pesquisas intermináveis.
                             </p>
-                            <p className="story-text text-white pl-4 border-l-2 border-primary prem-hidden delay-2" ref={setRef}>
-                                Construímos a GoTour para ser o sistema operacional do viajante global. Uma única plataforma unificada onde o mapa não é apenas uma imagem, mas uma interface de descoberta movida a inteligência artificial.
+                            <p className="story-text-highlight pl-4 border-l-2 border-primary prem-hidden delay-2" ref={setRef}>
+                                Construímos a GoTour para ser o sistema operacional do viajante global. Uma única plataforma unificada onde o mapa não é apenas uma interface ilustrativa, mas uma inteligência de descoberta em tempo real.
                             </p>
                         </div>
                         <div className="story-visual-container prem-hidden delay-2" ref={setRef}>
@@ -154,7 +154,7 @@ const AboutSection = () => {
                                 <div className="orb-ring r1"></div>
                                 <div className="orb-ring r2"></div>
                                 <div className="orb-core"></div>
-                                <Globe2 size={64} className="orb-icon text-white/80" strokeWidth={1} />
+                                <Globe2 size={64} className="orb-icon" strokeWidth={1} />
                             </div>
                         </div>
                     </div>
