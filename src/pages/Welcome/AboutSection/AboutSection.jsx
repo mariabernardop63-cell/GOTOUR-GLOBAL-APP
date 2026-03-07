@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Globe2, MapPin, Search, MessageCircle, Sparkles, Navigation, ShieldCheck } from 'lucide-react';
-import Button from '../../components/Button/Button';
+import { Globe2, Sparkles, BrainCircuit, Navigation, Shield, Zap, TrendingUp, Compass, ArrowRight } from 'lucide-react';
 import './AboutSection.css';
 
-// Hook for scroll animations
+// Intersection Observer Hook for fade-ins
 const useIntersectionObserver = (options = {}) => {
     const [elements, setElements] = useState([]);
 
@@ -12,12 +11,10 @@ const useIntersectionObserver = (options = {}) => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Optional: stop observing once visible
-                    // observer.unobserve(entry.target);
+                    entry.target.classList.add('premium-reveal');
                 }
             });
-        }, { threshold: 0.15, ...options });
+        }, { threshold: 0.1, ...options });
 
         elements.forEach(el => {
             if (el) observer.observe(el);
@@ -39,8 +36,8 @@ const useIntersectionObserver = (options = {}) => {
     return setRef;
 };
 
-// Animated Counter Component
-const AnimatedCounter = ({ end, duration = 2000, suffix = "" }) => {
+// Animated Counter Hook
+const useAnimatedCounter = (end, duration = 2000) => {
     const [count, setCount] = useState(0);
     const countRef = useRef(null);
     const [hasAnimated, setHasAnimated] = useState(false);
@@ -54,7 +51,6 @@ const AnimatedCounter = ({ end, duration = 2000, suffix = "" }) => {
                     const step = (timestamp) => {
                         if (!startTimestamp) startTimestamp = timestamp;
                         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                        // easeOutQuart
                         const easeOut = 1 - Math.pow(1 - progress, 4);
                         setCount(Math.floor(easeOut * end));
                         if (progress < 1) {
@@ -71,179 +67,176 @@ const AnimatedCounter = ({ end, duration = 2000, suffix = "" }) => {
         return () => observer.disconnect();
     }, [end, duration, hasAnimated]);
 
-    return (
-        <span ref={countRef} className="stat-number">
-            {count}{suffix}
-        </span>
-    );
+    return { count, countRef };
 };
+
+const AnimatedStat = ({ end, suffix, label }) => {
+    const { count, countRef } = useAnimatedCounter(end);
+    return (
+        <div className="premium-stat-card" ref={countRef}>
+            <div className="prem-stat-num">{count}{suffix}</div>
+            <div className="prem-stat-label">{label}</div>
+        </div>
+    )
+}
 
 const AboutSection = () => {
     const navigate = useNavigate();
     const setRef = useIntersectionObserver();
+    const bentoGridRef = useRef(null);
+
+    // Mouse tracking for glowing cards (Vercel/Stripe style)
+    const handleMouseMove = (e) => {
+        if (!bentoGridRef.current) return;
+        const cards = bentoGridRef.current.getElementsByClassName('bento-card');
+        for (const card of cards) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        }
+    };
 
     return (
-        <section id="sobre" className="about-section">
-            <div className="about-container">
+        <section id="sobre" className="premium-about-section">
 
-                {/* 1. HERO SECTION */}
-                <div className="about-hero" ref={setRef}>
-                    <div className="hero-content fade-up">
-                        <span className="about-eyebrow">Sobre a GoTour</span>
-                        <h1 className="about-title">Descubra o mundo de uma forma completamente nova.</h1>
-                        <p className="about-subtitle">
-                            A GoTour combina tecnologia, inteligência artificial e comunidade global para transformar cada viagem numa experiência inteligente, social e inesquecível.
-                        </p>
-                        <div className="hero-actions">
-                            <Button variant="primary" size="lg" onClick={() => navigate('/login')}>Explorar a Plataforma</Button>
-                        </div>
+            {/* Ambient Animated Aurora Background */}
+            <div className="aurora-bg">
+                <div className="aurora-blob a-blob-1"></div>
+                <div className="aurora-blob a-blob-2"></div>
+                <div className="aurora-blob a-blob-3"></div>
+                <div className="aurora-noise"></div>
+            </div>
+
+            <div className="prem-about-container">
+
+                {/* 1. HERO - MONOLITHIC */}
+                <div className="prem-hero" ref={setRef}>
+                    <div className="prem-badge prem-hidden delay-0">
+                        <Sparkles size={14} className="badge-icon" />
+                        <span>A Nova Era do Turismo</span>
                     </div>
+                    <h1 className="prem-title prem-hidden delay-1">
+                        O Mundo,<br /><span className="text-gradient">Redefinido.</span>
+                    </h1>
+                    <p className="prem-subtitle prem-hidden delay-2">
+                        A GoTour funde inteligência artificial nativa, exploração imersiva e uma comunidade global vibrante. Não planeamos apenas viagens, reengenheiramos a forma como a humanidade descobre o planeta.
+                    </p>
 
-                    {/* Placeholder for future Video */}
-                    <div className="video-placeholder fade-up delay-1">
-                        <div className="video-inner">
-                            <div className="play-button-mock">
-                                <div className="play-icon"></div>
+                    <div className="prem-hero-visual prem-hidden delay-3">
+                        <div className="glass-video-player">
+                            <div className="glass-play-btn">
+                                <div className="play-triangle"></div>
                             </div>
-                            <p className="video-hint">Ver Vídeo Manifesto</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 2. STORYTELLING */}
-                <div className="about-story" ref={setRef}>
-                    <div className="story-grid fade-up">
-                        <div className="story-text">
-                            <h2 className="section-heading">Nascida com uma visão.</h2>
-                            <p className="story-paragraph">
-                                Num mundo onde viajar se tornou mais fácil, ainda faltava uma plataforma capaz de unir tecnologia, descoberta e comunidade num único ecossistema focado no viajante.
-                            </p>
-                            <p className="story-paragraph">
-                                Foi assim que nasceu a GoTour — criada para ajudar exploradores a descobrir destinos, partilhar experiências e conectar-se com o planeta, suportados pela mais avançada inteligência artificial.
-                            </p>
-                            <p className="story-paragraph highlight-paragraph">
-                                Hoje, conectamos viajantes, experiências e serviços locais num ecossistema global que cresce a cada segundo.
-                            </p>
-                        </div>
-                        <div className="story-visual">
-                            {/* Abstract global nodes graphic */}
-                            <div className="abstract-nodes">
-                                <div className="node n1"></div>
-                                <div className="node n2"></div>
-                                <div className="node n3"></div>
-                                <div className="node n4"></div>
-                                <div className="connecting-line l1"></div>
-                                <div className="connecting-line l2"></div>
+                            <div className="glass-video-text">
+                                <span className="video-maintext">Conheça a Visão GoTour</span>
+                                <span className="video-subtext">Manifesto 2024 • 1:45</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* 3. TECHNOLOGY - SASHA IA */}
-                <div className="about-tech" ref={setRef}>
-                    <div className="tech-header fade-up">
-                        <span className="tech-badge"><Sparkles size={16} /> Powered by Sasha IA</span>
-                        <h2 className="section-heading">A inteligência por trás da sua viagem.</h2>
-                        <p className="tech-desc">
-                            No centro da GoTour está a Sasha IA, o assistente turístico inteligente que redefine como planeia e vive as suas viagens em qualquer parte do mundo.
-                        </p>
-                    </div>
-
-                    <div className="tech-grid fade-up delay-1">
-                        <div className="tech-card">
-                            <div className="tech-icon-wrapper"><MapPin size={24} /></div>
-                            <h3 className="tech-card-title">Recomenda Destinos</h3>
-                            <p className="tech-card-desc">Sugestões personalizadas baseadas no seu perfil e histórico de viagens.</p>
+                {/* 2. STORY - STICKY TEXT FADES */}
+                <div className="prem-story">
+                    <div className="story-layout">
+                        <div className="story-content">
+                            <h2 className="story-heading prem-hidden" ref={setRef}>Uma visão ousada.</h2>
+                            <p className="story-text prem-hidden delay-1" ref={setRef}>
+                                Num mundo fragmentado por dezenas de aplicações de viagens isoladas, percebemos que a verdadeira exploração estava a perder-se em processos burocráticos e pesquisas intermináveis.
+                            </p>
+                            <p className="story-text text-white pl-4 border-l-2 border-primary prem-hidden delay-2" ref={setRef}>
+                                Construímos a GoTour para ser o sistema operacional do viajante global. Uma única plataforma unificada onde o mapa não é apenas uma imagem, mas uma interface de descoberta movida a inteligência artificial.
+                            </p>
                         </div>
-                        <div className="tech-card">
-                            <div className="tech-icon-wrapper"><Navigation size={24} /></div>
-                            <h3 className="tech-card-title">Cria Roteiros</h3>
-                            <p className="tech-card-desc">Itinerários gerados segundo a segundo otimizando tempo, orçamento e interesses.</p>
-                        </div>
-                        <div className="tech-card">
-                            <div className="tech-icon-wrapper"><Search size={24} /></div>
-                            <h3 className="tech-card-title">Descobre Experiências</h3>
-                            <p className="tech-card-desc">Localiza pérolas escondidas e experiências autênticas que escapam aos guias comuns.</p>
-                        </div>
-                        <div className="tech-card">
-                            <div className="tech-icon-wrapper"><MessageCircle size={24} /></div>
-                            <h3 className="tech-card-title">Assistência 24/7</h3>
-                            <p className="tech-card-desc">Responde a questões sobre a cultura, leis, idioma e serviços do destino em tempo real.</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 4. GLOBAL INTERACTIVE MAP */}
-                <div className="about-map" ref={setRef}>
-                    <div className="map-content fade-up">
-                        <h2 className="section-heading">O mundo ao seu alcance.</h2>
-                        <p className="map-desc">
-                            A GoTour conecta viajantes em dezenas de países e continua a expandir a sua presença global todos os dias.
-                        </p>
-
-                        <div className="map-visual-container">
-                            <div className="map-bg-glow"></div>
-                            <Globe2 className="abstract-globe-icon" size={320} strokeWidth={0.5} />
-
-                            {/* Animated Map Pings */}
-                            <div className="map-ping ping-1"></div>
-                            <div className="map-ping ping-2"></div>
-                            <div className="map-ping ping-3"></div>
-                            <div className="map-ping ping-4"></div>
-                            <div className="map-ping ping-5"></div>
-
-                            <div className="map-overlay-text">
-                                Explore destinos fascinantes.
+                        <div className="story-visual-container prem-hidden delay-2" ref={setRef}>
+                            <div className="glowing-orb-container">
+                                <div className="orb-ring r1"></div>
+                                <div className="orb-ring r2"></div>
+                                <div className="orb-core"></div>
+                                <Globe2 size={64} className="orb-icon text-white/80" strokeWidth={1} />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* 5. COMMUNITY STATS */}
-                <div className="about-stats" ref={setRef}>
-                    <div className="stats-grid fade-up">
-                        <div className="stat-card">
-                            <AnimatedCounter end={70} suffix="+" />
-                            <span className="stat-label">Países Disponíveis</span>
+                {/* 3. TECHNOLOGY - REACTIVE BENTO GRID */}
+                <div className="prem-tech" ref={setRef}>
+                    <div className="tech-intro prem-hidden">
+                        <h2 className="tech-title">O motor <br />que move a descoberta.</h2>
+                        <p className="tech-sub">Apresentando Sasha IA 5. O cérebro invisível de cada jornada.</p>
+                    </div>
+
+                    <div className="bento-grid" ref={bentoGridRef} onMouseMove={handleMouseMove}>
+
+                        {/* Huge Main Card */}
+                        <div className="bento-card b-large prem-hidden delay-1">
+                            <div className="b-icon-box"><BrainCircuit size={24} /></div>
+                            <h3 className="b-card-title">Inteligência Absoluta</h3>
+                            <p className="b-card-text">
+                                A Sasha IA não é um chatbot. É um agente autónomo capaz de cruzar milhões de pontos de dados de voos, legislação local, meteorologia, eventos obscuros e preferências pessoais para construir o roteiro perfeito em 3 segundos.
+                            </p>
+                            <div className="abstract-ai-visual">
+                                <div className="ai-line l1"></div>
+                                <div className="ai-line l2"></div>
+                                <div className="ai-line l3"></div>
+                                <div className="ai-node"></div>
+                            </div>
                         </div>
-                        <div className="stat-card">
-                            <AnimatedCounter end={100} suffix="k+" />
-                            <span className="stat-label">Experiências Partilhadas</span>
+
+                        {/* Medium Card 1 */}
+                        <div className="bento-card b-medium prem-hidden delay-2">
+                            <div className="b-icon-box"><Compass size={24} /></div>
+                            <h3 className="b-card-title">Mapa Sensorial</h3>
+                            <p className="b-card-text">Camadas de dados dinâmicas que revelam locais secretos à medida que você se aproxima, em tempo real.</p>
                         </div>
-                        <div className="stat-card">
-                            <AnimatedCounter end={500} suffix="k" />
-                            <span className="stat-label">Viajantes Conectados</span>
+
+                        {/* Medium Card 2 */}
+                        <div className="bento-card b-medium prem-hidden delay-3">
+                            <div className="b-icon-box"><Zap size={24} /></div>
+                            <h3 className="b-card-title">Respostas em milissegundos</h3>
+                            <p className="b-card-text">Dúvidas sobre o visto? Moeda? Transporte? A Sasha IA está sempre ao seu lado via voz ou chat.</p>
                         </div>
-                        <div className="stat-card">
-                            <AnimatedCounter end={2500} suffix="+" />
-                            <span className="stat-label">Destinos Explorados</span>
+
+                        {/* Long Footer Card */}
+                        <div className="bento-card b-wide prem-hidden delay-4">
+                            <div className="b-wide-content">
+                                <div>
+                                    <h3 className="b-card-title">Planeamento Offline Dinâmico</h3>
+                                    <p className="b-card-text">Mesmo no meio do deserto sem sinal, os seus roteiros adaptam-se localmente usando micro-modelos carregados no dispositivo.</p>
+                                </div>
+                                <div className="b-icon-box transparent"><Shield size={28} /></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* 6. VISION & FUTURE */}
-                <div className="about-vision" ref={setRef}>
-                    <div className="vision-box fade-up">
-                        <ShieldCheck size={40} className="vision-icon" />
-                        <h2 className="vision-title">O futuro da exploração começa aqui.</h2>
-                        <p className="vision-text">
-                            A missão da GoTour é redefinir a forma como a humanidade explora o mundo.
-                            Com inteligência artificial nativa, tecnologia cloud moderna e uma comunidade global apaixonada,
-                            estamos a construir a próxima geração de experiências de viagem.
-                        </p>
+                {/* 4. MONOLITHIC STATS */}
+                <div className="prem-stats" ref={setRef}>
+                    <h2 className="stats-main-heading prem-hidden">Uma plataforma de escala planetária.</h2>
+                    <div className="stats-row prem-hidden delay-1">
+                        <AnimatedStat end={75} suffix="+" label="Países Habilitados" />
+                        <div className="stat-divider"></div>
+                        <AnimatedStat end={12} suffix="M" label="Roteiros Gerados" />
+                        <div className="stat-divider"></div>
+                        <AnimatedStat end={99} suffix="%" label="Precisão da Sasha IA" />
                     </div>
                 </div>
 
-                {/* 7. FINAL CTA */}
-                <div className="about-cta" ref={setRef}>
-                    <div className="cta-content fade-up">
-                        <h2 className="cta-title">Pronto para explorar o mundo?</h2>
-                        <p className="cta-subtitle">
-                            Junte-se à GoTour e descubra destinos, experiências luxuosas e comunidades de viajantes como nunca antes.
-                        </p>
-                        <div className="cta-buttons">
-                            <Button variant="primary" size="lg" onClick={() => navigate('/login')}>Explorar a Plataforma</Button>
-                            <Button variant="outline" size="lg" onClick={() => navigate('/signup')} className="outline-cta-btn">Criar conta grátis</Button>
+                {/* 5. FINAL CALL */}
+                <div className="prem-cta" ref={setRef}>
+                    <div className="cta-glass-box prem-hidden">
+                        <div className="cta-icon-float">
+                            <Globe2 size={40} className="text-primary opacity-50" />
+                        </div>
+                        <h2 className="cta-huge-title">Abandone o antigo.<br />Abrace a exploração.</h2>
+                        <div className="cta-actions">
+                            <button className="prem-btn-primary" onClick={() => navigate('/login')}>
+                                Aceder à GoTour <ArrowRight size={18} className="ml-2 inline" />
+                            </button>
+                            <button className="prem-btn-outline" onClick={() => navigate('/signup')}>
+                                Criar conta
+                            </button>
                         </div>
                     </div>
                 </div>
