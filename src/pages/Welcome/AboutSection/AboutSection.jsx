@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, SmartToy, Route, ThumbsUp, Languages, Code2, Smartphone, Cloud, Rocket, Eye } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bot, Map, ThumbsUp, MessageCircle, Code2, Smartphone, Cloud, Rocket, Eye } from 'lucide-react';
 import './AboutSection.css';
 import Button from '../../../components/Button/Button';
 
@@ -46,7 +46,7 @@ const AboutSection = () => {
                 <div className="s-sasha-block">
                     <div className="s-sasha-header">
                         <div className="s-sasha-icon-box">
-                            <SmartToy size={32} className="s-mint-icon" />
+                            <Bot size={32} className="s-mint-icon" />
                         </div>
                         <h2 className="s-section-title">Conheça a Sasha IA</h2>
                     </div>
@@ -54,7 +54,7 @@ const AboutSection = () => {
 
                     <div className="s-sasha-features">
                         <div className="s-sasha-feature-card">
-                            <Route size={24} className="s-mint-icon" />
+                            <Map size={24} className="s-mint-icon" />
                             <span>Roteiros Inteligentes</span>
                         </div>
                         <div className="s-sasha-feature-card">
@@ -62,7 +62,7 @@ const AboutSection = () => {
                             <span>Recomendações Premium</span>
                         </div>
                         <div className="s-sasha-feature-card">
-                            <Languages size={24} className="s-mint-icon" />
+                            <MessageCircle size={24} className="s-mint-icon" />
                             <span>Tradução em Tempo Real</span>
                         </div>
                     </div>
