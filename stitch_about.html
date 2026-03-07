@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "pastel-lavender": "#efeeff",
+                        "pastel-sand": "#fdf8f1",
+                        "pastel-mint": "#e9f7f2",
+                        "pastel-blue": "#f0f7ff",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "2.5rem", // Approx 40px
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-radius { border-radius: 2.5rem; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pb-24">
+<!-- Header Nav -->
+<div class="flex items-center bg-transparent p-6 justify-between">
+<div class="text-slate-900 dark:text-slate-100 flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-3xl">arrow_back</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight flex-1 text-center pr-12">Sobre a GoTour</h2>
+</div>
+<!-- 1. Hero Section -->
+<div class="px-4 mb-4">
+<div class="bg-pastel-lavender dark:bg-primary/10 custom-radius p-8 flex flex-col gap-6 items-start">
+<span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Premium Travel Tech</span>
+<h1 class="text-slate-900 dark:text-white text-5xl font-black leading-[1.1] tracking-tight">
+                    Sobre a GoTour
+                </h1>
+<p class="text-slate-700 dark:text-slate-300 text-lg font-medium leading-relaxed">
+                    Uma plataforma inovadora fundada em Moçambique para transformar a sua experiência de viagem global.
+                </p>
+<button class="bg-primary text-white custom-radius h-14 px-8 font-bold text-base flex items-center justify-center gap-2">
+                    Conheça nossa história
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- 2. Founder & History -->
+<div class="px-4 mb-4">
+<div class="bg-pastel-sand dark:bg-orange-900/10 custom-radius p-8 flex flex-col gap-8">
+<div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-xl mx-auto md:mx-0">
+<img alt="Tiago J.B. Paqueliua" class="w-full h-full object-cover" data-alt="Portrait of founder Tiago J.B. Paqueliua" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGrLtV_2XqULUMjMEBeypFiJazufqzQC4NwdK_w7aXPg71qadvo8s8VF3mGTlXQjBHpIeySxwY-n6vnDUsjBS3y4RGUohMZVuvbskmxN0TpNLTDa8mCmuomb1-VAVyENogWlistugOXOS5lEee8LWgxhhnFDaCrisYQNdaY7E4KWXP4rVjT3YfDfzIEnNpQPeW7q-fuBWz6DguVPOt3y8MiDQalAkO7x6aqJ-zubIf_cKtXI6s8vWoP92CUPt8qM4sJ2rsDpjYCSQ"/>
+</div>
+<div class="flex flex-col gap-3">
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white">Tiago J.B. Paqueliua</h3>
+<p class="text-primary font-semibold">Fundador da GoTour, 2022</p>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed text-base">
+                        Nascida em Moçambique com a visão de conectar o continente ao mundo através de tecnologia de ponta e curadoria de viagens sem precedentes.
+                    </p>
+</div>
+</div>
+</div>
+<!-- 3. Sasha IA Section -->
+<div class="px-4 mb-4">
+<div class="bg-pastel-mint dark:bg-emerald-900/10 custom-radius p-8 flex flex-col gap-6 relative overflow-hidden">
+<div class="flex items-center gap-3">
+<div class="bg-white dark:bg-emerald-500/20 p-3 rounded-2xl shadow-sm">
+<span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-3xl">smart_toy</span>
+</div>
+<h2 class="text-2xl font-black text-slate-900 dark:text-white">Conheça a Sasha IA</h2>
+</div>
+<p class="text-slate-700 dark:text-slate-300 font-medium">Sua assistente pessoal de viagem disponível 24/7.</p>
+<div class="grid gap-3">
+<div class="bg-white/60 dark:bg-white/5 p-4 rounded-2xl flex items-center gap-4">
+<span class="material-symbols-outlined text-emerald-600">route</span>
+<span class="font-semibold">Roteiros Inteligentes</span>
+</div>
+<div class="bg-white/60 dark:bg-white/5 p-4 rounded-2xl flex items-center gap-4">
+<span class="material-symbols-outlined text-emerald-600">recommend</span>
+<span class="font-semibold">Recomendações Premium</span>
+</div>
+<div class="bg-white/60 dark:bg-white/5 p-4 rounded-2xl flex items-center gap-4">
+<span class="material-symbols-outlined text-emerald-600">translate</span>
+<span class="font-semibold">Tradução em Tempo Real</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. Tech & Development -->
+<div class="px-4 mb-4">
+<div class="bg-pastel-blue dark:bg-blue-900/10 custom-radius p-8">
+<h3 class="text-xl font-bold mb-6 text-center">Stack Tecnológica</h3>
+<div class="flex justify-around items-center">
+<div class="flex flex-col items-center gap-2">
+<div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm">
+<span class="material-symbols-outlined text-blue-500 text-3xl">code</span>
+</div>
+<span class="text-xs font-bold opacity-60 uppercase">Node.js</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm">
+<span class="material-symbols-outlined text-blue-400 text-3xl">smartphone</span>
+</div>
+<span class="text-xs font-bold opacity-60 uppercase">React Native</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm">
+<span class="material-symbols-outlined text-blue-600 text-3xl">cloud_done</span>
+</div>
+<span class="text-xs font-bold opacity-60 uppercase">Cloud Native</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 5. Mission & Vision -->
+<div class="px-4 mb-4 grid grid-cols-2 gap-4">
+<div class="bg-slate-900 text-white custom-radius p-6 flex flex-col gap-4">
+<span class="material-symbols-outlined text-primary text-3xl">rocket_launch</span>
+<h4 class="text-lg font-black uppercase">Missão</h4>
+<p class="text-xs leading-relaxed opacity-80">Democratizar o acesso a viagens de luxo através da tecnologia inteligente.</p>
+</div>
+<div class="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 custom-radius p-6 flex flex-col gap-4 shadow-sm">
+<span class="material-symbols-outlined text-primary text-3xl">visibility</span>
+<h4 class="text-lg font-black uppercase">Visão</h4>
+<p class="text-xs leading-relaxed opacity-60">Ser a plataforma #1 de travel concierge no Sul da África até 2026.</p>
+</div>
+</div>
+<!-- 6. Global Impact -->
+<div class="px-4 mb-8">
+<div class="relative bg-slate-900 custom-radius overflow-hidden p-8 h-64 flex flex-col justify-end">
+<div class="absolute inset-0 opacity-40">
+<img alt="Map" class="w-full h-full object-cover" data-alt="Stylized world map showing global connectivity" data-location="Global" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPFWpzXzB3FytB1_WKjFfQHh_JtJ9yzNjGPPfpEr8qYqCdKpcwma4Zy85eapybAiv8siam5uWi6-WdWXQolE-FWLKQTwEmA-YHs7WW4wRvqapmRIZ98pE1HyNfyqJXu4xtJD881kJ6iiMNAi-IBCPtxI5PL8HUvU5oTapu8S3rvbxdNhQSfAAJnf_T0vYDp9pUkR_ozkUSSYIQUaZGqJXIPAKF5KUa5onEH-V9nHcet7GFEKgh9My6v2FnFOW5RkJ9wGpTHbEO5Sc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
+</div>
+<div class="relative z-10 flex flex-col gap-2">
+<h3 class="text-white text-3xl font-black">Impacto Global</h3>
+<div class="flex gap-6">
+<div>
+<p class="text-primary text-2xl font-black">120+</p>
+<p class="text-white/60 text-[10px] font-bold uppercase tracking-tighter">Países Atendidos</p>
+</div>
+<div>
+<p class="text-primary text-2xl font-black">50k+</p>
+<p class="text-white/60 text-[10px] font-bold uppercase tracking-tighter">Viajantes Felizes</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation -->
+<div class="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4">
+<div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-700/50 custom-radius shadow-2xl flex justify-between items-center px-8 py-4">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold uppercase">Início</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-[10px] font-bold uppercase">Explorar</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">info</span>
+<span class="text-[10px] font-bold uppercase">Sobre</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold uppercase">Perfil</span>
+</a>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,390 +1,445 @@
 /* =========================================================
-   PITCH.COM INSPIRED ABOUT US SECTION
-   Theme: Friendly SaaS, Pastel Blocks, Huge Typography
+   STITCH GENERATED "ABOUT US" (PITCH.COM STYLE)
    ========================================================= */
 
-.pitch-about-section {
-    background-color: #ffffff;
+.stitch-about-section {
+    background-color: #f6f7f8;
+    /* background-light from Stitch */
     color: #0f172a;
-    font-family: 'Inter', system-ui, sans-serif;
-    padding: 0 0 160px;
+    /* slate-900 */
+    font-family: 'Inter', sans-serif;
+    padding: 0 0 120px;
     scroll-margin-top: 72px;
 }
 
-.pitch-container {
-    max-width: 1280px;
+.stitch-container {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 16px;
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    /* Big gaps between Pitch blocks */
+    gap: 16px;
+    /* mb-4 tight gap equivalent from stitch HTML */
 }
 
-/* --- ANIMATIONS --- */
-.pitch-hidden {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+/* Base block styling for all Stitch components */
+.s-block {
+    border-radius: 40px;
+    /* custom-radius (2.5rem) */
+    padding: 32px;
 }
-
-.pitch-reveal {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.delay-1 {
-    transition-delay: 0.15s;
-}
-
-.delay-2 {
-    transition-delay: 0.3s;
-}
-
-.delay-3 {
-    transition-delay: 0.45s;
-}
-
-
-/* ==========================================
-   COMMON TYPOGRAPHY & ELEMENTS
-   ========================================== */
-.pitch-h1 {
-    font-size: clamp(3rem, 6vw, 5.5rem);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    color: #0f172a;
-    margin-bottom: 32px;
-}
-
-.pitch-h2 {
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: #0f172a;
-    margin-bottom: 24px;
-}
-
-.pitch-h3 {
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: #0f172a;
-    margin-bottom: 20px;
-}
-
-.pitch-p {
-    font-size: 1.25rem;
-    line-height: 1.6;
-    color: #475569;
-    font-weight: 400;
-}
-
-.pitch-p.center {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.pitch-overline {
-    display: inline-block;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 0.875rem;
-    letter-spacing: 0.1em;
-    color: #64748b;
-    margin-bottom: 16px;
-}
-
-.pitch-overline.light {
-    color: #94a3b8;
-}
-
-/* Colors for Blocks */
-.pitch-bg-sand {
-    background-color: #fdf6ec;
-}
-
-/* Warm pastel yellow/orange */
-.pitch-bg-lavender {
-    background-color: #f3f0ff;
-}
-
-/* Soft purple */
-.pitch-bg-blue {
-    background-color: #eff6ff;
-}
-
-/* Soft blue */
-.pitch-bg-mint {
-    background-color: #ecfdf5;
-}
-
-/* Soft green */
-.pitch-bg-dark {
-    background-color: #0f172a;
-}
-
-/* Slate 900 */
-
 
 /* ==========================================
    1. HERO
    ========================================== */
-.pitch-hero {
-    padding: 120px 0 60px;
-    text-align: center;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.pitch-hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background: #f1f5f9;
-    color: #0f172a;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-bottom: 32px;
-}
-
-.pitch-hero-sub {
-    font-size: 1.5rem;
-    color: #475569;
-    line-height: 1.5;
-    max-width: 800px;
-    margin: 0 auto 64px;
-}
-
-.pitch-hero-image-wrapper {
-    width: 100%;
+.s-hero-block {
+    background-color: #efeeff;
+    /* pastel-lavender */
     border-radius: 40px;
-    overflow: hidden;
-    height: 400px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
-}
-
-.pitch-hero-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-
-/* ==========================================
-   2. HISTORY SPLIT BLOCK
-   ========================================== */
-.pitch-split-block {
-    display: grid;
-    grid-template-columns: 1fr;
-    border-radius: 40px;
-    overflow: hidden;
-    gap: 40px;
-    padding: 60px 40px;
-}
-
-@media (min-width: 1024px) {
-    .pitch-split-block {
-        grid-template-columns: 1fr 1fr;
-        padding: 80px;
-        align-items: center;
-    }
-}
-
-.pitch-split-visual {
-    width: 100%;
-    height: 100%;
-    min-height: 350px;
-    border-radius: 24px;
-    overflow: hidden;
-}
-
-.pitch-visual-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 24px;
-}
-
-
-/* ==========================================
-   3. SASHA IA COLOR BLOCK
-   ========================================== */
-.pitch-color-block {
-    border-radius: 40px;
-    padding: 80px 40px;
-}
-
-.pitch-block-header {
-    text-align: center;
-    margin-bottom: 64px;
+    padding: 64px 32px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 24px;
+    align-items: flex-start;
 }
 
-.pitch-icon-box {
-    width: 64px;
-    height: 64px;
-    border-radius: 20px;
+.s-badge {
+    background-color: rgba(19, 127, 236, 0.1);
+    /* primary/10 */
+    color: #137fec;
+    /* primary */
+    padding: 4px 16px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.s-title {
+    font-size: clamp(3rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: #0f172a;
+    margin: 0;
+}
+
+.s-subtitle {
+    font-size: 1.125rem;
+    color: #334155;
+    /* slate-700 */
+    font-weight: 500;
+    line-height: 1.625;
+    max-width: 800px;
+}
+
+.s-hero-btn {
+    background-color: #137fec;
+    /* primary */
+    color: #ffffff;
+    border-radius: 40px;
+    height: 56px;
+    padding: 0 32px;
+    font-weight: 700;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 24px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
 }
 
-.text-purple {
-    color: #8b5cf6;
+.s-hero-btn:hover {
+    background-color: #0f6bd1;
+    transform: translateY(-2px);
 }
 
-.text-blue {
-    color: #3b82f6;
-}
-
-.text-mint {
-    color: #10b981;
-}
-
-.pitch-features-grid {
-    display: grid;
-    grid-template-columns: 1fr;
+/* ==========================================
+   2. FOUNDER & HISTORY
+   ========================================== */
+.s-founder-block {
+    background-color: #fdf8f1;
+    /* pastel-sand */
+    border-radius: 40px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
     gap: 32px;
 }
 
-@media (min-width: 1024px) {
-    .pitch-features-grid {
-        padding: 0 40px;
-        grid-template-columns: 1fr 1fr 1fr;
+@media (min-width: 768px) {
+    .s-founder-block {
+        flex-direction: row;
+        align-items: center;
+        padding: 64px;
     }
 }
 
-.pitch-feature-card {
-    background: #ffffff;
-    border-radius: 32px;
-    padding: 40px;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
-}
-
-.feat-icon {
-    margin-bottom: 24px;
-}
-
-.pitch-feature-card h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 12px;
-}
-
-.pitch-feature-card p {
-    font-size: 1rem;
-    color: #475569;
-    line-height: 1.6;
-}
-
-
-/* ==========================================
-   4. DUAL CARDS (TECH & MAP)
-   ========================================== */
-.pitch-dual-cards {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 40px;
-}
-
-@media (min-width: 1024px) {
-    .pitch-dual-cards {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-.pitch-card {
-    border-radius: 40px;
-    padding: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.card-icon {
-    margin-bottom: 32px;
-}
-
-
-/* ==========================================
-   5. VISION BLOCK
-   ========================================== */
-.pitch-vision-block {
-    border-radius: 40px;
-    padding: 80px 40px;
-}
-
-@media (min-width: 1024px) {
-    .pitch-vision-block {
-        padding: 120px 80px;
-    }
-}
-
-.text-white {
-    color: #ffffff;
-}
-
-.text-gray-300 {
-    color: #cbd5e1;
-    font-size: 1.125rem;
-    line-height: 1.6;
-}
-
-.pitch-vision-split {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 64px;
-    margin-top: 64px;
+.s-founder-image-wrapper {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #ffffff;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    flex-shrink: 0;
+    margin: 0 auto;
 }
 
 @media (min-width: 768px) {
-    .pitch-vision-split {
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
+    .s-founder-image-wrapper {
+        margin: 0;
+        width: 180px;
+        height: 180px;
     }
 }
 
-.v-card h3 {
+.s-founder-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.s-founder-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .s-founder-info {
+        text-align: left;
+    }
+}
+
+.s-founder-name {
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 16px;
+    color: #0f172a;
+}
+
+.s-founder-role {
+    color: #137fec;
+    /* primary */
+    font-weight: 600;
+}
+
+.s-founder-desc {
+    color: #475569;
+    /* slate-600 */
+    line-height: 1.6;
+    font-size: 1rem;
 }
 
 
 /* ==========================================
-   6. FINAL CTA
+   3. SASHA IA
    ========================================== */
-.pitch-cta {
-    padding: 120px 0;
+.s-sasha-block {
+    background-color: #e9f7f2;
+    /* pastel-mint */
+    border-radius: 40px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .s-sasha-block {
+        padding: 64px;
+    }
+}
+
+.s-sasha-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.s-sasha-icon-box {
+    background-color: #ffffff;
+    padding: 12px;
+    border-radius: 16px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.s-mint-icon {
+    color: #059669;
+    /* emerald-600 */
+}
+
+.s-section-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #0f172a;
+}
+
+.s-sasha-subtitle {
+    color: #334155;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.s-sasha-features {
+    display: grid;
+    gap: 12px;
+}
+
+@media (min-width: 768px) {
+    .s-sasha-features {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+}
+
+.s-sasha-feature-card {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 16px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+
+/* ==========================================
+   4. TECH STACK
+   ========================================== */
+.s-tech-block {
+    background-color: #f0f7ff;
+    /* pastel-blue */
+    border-radius: 40px;
+    padding: 40px;
+}
+
+@media (min-width: 768px) {
+    .s-tech-block {
+        padding: 64px;
+    }
+}
+
+.s-tech-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 24px;
     text-align: center;
 }
 
-.pitch-cta-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 900;
-    letter-spacing: -0.04em;
-    color: #0f172a;
-    margin-bottom: 48px;
+.s-tech-grid {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
 }
 
-.pitch-cta-actions {
+.s-tech-item {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.s-tech-icon-box {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 24px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.s-blue-icon {
+    color: #3b82f6;
+    /* blue-500 */
+}
+
+.s-tech-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    opacity: 0.6;
+    text-transform: uppercase;
+}
+
+
+/* ==========================================
+   DESKTOP ROW (MISSION & GLOBAL)
+   ========================================== */
+.s-desktop-row {
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 16px;
-    flex-wrap: wrap;
+}
+
+@media (min-width: 1024px) {
+    .s-desktop-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ==========================================
+   5. MISSION & VISION
+   ========================================== */
+.s-mission-vision-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.s-mission-card {
+    background-color: #0f172a;
+    /* slate-900 */
+    color: #ffffff;
+    border-radius: 40px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.s-vision-card {
+    background-color: #ffffff;
+    border: 1px solid #f1f5f9;
+    /* slate-100 */
+    color: #0f172a;
+    border-radius: 40px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.s-primary-icon {
+    color: #137fec;
+    /* primary */
+}
+
+.s-mv-title {
+    font-size: 1.125rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.s-mv-desc {
+    font-size: 0.875rem;
+    line-height: 1.625;
+    opacity: 0.8;
+}
+
+.s-vision-card .s-mv-desc {
+    opacity: 0.6;
+}
+
+
+/* ==========================================
+   6. GLOBAL IMPACT
+   ========================================== */
+.s-global-block {
+    position: relative;
+    background-color: #0f172a;
+    border-radius: 40px;
+    overflow: hidden;
+    padding: 48px;
+    min-height: 256px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.s-global-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+}
+
+.s-global-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0.6) 50%, transparent 100%);
+}
+
+.s-global-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.s-global-title {
+    color: #ffffff;
+    font-size: 1.875rem;
+    font-weight: 900;
+}
+
+.s-global-stats {
+    display: flex;
+    gap: 24px;
+}
+
+.s-stat-num {
+    color: #137fec;
+    /* primary */
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.s-stat-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
 }
