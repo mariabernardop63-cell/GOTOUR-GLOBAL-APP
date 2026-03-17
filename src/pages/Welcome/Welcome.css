@@ -366,7 +366,7 @@
 
     .hero-h1 {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        font-size: 52px; /* Increased from 40px */
+        font-size: 44px; /* Reduced from 52px to fit 2 lines perfectly */
         font-weight: 700;
         line-height: 1.15;
         letter-spacing: -1px;
