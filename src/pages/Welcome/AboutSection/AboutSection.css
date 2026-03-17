@@ -57,7 +57,7 @@
 }
 
 .abt-glass-card {
-    max-width: 576px; /* max-w-xl */
+    max-width: 620px; /* Increased from 576px */
     backdrop-filter: blur(24px);
     background: rgba(255, 255, 255, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -80,19 +80,19 @@
 }
 
 .abt-headline {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(3rem, 7vw, 4.5rem); /* Even larger scale */
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.05;
     letter-spacing: -0.02em;
     color: #0F172A;
     margin-bottom: 24px;
 }
 
 .abt-subtext {
-    font-size: 1.125rem;
+    font-size: 1.5rem; /* Increased from 1.35rem */
     color: #475569;
-    line-height: 1.6;
-    margin-bottom: 32px;
+    line-height: 1.7;
+    margin-bottom: 40px;
 }
 
 .abt-btn-primary {
@@ -101,9 +101,10 @@
     gap: 8px;
     background-color: #0db9f2;
     color: #ffffff;
-    font-weight: 500;
-    padding: 12px 24px;
+    font-weight: 600;
+    padding: 16px 36px; /* Larger button */
     border-radius: 9999px;
+    font-size: 1.1rem;
     text-decoration: none;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -130,7 +131,7 @@
 }
 
 .abt-section-title {
-    font-size: clamp(1.875rem, 4vw, 2.25rem);
+    font-size: clamp(2.25rem, 5vw, 3rem); /* Increased from 2.25rem */
     font-weight: 700;
     color: #0F172A;
     margin-bottom: 16px;
@@ -138,7 +139,7 @@
 }
 
 .abt-section-desc {
-    font-size: 1.125rem;
+    font-size: 1.25rem; /* Increased from 1.125rem */
     color: #64748B;
 }
 
@@ -213,9 +214,9 @@
 }
 
 .abt-single-bio {
-    font-size: 1.0625rem;
+    font-size: 1.25rem; /* Increased from 1.0625rem */
     color: #475569;
-    line-height: 1.7;
+    line-height: 1.8;
 }
 @media (min-width: 768px) {
     .abt-grid-3 {

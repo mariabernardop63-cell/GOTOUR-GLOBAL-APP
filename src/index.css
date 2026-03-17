@@ -51,6 +51,22 @@
   --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Base Scaling for Desktop */
+@media (min-width: 1024px) {
+  html {
+    font-size: 110%; /* Bumping base to 110% to give room for components */
+  }
+  
+  :root {
+    --spacing-xs: 6px;
+    --spacing-sm: 12px;
+    --spacing-md: 24px;
+    --spacing-lg: 36px;
+    --spacing-xl: 48px;
+    --spacing-2xl: 72px;
+  }
+}
+
 /* ===== SCROLL BEHAVIOR ===== */
 html {
   scroll-behavior: smooth;

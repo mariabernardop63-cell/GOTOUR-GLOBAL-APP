@@ -10,7 +10,7 @@
     .desktop-sidebar {
         display: flex;
         flex-direction: column;
-        width: 280px;
+        width: 320px; /* Increased from 280px */
         height: 100vh;
         position: fixed;
         top: 0;
@@ -19,7 +19,7 @@
         border-right: 1px solid #f1f5f9;
         z-index: 1000;
         /* Above profile content */
-        padding: 24px 20px;
+        padding: 32px 24px; /* Increased padding */
         box-shadow: 2px 0 10px rgba(0, 0, 0, 0.02);
     }
 
@@ -31,7 +31,7 @@
     }
 
     .desktop-sidebar-logo {
-        height: 36px;
+        height: 44px; /* Increased from 36px */
         width: auto;
         cursor: pointer;
         transition: transform 0.2s ease;
@@ -100,10 +100,10 @@
         display: flex;
         align-items: center;
         width: 100%;
-        padding: 14px 16px;
+        padding: 16px 20px; /* Increased from 14x16 */
         background: transparent;
         border: none;
-        border-radius: 999px;
+        border-radius: 9999px;
         /* Pill shape */
         cursor: pointer;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -120,7 +120,7 @@
     }
 
     .sidebar-nav-label {
-        font-size: 17px;
+        font-size: 19px; /* Increased from 17px */
         font-weight: 500;
         color: #475569;
         transition: color 0.2s;

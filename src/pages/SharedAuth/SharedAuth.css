@@ -49,19 +49,19 @@
 }
 
 .da-left-content {
-    margin-top: 60px;
-    margin-left: 60px;
-    max-width: 480px;
+    margin-top: 80px;
+    margin-left: 80px;
+    max-width: 560px; /* Increased from 480px */
     z-index: 10;
 }
 
 .da-welcome-title {
     font-family: 'Poppins', sans-serif;
-    font-size: 32px;
+    font-size: 48px; /* Increased from 40px */
     font-weight: 700;
     color: #4A72FF;
-    line-height: 1.2;
-    margin-bottom: 12px;
+    line-height: 1.25;
+    margin-bottom: 24px;
 }
 
 /* Specific to the blue title from reference */
@@ -70,11 +70,11 @@
 }
 
 .da-welcome-subtitle {
-    font-size: 14px;
+    font-size: 19px; /* Increased from 16px */
     color: #64748B;
-    line-height: 1.5;
-    max-width: 320px;
-    font-weight: 500;
+    line-height: 1.6;
+    max-width: 460px; /* Wider for accessibility */
+    font-weight: 450;
 }
 
 /* Center 3D Illustration Area */
@@ -209,7 +209,7 @@
 /* Form Styles */
 .da-form-content {
     margin: 0;
-    max-width: 360px;
+    max-width: 420px; /* Increased from 360px */
     width: 100%;
 }
 
@@ -227,12 +227,12 @@
 
 .da-input {
     width: 100%;
-    height: 44px;
+    height: 58px; /* Increased from 52px */
     background-color: #FFFFFF;
     border: 1px solid #CBD5E1;
     border-radius: 0;
-    padding: 0 16px;
-    font-size: 14px;
+    padding: 0 24px;
+    font-size: 17px; /* Increased from 15px */
     font-weight: 400;
     color: #1E293B;
     box-sizing: border-box;
@@ -348,10 +348,10 @@
 .da-btn-primary {
     background-color: #4A72FF;
     color: #FFFFFF;
-    height: 44px;
+    height: 58px; /* Increased from 52px */
     border: none;
     border-radius: 0;
-    font-size: 13px;
+    font-size: 17px; /* Increased from 15px */
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     text-transform: uppercase;
@@ -412,8 +412,8 @@
 }
 
 .da-social-btn-transparent {
-    width: 32px;
-    height: 32px;
+    width: 48px; /* Increased from 40px */
+    height: 48px;
     background-color: transparent;
     border: none;
     display: flex;

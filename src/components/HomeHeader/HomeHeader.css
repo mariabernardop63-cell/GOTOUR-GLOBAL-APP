@@ -11,8 +11,7 @@
 }
 
 .home-header-logo {
-    height: 48px;
-    /* Increased size for better visibility */
+    height: 56px; /* Increased from 48px */
     width: auto;
     object-fit: contain;
 }
@@ -30,7 +29,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 8px;
+    padding: 12px; /* Increased from 8px */
     display: flex;
     align-items: center;
     justify-content: center;

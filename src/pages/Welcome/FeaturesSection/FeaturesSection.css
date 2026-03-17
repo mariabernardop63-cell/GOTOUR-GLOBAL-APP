@@ -62,7 +62,7 @@ body.dark-mode .feat-immersive-section {
 }
 
 .showcase-headline {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(3rem, 6vw, 4.5rem); /* Increased scale from 2.5/4rem */
     font-weight: 900;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -80,10 +80,10 @@ body.dark-mode .showcase-headline {
 }
 
 .showcase-subtext {
-    font-size: 1.125rem;
+    font-size: 1.3rem; /* Increased from 1.125rem */
     color: #425466;
     line-height: 1.6;
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto;
 }
 
@@ -119,9 +119,10 @@ body.dark-mode .showcase-subtext {
 .btn-immersive-primary {
     background-color: #3d3df5;
     color: #FFFFFF;
-    padding: 16px 32px;
+    padding: 18px 40px; /* Increased from 16x32 */
     border-radius: 8px;
     font-weight: 600;
+    font-size: 1.1rem; /* Larger */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     transition: background 0.2s;
     border: none;
@@ -135,14 +136,15 @@ body.dark-mode .showcase-subtext {
 .btn-immersive-secondary {
     background-color: #FFFFFF;
     color: #0A2540;
-    padding: 16px 32px;
+    padding: 18px 40px; /* Increased */
     border-radius: 8px;
     font-weight: 600;
+    font-size: 1.1rem; /* Larger */
     border: 1px solid #E2E8F0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 12px;
     cursor: pointer;
 }
 
