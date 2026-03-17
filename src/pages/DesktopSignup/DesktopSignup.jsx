@@ -613,7 +613,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
 
                         {errors.submit && <span className="error-msg-ds" style={{ marginTop: '8px', display: 'block' }}>{errors.submit}</span>}
 
-                        <button type="button" className="da-btn-primary" style={{ marginTop: '24px', width: '100%' }} onClick={isOAuthFlow ? handleSkipStep2 : handleNext} disabled={isLoading || !(formData.nationality || formData.phone.trim().length > 0 || phoneDialCode.trim().length > 0 || formData.dobDay || formData.dobMonth || formData.dobYear)}>
+                        <button type="button" className="da-btn-primary" style={{ marginTop: '24px', width: '100%' }} onClick={() => handleNext()} disabled={isLoading || !(formData.nationality || formData.phone.trim().length > 0 || phoneDialCode.trim().length > 0 || formData.dobDay || formData.dobMonth || formData.dobYear)}>
                             {isLoading ? 'Processing...' : 'Next Step'}
                         </button>
 

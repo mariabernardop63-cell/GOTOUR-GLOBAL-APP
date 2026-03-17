@@ -40,7 +40,7 @@ const OAuthCallback = () => {
                         state: {
                             requireProfileCompletion: true,
                             email: user.email,
-                            fullName: user.user_metadata?.full_name || ''
+                            fullName: user.user_metadata?.full_name || user.user_metadata?.name || user.user_metadata?.custom_claims?.full_name || ''
                         }
                     });
                 }
