@@ -67,6 +67,11 @@ body.dark-mode .feat-immersive-section {
     line-height: 1.1;
     letter-spacing: -0.02em;
     color: #0A2540;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Enforce 2 lines max */
+    line-clamp: 2; /* Standard property */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 body.dark-mode .showcase-headline {
@@ -76,6 +81,7 @@ body.dark-mode .showcase-headline {
 .showcase-grad-text {
     background: linear-gradient(to right, #3d3df5, #00D4FF);
     -webkit-background-clip: text;
+    background-clip: text; /* Standard property */
     -webkit-text-fill-color: transparent;
 }
 

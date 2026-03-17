@@ -8,7 +8,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 10px; /* Minimal gap to maximize visibility */
+    margin-top: 40px; /* Increased to shift below hero buttons */
     perspective: 1800px;
     position: relative;
     z-index: 5;

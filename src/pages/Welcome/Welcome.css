@@ -328,9 +328,9 @@
     .desktop-hero {
         display: flex;
         align-items: center;
-        min-height: 55vh; /* Maximum pull up to show more preview */
+        min-height: 60vh; /* Increased to push content down */
         margin-top: 72px;
-        padding: 60px clamp(40px, 5vw, 80px) 0; /* Increased padding */
+        padding: 100px clamp(40px, 5vw, 80px) 0; /* Increased top padding to shift titles down */
         gap: 60px; /* Increased gap */
         max-width: 1600px; /* Increased from 1440px */
         margin-left: auto;
@@ -372,8 +372,11 @@
         letter-spacing: -1px;
         color: #ffffff;
         margin: 0;
-        display: flex;
-        flex-direction: column;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Enforce 2 lines max */
+        line-clamp: 2; /* Standard property */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
         gap: 12px;
     }
 
