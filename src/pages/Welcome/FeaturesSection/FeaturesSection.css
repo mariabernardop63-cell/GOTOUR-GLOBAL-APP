@@ -62,7 +62,7 @@ body.dark-mode .feat-immersive-section {
 }
 
 .showcase-headline {
-    font-size: clamp(2.5rem, 5vw, 3.8rem); /* Reduced scale to fit 2 lines perfectly */
+    font-size: clamp(2rem, 4.5vw, 3.2rem); /* Further reduced from 3.8rem to guarantee 2-line fit */
     font-weight: 900;
     line-height: 1.1;
     letter-spacing: -0.02em;
