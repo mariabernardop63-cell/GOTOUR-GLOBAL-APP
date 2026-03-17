@@ -21,7 +21,7 @@
 .abt-glass-bgbox {
     position: relative;
     width: 100%;
-    min-height: 600px;
+    min-height: 480px; /* Reduced from 600px */
     border-radius: 24px;
     overflow: hidden;
     display: flex;
@@ -57,11 +57,11 @@
 }
 
 .abt-glass-card {
-    max-width: 620px; /* Increased from 576px */
+    max-width: 540px; /* Reduced from 620px */
     backdrop-filter: blur(24px);
     background: rgba(255, 255, 255, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 40px;
+    padding: 32px; /* Reduced from 40px */
     border-radius: 16px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
@@ -80,7 +80,7 @@
 }
 
 .abt-headline {
-    font-size: clamp(3rem, 7vw, 4.5rem); /* Even larger scale */
+    font-size: clamp(2rem, 5vw, 3rem); /* Reduced from clamp(3rem, 7vw, 4.5rem) */
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: -0.02em;
@@ -89,7 +89,7 @@
 }
 
 .abt-subtext {
-    font-size: 1.5rem; /* Increased from 1.35rem */
+    font-size: 1.15rem; /* Reduced from 1.5rem */
     color: #475569;
     line-height: 1.7;
     margin-bottom: 40px;
