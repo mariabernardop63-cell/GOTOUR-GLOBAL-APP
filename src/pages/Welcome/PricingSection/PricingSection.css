@@ -3,11 +3,11 @@
    ========================================================= */
 
 .dark-pricing-section {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #0A2540;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     padding: 80px 24px 120px;
-    border-top: 1px solid #1f1f22;
+    border-top: 1px solid #E2E8F0;
 }
 
 .dark-pricing-container {
@@ -26,12 +26,12 @@
     font-weight: 700;
     letter-spacing: -0.04em;
     margin: 0 0 16px;
-    color: #ffffff;
+    color: #0A2540;
 }
 
 .dark-pricing-subtitle {
     font-size: 1.1rem;
-    color: #a1a1aa;
+    color: #4A5568;
 }
 
 /* --- Responsive Grid --- */
@@ -50,23 +50,19 @@
 
 /* --- Base Card Styling --- */
 .dark-card {
-    background-color: #09090b;
-    /* Very dark gray almost black */
-    border: 1px solid #27272a;
-    /* Subtle faint gray border */
+    background-color: #ffffff;
+    border: 1px solid #E2E8F0;
     border-radius: 16px;
     padding: 32px 24px;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .pro-card {
-    background-color: #020815;
-    /* Very subtle deep blue tint */
-    border: 1px solid #1e3a8a;
-    /* Dark blue border */
-    box-shadow: 0 0 40px -10px rgba(29, 78, 216, 0.15);
-    /* Faint blue glow */
+    background-color: #F8FAFC;
+    border: 1px solid #3b82f6;
+    box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1);
 }
 
 /* --- Card Header --- */
@@ -81,12 +77,12 @@
     font-size: 1.5rem;
     font-weight: 600;
     margin: 0 0 6px;
-    color: #ffffff;
+    color: #0F172A;
 }
 
 .card-subtitle {
     font-size: 0.85rem;
-    color: #a1a1aa;
+    color: #64748B;
     margin: 0;
 }
 
@@ -105,14 +101,14 @@
 .toggle-text {
     font-size: 0.65rem;
     font-weight: 700;
-    color: #a1a1aa;
+    color: #64748B;
     letter-spacing: 0.05em;
 }
 
 .toggle-switch {
     width: 32px;
     height: 18px;
-    background-color: #27272a;
+    background-color: #E2E8F0;
     border-radius: 999px;
     position: relative;
     transition: background-color 0.2s;
@@ -146,8 +142,8 @@
 
 /* --- Price Block --- */
 .card-price-block {
-    border-top: 1px solid #27272a;
-    border-bottom: 1px solid #27272a;
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
     padding: 24px 0;
     margin-bottom: 24px;
     display: flex;
@@ -157,13 +153,13 @@
 
 .price-val {
     font-size: 1rem;
-    color: #a1a1aa;
-    font-weight: 400;
+    color: #0F172A;
+    font-weight: 500;
 }
 
 .price-per {
     font-size: 1rem;
-    color: #a1a1aa;
+    color: #64748B;
     margin-left: 4px;
 }
 
@@ -174,7 +170,7 @@
 
 .feature-intro {
     font-size: 0.85rem;
-    color: #a1a1aa;
+    color: #64748B;
     margin: 0 0 20px;
 }
 
@@ -192,20 +188,18 @@
     align-items: flex-start;
     gap: 12px;
     font-size: 0.85rem;
-    color: #d4d4d8;
+    color: #475569;
     line-height: 1.5;
 }
 
 .feature-list li svg {
-    color: #ffffff;
-    /* White icons */
+    color: #3b82f6;
     flex-shrink: 0;
     margin-top: 2px;
 }
 
 .feature-list li strong {
-    color: #71717a;
-    /* Add-on text styling */
+    color: #94A3B8;
     font-weight: 400;
     margin-left: 4px;
 }
@@ -216,8 +210,7 @@
 
 /* Pro Card specifics */
 .pro-card .card-price-block {
-    border-color: #1e3a8a;
-    /* Dark blue borders for price block */
+    border-color: #93C5FD;
 }
 
 /* --- Buttons --- */
@@ -240,12 +233,13 @@
 }
 
 .btn-gray {
-    background-color: #27272a;
-    color: #ffffff;
+    background-color: #F1F5F9;
+    color: #0F172A;
+    border: 1px solid #E2E8F0;
 }
 
 .btn-gray:hover {
-    background-color: #3f3f46;
+    background-color: #E2E8F0;
 }
 
 .btn-blue {

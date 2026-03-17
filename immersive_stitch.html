@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GO TOUR - Discover &amp; Features</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3d3df5",
+                        "background-light": "#F6F9FC",
+                        "background-dark": "#101022",
+                        "surface": "#FFFFFF",
+                        "text-main": "#0A2540",
+                        "text-muted": "#425466",
+                        "accent": "#00D4FF"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                    boxShadow: {
+                        'subtle': '0 2px 5px -1px rgba(50,50,93,0.25), 0 1px 3px -1px rgba(0,0,0,0.3)',
+                        'float': '0 13px 27px -5px rgba(50,50,93,0.25), 0 8px 16px -8px rgba(0,0,0,0.3)',
+                    },
+                    backgroundImage: {
+                        'sasha-gradient': 'linear-gradient(135deg, rgba(61,61,245,0.9) 0%, rgba(0,212,255,0.8) 100%)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .bento-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 13px 27px -5px rgba(50,50,93,0.25), 0 8px 16px -8px rgba(0,0,0,0.3);
+        }
+
+        .text-reveal {
+            animation: reveal 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes reveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mesh-bg {
+            background-color: #3d3df5;
+            background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            background-size: 200% 200%;
+            animation: gradientMove 15s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main font-display min-h-screen selection:bg-primary/30">
+<div class="relative flex flex-col w-full mx-auto overflow-hidden">
+<!-- Navigation -->
+<header class="fixed top-0 w-full z-50 bg-background-light/80 backdrop-blur-md border-b border-gray-200/50 px-6 py-4 transition-all">
+<div class="max-w-[1140px] mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">explore</span>
+<h2 class="text-text-main text-xl font-bold tracking-tight">GO TOUR</h2>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-text-main hover:text-primary transition-colors text-sm font-medium" href="#">Discover</a>
+<a class="text-text-muted hover:text-text-main transition-colors text-sm font-medium" href="#">Features</a>
+<a class="text-text-muted hover:text-text-main transition-colors text-sm font-medium" href="#">Community</a>
+</div>
+<div>
+<button class="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors shadow-subtle hover:shadow-float">
+                        Sign In
+                    </button>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="relative pt-32 pb-20 px-6 min-h-[60vh] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-30 pointer-events-none">
+<div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/20 rounded-full blur-[80px]"></div>
+</div>
+<div class="max-w-[1140px] mx-auto w-full relative z-10 flex flex-col lg:flex-row items-center gap-12">
+<div class="flex-1 flex flex-col gap-8 text-center lg:text-left z-20">
+<h1 class="text-5xl lg:text-[64px] font-black leading-[1.1] tracking-[-0.02em] text-text-main text-reveal">
+                        Intelligent Travel,<br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Redefined.</span>
+</h1>
+<p class="text-lg lg:text-xl text-text-muted max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed text-reveal" style="animation-delay: 0.1s;">
+                        A premium ecosystem powered by SASHA 3.1 AI for discerning world travelers. Consolidate your global exploration, bookings, and community networking.
+                    </p>
+<div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start text-reveal" style="animation-delay: 0.2s;">
+<button class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-lg text-base font-semibold transition-all shadow-subtle hover:shadow-float w-full sm:w-auto relative overflow-hidden group">
+<span class="relative z-10">Plan a Trip</span>
+<div class="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+</button>
+<button class="bg-white hover:bg-gray-50 text-text-main border border-gray-200 px-8 py-4 rounded-lg text-base font-semibold transition-all shadow-sm w-full sm:w-auto flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl">play_circle</span>
+                            See how it works
+                        </button>
+</div>
+</div>
+<!-- Abstract Hero Graphic (Mockup placeholder) -->
+<div class="flex-1 w-full max-w-lg lg:max-w-none relative perspective-[1000px] text-reveal" style="animation-delay: 0.3s;">
+<div class="relative w-full aspect-square md:aspect-[4/3] transform rotate-y-[-10deg] rotate-x-[10deg] rotate-z-[2deg] translate-z-[50px]">
+<div class="absolute inset-0 bg-white rounded-2xl shadow-float border border-white/40 overflow-hidden backdrop-blur-sm z-20">
+<!-- Dashboard abstract preview -->
+<div class="h-12 border-b border-gray-100 flex items-center px-4 gap-2 bg-gray-50/50">
+<div class="w-3 h-3 rounded-full bg-red-400"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+<div class="w-3 h-3 rounded-full bg-green-400"></div>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<div class="h-8 w-1/3 bg-gray-100 rounded-md"></div>
+<div class="flex gap-4">
+<div class="flex-1 h-32 bg-primary/10 rounded-lg border border-primary/20 p-4 relative overflow-hidden">
+<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary to-transparent"></div>
+</div>
+<div class="w-1/3 h-32 bg-gray-50 rounded-lg border border-gray-100"></div>
+</div>
+<div class="h-4 w-full bg-gray-50 rounded-sm mt-4"></div>
+<div class="h-4 w-5/6 bg-gray-50 rounded-sm"></div>
+</div>
+</div>
+<!-- Floating secondary card -->
+<div class="absolute -right-8 -bottom-8 w-64 h-40 bg-surface rounded-xl shadow-float border border-white/60 z-30 p-4 flex flex-col justify-between transform translate-z-[100px]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-accent">flight_takeoff</span>
+</div>
+<div>
+<div class="text-sm font-bold text-text-main">Tokyo, JP</div>
+<div class="text-xs text-text-muted">SASHA Routed</div>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="h-2 flex-1 bg-primary rounded-full"></div>
+<div class="h-2 w-1/4 bg-gray-100 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid Section -->
+<section class="py-24 px-6 relative z-20 bg-background-light">
+<div class="max-w-[1140px] mx-auto">
+<div class="mb-16 max-w-2xl">
+<h2 class="text-3xl md:text-4xl font-bold text-text-main mb-4 tracking-tight">Everything you need,<br/>perfectly integrated.</h2>
+<p class="text-text-muted text-lg">Experience seamless travel logistics with our intelligent bento grid features.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(300px,_auto)]">
+<!-- Card 1: Global Reach -->
+<div class="bento-card bg-surface rounded-2xl p-8 flex flex-col justify-between shadow-subtle border border-gray-100 col-span-1 min-h-[300px]">
+<div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">public</span>
+</div>
+<div class="mt-auto">
+<h3 class="text-xl font-bold text-text-main mb-2">Global Reach</h3>
+<p class="text-text-muted text-sm leading-relaxed">Access curated itineraries across 129 countries with localized insights.</p>
+</div>
+</div>
+<!-- Card 2: SASHA AI Callout (Spans 2 columns) -->
+<div class="bento-card relative rounded-2xl p-8 flex flex-col justify-between shadow-subtle col-span-1 md:col-span-2 overflow-hidden min-h-[300px] group text-white">
+<!-- Animated Mesh Background -->
+<div class="absolute inset-0 bg-sasha-gradient opacity-90 transition-opacity group-hover:opacity-100 z-0"></div>
+<div class="absolute inset-0 bg-[url('https://placeholder.pics/svg/800')] opacity-10 mix-blend-overlay z-0 bg-cover bg-center" data-alt="Abstract subtle noise texture"></div>
+<div class="relative z-10 w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-6 border border-white/30">
+<span class="material-symbols-outlined text-white text-3xl">auto_awesome</span>
+</div>
+<div class="relative z-10 mt-auto md:w-2/3">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-semibold mb-4 uppercase tracking-wider">
+<span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                                Powered by SASHA 3.1
+                            </div>
+<h3 class="text-2xl md:text-3xl font-bold mb-3">Intelligent Mapping</h3>
+<p class="text-white/80 text-base leading-relaxed">Predictive travel insights and real-time optimal routing based on global flight data and personal preferences.</p>
+</div>
+<!-- Decorative graphic element -->
+<div class="absolute right-[-5%] bottom-[-10%] w-64 h-64 opacity-20 pointer-events-none z-0 transform group-hover:scale-105 transition-transform duration-700">
+<span class="material-symbols-outlined text-[250px]">route</span>
+</div>
+</div>
+<!-- Card 3: Global Community -->
+<div class="bento-card bg-surface rounded-2xl p-8 flex flex-col justify-between shadow-subtle border border-gray-100 col-span-1 min-h-[300px]">
+<div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">forum</span>
+</div>
+<!-- Mini abstraction of community feed -->
+<div class="flex-1 flex flex-col gap-3 justify-center py-4 opacity-60 pointer-events-none">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-gray-200"></div>
+<div class="h-2 w-20 bg-gray-200 rounded"></div>
+</div>
+<div class="h-12 w-full bg-gray-100 rounded-lg"></div>
+</div>
+<div class="mt-auto">
+<h3 class="text-xl font-bold text-text-main mb-2">Global Community</h3>
+<p class="text-text-muted text-sm leading-relaxed">Connect with elite traveler networks, share high-res itineraries, and verify reviews.</p>
+</div>
+</div>
+<!-- Card 4: Country Intelligence -->
+<div class="bento-card bg-surface rounded-2xl p-8 flex flex-col justify-between shadow-subtle border border-gray-100 col-span-1 md:col-span-2 lg:col-span-1 min-h-[300px]">
+<div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">query_stats</span>
+</div>
+<div class="flex-1 flex flex-wrap gap-2 py-4 content-center pointer-events-none">
+<span class="px-3 py-1 bg-gray-50 text-gray-500 rounded-md text-xs font-medium border border-gray-100">Visas</span>
+<span class="px-3 py-1 bg-gray-50 text-gray-500 rounded-md text-xs font-medium border border-gray-100">Currency</span>
+<span class="px-3 py-1 bg-gray-50 text-gray-500 rounded-md text-xs font-medium border border-gray-100">Weather</span>
+<span class="px-3 py-1 bg-primary/5 text-primary rounded-md text-xs font-medium border border-primary/10">Live Data</span>
+</div>
+<div class="mt-auto">
+<h3 class="text-xl font-bold text-text-main mb-2">Country Intelligence</h3>
+<p class="text-text-muted text-sm leading-relaxed">High-density data views for specific countries, accessible in elegant floating panels.</p>
+</div>
+</div>
+<!-- Card 5: Dashboard Control -->
+<div class="bento-card bg-surface rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-center justify-between shadow-subtle border border-gray-100 col-span-1 md:col-span-2 lg:col-span-1 min-h-[300px]">
+<div class="flex flex-col h-full justify-between flex-1">
+<div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">dashboard</span>
+</div>
+<div class="mt-auto">
+<h3 class="text-xl font-bold text-text-main mb-2">Command Center</h3>
+<p class="text-text-muted text-sm leading-relaxed">Your traveler dashboard consolidates active bookings and concierge services.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body></html>

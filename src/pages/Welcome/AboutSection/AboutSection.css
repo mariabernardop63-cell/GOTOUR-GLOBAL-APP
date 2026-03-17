@@ -1,445 +1,432 @@
 /* =========================================================
-   STITCH GENERATED "ABOUT US" (PITCH.COM STYLE)
+   SOBRE — Narrative Variant with Reviews (Stitch)
    ========================================================= */
 
-.stitch-about-section {
-    background-color: #f6f7f8;
-    /* background-light from Stitch */
-    color: #0f172a;
-    /* slate-900 */
+.abt-immersive-section {
+    background-color: #ffffff;
+    color: #475569;
     font-family: 'Inter', sans-serif;
-    padding: 0 0 120px;
-    scroll-margin-top: 72px;
+    overflow: hidden;
 }
 
-.stitch-container {
+/* ── 1. Glassmorphism Card Wrapper (Hero) ── */
+.abt-glass-header {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 16px 64px;
+}
+
+.abt-glass-bgbox {
+    position: relative;
+    width: 100%;
+    min-height: 600px;
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background: #0F172A;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.abt-glass-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/images/about_hero_bg.jpg');
+}
+
+.abt-glass-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.15); /* Soft darken for contrast, keeping light natural */
+}
+
+.abt-glass-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 16px;
+    padding: 0 24px;
     display: flex;
-    flex-direction: column;
-    gap: 16px;
-    /* mb-4 tight gap equivalent from stitch HTML */
+    justify-content: flex-start;
 }
 
-/* Base block styling for all Stitch components */
-.s-block {
-    border-radius: 40px;
-    /* custom-radius (2.5rem) */
-    padding: 32px;
+.abt-glass-card {
+    max-width: 576px; /* max-w-xl */
+    backdrop-filter: blur(24px);
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
-/* ==========================================
-   1. HERO
-   ========================================== */
-.s-hero-block {
-    background-color: #efeeff;
-    /* pastel-lavender */
-    border-radius: 40px;
-    padding: 64px 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    align-items: flex-start;
-}
-
-.s-badge {
-    background-color: rgba(19, 127, 236, 0.1);
-    /* primary/10 */
-    color: #137fec;
-    /* primary */
-    padding: 4px 16px;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-
-.s-title {
-    font-size: clamp(3rem, 5vw, 4rem);
-    font-weight: 900;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
-    color: #0f172a;
-    margin: 0;
-}
-
-.s-subtitle {
-    font-size: 1.125rem;
-    color: #334155;
-    /* slate-700 */
-    font-weight: 500;
-    line-height: 1.625;
-    max-width: 800px;
-}
-
-.s-hero-btn {
-    background-color: #137fec;
-    /* primary */
-    color: #ffffff;
-    border-radius: 40px;
-    height: 56px;
-    padding: 0 32px;
-    font-weight: 700;
-    font-size: 1rem;
-    display: flex;
+.abt-badge-immersive {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
+    padding: 4px 12px;
+    background: rgba(13, 185, 242, 0.1);
+    color: #0db9f2;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.abt-headline {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #0F172A;
+    margin-bottom: 24px;
+}
+
+.abt-subtext {
+    font-size: 1.125rem;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+.abt-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #0db9f2;
+    color: #ffffff;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     border: none;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
 }
 
-.s-hero-btn:hover {
-    background-color: #0f6bd1;
-    transform: translateY(-2px);
-}
-
-/* ==========================================
-   2. FOUNDER & HISTORY
-   ========================================== */
-.s-founder-block {
-    background-color: #fdf8f1;
-    /* pastel-sand */
-    border-radius: 40px;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-
-@media (min-width: 768px) {
-    .s-founder-block {
-        flex-direction: row;
-        align-items: center;
-        padding: 64px;
-    }
-}
-
-.s-founder-image-wrapper {
-    width: 128px;
-    height: 128px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid #ffffff;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    flex-shrink: 0;
-    margin: 0 auto;
-}
-
-@media (min-width: 768px) {
-    .s-founder-image-wrapper {
-        margin: 0;
-        width: 180px;
-        height: 180px;
-    }
-}
-
-.s-founder-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.s-founder-info {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-}
-
-@media (min-width: 768px) {
-    .s-founder-info {
-        text-align: left;
-    }
-}
-
-.s-founder-name {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #0f172a;
-}
-
-.s-founder-role {
-    color: #137fec;
-    /* primary */
-    font-weight: 600;
-}
-
-.s-founder-desc {
-    color: #475569;
-    /* slate-600 */
-    line-height: 1.6;
-    font-size: 1rem;
-}
-
-
-/* ==========================================
-   3. SASHA IA
-   ========================================== */
-.s-sasha-block {
-    background-color: #e9f7f2;
-    /* pastel-mint */
-    border-radius: 40px;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    position: relative;
-    overflow: hidden;
-}
-
-@media (min-width: 768px) {
-    .s-sasha-block {
-        padding: 64px;
-    }
-}
-
-.s-sasha-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.s-sasha-icon-box {
-    background-color: #ffffff;
-    padding: 12px;
-    border-radius: 16px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.s-mint-icon {
-    color: #059669;
-    /* emerald-600 */
-}
-
-.s-section-title {
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: #0f172a;
-}
-
-.s-sasha-subtitle {
-    color: #334155;
-    font-weight: 500;
-    line-height: 1.6;
-}
-
-.s-sasha-features {
-    display: grid;
-    gap: 12px;
-}
-
-@media (min-width: 768px) {
-    .s-sasha-features {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-    }
-}
-
-.s-sasha-feature-card {
-    background-color: rgba(255, 255, 255, 0.6);
-    padding: 16px;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-weight: 600;
-    color: #0f172a;
-}
-
-
-/* ==========================================
-   4. TECH STACK
-   ========================================== */
-.s-tech-block {
-    background-color: #f0f7ff;
-    /* pastel-blue */
-    border-radius: 40px;
-    padding: 40px;
-}
-
-@media (min-width: 768px) {
-    .s-tech-block {
-        padding: 64px;
-    }
-}
-
-.s-tech-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 24px;
-    text-align: center;
-}
-
-.s-tech-grid {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 24px;
-}
-
-.s-tech-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-}
-
-.s-tech-icon-box {
-    background-color: #ffffff;
-    padding: 24px;
-    border-radius: 24px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.s-blue-icon {
-    color: #3b82f6;
-    /* blue-500 */
-}
-
-.s-tech-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    opacity: 0.6;
-    text-transform: uppercase;
-}
-
-
-/* ==========================================
-   DESKTOP ROW (MISSION & GLOBAL)
-   ========================================== */
-.s-desktop-row {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-}
-
-@media (min-width: 1024px) {
-    .s-desktop-row {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-/* ==========================================
-   5. MISSION & VISION
-   ========================================== */
-.s-mission-vision-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-.s-mission-card {
-    background-color: #0f172a;
-    /* slate-900 */
-    color: #ffffff;
-    border-radius: 40px;
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.abt-btn-primary:hover {
+    background-color: #0998c9;
+    transform: translateY(-1px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-.s-vision-card {
-    background-color: #ffffff;
-    border: 1px solid #f1f5f9;
-    /* slate-100 */
-    color: #0f172a;
-    border-radius: 40px;
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+/* ── 2. Team Section ── */
+.abt-grid-section {
+    padding: 96px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.s-primary-icon {
-    color: #137fec;
-    /* primary */
+.abt-section-header {
+    max-width: 672px; /* max-w-2xl */
+    margin-bottom: 64px;
 }
 
-.s-mv-title {
+.abt-section-title {
+    font-size: clamp(1.875rem, 4vw, 2.25rem);
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+}
+
+.abt-section-desc {
     font-size: 1.125rem;
-    font-weight: 900;
-    text-transform: uppercase;
+    color: #64748B;
 }
 
-.s-mv-desc {
-    font-size: 0.875rem;
-    line-height: 1.625;
-    opacity: 0.8;
-}
-
-.s-vision-card .s-mv-desc {
-    opacity: 0.6;
-}
-
-
-/* ==========================================
-   6. GLOBAL IMPACT
-   ========================================== */
-.s-global-block {
+.abt-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
     position: relative;
-    background-color: #0f172a;
-    border-radius: 40px;
-    overflow: hidden;
-    padding: 48px;
-    min-height: 256px;
+    min-height: 280px;
+}
+
+/* ── Single Founder Row ── */
+.abt-single-founder {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    gap: 32px;
+    align-items: flex-start;
 }
 
-.s-global-bg {
-    position: absolute;
-    inset: 0;
+@media (min-width: 768px) {
+    .abt-single-founder {
+        flex-direction: row;
+        align-items: center;
+        gap: 64px;
+    }
+    
+    .abt-single-imgbox {
+        flex: 1;
+        max-width: 380px;
+    }
+    
+    .abt-single-content {
+        flex: 1.5;
+    }
+}
+
+.abt-single-imgbox {
+    width: 100%;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #F1F5F9;
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1);
+}
+
+.abt-single-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.4;
+    transition: transform 0.5s ease;
 }
 
-.s-global-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0.6) 50%, transparent 100%);
+.abt-single-founder:hover .abt-single-img {
+    transform: scale(1.03);
 }
 
-.s-global-content {
-    position: relative;
-    z-index: 10;
+.abt-single-name {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: #0F172A;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+}
+
+.abt-single-role {
+    color: #0db9f2;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.abt-single-bio {
+    font-size: 1.0625rem;
+    color: #475569;
+    line-height: 1.7;
+}
+@media (min-width: 768px) {
+    .abt-grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 56px;
+    }
+}
+
+/* ── Team Grid ── */
+.abt-team-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-top: 48px;
+}
+
+@media (min-width: 768px) {
+    .abt-team-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 56px;
+    }
+}
+
+.abt-team-card {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 16px;
 }
 
-.s-global-title {
-    color: #ffffff;
-    font-size: 1.875rem;
-    font-weight: 900;
+.abt-team-imgbox {
+    width: 200px;
+    height: 200px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #F1F5F9;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border: 4px solid #ffffff;
 }
 
-.s-global-stats {
+.abt-team-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.abt-team-card:hover .abt-team-img {
+    transform: scale(1.05);
+}
+
+.abt-team-content {
     display: flex;
-    gap: 24px;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.s-stat-num {
-    color: #137fec;
-    /* primary */
-    font-size: 1.5rem;
-    font-weight: 900;
-}
-
-.s-stat-label {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.625rem;
+.abt-team-name {
+    font-size: 1.25rem;
     font-weight: 700;
+    color: #0F172A;
+}
+
+.abt-team-role {
+    color: #0db9f2;
+    font-weight: 600;
+    font-size: 0.8125rem;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ── 3. Testimonials (Avaliações) ── */
+.abt-reviews-section {
+    padding: 96px 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.abt-reviews-bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 400px;
+    background: rgba(13, 185, 242, 0.08);
+    filter: blur(120px);
+    border-radius: 100%;
+    z-index: -10;
+}
+
+.abt-reviews-card {
+    backdrop-filter: blur(24px);
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 32px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease;
+}
+
+.abt-reviews-card:hover {
+    transform: translateY(-4px);
+}
+
+.abt-reviews-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.abt-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.abt-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.abt-stars {
+    display: flex;
+    color: #FBBF24;
+    gap: 2px;
+}
+
+.abt-quote {
+    color: #1E293B;
+    font-style: italic;
+    line-height: 1.6;
+    font-size: 0.9375rem;
+    flex: 1;
+}
+
+.abt-reviewer-name {
+    font-weight: 700;
+    color: #0F172A;
+}
+
+.abt-reviewer-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #0db9f2;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ── 4. Partners Static Row ── */
+.abt-partners-band {
+    width: 100%;
+    background-color: #F8FAFC;
+    padding: 64px 24px;
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.abt-partners-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.abt-partners-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #64748B;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+
+.abt-partners-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.abt-partners-grid:hover {
+    opacity: 1;
+}
+
+@media (min-width: 640px) {
+    .abt-partners-grid {
+        gap: 80px;
+    }
+}
+
+.abt-partner-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #0F172A;
+}
+
+.abt-partner-text {
+    font-weight: 800;
     letter-spacing: -0.05em;
+    font-size: 1.25rem;
 }

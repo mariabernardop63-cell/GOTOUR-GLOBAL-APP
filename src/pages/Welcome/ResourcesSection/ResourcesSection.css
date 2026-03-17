@@ -1,0 +1,174 @@
+/* =========================================================
+   ResourcesSection — Linear.app-inspired, desktop only
+   Brand marquee + title + scrolling feature items with dividers
+   ========================================================= */
+
+.resources-section {
+    background: #000000;
+    padding: 100px 0 120px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ── Brand Logos Marquee ── */
+.resources-marquee-wrapper {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 72px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+.resources-marquee-track {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    white-space: nowrap;
+    animation: marqueeScroll 35s linear infinite;
+    width: max-content;
+}
+
+.resources-brand-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    transition: opacity 0.3s ease;
+    opacity: 0.45;
+}
+
+.resources-brand-item:hover {
+    opacity: 0.8;
+}
+
+.brand-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.brand-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.brand-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.01em;
+}
+
+@keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ── Main Title Block ── */
+.resources-title-block {
+    max-width: 1000px;
+    margin: 0 auto 80px;
+    padding: 0 clamp(32px, 5vw, 80px);
+}
+
+.resources-big-text {
+    font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.35);
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.resources-big-text strong {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* ── Feature Items Marquee ── */
+.resources-features-marquee {
+    width: 100%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 4%, black 96%, transparent);
+    mask-image: linear-gradient(90deg, transparent, black 4%, black 96%, transparent);
+}
+
+.resources-features-track {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    animation: featuresScroll 45s linear infinite;
+    width: max-content;
+    padding: 20px 0;
+}
+
+.resources-features-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes featuresScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Individual feature item — open, no card container */
+.resources-feature-item {
+    width: 280px;
+    flex-shrink: 0;
+    padding: 0 36px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Vertical bar divider between features */
+.resources-feature-divider {
+    width: 1px;
+    align-self: stretch;
+    background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent 100%);
+    flex-shrink: 0;
+}
+
+/* SVG icon — large and prominent */
+.resources-feature-icon {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 24px;
+}
+
+.resources-feature-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Feature title — underlined like Linear */
+.resources-feature-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.2);
+    text-underline-offset: 4px;
+}
+
+/* Feature description */
+.resources-feature-desc {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.3);
+    line-height: 1.55;
+    margin: 0;
+}
+
+/* ── Hide on mobile ── */
+@media (max-width: 1023px) {
+    .resources-section {
+        display: none;
+    }
+}

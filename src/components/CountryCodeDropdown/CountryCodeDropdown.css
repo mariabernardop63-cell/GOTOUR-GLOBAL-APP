@@ -21,8 +21,7 @@
 
 .ds-country-selector:hover {
     background: #F8F9FA;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
+    border-radius: 0;
 }
 
 .cc-flag-img {
@@ -70,7 +69,7 @@
     left: 0;
     width: 320px;
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 0;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Lighter shadow for premium feel */
     border: 1px solid #E5E7EB;
     z-index: 9999;
@@ -105,7 +104,7 @@
     height: 40px;
     padding: 0 16px;
     border: 1px solid #E5E7EB;
-    border-radius: 8px;
+    border-radius: 0;
     font-size: 14px;
     outline: none;
     transition: all 0.2s ease;
@@ -136,7 +135,7 @@
 
 .cc-dropdown-list::-webkit-scrollbar-thumb {
     background: #D1D5DB;
-    border-radius: 10px;
+    border-radius: 0;
 }
 
 .cc-dropdown-item {

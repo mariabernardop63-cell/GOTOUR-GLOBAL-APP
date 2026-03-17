@@ -1,0 +1,30 @@
+b0e52b4 HEAD@{0}: commit: fix: imports crashing the Vite build
+1a341c5 HEAD@{1}: commit: style: generate new About Us Pitch.com layout using Google Stitch
+5f65abc HEAD@{2}: commit: style: complete Pitch.com style redesign of About Us with user content
+5015346 HEAD@{3}: commit: fix: typo in IntersectionObserver class name preventing About Us from fading in
+6a19b55 HEAD@{4}: commit: style: convert premium About Us section to light theme SaaS layout
+77465a7 HEAD@{5}: commit: feat: complete overhaul of About Us to hyper-premium SaaS tech design
+9c74fbf HEAD@{6}: commit: feat: complete premium About Us section with scroll animations
+2062c81 HEAD@{7}: commit: feat: redesign pricing exactly matching dark theme Framer image
+fb12592 HEAD@{8}: commit: redesign: exact Stitch-generated Framer layout for Pricing
+aff9702 HEAD@{9}: commit: redesign: Framer.com exact pricing layout with exhaustive feature lists
+7be783b HEAD@{10}: commit: feat: Framer-inspired Pricing Section with 3 plans and detailed comparison table
+9283ec6 HEAD@{11}: commit: refine navbar: floating pill on section reach, remove Ajuda, smaller links
+fa13701 HEAD@{12}: commit: redesign: Stitch-generated Stripe-level bento grid with real UI mockups - no generic elements
+f562bd0 HEAD@{13}: commit: redesign: Stripe-inspired premium dark Funcionalidades section with bento-grid cards and gradient accents
+6d3f571 HEAD@{14}: commit: refine: smaller titles, vertical-only animations, 11s timer, premium illustrations replacing generic icons
+52a659c HEAD@{15}: commit: feat: turn Features section into a 6-slide automated carousel with premium animations
+d10cc83 HEAD@{16}: commit: feat: add Funcionalidades section based on Stitch layout
+c7d849c HEAD@{17}: commit: feat: change desktop navbar links to match requested items
+e843e18 HEAD@{18}: commit: style: revert desktop About section and add Inicio to navbar
+74d5c3b HEAD@{19}: commit: feat: add premium desktop About Section with scroll reveal animations and solid white scrolled navbar
+831cd49 HEAD@{20}: commit: style: remove navbar dropdowns and apply line animation to main links
+a9e2dfc HEAD@{21}: commit: revert: remove static html splash and desktop auth footer per user request
+51d9a06 HEAD@{22}: commit: fix: explicit exact match for GO TOUR title and app purpose text for Googlebot validation
+7f3246c HEAD@{23}: commit: fix: explicit GO TOUR h1 and privacy policy link on React mobile view for Google OAuth crawler
+6ca0491 HEAD@{24}: commit: fix: serving static html pages for oauth via vercel.json and folders
+5114df9 HEAD@{25}: commit: fix: use cleanUrls and exclude static pages from SPA rewrite in vercel.json
+c8d8ea1 HEAD@{26}: commit: fix: add static privacy-policy and terms pages, update vercel.json routing for Google OAuth
+537ae19 HEAD@{27}: commit: fix: add visible static landing in index.html for Google OAuth checker (dark theme)
+9749f6b HEAD@{28}: commit: feat: add visible welcome footer with GO TOUR branding for Google Cloud OAuth
+0394fa9 HEAD@{29}: commit: fix: make static crawler content visually hidden in index.html

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-PT"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#0a0a0a",
+                        "accent-emerald": "#10b981",
+                        "accent-turquoise": "#06b6d4",
+                        "accent-gold": "#f59e0b",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+        .glow-turquoise {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 300px);
+            gap: 1.5rem;
+        }
+        @media (max-width: 1024px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: auto;
+            }
+        }
+        @media (max-width: 640px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 transition-colors duration-300">
+<div class="relative min-h-screen overflow-x-hidden">
+<!-- Ambient Background Elements -->
+<div class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden -z-10">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/10 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]"></div>
+</div>
+<div class="max-w-[1280px] mx-auto px-6 py-12 md:py-24">
+<!-- Main Feature Section -->
+<section class="mb-24">
+<div class="text-center mb-16">
+<span class="text-primary font-bold tracking-widest text-xs uppercase bg-primary/10 px-4 py-1.5 rounded-full">Experiência Premium</span>
+<h1 class="text-4xl md:text-6xl font-black mt-4 mb-6 leading-tight">A Nova Era do Turismo Digital</h1>
+<p class="text-slate-400 max-w-2xl mx-auto text-lg">Descubra o mundo com a inteligência artificial mais avançada do mercado, integrada num ecossistema global.</p>
+</div>
+<!-- Bento Box Grid -->
+<div class="bento-grid">
+<!-- Top-Left: Mapa Inteligente -->
+<div class="glass-panel rounded-3xl p-8 flex flex-col justify-between group overflow-hidden relative">
+<div class="absolute -top-12 -right-12 w-32 h-32 bg-accent-turquoise/20 rounded-full blur-2xl group-hover:bg-accent-turquoise/30 transition-all"></div>
+<div>
+<div class="size-12 rounded-xl bg-accent-turquoise/10 flex items-center justify-center mb-6 border border-accent-turquoise/30">
+<span class="material-symbols-outlined text-accent-turquoise">public</span>
+</div>
+<h3 class="text-xl font-bold mb-3 tracking-wide">MAPA INTELIGENTE</h3>
+<p class="text-slate-400 text-sm leading-relaxed">Mapa interativo com rotas otimizadas e sugestões personalizadas pela IA.</p>
+</div>
+<div class="h-32 mt-4 rounded-xl bg-slate-800/50 border border-white/5 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center opacity-60" data-alt="Futuristic 3D map interface with glowing routes" data-location="Tokyo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDuEW1QE8TZvertQT4-NCuTztWweSyMUd-EsWwJ1KyTQ-SoSkcaRwGEznTSTtqQT6e9rzOPfDqnGVdBreHwfCrd8YJ3DtR6ZQ4f5V2jgEVICFjDRtZeFrNHUo4uyXZOE25ffl7KqbKQtLELqSUVbdBCRl2Zq-GkNKXjN1kPOJFt2rIphJlQK0HOVKOwckGtqiCIivNu7hqFhxNhN2pMTRK8riYaDuOjo-pcfy_BmIbPEPoU_scJRrQfpE5jq4t_oGTZrewmLemIkyi-')"></div>
+</div>
+</div>
+<!-- Central: Sasha IA (Spans 2 rows and 2 columns in large screens) -->
+<div class="lg:col-span-2 lg:row-span-2 glass-panel rounded-3xl p-10 flex flex-col items-center justify-center text-center relative overflow-hidden group border-primary/20 bg-gradient-to-b from-white/5 to-primary/5">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(236,91,19,0.1)_0%,transparent_70%)]"></div>
+<div class="relative z-10 w-full flex flex-col items-center">
+<div class="mb-4">
+<span class="text-primary font-black tracking-[0.3em] text-sm py-1 px-4 bg-primary/10 rounded-full border border-primary/20">SASHA IA</span>
+</div>
+<div class="relative size-64 mb-8">
+<div class="absolute inset-0 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
+<div class="w-full h-full rounded-full border-2 border-primary/30 flex items-center justify-center p-4">
+<div class="w-full h-full rounded-full bg-cover bg-center border border-white/10 shadow-2xl shadow-primary/40 group-hover:scale-105 transition-transform duration-500" data-alt="3D rendered female AI assistant persona avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCvsdc-Q5saemICOJ3LufumExnQVRBQeLK-pgAOOSY_JOa22jfMoTSNJw_7YLEmwQGmXUf8YlY_t5QbcxBz3rLq24dcA3mGOvzxo3JTfmmsKCNGRJzK2Swtm-xk7bx8c3u9T6xqv7oprG2FHw4klySAPMpFLAfx7x2usuABuo4H0T1gfvx-5PUz65NXucBIya6DilIYSIOxyuM7s178jy6BlShSbumuOvq_2gmTXQCC25Od7g1q2_rLW5NCH8ahc32pmEpEaMsmcrfa')">
+</div>
+</div>
+<!-- Floating Elements -->
+<div class="absolute -top-4 -left-4 size-12 glass-panel rounded-lg flex items-center justify-center border-accent-gold/50 shadow-lg shadow-accent-gold/20">
+<span class="material-symbols-outlined text-accent-gold text-xl">temp_preferences_custom</span>
+</div>
+<div class="absolute bottom-8 -right-4 size-14 glass-panel rounded-full flex items-center justify-center border-accent-emerald/50 shadow-lg shadow-accent-emerald/20">
+<span class="material-symbols-outlined text-accent-emerald text-2xl">chat_bubble</span>
+</div>
+</div>
+<h2 class="text-3xl font-black mb-4">Sua Companheira de Viagem</h2>
+<p class="text-slate-300 max-w-sm text-lg leading-relaxed">
+                            Assistente inteligente especializada em turismo que planeia, sugere e acompanha cada passo do seu roteiro.
+                        </p>
+<div class="mt-8 flex gap-4">
+<div class="flex -space-x-3">
+<img class="size-8 rounded-full border-2 border-background-dark" data-alt="User avatar 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDudvoglsxjeAv3MAycpZSbDC811YVQHNbQio_Z7vHqohd71V-Nl1Fm6jndyg3Ge_wbY77hKAV7DZ1InIh4xYde3vgMkvLu0xbhSi7t_Znw4lvjzAueFnVg8vHt4txyfQjK3BIYQUX8QcQWVSD2dGfv3B1RrsROSKPsrqk4u3XWLm7glWzSgt8ydjI6lB64Gfi6u7WK__6khgRBr7Y62BNXT3iCpOrXeKxSwdLs0v_RN6qua3300M6SgZnfbtPtaM4KSoZ_yKimN2U6"/>
+<img class="size-8 rounded-full border-2 border-background-dark" data-alt="User avatar 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_07khBznRLzPUlSRdq618PMW9_FhTaMgnkZVO6rxGaisk1oaBbKSYwDh0AbGYiseK7w1JKikpvrggj5HKpIoqdILMoNd7DLopMDiiIu5MVuWF0J8vNDvaTSTSOkrscfxgfPkn1EPnbmJnBAtbpwQLtCZW97PjCeBQaNHguLa4T7al1naOKsn7qUPBwGEFAE4FA9ZjA3k0ZMXO0o2-HnUdbyBkNK3mpW1PzaT9LIF0VrSy1bPKO7SwkKBtZSqaeWuf7GlPHnbnNuyO"/>
+<img class="size-8 rounded-full border-2 border-background-dark" data-alt="User avatar 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyTYDB1sbQoTn3GhpLd677VEeJyfAJqV6JwU68y1NzJf6DNGgnfUWYZC61yGFSDNIjsxcgi8P-Yok9zxAqeCq4QUuwBFJE0SylOyjEXL27HATPkrIGm8qckDB_8jONxanZ4mLYeQahc7duKiXVMXoEvi7FuukKzl44JdbPfhbh8JlljueZT7zT4IGd45wBWgGa8m6q00lsGJyI7SNTXUibpTmckmRa9EuigYs3_VcidBHjEKCbRqO6H8JZVK1dyiLOQU_aL5gf9zmd"/>
+<div class="size-8 rounded-full border-2 border-background-dark bg-slate-800 flex items-center justify-center text-[10px] font-bold">+10k</div>
+</div>
+<span class="text-slate-400 text-sm self-center">Viajantes assistidos hoje</span>
+</div>
+</div>
+</div>
+<!-- Top-Right: Coleção na Nuvem -->
+<div class="glass-panel rounded-3xl p-8 flex flex-col justify-between group overflow-hidden relative border-accent-gold/10">
+<div class="absolute -top-12 -right-12 w-32 h-32 bg-accent-gold/10 rounded-full blur-2xl group-hover:bg-accent-gold/20 transition-all"></div>
+<div>
+<div class="size-12 rounded-xl bg-accent-gold/10 flex items-center justify-center mb-6 border border-accent-gold/30">
+<span class="material-symbols-outlined text-accent-gold">cloud_done</span>
+</div>
+<h3 class="text-xl font-bold mb-3 tracking-wide uppercase">Coleção na Nuvem</h3>
+<p class="text-slate-400 text-sm leading-relaxed">Guarde fotos, vídeos e memórias na nuvem gratuitamente. Aceda em qualquer lugar.</p>
+</div>
+<div class="flex gap-2 mt-4 overflow-hidden">
+<div class="flex-1 h-20 rounded-lg bg-cover bg-center" data-alt="Beach vacation photo memory" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCFSfF-fv3088P_WjH9sS7yP2WPGUHh_nMClPLke1XhupFyI88AhDxGaiEBUx3yJCcqo5G6kCWlY7B4uw75cr9TjyXeHYDEN3JyMfMMJk8BTt1N_b14I0ON8AB301pnIGONDsjAwQWzXFeoFiFAPdDfjxVshQJhXZYER37DhjX_HHV0L1i3tIAtkw0Chavl8tWh6EZ2ZmSMH8qNfVacbZ75Ow-XIBk5JLzfoUnQxImy3Zb7vXGwfD5YsAi3b6GWgYQBha3y91Ea4SFw')"></div>
+<div class="flex-1 h-20 rounded-lg bg-cover bg-center" data-alt="Italian coast vacation photo memory" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDp3gBpDpG7EaG6yTI5-gVeWll6Fz-hR7gsCBKorm3xkcfPcHdVQvqF70bF69vM4Ram5dWpgNt0Cw0zBfHVCDDFL3duLO_5iEWXWmU_vM-urVYwUW8mRnlKi-jy4meaLzczi1NB94cV9vWm8qMHUQEXsPKJXKHoqYcEjRRYx36-3_q5O0__4GNb-kJpEYIxQGLUHMXTexNf0M0iyVwQlO4dlkbj61sBbsiAZN6piCdnd66Ih_-7TTQeQi5lYsAHH-W0VH7ZwfrbaZwC')"></div>
+</div>
+</div>
+<!-- Bottom-Left: Comunidades -->
+<div class="glass-panel rounded-3xl p-8 flex flex-col justify-between group overflow-hidden relative border-accent-emerald/10">
+<div class="absolute -bottom-12 -left-12 w-32 h-32 bg-accent-emerald/10 rounded-full blur-2xl group-hover:bg-accent-emerald/20 transition-all"></div>
+<div>
+<div class="size-12 rounded-xl bg-accent-emerald/10 flex items-center justify-center mb-6 border border-accent-emerald/30">
+<span class="material-symbols-outlined text-accent-emerald">groups</span>
+</div>
+<h3 class="text-xl font-bold mb-3 tracking-wide uppercase">COMUNIDADES</h3>
+<p class="text-slate-400 text-sm leading-relaxed">Grupos de viajantes para trocar ideias, partilhar experiências e conectar.</p>
+</div>
+<div class="mt-4 flex items-center justify-center py-4 bg-white/5 rounded-xl border border-white/5">
+<div class="flex items-center gap-2">
+<span class="size-2 bg-accent-emerald rounded-full animate-pulse"></span>
+<span class="text-xs font-bold text-accent-emerald">2,431 Online agora</span>
+</div>
+</div>
+</div>
+<!-- Bottom-Right: +120 Países -->
+<div class="glass-panel rounded-3xl p-8 flex flex-col justify-between group overflow-hidden relative border-primary/10">
+<div class="absolute -bottom-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-all"></div>
+<div>
+<div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/30">
+<span class="material-symbols-outlined text-primary">explore</span>
+</div>
+<h3 class="text-xl font-bold mb-3 tracking-wide uppercase">+120 PAÍSES</h3>
+<p class="text-slate-400 text-sm leading-relaxed">Explore destinos globais com guias locais e experiências autênticas em cada região.</p>
+</div>
+<div class="mt-4 flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-white/5 rounded border border-white/10 text-[10px] uppercase font-bold text-slate-400">Lisboa</span>
+<span class="px-2 py-1 bg-white/5 rounded border border-white/10 text-[10px] uppercase font-bold text-slate-400">Paris</span>
+<span class="px-2 py-1 bg-white/5 rounded border border-white/10 text-[10px] uppercase font-bold text-slate-400">Tokyo</span>
+<span class="px-2 py-1 bg-white/5 rounded border border-white/10 text-[10px] uppercase font-bold text-slate-400">Rio</span>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="glass-panel rounded-[2rem] p-12 md:p-20 text-center relative overflow-hidden border-primary/30">
+<div class="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 opacity-30"></div>
+<div class="relative z-10">
+<h2 class="text-3xl md:text-5xl font-black mb-6">Pronto para a sua próxima aventura?</h2>
+<p class="text-slate-300 text-lg mb-10 max-w-xl mx-auto">Junte-se a milhares de viajantes e explore o mundo com a tecnologia que você merece.</p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="w-full sm:w-auto px-10 py-4 bg-primary text-white rounded-2xl font-black text-lg shadow-xl shadow-primary/40 hover:scale-105 transition-transform">
+                        Começar Agora Grátis
+                    </button>
+<button class="w-full sm:w-auto px-10 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-2xl font-bold text-lg transition-colors">
+                        Ver Demonstração
+                    </button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</body></html>

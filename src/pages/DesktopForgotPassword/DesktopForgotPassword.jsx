@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Mail, ArrowLeft, ChevronDown } from 'lucide-react';
+import { Mail, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { supabase } from '../../lib/supabase';
 import useCooldown from '../../hooks/useCooldown';
-import authBgNew from '../../assets/images/auth_bg_new.jpg';
-import gotourIcon from '../../assets/images/gotour_icon.png';
-import HeroStatsCarousel from '../../components/HeroStatsCarousel/HeroStatsCarousel';
-import CustomDropdown from '../../components/CustomDropdown/CustomDropdown';
-import { countries } from '../../data/countries';
-import '../DesktopLogin/DesktopLogin.css';
+import AuthLeftPanel from '../SharedAuth/AuthLeftPanel';
+import AuthTabs from '../SharedAuth/AuthTabs';
+import '../SharedAuth/SharedAuth.css';
 
 const DesktopForgotPassword = () => {
     const { navigateForward, navigateBack } = useNavigation();
@@ -16,24 +13,11 @@ const DesktopForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-    const [langCode, setLangCode] = useState('PT');
     const { cooldown, startCooldown, isCoolingDown } = useCooldown('gotour_forgot_cooldown');
 
     // OTP state
     const [otp, setOtp] = useState(Array(8).fill(''));
     const otpRefs = useRef([]);
-
-    // Fetch user IP country on mount for language
-    useEffect(() => {
-        fetch('https://ipapi.co/json/')
-            .then(res => res.json())
-            .then(data => {
-                if (data.country_code) {
-                    setLangCode(data.country_code);
-                }
-            })
-            .catch(err => console.error("Error fetching IP location:", err));
-    }, []);
 
     const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -56,25 +40,15 @@ const DesktopForgotPassword = () => {
         setIsLoading(true);
 
         try {
-            // Em vez de usar resetPasswordForEmail e expor a conta ou criar lixo com o dummy signUp,
-            // usamos signInWithOtp com a opção 'shouldCreateUser: false'. 
-            // O Supabase enviará o código de 8 dígitos para a conta SE ela existir.
-            // Se NÃO existir, devolve um erro imediato bloqueando o envio.
-            const { error: signInError } = await supabase.auth.signInWithOtp({
-                email: email,
-                options: {
-                    shouldCreateUser: false
-                }
-            });
+            const { error: resetError } = await supabase.auth.resetPasswordForEmail(email);
 
-            if (signInError) {
-                const msg = signInError.message.toLowerCase();
+            if (resetError) {
+                const msg = resetError.message.toLowerCase();
                 if (msg.includes('rate limit') || msg.includes('rate_limit')) {
-                    setError('Voce tentou inumeras vezes,Volte a tentar mais tarde.');
+                    setError('Você tentou inúmeras vezes. Volte a tentar mais tarde.');
                     startCooldown();
                 } else {
-                    // Se der qualquer outro erro, assumimos que a conta não foi encontrada ou não é permitida.
-                    setError('Esta conta ainda não esta registada');
+                    setError('Erro ao enviar código de recuperação. Verifique o email.');
                 }
                 setIsLoading(false);
                 return;
@@ -92,7 +66,6 @@ const DesktopForgotPassword = () => {
     };
 
     const handleOtpChange = (index, value) => {
-        // Only allow numbers
         if (!/^\d*$/.test(value)) return;
 
         const newOtp = [...otp];
@@ -101,15 +74,12 @@ const DesktopForgotPassword = () => {
 
         if (error) setError('');
 
-        // Move to next input if value is entered
         if (value && index < 7) {
             otpRefs.current[index + 1].focus();
         }
 
-        // Auto-verify when 8 digits are entered
         const isComplete = newOtp.join('').length === 8;
         if (isComplete && value) {
-            // Give React a tick to update the state before submitting
             setTimeout(() => {
                 handleVerifyOtp(newOtp.join(''));
             }, 50);
@@ -117,7 +87,6 @@ const DesktopForgotPassword = () => {
     };
 
     const handleOtpKeyDown = (index, e) => {
-        // Move to previous on Backspace if empty
         if (e.key === 'Backspace' && !otp[index] && index > 0) {
             otpRefs.current[index - 1].focus();
         }
@@ -132,12 +101,7 @@ const DesktopForgotPassword = () => {
         setError('');
 
         try {
-            const { error: resendError } = await supabase.auth.signInWithOtp({
-                email: email,
-                options: {
-                    shouldCreateUser: false
-                }
-            });
+            const { error: resendError } = await supabase.auth.resetPasswordForEmail(email);
             if (resendError) throw resendError;
             startCooldown();
         } catch (err) {
@@ -152,31 +116,29 @@ const DesktopForgotPassword = () => {
         setError('');
 
         try {
-            // Check if passed explicitly from handleOtpChange, else use state
             let code = otp.join('');
             if (explicitOtp && typeof explicitOtp === 'string') {
                 code = explicitOtp;
             }
 
-            const { data, error: vError } = await supabase.auth.verifyOtp({
+            const { error: vError } = await supabase.auth.verifyOtp({
                 email: email,
                 token: code,
-                type: 'email'
+                type: 'recovery'
             });
 
             if (vError) {
                 const isLimit = vError.message.toLowerCase().includes('rate limit');
                 if (isLimit) {
-                    setError('Voce tentou inumeras vezes,Volte a tentar mais tarde.');
+                    setError('Você tentou inúmeras vezes. Volte a tentar mais tarde.');
                 } else {
-                    setError('Codigo incorreto, Por favor verifique e tente novamente.');
+                    setError('Código incorreto. Por favor verifique e tente novamente.');
                 }
                 setIsLoading(false);
                 return;
             }
 
             setIsLoading(false);
-            // Navigate to create a new password
             navigateForward('/create-password', {
                 state: {
                     email: email,
@@ -196,136 +158,112 @@ const DesktopForgotPassword = () => {
     };
 
     return (
-        <div className="desktop-login-container" style={{ zIndex: 99999 }}>
-            {/* Left Image Pane: 35% Width */}
-            <div className="dl-left-pane">
-                <button className="dl-back-button" onClick={() => navigateBack('/login')} aria-label="Voltar para Iniciar Sessão" style={{ zIndex: 20 }}>
-                    <ArrowLeft size={24} color="#FFFFFF" />
-                </button>
+        <div className="da-screen-wrapper">
+            <div className="da-card-stack">
+                <div className="da-card">
+                    {/* Left Pane: Illustration & Text */}
+                    <AuthLeftPanel onBack={() => navigateBack('/login')} />
 
-                <img src={authBgNew} alt="Explore o mundo como um local" className="dl-cover-image" />
-            </div>
+                    {/* Right Pane: Form Content */}
+                    <div className="da-right-pane">
+                        <div className="da-form-content">
+                            <h1 className="dl-title">
+                                {step === 1 ? 'Recuperar acesso' : 'Verificar código'}
+                            </h1>
+                            
+                            {step === 1 && (
+                                <form className="da-form" onSubmit={handleSubmit}>
+                                    <p className="da-welcome-subtitle" style={{ marginBottom: '24px', maxWidth: '100%' }}>
+                                        Introduza o email associado à sua conta e enviaremos um código de 8 dígitos para redefinir a sua palavra-passe.
+                                    </p>
 
-            {/* Right Content Pane: 65% Width */}
-            <div className="dl-right-pane" style={{ paddingLeft: 0, justifyContent: 'center' }}>
-                <div className="dl-top-right-actions" style={{ width: '220px' }}>
-                    <div style={{ zIndex: 100, position: 'relative' }}>
-                        <CustomDropdown
-                            options={countries}
-                            value={langCode}
-                            onChange={(e) => setLangCode(e.target.value)}
-                            placeholder="Idioma"
-                            mode="language"
-                        />
-                    </div>
-                </div>
-
-                <div className="dl-content-wrapper" style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                    <div className="dl-form-section" style={{ margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '420px', width: '100%' }}>
-                        <h1 className="dl-title" style={{ textAlign: 'center', width: '100%' }}>
-                            {step === 1 ? 'Recuperar acesso' : 'Enter your verification code'}
-                        </h1>
-
-                        {step === 1 && (
-                            <form className="dl-form form-step fade-in-up" onSubmit={handleSubmit} style={{ marginTop: '24px', width: '100%' }}>
-                                <p style={{ color: '#5F6368', fontSize: '15px', lineHeight: '1.5', marginBottom: '24px', textAlign: 'center' }}>
-                                    Introduza o email associado à sua conta e enviaremos um link seguro para redefinir a sua palavra-passe.
-                                </p>
-
-                                <div className="dl-input-group has-icon-left">
-                                    <Mail size={20} color="#8E8E93" className="dl-input-icon-left" />
-                                    <input
-                                        type="email"
-                                        className={`dl-input${email ? ' has-value' : ''}`}
-                                        placeholder="O seu email"
-                                        value={email}
-                                        onChange={(e) => {
-                                            setEmail(e.target.value);
-                                            setError('');
-                                        }}
-                                        autoFocus
-                                        disabled={isLoading || isCoolingDown}
-                                    />
-                                    <label className="dl-floating-label">Email</label>
-                                </div>
-
-                                {error && <span className="error-msg-ds" style={{ display: 'block', marginTop: '16px' }}>{error}</span>}
-
-                                <button
-                                    type="submit"
-                                    className={`dl-submit-btn ${email ? 'is-active' : ''}`}
-                                    style={{ marginTop: '24px' }}
-                                    disabled={isLoading || isCoolingDown || !email}
-                                >
-                                    {getButtonText()}
-                                </button>
-                            </form>
-                        )}
-
-                        {step === 2 && (
-                            <div className="dl-form form-step fade-in-up" style={{ marginTop: '24px', width: '100%' }}>
-                                <p className="ds-subtitle" style={{ color: '#5F6368', fontSize: '15px', marginBottom: '32px', textAlign: 'center' }}>
-                                    Please enter the 8-digit code sent to your email.
-                                </p>
-
-                                <div className={`dl-otp-container ${isLoading ? 'is-verifying' : ''}`} style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '24px' }}>
-                                    {otp.map((digit, idx) => (
+                                    <div className="da-input-group">
                                         <input
-                                            key={idx}
-                                            ref={(el) => (otpRefs.current[idx] = el)}
-                                            type="text"
-                                            inputMode="numeric"
-                                            maxLength={1}
-                                            value={digit}
-                                            onChange={(e) => handleOtpChange(idx, e.target.value)}
-                                            onKeyDown={(e) => handleOtpKeyDown(idx, e)}
-                                            autoFocus={idx === 0}
-                                            className={`dl-otp-input ${digit ? 'has-value' : ''}`}
+                                            type="email"
+                                            className="da-input"
+                                            placeholder="Endereço de email"
+                                            value={email}
+                                            onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                                            required
+                                            autoFocus
+                                            disabled={isLoading || isCoolingDown}
                                         />
-                                    ))}
-                                </div>
+                                    </div>
 
-                                {error && <span className="error-msg-ds" style={{ textAlign: 'center', display: 'block' }}>{error}</span>}
+                                    {error && <span className="error-msg-ds">{error}</span>}
 
-                                <div style={{ textAlign: 'center', marginBottom: '24px', marginTop: '16px' }}>
-                                    <span
-                                        className={`dl-link-text ${isCoolingDown ? 'disabled' : ''}`}
-                                        onClick={!isCoolingDown ? handleResendCode : undefined}
-                                        style={{ cursor: isCoolingDown ? 'not-allowed' : 'pointer', color: isCoolingDown ? '#9CA3AF' : 'var(--primary)', fontWeight: '500', fontSize: '14px' }}
+                                    <button type="submit" className="da-btn-primary" disabled={isLoading || isCoolingDown || !email}>
+                                        {getButtonText()}
+                                    </button>
+                                </form>
+                            )}
+
+                            {step === 2 && (
+                                <div className="da-form">
+                                    <p className="da-welcome-subtitle" style={{ marginBottom: '32px', maxWidth: '100%' }}>
+                                        Introduza o código de 8 dígitos enviado para o seu email.
+                                    </p>
+
+                                    <div className="da-otp-container">
+                                        {otp.map((digit, idx) => (
+                                            <input
+                                                key={idx}
+                                                ref={(el) => (otpRefs.current[idx] = el)}
+                                                type="text"
+                                                inputMode="numeric"
+                                                maxLength={1}
+                                                value={digit}
+                                                onChange={(e) => handleOtpChange(idx, e.target.value)}
+                                                onKeyDown={(e) => handleOtpKeyDown(idx, e)}
+                                                autoFocus={idx === 0}
+                                                className="da-otp-input"
+                                            />
+                                        ))}
+                                    </div>
+
+                                    {error && <span className="error-msg-ds" style={{ textAlign: 'center', display: 'block' }}>{error}</span>}
+
+                                    <div style={{ textAlign: 'center', marginBottom: '24px', marginTop: '16px' }}>
+                                        <button
+                                            type="button"
+                                            className="da-forgot-link"
+                                            onClick={!isCoolingDown ? handleResendCode : undefined}
+                                            disabled={isCoolingDown}
+                                            style={{ color: isCoolingDown ? '#94A3B8' : '#4A72FF' }}
+                                        >
+                                            {isCoolingDown ? `Aguarde ${cooldown}s para reenviar` : "Não recebeu o código?"}
+                                        </button>
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        className="da-btn-primary"
+                                        onClick={() => handleVerifyOtp()}
+                                        disabled={otp.join('').length < 8 || isLoading}
                                     >
-                                        {isCoolingDown ? `Aguarde ${cooldown}s para reenviar` : "Didn't get a code?"}
-                                    </span>
+                                        {isLoading ? 'Verificando...' : 'Verificar'}
+                                    </button>
                                 </div>
+                            )}
 
+                            <div style={{ marginTop: '24px', textAlign: 'center' }}>
                                 <button
-                                    type="button"
-                                    className={`dl-submit-btn ${otp.join('').length === 8 ? 'is-active' : ''}`}
-                                    onClick={() => handleVerifyOtp()}
-                                    disabled={otp.join('').length < 8 || isLoading}
+                                    onClick={() => {
+                                        if (step === 2) {
+                                            setStep(1);
+                                            setError('');
+                                            setOtp(Array(8).fill(''));
+                                        } else {
+                                            navigateBack('/login');
+                                        }
+                                    }}
+                                    className="da-forgot-link"
                                 >
-                                    {isLoading ? 'Verificando...' : 'Verify'}
+                                    {step === 2 ? 'Voltar' : 'Já tem uma conta? Iniciar Sessão'}
                                 </button>
                             </div>
-                        )}
+                        </div>
                     </div>
-                </div>
-
-                <div className="dl-bottom-bar">
-                    <button
-                        onClick={() => {
-                            if (step === 2) {
-                                setStep(1);
-                                setError('');
-                                setOtp(Array(8).fill(''));
-                            } else {
-                                navigateBack('/login');
-                            }
-                        }}
-                        className="dl-create-account-btn"
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: 'var(--gotour-primary)', fontWeight: '600' }}
-                    >
-                        {step === 2 ? 'Voltar' : 'Já tem uma conta? Inciar Sessão'}
-                    </button>
                 </div>
             </div>
         </div>

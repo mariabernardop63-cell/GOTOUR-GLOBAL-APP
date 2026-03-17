@@ -1,0 +1,656 @@
+/* 3D Illustration Auth Layout Restyle (V2) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+.da-screen-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    color: #334155;
+}
+
+/* Main Card Container */
+.da-card-stack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* The actual white card */
+.da-card {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    display: flex;
+    overflow: hidden;
+}
+
+/* ==================================
+   LEFT PANE (Illustration & Titles)
+================================== */
+.da-left-pane {
+    flex: 1.2;
+    padding: 40px 64px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+}
+
+.da-left-content {
+    margin-top: 60px;
+    margin-left: 60px;
+    max-width: 480px;
+    z-index: 10;
+}
+
+.da-welcome-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #4A72FF;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
+
+/* Specific to the blue title from reference */
+.da-welcome-title-alt {
+    color: #3B82F6;
+}
+
+.da-welcome-subtitle {
+    font-size: 14px;
+    color: #64748B;
+    line-height: 1.5;
+    max-width: 320px;
+    font-weight: 500;
+}
+
+/* Center 3D Illustration Area */
+.da-illustration-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 300px;
+}
+
+.da-3d-image {
+    width: 80%;
+    max-width: 450px;
+    object-fit: contain;
+    animation: float-3d 6s ease-in-out infinite;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
+}
+
+@keyframes float-3d {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(2deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+/* App Store Buttons (Bottom Left) */
+.da-store-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+    margin-bottom: 60px;
+    margin-left: 60px;
+    z-index: 10;
+}
+
+.da-store-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    color: #1E293B;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.da-store-btn span {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+
+.da-store-btn .small {
+    font-size: 10px;
+    font-weight: 500;
+    color: #64748B;
+}
+
+.da-store-btn:hover {
+    background: #F8FAFC;
+    transform: translateY(-2px);
+    border-color: #CBD5E1;
+}
+
+/* ==================================
+   RIGHT PANE (Form area)
+================================== */
+.da-right-pane {
+    flex: 1;
+    padding: 32px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+}
+
+/* Tabs (Login / Sign Up) */
+.da-tabs-wrapper {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: flex;
+}
+
+.da-tabs {
+    display: flex;
+    background-color: #F8FAFC;
+    border-radius: 100px;
+    padding: 3px;
+    gap: 3px;
+}
+
+.da-tab {
+    padding: 6px 20px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    color: #334155;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.da-tab.active {
+    background: #FFFFFF;
+    color: #1E293B;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    /* White pill active state */
+}
+
+.da-tab:not(.active):hover {
+    color: #4A72FF;
+}
+
+/* Form Styles */
+.da-form-content {
+    margin: 0;
+    max-width: 360px;
+    width: 100%;
+}
+
+.da-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Solid Inputs */
+.da-input-group {
+    position: relative;
+    width: 100%;
+}
+
+.da-input {
+    width: 100%;
+    height: 44px;
+    background-color: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 0;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #1E293B;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    outline: none;
+}
+
+.da-input:focus {
+    border-color: #4A72FF;
+}
+
+.da-input::placeholder {
+    color: #94A3B8;
+    font-weight: 400;
+    font-size: 14px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.dl-input-password {
+    padding: 0 48px 0 16px;
+}
+
+.dl-input-password::placeholder {
+    /* Standard alignment */
+}
+
+.dl-password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94A3B8;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+}
+
+.dl-password-toggle:hover {
+    color: #4A72FF;
+}
+
+/* Checkbox & Forgot Password Row */
+.da-form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -4px;
+    margin-bottom: 8px;
+}
+
+.da-checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.da-checkbox {
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+    border: 1.5px solid #CBD5E1;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    background: #FFFFFF;
+}
+
+.da-checkbox:checked {
+    background: #1E293B;
+    /* Black check box per reference */
+    border-color: #1E293B;
+}
+
+.da-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 11px;
+    top: -1px;
+    left: 2px;
+    font-weight: bold;
+}
+
+.da-checkbox-label {
+    font-size: 13px;
+    color: #334155;
+    font-weight: 600;
+}
+
+.da-forgot-link {
+    font-size: 13px;
+    color: #64748B;
+    font-weight: 600;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.da-forgot-link:hover {
+    color: #4A72FF;
+}
+
+/* Primary Button */
+.da-btn-primary {
+    background-color: #4A72FF;
+    color: #FFFFFF;
+    height: 44px;
+    border: none;
+    border-radius: 0;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 10px rgba(74, 114, 255, 0.2);
+}
+
+.da-btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(74, 114, 255, 0.3);
+    background-color: #3B5BCC;
+}
+
+.da-btn-primary:disabled {
+    background-color: #CBD5E1;
+    color: #FFFFFF;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+/* Social Divider */
+.da-social-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 40px 0 24px;
+}
+
+.da-social-divider::before,
+.da-social-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.da-social-divider span {
+    padding: 0 16px;
+    font-size: 13px;
+    color: #94A3B8;
+    font-weight: 500;
+}
+
+/* Clear Social Buttons */
+.da-social-container-centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.da-social-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding-left: 0;
+}
+
+.da-social-btn-transparent {
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    padding: 0;
+}
+
+.da-social-btn-transparent:hover {
+    transform: translateY(-2px);
+    opacity: 0.8;
+}
+
+.da-social-btn-transparent:active {
+    transform: translateY(1px);
+}
+
+/* Extra Tweaks */
+.da-back-btn-corner {
+    position: absolute;
+    top: 32px;
+    left: 32px;
+    background: transparent;
+    border: none;
+    color: #1E293B;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    z-index: 10;
+}
+
+.da-back-btn-corner:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Country Selector Glassmorphism List */
+.da-glass-search-bar {
+    width: 100%;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 24px;
+    padding: 0 20px 0 48px;
+    font-size: 15px;
+    color: #1E293B;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%2394A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-repeat: no-repeat;
+    background-position: 16px center;
+}
+
+.da-glass-search-bar:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #4A72FF;
+    box-shadow: 0 4px 20px rgba(74, 114, 255, 0.15);
+}
+
+.da-country-list-wrapper {
+    position: relative;
+    height: 280px;
+    /* Constrain height */
+    margin-top: 24px;
+}
+
+.da-country-list-scroll {
+    height: 100%;
+    overflow-y: auto;
+    padding: 8px;
+    padding-bottom: 30px;
+    /* Custom scrollbar for webkit */
+    scrollbar-width: thin;
+    scrollbar-color: #CBD5E1 transparent;
+}
+
+.da-country-list-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.da-country-list-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.da-country-list-scroll::-webkit-scrollbar-thumb {
+    background-color: #CBD5E1;
+    border-radius: 10px;
+}
+
+.da-country-list-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.da-country-list-item:hover {
+    background-color: #F8FAFC;
+}
+
+.da-country-list-item span.flag {
+    font-size: 24px;
+}
+
+.da-country-list-item span.name {
+    font-size: 15px;
+    color: #1E293B;
+    font-weight: 500;
+}
+
+.da-country-flag-img {
+    width: 24px;
+    height: 16px;
+    object-fit: cover;
+    border-radius: 2px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.da-country-list-bottom-bracket {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    border-bottom: 3px solid #4A72FF;
+    border-left: 3px solid #4A72FF;
+    border-right: 3px solid #4A72FF;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    box-shadow: 0 -10px 15px rgba(74, 114, 255, 0.05) inset;
+}
+
+.error-msg-ds {
+    color: #EF4444;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: -12px;
+    padding-left: 8px;
+}
+
+.da-input-phone {
+    height: 44px;
+    background-color: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    transition: border-color 0.2s ease;
+}
+
+.da-input-phone.invalid {
+    border-color: #EF4444;
+}
+
+.da-input-phone:focus-within {
+    border-color: #4A72FF;
+}
+
+.da-phone-prefix {
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+}
+
+.da-input-phone input {
+    border: none;
+    outline: none;
+    background: transparent;
+    height: 100%;
+    width: 100%;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1E293B;
+    font-family: inherit;
+}
+
+.da-input-phone input::placeholder {
+    color: #94A3B8;
+    font-weight: 500;
+}
+
+.ds-phone-container {
+    height: 44px !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 0 !important;
+    padding: 0 16px !important;
+    display: flex;
+    align-items: center;
+    transition: border-color 0.2s ease !important;
+}
+
+.ds-phone-container:focus-within {
+    border: 1px solid #4A72FF !important;
+}
+
+.ds-phone-input {
+    background: transparent !important;
+    color: #1E293B !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+/* OTP Setup */
+.da-otp-container {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.da-otp-input {
+    width: 40px;
+    height: 44px;
+    background-color: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 0;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1E293B;
+    transition: border-color 0.2s ease;
+    outline: none;
+}
+
+.da-otp-input:focus {
+    border: 1px solid #4A72FF;
+}

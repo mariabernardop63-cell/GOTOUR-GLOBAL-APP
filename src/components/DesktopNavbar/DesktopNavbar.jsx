@@ -18,15 +18,7 @@ const DesktopNavbar = ({ onLoginClick, onSignupClick }) => {
 
     useEffect(() => {
         const handleScroll = () => {
-            // Only activate scrolled state when navbar touches the next section
-            const nextSection = document.getElementById('funcionalidades');
-            if (nextSection) {
-                const sectionTop = nextSection.offsetTop;
-                const navbarHeight = 72;
-                setIsScrolled(window.scrollY + navbarHeight >= sectionTop);
-            } else {
-                setIsScrolled(false);
-            }
+            setIsScrolled(window.scrollY > 50);
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);

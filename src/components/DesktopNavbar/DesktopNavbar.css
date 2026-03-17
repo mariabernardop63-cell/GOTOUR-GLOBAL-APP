@@ -29,20 +29,20 @@
     /* Anchor for mega dropdown */
 }
 
-/* Scrolled State - Floating Pill with White Background */
+/* Scrolled State - Floating Pill with Glass Background */
 .desktop-navbar.scrolled {
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+    background: rgba(10, 25, 41, 0.75); /* Dark Glassmorphism for contrast */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
     border-bottom: none;
     top: 12px;
     left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 48px);
     max-width: 1400px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .desktop-navbar.scrolled .navbar-container {
@@ -140,40 +140,39 @@
 /* Styles for the 'Começar' button */
 .desktop-navbar .btn.nav-btn-primary,
 .desktop-navbar button.nav-btn-primary {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border-radius: 10px !important;
+    background: #4A72FF !important;
+    border-radius: 9999px !important;
     font-size: 0.95rem !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     height: 40px !important;
-    padding: 0 20px !important;
-    box-shadow: none !important;
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    padding: 0 24px !important;
+    box-shadow: 0 4px 12px rgba(74, 114, 255, 0.2) !important;
+    border: none !important;
     color: #ffffff !important;
-    backdrop-filter: blur(8px);
     transition: all 0.3s ease;
 }
 
 .desktop-navbar .btn.nav-btn-primary:hover,
 .desktop-navbar button.nav-btn-primary:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    background: #3B5BCC !important;
+    box-shadow: 0 6px 16px rgba(74, 114, 255, 0.3) !important;
     transform: translateY(-1px) !important;
 }
 
 /* Scrolled State for Buttons */
 .desktop-navbar.scrolled .nav-btn-text {
-    color: #4b5563;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .desktop-navbar.scrolled .nav-btn-text:hover {
-    color: #000000;
+    color: #ffffff;
 }
 
 .desktop-navbar.scrolled .btn.nav-btn-primary,
 .desktop-navbar.scrolled button.nav-btn-primary {
-    background: #111827 !important;
+    background: #4A72FF !important;
     color: #ffffff !important;
-    border-color: #111827 !important;
+    border: none !important;
 }
 
 .desktop-navbar.scrolled .btn.nav-btn-primary:hover,
@@ -218,11 +217,11 @@
 
 /* Scrolled text colors */
 .desktop-navbar.scrolled .nav-link {
-    color: #4b5563;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .desktop-navbar.scrolled .navbar-brand-name {
-    color: #111827;
+    color: #ffffff;
 }
 
 /* Elegant Hover Effect on Main Links (Subtle underline) */
@@ -243,7 +242,7 @@
 }
 
 .desktop-navbar.scrolled .nav-link-text::after {
-    background-color: #111827;
+    background-color: #ffffff;
 }
 
 .nav-link:hover .nav-link-text {
@@ -251,7 +250,7 @@
 }
 
 .desktop-navbar.scrolled .nav-link:hover .nav-link-text {
-    color: #111827;
+    color: #ffffff;
 }
 
 .nav-link:hover .nav-link-text::after {

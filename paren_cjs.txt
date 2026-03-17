@@ -1,0 +1,643 @@
+P_LINE: 6: Depth: 0 | 
+P_LINE: 7: Depth: 0 | const FeaturesSection = () => {
+P_LINE: 8: Depth: 0 | const [activeSlide, setActiveSlide] = useState(0);
+P_LINE: 9: Depth: 0 | 
+P_LINE: 10: Depth: 1 | useEffect(() => {
+P_LINE: 11: Depth: 2 | const timer = setInterval(() => {
+P_LINE: 12: Depth: 2 | setActiveSlide(prev => (prev + 1) % 5);
+P_LINE: 13: Depth: 1 | }, 8000);
+P_LINE: 14: Depth: 1 | return () => clearInterval(timer);
+P_LINE: 15: Depth: 0 | }, []);
+P_LINE: 16: Depth: 0 | 
+P_LINE: 17: Depth: 0 | const slideVariants = {
+P_LINE: 18: Depth: 0 | enter: { opacity: 0, x: 40, filter: 'blur(8px)' },
+P_LINE: 19: Depth: 0 | center: { opacity: 1, x: 0, filter: 'blur(0px)' },
+P_LINE: 20: Depth: 0 | exit: { opacity: 0, x: -40, filter: 'blur(8px)' }
+P_LINE: 21: Depth: 0 | };
+P_LINE: 22: Depth: 0 | 
+P_LINE: 23: Depth: 1 | return (
+P_LINE: 24: Depth: 1 | <section id="funcionalidades" className="feat-immersive-section">
+P_LINE: 25: Depth: 1 | <div className="feat-immersive-container">
+P_LINE: 26: Depth: 1 | 
+P_LINE: 27: Depth: 1 | {/* ── 1. Top Showcase (Hero Elements from Stitch) ── */}
+P_LINE: 28: Depth: 1 | <div className="immersive-showcase" style={{ position: 'relative', overflow: 'hidden', minHeight: '450px' }}>
+P_LINE: 29: Depth: 1 | <AnimatePresence mode="wait">
+P_LINE: 30: Depth: 2 | {activeSlide === 0 && (
+P_LINE: 31: Depth: 2 | <motion.div
+P_LINE: 32: Depth: 2 | key="slide0"
+P_LINE: 33: Depth: 2 | className="showcase-inner-wrap"
+P_LINE: 34: Depth: 2 | variants={slideVariants}
+P_LINE: 35: Depth: 2 | initial="enter"
+P_LINE: 36: Depth: 2 | animate="center"
+P_LINE: 37: Depth: 2 | exit="exit"
+P_LINE: 38: Depth: 2 | transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+P_LINE: 39: Depth: 2 | >
+P_LINE: 40: Depth: 2 | {/* Left: Text Content */}
+P_LINE: 41: Depth: 2 | <div className="showcase-content">
+P_LINE: 42: Depth: 2 | <h1 className="showcase-headline">
+P_LINE: 43: Depth: 2 | Explore o Mundo,<br />
+P_LINE: 44: Depth: 2 | <span className="showcase-grad-text">Sem Limites.</span>
+P_LINE: 45: Depth: 2 | </h1>
+P_LINE: 46: Depth: 2 | <p className="showcase-subtext">
+P_LINE: 47: Depth: 2 | Planeie a sua viagem ideal com a GoTour. Aceda a mais de 120 países, reserve hospedagens exclusivas e consolide a sua exploração global num único ecossistema premium.
+P_LINE: 48: Depth: 2 | </p>
+P_LINE: 49: Depth: 2 | <div className="showcase-actions">
+P_LINE: 50: Depth: 2 | <button className="btn-immersive-primary">Explorar</button>
+P_LINE: 51: Depth: 2 | <button className="btn-immersive-secondary">
+P_LINE: 52: Depth: 2 | <PlayCircle size={20} />
+P_LINE: 53: Depth: 2 | See how it works
+P_LINE: 54: Depth: 2 | </button>
+P_LINE: 55: Depth: 2 | </div>
+P_LINE: 56: Depth: 2 | </div>
+P_LINE: 57: Depth: 2 | 
+P_LINE: 58: Depth: 2 | {/* Right: 3D Mockup Graphic */}
+P_LINE: 59: Depth: 2 | <div className="showcase-graphic">
+P_LINE: 60: Depth: 2 | <div className="frame-3d">
+P_LINE: 61: Depth: 2 | <div className="frame-3d-toolbar">
+P_LINE: 62: Depth: 2 | <div className="toolbar-dot red"></div>
+P_LINE: 63: Depth: 2 | <div className="toolbar-dot yellow"></div>
+P_LINE: 64: Depth: 2 | <div className="toolbar-dot green"></div>
+P_LINE: 65: Depth: 2 | </div>
+P_LINE: 66: Depth: 2 | 
+P_LINE: 67: Depth: 2 | <div className="frame-3d-content">
+P_LINE: 68: Depth: 2 | <div className="abstract-bar"></div>
+P_LINE: 69: Depth: 2 | <div className="abstract-split">
+P_LINE: 70: Depth: 2 | <div className="split-box-large">
+P_LINE: 71: Depth: 2 | <div className="mock-hotel-card">
+P_LINE: 72: Depth: 2 | <div className="mock-hotel-info">
+P_LINE: 73: Depth: 2 | <div className="mock-hotel-name">The Grand Horizon</div>
+P_LINE: 74: Depth: 2 | <div className="mock-hotel-loc">1.2 km • Nova Iorque, EUA</div>
+P_LINE: 75: Depth: 2 | </div>
+P_LINE: 76: Depth: 2 | <div className="mock-hotel-price">
+P_LINE: 77: Depth: 2 | <div className="mock-hotel-val">$450/noite</div>
+P_LINE: 78: Depth: 2 | <div className="mock-hotel-rating">★ 4.9</div>
+P_LINE: 79: Depth: 2 | </div>
+P_LINE: 80: Depth: 2 | </div>
+P_LINE: 81: Depth: 2 | <div className="mock-hotel-card">
+P_LINE: 82: Depth: 2 | <div className="mock-hotel-info">
+P_LINE: 83: Depth: 2 | <div className="mock-hotel-name">Oceanic Retreat</div>
+P_LINE: 84: Depth: 2 | <div className="mock-hotel-loc">Beira-mar • Bali, Indonésia</div>
+P_LINE: 85: Depth: 2 | </div>
+P_LINE: 86: Depth: 2 | <div className="mock-hotel-price">
+P_LINE: 87: Depth: 2 | <div className="mock-hotel-val">$220/noite</div>
+P_LINE: 88: Depth: 2 | <div className="mock-hotel-rating">★ 4.8</div>
+P_LINE: 89: Depth: 2 | </div>
+P_LINE: 90: Depth: 2 | </div>
+P_LINE: 91: Depth: 2 | </div>
+P_LINE: 92: Depth: 2 | <div className="split-box-small"></div>
+P_LINE: 93: Depth: 2 | </div>
+P_LINE: 94: Depth: 2 | <div className="abstract-lines">
+P_LINE: 95: Depth: 2 | <div className="abstract-line" style={{ width: '100%' }}></div>
+P_LINE: 96: Depth: 2 | <div className="abstract-line" style={{ width: '85%' }}></div>
+P_LINE: 97: Depth: 2 | </div>
+P_LINE: 98: Depth: 2 | </div>
+P_LINE: 99: Depth: 2 | </div>
+P_LINE: 100: Depth: 2 | 
+P_LINE: 101: Depth: 2 | {/* Floating 3D Card overlay */}
+P_LINE: 102: Depth: 2 | <div className="floating-card-3d">
+P_LINE: 103: Depth: 2 | <div className="float-header">
+P_LINE: 104: Depth: 2 | <div className="float-icon">
+P_LINE: 105: Depth: 2 | <Plane size={20} />
+P_LINE: 106: Depth: 2 | </div>
+P_LINE: 107: Depth: 2 | <div>
+P_LINE: 108: Depth: 2 | <div className="float-title">Tokyo, JP</div>
+P_LINE: 109: Depth: 2 | <div className="float-sub">SASHA Routed</div>
+P_LINE: 110: Depth: 2 | </div>
+P_LINE: 111: Depth: 2 | </div>
+P_LINE: 112: Depth: 2 | <div className="float-bar-grp">
+P_LINE: 113: Depth: 2 | <div className="float-bar" style={{ width: '70%', background: '#3d3df5' }}></div>
+P_LINE: 114: Depth: 2 | <div className="float-bar" style={{ width: '30%', background: '#EDF2F7' }}></div>
+P_LINE: 115: Depth: 2 | </div>
+P_LINE: 116: Depth: 2 | </div>
+P_LINE: 117: Depth: 2 | </div>
+P_LINE: 118: Depth: 2 | </motion.div>
+P_LINE: 119: Depth: 1 | )}
+P_LINE: 120: Depth: 1 | 
+P_LINE: 121: Depth: 2 | {activeSlide === 1 && (
+P_LINE: 122: Depth: 2 | <motion.div
+P_LINE: 123: Depth: 2 | key="slide1"
+P_LINE: 124: Depth: 2 | className="showcase-inner-wrap"
+P_LINE: 125: Depth: 2 | variants={slideVariants}
+P_LINE: 126: Depth: 2 | initial="enter"
+P_LINE: 127: Depth: 2 | animate="center"
+P_LINE: 128: Depth: 2 | exit="exit"
+P_LINE: 129: Depth: 2 | transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+P_LINE: 130: Depth: 2 | >
+P_LINE: 131: Depth: 2 | {/* Left: Text Content 2 */}
+P_LINE: 132: Depth: 2 | <div className="showcase-content">
+P_LINE: 133: Depth: 2 | <h1 className="showcase-headline">
+P_LINE: 134: Depth: 2 | Mapa Inteligente,<br />
+P_LINE: 135: Depth: 2 | <span className="showcase-grad-text">Percursos Reais.</span>
+P_LINE: 136: Depth: 2 | </h1>
+P_LINE: 137: Depth: 2 | <p className="showcase-subtext">
+P_LINE: 138: Depth: 2 | O nosso ecossistema de navegação analisa tráfego, clima local e os trilhos mais deslumbrantes para lhe oferecer a rota perfeita em tempo real. Perca-se apenas se for essa a intenção.
+P_LINE: 139: Depth: 2 | </p>
+P_LINE: 140: Depth: 2 | <div className="showcase-actions">
+P_LINE: 141: Depth: 2 | <button className="btn-immersive-primary">Ver Mapa Interativo</button>
+P_LINE: 142: Depth: 2 | <button className="btn-immersive-secondary">
+P_LINE: 143: Depth: 2 | <Route size={20} />
+P_LINE: 144: Depth: 2 | Explorar Rotas
+P_LINE: 145: Depth: 2 | </button>
+P_LINE: 146: Depth: 2 | </div>
+P_LINE: 147: Depth: 2 | </div>
+P_LINE: 148: Depth: 2 | 
+P_LINE: 149: Depth: 2 | {/* Right: 3D Map Mockup Graphic */}
+P_LINE: 150: Depth: 2 | <div className="showcase-graphic">
+P_LINE: 151: Depth: 2 | <div className="frame-3d map-variant">
+P_LINE: 152: Depth: 2 | <div className="frame-3d-toolbar">
+P_LINE: 153: Depth: 2 | <div className="toolbar-dot red"></div>
+P_LINE: 154: Depth: 2 | <div className="toolbar-dot yellow"></div>
+P_LINE: 155: Depth: 2 | <div className="toolbar-dot green"></div>
+P_LINE: 156: Depth: 2 | </div>
+P_LINE: 157: Depth: 2 | <div className="mock-map-canvas">
+P_LINE: 158: Depth: 2 | {/* decorative lines to simulate streets */}
+P_LINE: 159: Depth: 2 | <svg className="mock-map-streets" viewBox="0 0 400 300" preserveAspectRatio="none">
+P_LINE: 160: Depth: 2 | <path d="M0,50 L100,80 L200,60 L350,150 L400,120" stroke="#E2E8F0" strokeWidth="8" fill="none" />
+P_LINE: 161: Depth: 2 | <path d="M50,300 L120,200 L150,180 L250,50" stroke="#E2E8F0" strokeWidth="6" strokeDasharray="10 5" fill="none" />
+P_LINE: 162: Depth: 2 | <path d="M200,300 L250,220 L380,240 L400,200" stroke="#E2E8F0" strokeWidth="10" fill="none" />
+P_LINE: 163: Depth: 2 | 
+P_LINE: 164: Depth: 2 | {/* SASHA optimal route line */}
+P_LINE: 165: Depth: 2 | <path d="M100,80 L150,180 L250,220 L380,240" stroke="#3d3df5" strokeWidth="6" fill="none" className="mock-map-route-line" />
+P_LINE: 166: Depth: 2 | </svg>
+P_LINE: 167: Depth: 2 | 
+P_LINE: 168: Depth: 2 | {/* Location Pins */}
+P_LINE: 169: Depth: 2 | <div className="mock-map-pin" style={{ top: '22%', left: '22%' }}>
+P_LINE: 170: Depth: 2 | <div className="pin-pulse"></div>
+P_LINE: 171: Depth: 2 | <div className="pin-core"></div>
+P_LINE: 172: Depth: 2 | </div>
+P_LINE: 173: Depth: 2 | <div className="mock-map-pin pin-dest" style={{ top: '75%', left: '92%' }}>
+P_LINE: 174: Depth: 2 | <MapIcon size={14} color="#fff" />
+P_LINE: 175: Depth: 2 | </div>
+P_LINE: 176: Depth: 2 | </div>
+P_LINE: 177: Depth: 2 | </div>
+P_LINE: 178: Depth: 2 | 
+P_LINE: 179: Depth: 2 | {/* Floating 3D Card overlay (Map Info) */}
+P_LINE: 180: Depth: 2 | <div className="floating-card-3d">
+P_LINE: 181: Depth: 2 | <div className="float-header">
+P_LINE: 182: Depth: 2 | <div className="float-icon" style={{ background: '#0db9f2', color: '#fff' }}>
+P_LINE: 183: Depth: 2 | <Compass size={20} />
+P_LINE: 184: Depth: 2 | </div>
+P_LINE: 185: Depth: 2 | <div>
+P_LINE: 186: Depth: 2 | <div className="float-title">Rota Panorâmica</div>
+P_LINE: 187: Depth: 2 | <div className="float-sub">45 min • Trânsito Leve</div>
+P_LINE: 188: Depth: 2 | </div>
+P_LINE: 189: Depth: 2 | </div>
+P_LINE: 190: Depth: 2 | <div className="float-weather">
+P_LINE: 191: Depth: 2 | <span className="weather-icon">☀️</span>
+P_LINE: 192: Depth: 2 | <span className="weather-text">24°C • Céu Limpo</span>
+P_LINE: 193: Depth: 2 | </div>
+P_LINE: 194: Depth: 2 | </div>
+P_LINE: 195: Depth: 2 | </div>
+P_LINE: 196: Depth: 2 | </motion.div>
+P_LINE: 197: Depth: 1 | )}
+P_LINE: 198: Depth: 1 | 
+P_LINE: 199: Depth: 2 | {activeSlide === 2 && (
+P_LINE: 200: Depth: 2 | <motion.div
+P_LINE: 201: Depth: 2 | key="slide2"
+P_LINE: 202: Depth: 2 | className="showcase-inner-wrap"
+P_LINE: 203: Depth: 2 | variants={slideVariants}
+P_LINE: 204: Depth: 2 | initial="enter"
+P_LINE: 205: Depth: 2 | animate="center"
+P_LINE: 206: Depth: 2 | exit="exit"
+P_LINE: 207: Depth: 2 | transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+P_LINE: 208: Depth: 2 | >
+P_LINE: 209: Depth: 2 | {/* Left: Text Content 3 */}
+P_LINE: 210: Depth: 2 | <div className="showcase-content">
+P_LINE: 211: Depth: 2 | <h1 className="showcase-headline">
+P_LINE: 212: Depth: 2 | A Sua Nova,<br />
+P_LINE: 213: Depth: 2 | <span className="showcase-grad-text">Comunidade.</span>
+P_LINE: 214: Depth: 2 | </h1>
+P_LINE: 215: Depth: 2 | <p className="showcase-subtext">
+P_LINE: 216: Depth: 2 | Conecte-se com exploradores apaixonados na "Comunidade de Viajantes pelo Mundo". Partilhe roteiros exclusivos, descubra segredos locais em tempo real e expanda as suas fronteiras através de conexões autênticas.
+P_LINE: 217: Depth: 2 | </p>
+P_LINE: 218: Depth: 2 | <div className="showcase-actions">
+P_LINE: 219: Depth: 2 | <button className="btn-immersive-primary">Juntar-se à Comunidade</button>
+P_LINE: 220: Depth: 2 | <button className="btn-immersive-secondary">
+P_LINE: 221: Depth: 2 | <MessageCircle size={20} />
+P_LINE: 222: Depth: 2 | Explorar Grupos
+P_LINE: 223: Depth: 2 | </button>
+P_LINE: 224: Depth: 2 | </div>
+P_LINE: 225: Depth: 2 | </div>
+P_LINE: 226: Depth: 2 | 
+P_LINE: 227: Depth: 2 | {/* Right: 3D Chat Mockup Graphic */}
+P_LINE: 228: Depth: 2 | <div className="showcase-graphic">
+P_LINE: 229: Depth: 2 | <div className="frame-3d chat-variant">
+P_LINE: 230: Depth: 2 | <div className="frame-3d-toolbar">
+P_LINE: 231: Depth: 2 | <div className="toolbar-dot red"></div>
+P_LINE: 232: Depth: 2 | <div className="toolbar-dot yellow"></div>
+P_LINE: 233: Depth: 2 | <div className="toolbar-dot green"></div>
+P_LINE: 234: Depth: 2 | </div>
+P_LINE: 235: Depth: 2 | <div className="mock-chat-canvas">
+P_LINE: 236: Depth: 2 | <div className="mock-chat-header">
+P_LINE: 237: Depth: 2 | <div className="mock-chat-avatar-group">
+P_LINE: 238: Depth: 2 | <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=64&q=80" alt="User 1" />
+P_LINE: 239: Depth: 2 | <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=64&q=80" alt="User 2" />
+P_LINE: 240: Depth: 2 | </div>
+P_LINE: 241: Depth: 2 | <div className="mock-chat-info">
+P_LINE: 242: Depth: 2 | <div className="mock-chat-title">Viajantes pelo Mundo 🌍</div>
+P_LINE: 243: Depth: 2 | <div className="mock-chat-status">142 online • 1.2k membros</div>
+P_LINE: 244: Depth: 2 | </div>
+P_LINE: 245: Depth: 2 | </div>
+P_LINE: 246: Depth: 2 | 
+P_LINE: 247: Depth: 2 | <div className="mock-chat-body">
+P_LINE: 248: Depth: 2 | <div className="mock-msg incoming">
+P_LINE: 249: Depth: 2 | <div className="mock-msg-name">Teresa</div>
+P_LINE: 250: Depth: 2 | <div className="mock-msg-bubble">Alguém já esteve em Quioto no Outono? Tem dicas de templos menos turísticos? 🍁</div>
+P_LINE: 251: Depth: 2 | <div className="mock-msg-time">10:42</div>
+P_LINE: 252: Depth: 2 | </div>
+P_LINE: 253: Depth: 2 | <div className="mock-msg outgoing">
+P_LINE: 254: Depth: 2 | <div className="mock-msg-bubble">Aconselho muito o Templo Otagi Nenbutsu-ji. Fica em Arashiyama e é incrivelmente sereno!</div>
+P_LINE: 255: Depth: 2 | <div className="mock-msg-time">10:45 <span className="mock-msg-read">✓✓</span></div>
+P_LINE: 256: Depth: 2 | </div>
+P_LINE: 257: Depth: 2 | <div className="mock-msg incoming delay-anim">
+P_LINE: 258: Depth: 2 | <div className="mock-msg-name">Miguel</div>
+P_LINE: 259: Depth: 2 | <div className="mock-msg-bubble">
+P_LINE: 260: Depth: 2 | <div className="mock-typing-dots"><span></span><span></span><span></span></div>
+P_LINE: 261: Depth: 2 | </div>
+P_LINE: 262: Depth: 2 | </div>
+P_LINE: 263: Depth: 2 | </div>
+P_LINE: 264: Depth: 2 | </div>
+P_LINE: 265: Depth: 2 | </div>
+P_LINE: 266: Depth: 2 | 
+P_LINE: 267: Depth: 2 | {/* Floating 3D Card overlay (Chat Notification) */}
+P_LINE: 268: Depth: 2 | <div className="floating-card-3d chat-float">
+P_LINE: 269: Depth: 2 | <div className="float-header">
+P_LINE: 270: Depth: 2 | <div className="float-icon" style={{ background: '#10B981', color: '#fff' }}>
+P_LINE: 271: Depth: 2 | <MessageCircle size={20} />
+P_LINE: 272: Depth: 2 | </div>
+P_LINE: 273: Depth: 2 | <div>
+P_LINE: 274: Depth: 2 | <div className="float-title">Novo Itinerário Partilhado</div>
+P_LINE: 275: Depth: 2 | <div className="float-sub">"7 Dias na Toscânia"</div>
+P_LINE: 276: Depth: 2 | </div>
+P_LINE: 277: Depth: 2 | </div>
+P_LINE: 278: Depth: 2 | <div className="float-bar-grp mt-3">
+P_LINE: 279: Depth: 2 | <div className="mock-avatar-small float-left mr-2" style={{backgroundImage: "url('https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=64&q=80')"}}></div>
+P_LINE: 280: Depth: 2 | <div style={{fontSize: '0.7rem', color: '#64748b'}}>Por Lucas F. • 4.9 ★</div>
+P_LINE: 281: Depth: 2 | </div>
+P_LINE: 282: Depth: 2 | </div>
+P_LINE: 283: Depth: 2 | </div>
+P_LINE: 284: Depth: 2 | </motion.div>
+P_LINE: 285: Depth: 1 | )}
+P_LINE: 286: Depth: 1 | 
+P_LINE: 287: Depth: 2 | {activeSlide === 3 && (
+P_LINE: 288: Depth: 2 | <motion.div
+P_LINE: 289: Depth: 2 | key="slide3"
+P_LINE: 290: Depth: 2 | className="showcase-inner-wrap"
+P_LINE: 291: Depth: 2 | variants={slideVariants}
+P_LINE: 292: Depth: 2 | initial="enter"
+P_LINE: 293: Depth: 2 | animate="center"
+P_LINE: 294: Depth: 2 | exit="exit"
+P_LINE: 295: Depth: 2 | transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+P_LINE: 296: Depth: 2 | >
+P_LINE: 297: Depth: 2 | {/* Left: Text Content 4 */}
+P_LINE: 298: Depth: 2 | <div className="showcase-content">
+P_LINE: 299: Depth: 2 | <h1 className="showcase-headline">
+P_LINE: 300: Depth: 2 | Inspire. Crie.<br />
+P_LINE: 301: Depth: 2 | <span className="showcase-grad-text">Rentabilize.</span>
+P_LINE: 302: Depth: 2 | </h1>
+P_LINE: 303: Depth: 2 | <p className="showcase-subtext">
+P_LINE: 304: Depth: 2 | Partilhe as suas viagens no Feed Global. Imortalize momentos, crie <strong>Live Tours</strong> envolventes e ganhe comissões automáticas sempre que os seus seguidores reservarem roteiros baseados no seu conteúdo.
+P_LINE: 305: Depth: 2 | </p>
+P_LINE: 306: Depth: 2 | <div className="showcase-actions">
+P_LINE: 307: Depth: 2 | <button className="btn-immersive-primary">Partilhar Experiência</button>
+P_LINE: 308: Depth: 2 | <button className="btn-immersive-secondary">
+P_LINE: 309: Depth: 2 | <TrendingUp size={20} />
+P_LINE: 310: Depth: 2 | Ver Monetização
+P_LINE: 311: Depth: 2 | </button>
+P_LINE: 312: Depth: 2 | </div>
+P_LINE: 313: Depth: 2 | </div>
+P_LINE: 314: Depth: 2 | 
+P_LINE: 315: Depth: 2 | {/* Right: 3D Social Feed Mockup Graphic */}
+P_LINE: 316: Depth: 2 | <div className="showcase-graphic">
+P_LINE: 317: Depth: 2 | <div className="frame-3d feed-variant">
+P_LINE: 318: Depth: 2 | <div className="frame-3d-toolbar">
+P_LINE: 319: Depth: 2 | <div className="toolbar-dot red"></div>
+P_LINE: 320: Depth: 2 | <div className="toolbar-dot yellow"></div>
+P_LINE: 321: Depth: 2 | <div className="toolbar-dot green"></div>
+P_LINE: 322: Depth: 2 | </div>
+P_LINE: 323: Depth: 2 | 
+P_LINE: 324: Depth: 2 | <div className="mock-feed-canvas premium-ig-style">
+P_LINE: 325: Depth: 2 | {/* Instagram-style Post Card */}
+P_LINE: 326: Depth: 2 | <div className="mock-post-card">
+P_LINE: 327: Depth: 2 | {/* Meta Header */}
+P_LINE: 328: Depth: 2 | <div className="mock-post-header">
+P_LINE: 329: Depth: 2 | <div className="mock-post-author">
+P_LINE: 330: Depth: 2 | <div className="mock-author-avatar-wrap">
+P_LINE: 331: Depth: 2 | <div className="ig-story-ring">
+P_LINE: 332: Depth: 2 | <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=64&q=80" alt="Creator Profile" className="mock-author-avatar" />
+P_LINE: 333: Depth: 2 | </div>
+P_LINE: 334: Depth: 2 | </div>
+P_LINE: 335: Depth: 2 | <div className="mock-author-info">
+P_LINE: 336: Depth: 2 | <div className="mock-author-name">
+P_LINE: 337: Depth: 2 | carolina.travels <span className="verified-badge">✓</span>
+P_LINE: 338: Depth: 2 | </div>
+P_LINE: 339: Depth: 2 | <div className="mock-author-location">📍 Santarém, Portugal</div>
+P_LINE: 340: Depth: 2 | </div>
+P_LINE: 341: Depth: 2 | </div>
+P_LINE: 342: Depth: 2 | <div className="mock-post-options">•••</div>
+P_LINE: 343: Depth: 2 | </div>
+P_LINE: 344: Depth: 2 | 
+P_LINE: 345: Depth: 2 | {/* Hero Media */}
+P_LINE: 346: Depth: 2 | <div className="mock-post-media">
+P_LINE: 347: Depth: 2 | <img src="https://images.unsplash.com/photo-1516483638261-f40af5eba321?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Portugal Landscape" className="mock-media-img" />
+P_LINE: 348: Depth: 2 | 
+P_LINE: 349: Depth: 2 | {/* Floating Live Tag Overlay */}
+P_LINE: 350: Depth: 2 | <div className="ig-live-tag anim-pulse-slow"> AO VIVO </div>
+P_LINE: 351: Depth: 2 | 
+P_LINE: 352: Depth: 2 | {/* In-Image Tagging UI */}
+P_LINE: 353: Depth: 2 | <div className="ig-product-tag anim-fade-in-up">
+P_LINE: 354: Depth: 2 | <span className="tag-dot"></span>
+P_LINE: 355: Depth: 2 | <span className="tag-label">Tour Enológico</span>
+P_LINE: 356: Depth: 2 | </div>
+P_LINE: 357: Depth: 2 | </div>
+P_LINE: 358: Depth: 2 | 
+P_LINE: 359: Depth: 2 | {/* Interaction Bar */}
+P_LINE: 360: Depth: 2 | <div className="mock-post-actions-bar">
+P_LINE: 361: Depth: 2 | <div className="action-icons-left">
+P_LINE: 362: Depth: 2 | <div className="action-icon heart-anim"><span className="heart-fill">❤️</span></div>
+P_LINE: 363: Depth: 2 | <div className="action-icon stroke-icon">💬</div>
+P_LINE: 364: Depth: 2 | <div className="action-icon stroke-icon">✈️</div>
+P_LINE: 365: Depth: 2 | </div>
+P_LINE: 366: Depth: 2 | <div className="action-icons-right">
+P_LINE: 367: Depth: 2 | <div className="action-icon stroke-icon">🔖</div>
+P_LINE: 368: Depth: 2 | </div>
+P_LINE: 369: Depth: 2 | </div>
+P_LINE: 370: Depth: 2 | 
+P_LINE: 371: Depth: 2 | {/* Post Footer/Caption */}
+P_LINE: 372: Depth: 2 | <div className="mock-post-footer">
+P_LINE: 373: Depth: 2 | <div className="mock-post-likes">
+P_LINE: 374: Depth: 2 | <div className="like-avatars">
+P_LINE: 375: Depth: 2 | <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d" alt="Like 1"/>
+P_LINE: 376: Depth: 2 | <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="Like 2"/>
+P_LINE: 377: Depth: 2 | </div>
+P_LINE: 378: Depth: 2 | Gostos: <strong>joao_m</strong> e <strong>outras 8.492 pessoas</strong>
+P_LINE: 379: Depth: 2 | </div>
+P_LINE: 380: Depth: 2 | 
+P_LINE: 381: Depth: 2 | <div className="mock-post-caption">
+P_LINE: 382: Depth: 2 | <strong>carolina.travels</strong> A luz do fim de tarde nas vinhas é pura magia. ✨ Juntem-se à Tour Enológica deste fim de semana, comissões ativas no link da bio! 🍷🍇
+P_LINE: 383: Depth: 2 | </div>
+P_LINE: 384: Depth: 2 | 
+P_LINE: 385: Depth: 2 | <div className="mock-post-comments">Ver todos os 142 comentários</div>
+P_LINE: 386: Depth: 2 | 
+P_LINE: 387: Depth: 2 | {/* GoTour specific CTA baked into the feed concept */}
+P_LINE: 388: Depth: 2 | <div className="mock-gotour-cta">
+P_LINE: 389: Depth: 2 | <button className="book-tour-btn">Reservar Esta Experiência</button>
+P_LINE: 390: Depth: 2 | </div>
+P_LINE: 391: Depth: 2 | </div>
+P_LINE: 392: Depth: 2 | </div>
+P_LINE: 393: Depth: 2 | </div>
+P_LINE: 394: Depth: 2 | </div>
+P_LINE: 395: Depth: 2 | 
+P_LINE: 396: Depth: 2 | {/* Floating 3D Card overlay (Commission Notification) */}
+P_LINE: 397: Depth: 2 | <div className="floating-card-3d feed-float">
+P_LINE: 398: Depth: 2 | <div className="float-header">
+P_LINE: 399: Depth: 2 | <div className="float-icon" style={{ background: '#F59E0B', color: '#fff' }}>
+P_LINE: 400: Depth: 2 | <TrendingUp size={20} />
+P_LINE: 401: Depth: 2 | </div>
+P_LINE: 402: Depth: 2 | <div>
+P_LINE: 403: Depth: 2 | <div className="float-title">Nova Comissão Gerada!</div>
+P_LINE: 404: Depth: 2 | <div className="float-sub">Via GoTour Creator Fund</div>
+P_LINE: 405: Depth: 2 | </div>
+P_LINE: 406: Depth: 2 | </div>
+P_LINE: 407: Depth: 2 | <div className="float-earning mt-3">
+P_LINE: 408: Depth: 2 | <span className="earning-value">+$45.00</span>
+P_LINE: 409: Depth: 2 | <span className="earning-desc">Reserva no Hotel Duomo</span>
+P_LINE: 410: Depth: 2 | </div>
+P_LINE: 411: Depth: 2 | </div>
+P_LINE: 412: Depth: 2 | </div>
+P_LINE: 413: Depth: 2 | </motion.div>
+P_LINE: 414: Depth: 1 | )}
+P_LINE: 415: Depth: 1 | 
+P_LINE: 416: Depth: 2 | {activeSlide === 4 && (
+P_LINE: 417: Depth: 2 | <motion.div
+P_LINE: 418: Depth: 2 | key="slide4"
+P_LINE: 419: Depth: 2 | className="showcase-inner-wrap"
+P_LINE: 420: Depth: 2 | variants={slideVariants}
+P_LINE: 421: Depth: 2 | initial="enter"
+P_LINE: 422: Depth: 2 | animate="center"
+P_LINE: 423: Depth: 2 | exit="exit"
+P_LINE: 424: Depth: 2 | transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+P_LINE: 425: Depth: 2 | >
+P_LINE: 426: Depth: 2 | {/* Left: Text Content 5 */}
+P_LINE: 427: Depth: 2 | <div className="showcase-content">
+P_LINE: 428: Depth: 2 | <h1 className="showcase-headline ai-headline">
+P_LINE: 429: Depth: 2 | SASHA 3.1 AI.<br />
+P_LINE: 430: Depth: 2 | <span className="showcase-grad-text">Cérebro da Viagem.</span>
+P_LINE: 431: Depth: 2 | </h1>
+P_LINE: 432: Depth: 2 | <p className="showcase-subtext">
+P_LINE: 433: Depth: 2 | Conheça a <strong>Sasha IA</strong>: a sua copiloto de exploração hiper-inteligente. Planeie rotas complexas, resolva imprevistos em tempo real e receba recomendações preditivas que se moldam ao seu humor e orçamento.
+P_LINE: 434: Depth: 2 | </p>
+P_LINE: 435: Depth: 2 | <div className="showcase-actions">
+P_LINE: 436: Depth: 2 | <button className="btn-immersive-primary">Falar com Sasha</button>
+P_LINE: 437: Depth: 2 | <button className="btn-immersive-secondary">
+P_LINE: 438: Depth: 2 | <Sparkles size={18} className="mr-2" style={{ color: '#F59E0B' }} />
+P_LINE: 439: Depth: 2 | Ver Capacidades
+P_LINE: 440: Depth: 2 | </button>
+P_LINE: 441: Depth: 2 | </div>
+P_LINE: 442: Depth: 2 | </div>
+P_LINE: 443: Depth: 2 | 
+P_LINE: 444: Depth: 2 | {/* Right: 3D AI Chat Mockup Graphic */}
+P_LINE: 445: Depth: 2 | <div className="showcase-graphic">
+P_LINE: 446: Depth: 2 | <div className="frame-3d ai-variant">
+P_LINE: 447: Depth: 2 | <div className="frame-3d-toolbar">
+P_LINE: 448: Depth: 2 | <div className="toolbar-dot red"></div>
+P_LINE: 449: Depth: 2 | <div className="toolbar-dot yellow"></div>
+P_LINE: 450: Depth: 2 | <div className="toolbar-dot green"></div>
+P_LINE: 451: Depth: 2 | </div>
+P_LINE: 452: Depth: 2 | 
+P_LINE: 453: Depth: 2 | <div className="mock-ai-canvas">
+P_LINE: 454: Depth: 2 | {/* ChatGPT-style Layout */}
+P_LINE: 455: Depth: 2 | <div className="ai-chat-sidebar">
+P_LINE: 456: Depth: 2 | <div className="ai-sidebar-new">+ Nova Conversa</div>
+P_LINE: 457: Depth: 2 | <div className="ai-sidebar-history">
+P_LINE: 458: Depth: 2 | <div className="ai-history-item active">✨ Tour em Roma</div>
+P_LINE: 459: Depth: 2 | <div className="ai-history-item">☕ Cafés de Paris</div>
+P_LINE: 460: Depth: 2 | <div className="ai-history-item">🌴 Bali Essentials</div>
+P_LINE: 461: Depth: 2 | </div>
+P_LINE: 462: Depth: 2 | </div>
+P_LINE: 463: Depth: 2 | 
+P_LINE: 464: Depth: 2 | <div className="ai-chat-main">
+P_LINE: 465: Depth: 2 | <div className="ai-chat-header">
+P_LINE: 466: Depth: 2 | <img src={sashaIcon} alt="Sasha" className="ai-header-logo" />
+P_LINE: 467: Depth: 2 | <span className="ai-header-name">Sasha 3.1</span>
+P_LINE: 468: Depth: 2 | </div>
+P_LINE: 469: Depth: 2 | 
+P_LINE: 470: Depth: 2 | <div className="ai-chat-body">
+P_LINE: 471: Depth: 2 | {/* User Message */}
+P_LINE: 472: Depth: 2 | <div className="ai-msg user">
+P_LINE: 473: Depth: 2 | <div className="ai-msg-bubble">
+P_LINE: 474: Depth: 2 | Sasha, preciso de um roteiro de 3 dias para Tóquio focado em cultura geek e gastronomia local, com orçamento médio.
+P_LINE: 475: Depth: 2 | </div>
+P_LINE: 476: Depth: 2 | </div>
+P_LINE: 477: Depth: 2 | 
+P_LINE: 478: Depth: 2 | {/* Sasha Response */}
+P_LINE: 479: Depth: 2 | <div className="ai-msg sasha">
+P_LINE: 480: Depth: 2 | <div className="ai-msg-avatar">
+P_LINE: 481: Depth: 2 | <img src={sashaIcon} alt="Sasha Logo" />
+P_LINE: 482: Depth: 2 | </div>
+P_LINE: 483: Depth: 2 | <div className="ai-msg-bubble anim-fade-in">
+P_LINE: 484: Depth: 2 | <div className="ai-typing-effect">
+P_LINE: 485: Depth: 2 | Claro! Analisei os teus gostos e tracei o <strong>Roteiro Neon & Sushi (3 Dias)</strong>.<span className="ai-cursor"></span>
+P_LINE: 486: Depth: 2 | </div>
+P_LINE: 487: Depth: 2 | <div className="ai-itinerary-card mt-3">
+P_LINE: 488: Depth: 2 | <div className="ai-card-title">Dia 1: Akihabara & Kappabashi</div>
+P_LINE: 489: Depth: 2 | <ul>
+P_LINE: 490: Depth: 2 | <li><strong>10:00</strong> - Explorar lojas retro de Akihabara (Super Potato).</li>
+P_LINE: 491: Depth: 2 | <li><strong>13:00</strong> - Almoço: Ramen de Tonkotsu (vagueado por Sasha).</li>
+P_LINE: 492: Depth: 2 | <li><strong>15:00</strong> - Visita a Kappabashi (Rua das Facas e Street Food).</li>
+P_LINE: 493: Depth: 2 | </ul>
+P_LINE: 494: Depth: 2 | </div>
+P_LINE: 495: Depth: 2 | <div className="ai-spark-footer">
+P_LINE: 496: Depth: 2 | 💡 <em>Dica: Reservei mesa no Izakaya secreto em Shinjuku para as 20h. Confirmar?</em>
+P_LINE: 497: Depth: 2 | </div>
+P_LINE: 498: Depth: 2 | </div>
+P_LINE: 499: Depth: 2 | </div>
+P_LINE: 500: Depth: 2 | </div>
+P_LINE: 501: Depth: 2 | 
+P_LINE: 502: Depth: 2 | <div className="ai-chat-input-bar">
+P_LINE: 503: Depth: 2 | <div className="ai-input-wrap">
+P_LINE: 504: Depth: 2 | <span>Falar com Sasha AI...</span>
+P_LINE: 505: Depth: 2 | <button className="ai-send-btn">➔</button>
+P_LINE: 506: Depth: 2 | </div>
+P_LINE: 507: Depth: 2 | </div>
+P_LINE: 508: Depth: 2 | </div>
+P_LINE: 509: Depth: 2 | </div>
+P_LINE: 510: Depth: 2 | </div>
+P_LINE: 511: Depth: 2 | 
+P_LINE: 512: Depth: 2 | {/* Floating 3D Interaction overlay (AI prompt chip) */}
+P_LINE: 513: Depth: 2 | <div className="floating-card-3d ai-float">
+P_LINE: 514: Depth: 2 | <div className="float-header">
+P_LINE: 515: Depth: 2 | <div className="float-icon" style={{ background: '#00D4FF', color: '#fff' }}>
+P_LINE: 516: Depth: 2 | <Sparkles size={20} />
+P_LINE: 517: Depth: 2 | </div>
+P_LINE: 518: Depth: 2 | <div>
+P_LINE: 519: Depth: 2 | <div className="float-title">Sasha IA Otimizou!</div>
+P_LINE: 520: Depth: 2 | <div className="float-sub">Poupança de $120 detetada</div>
+P_LINE: 521: Depth: 2 | </div>
+P_LINE: 522: Depth: 2 | </div>
+P_LINE: 523: Depth: 2 | </div>
+P_LINE: 524: Depth: 2 | </div>
+P_LINE: 525: Depth: 2 | </motion.div>
+P_LINE: 526: Depth: 1 | )}
+P_LINE: 527: Depth: 1 | </AnimatePresence>
+P_LINE: 528: Depth: 1 | </div>
+P_LINE: 529: Depth: 1 | 
+P_LINE: 530: Depth: 1 | {/* ── 2. Bento Grid Section ── */}
+P_LINE: 531: Depth: 1 | <div className="feat-immersive-header">
+P_LINE: 532: Depth: 1 | <h2 className="feat-immersive-title">
+P_LINE: 533: Depth: 1 | Everything you need,<br />
+P_LINE: 534: Depth: 1 | perfectly integrated.
+P_LINE: 535: Depth: 1 | </h2>
+P_LINE: 536: Depth: 1 | <p className="feat-immersive-desc">
+P_LINE: 537: Depth: 1 | Experience seamless travel logistics with our intelligent bento grid features.
+P_LINE: 538: Depth: 1 | </p>
+P_LINE: 539: Depth: 1 | </div>
+P_LINE: 540: Depth: 1 | 
+P_LINE: 541: Depth: 1 | {/* Bento Grid */}
+P_LINE: 542: Depth: 1 | <div className="immersive-grid">
+P_LINE: 543: Depth: 1 | 
+P_LINE: 544: Depth: 1 | {/* Card 1: Global Reach */}
+P_LINE: 545: Depth: 1 | <div className="bento-card">
+P_LINE: 546: Depth: 1 | <div className="card-icon-box icon-box-primary">
+P_LINE: 547: Depth: 1 | <Globe size={28} />
+P_LINE: 548: Depth: 1 | </div>
+P_LINE: 549: Depth: 1 | <div className="card-content-bottom">
+P_LINE: 550: Depth: 1 | <h3 className="card-title-immersive">Global Reach</h3>
+P_LINE: 551: Depth: 1 | <p className="card-desc-immersive">
+P_LINE: 552: Depth: 1 | Access curated itineraries across 129 countries with localized insights.
+P_LINE: 553: Depth: 1 | </p>
+P_LINE: 554: Depth: 1 | </div>
+P_LINE: 555: Depth: 1 | </div>
+P_LINE: 556: Depth: 1 | 
+P_LINE: 557: Depth: 1 | {/* Card 2: SASHA AI (Spans 2 columns on medium+) */}
+P_LINE: 558: Depth: 1 | <div className="bento-card card-sasha">
+P_LINE: 559: Depth: 1 | {/* Decorative Graphic */}
+P_LINE: 560: Depth: 1 | <svg className="sasha-bg-graphic" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ stroke: 'rgba(255,255,255,0.2)', strokeWidth: '1' }}>
+P_LINE: 561: Depth: 1 | <path d="M12 2L2 7v10l10 5 10-5V7L12 2z" />
+P_LINE: 562: Depth: 1 | <circle cx="12" cy="12" r="4" />
+P_LINE: 563: Depth: 1 | </svg>
+P_LINE: 564: Depth: 1 | 
+P_LINE: 565: Depth: 1 | <div className="sasha-badge">
+P_LINE: 566: Depth: 1 | <span className="badge-dot"></span>
+P_LINE: 567: Depth: 1 | Powered by SASHA 3.1
+P_LINE: 568: Depth: 1 | </div>
+P_LINE: 569: Depth: 1 | 
+P_LINE: 570: Depth: 1 | <div className="sasha-content">
+P_LINE: 571: Depth: 1 | <h3 className="card-title-immersive" style={{ fontSize: '1.5rem', marginBottom: '12px' }}>
+P_LINE: 572: Depth: 1 | Intelligent Mapping
+P_LINE: 573: Depth: 1 | </h3>
+P_LINE: 574: Depth: 1 | <p className="card-desc-immersive" style={{ fontSize: '1rem' }}>
+P_LINE: 575: Depth: 1 | Predictive travel insights and real-time optimal routing based on global flight data and personal preferences.
+P_LINE: 576: Depth: 1 | </p>
+P_LINE: 577: Depth: 1 | </div>
+P_LINE: 578: Depth: 1 | </div>
+P_LINE: 579: Depth: 1 | 
+P_LINE: 580: Depth: 1 | {/* Card 3: Global Community */}
+P_LINE: 581: Depth: 1 | <div className="bento-card">
+P_LINE: 582: Depth: 1 | <div className="card-icon-box icon-box-primary">
+P_LINE: 583: Depth: 1 | <MessageCircle size={28} />
+P_LINE: 584: Depth: 1 | </div>
+P_LINE: 585: Depth: 1 | 
+P_LINE: 586: Depth: 1 | <div className="community-mock">
+P_LINE: 587: Depth: 1 | <div className="mock-row">
+P_LINE: 588: Depth: 1 | <div className="mock-avatar"></div>
+P_LINE: 589: Depth: 1 | <div className="mock-line" style={{ width: '60px' }}></div>
+P_LINE: 590: Depth: 1 | </div>
+P_LINE: 591: Depth: 1 | <div className="mock-box"></div>
+P_LINE: 592: Depth: 1 | <div className="mock-row" style={{ justifyContent: 'flex-end' }}>
+P_LINE: 593: Depth: 1 | <div className="mock-line" style={{ width: '40px', background: 'rgba(61, 61, 245, 0.1)' }}></div>
+P_LINE: 594: Depth: 1 | <div className="mock-avatar" style={{ background: '#3d3df5' }}></div>
+P_LINE: 595: Depth: 1 | </div>
+P_LINE: 596: Depth: 1 | </div>
+P_LINE: 597: Depth: 1 | 
+P_LINE: 598: Depth: 1 | <div className="card-content-bottom">
+P_LINE: 599: Depth: 1 | <h3 className="card-title-immersive">Global Community</h3>
+P_LINE: 600: Depth: 1 | <p className="card-desc-immersive">
+P_LINE: 601: Depth: 1 | Connect with elite traveler networks, share high-res itineraries, and verify reviews.
+P_LINE: 602: Depth: 1 | </p>
+P_LINE: 603: Depth: 1 | </div>
+P_LINE: 604: Depth: 1 | </div>
+P_LINE: 605: Depth: 1 | 
+P_LINE: 606: Depth: 1 | {/* Card 4: Country Intelligence */}
+P_LINE: 607: Depth: 1 | <div className="bento-card">
+P_LINE: 608: Depth: 1 | <div className="card-icon-box icon-box-primary">
+P_LINE: 609: Depth: 1 | <TrendingUp size={28} />
+P_LINE: 610: Depth: 1 | </div>
+P_LINE: 611: Depth: 1 | 
+P_LINE: 612: Depth: 1 | <div className="tags-mock">
+P_LINE: 613: Depth: 1 | <span className="tag-immersive">Visas</span>
+P_LINE: 614: Depth: 1 | <span className="tag-immersive">Currency</span>
+P_LINE: 615: Depth: 1 | <span className="tag-immersive">Weather</span>
+P_LINE: 616: Depth: 1 | <span className="tag-immersive tag-active">Live Data</span>
+P_LINE: 617: Depth: 1 | </div>
+P_LINE: 618: Depth: 1 | 
+P_LINE: 619: Depth: 1 | <div className="card-content-bottom">
+P_LINE: 620: Depth: 1 | <h3 className="card-title-immersive">Country Intelligence</h3>
+P_LINE: 621: Depth: 1 | <p className="card-desc-immersive">
+P_LINE: 622: Depth: 1 | High-density data views for specific countries, accessible in elegant floating panels.
+P_LINE: 623: Depth: 1 | </p>
+P_LINE: 624: Depth: 1 | </div>
+P_LINE: 625: Depth: 1 | </div>
+P_LINE: 626: Depth: 1 | 
+P_LINE: 627: Depth: 1 | {/* Card 5: Command Center */}
+P_LINE: 628: Depth: 1 | <div className="bento-card">
+P_LINE: 629: Depth: 1 | <div className="card-icon-box icon-box-primary">
+P_LINE: 630: Depth: 1 | <LayoutGrid size={28} />
+P_LINE: 631: Depth: 1 | </div>
+P_LINE: 632: Depth: 1 | <div className="card-content-bottom">
+P_LINE: 633: Depth: 1 | <h3 className="card-title-immersive">Command Center</h3>
+P_LINE: 634: Depth: 1 | <p className="card-desc-immersive">
+P_LINE: 635: Depth: 1 | Your traveler dashboard consolidates active bookings and concierge services.
+P_LINE: 636: Depth: 1 | </p>
+P_LINE: 637: Depth: 1 | </div>
+P_LINE: 638: Depth: 1 | </div>
+P_LINE: 639: Depth: 1 | 
+P_LINE: 640: Depth: 1 | </div>
+P_LINE: 641: Depth: 1 | </div>
+P_LINE: 642: Depth: 1 | </section>
+P_LINE: 643: Depth: 0 | );
+P_LINE: 644: Depth: 0 | };
+P_LINE: 645: Depth: 0 | 
+P_LINE: 646: Depth: 0 | export default FeaturesSection;
+P_LINE: 647: Depth: 0 | 
+Final Parenthesis Depth: 0

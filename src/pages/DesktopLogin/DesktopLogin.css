@@ -265,8 +265,8 @@
     width: 100%;
     height: 56px;
     border: 1px solid #DADCE0;
-    border-radius: 10px;
-    /* More rounded */
+    border-radius: 0;
+    /* More rounded removed per user request */
     padding: 24px 16px 8px;
     /* Default without left icon */
     font-size: 16px;
@@ -293,9 +293,9 @@
 }
 
 .dl-input:focus {
-    border: 2px solid var(--gotour-primary);
-    padding: 23px 15px 7px;
-    /* Offset the +1px border */
+    border: 1px solid #4A72FF;
+    padding: 24px 15px 8px; 
+    /* Precise centered padding */
 }
 
 .has-icon-left .dl-input:focus {
@@ -414,8 +414,8 @@ select.dl-input~.dl-floating-label {
     background: #e5e5e5;
     color: #A0A0A0;
     border: none;
-    border-radius: 10px;
-    /* Match input */
+    border-radius: 0;
+    /* Square corners */
     font-size: 16px;
     font-weight: 600;
     cursor: default;
@@ -642,7 +642,7 @@ select.dl-input~.dl-floating-label {
     width: 48px;
     height: 56px;
     border: 1px solid #DADCE0;
-    border-radius: 4px;
+    border-radius: 0;
     font-size: 24px;
     font-weight: 500;
     color: #202124;
@@ -653,9 +653,8 @@ select.dl-input~.dl-floating-label {
 }
 
 .dl-otp-input:focus {
-    border: 2px solid #1A73E8;
-    padding: 0;
-    /* To prevent shifting if we had padded differently */
+    border: 1px solid #4A72FF;
+    /* Blue focus border */
 }
 
 .dl-otp-container.is-verifying .dl-otp-input {

@@ -13,7 +13,7 @@
     padding: 0 16px;
     background: transparent;
     border: 1px solid #DADCE0;
-    border-radius: 8px;
+    border-radius: 0;
     cursor: pointer;
     font-size: 15px;
     color: #111827;
@@ -78,7 +78,7 @@
     left: 0;
     width: 100%;
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 0;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     border: 1px solid #E5E7EB;
     z-index: 9999;
@@ -97,7 +97,7 @@
     height: 40px;
     padding: 0 16px;
     border: 1px solid #E5E7EB;
-    border-radius: 6px;
+    border-radius: 0;
     font-size: 14px;
     outline: none;
     transition: border-color 0.2s;
@@ -125,7 +125,7 @@
 
 .custom-dropdown-list::-webkit-scrollbar-thumb {
     background: #DADCE0;
-    border-radius: 10px;
+    border-radius: 0;
 }
 
 .custom-dropdown-item {

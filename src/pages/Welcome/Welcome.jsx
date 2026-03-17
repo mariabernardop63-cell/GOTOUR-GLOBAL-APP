@@ -1,5 +1,6 @@
 import './Welcome.css';
 import React, { useState, useEffect, useRef } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigation } from '../../App';
 import Button from '../../components/Button/Button';
 import { ArrowLeft } from 'lucide-react';
@@ -14,23 +15,66 @@ import DesktopSlideshow from '../../components/DesktopSlideshow/DesktopSlideshow
 import FeaturesSection from './FeaturesSection/FeaturesSection';
 import PricingSection from './PricingSection/PricingSection';
 import AboutSection from './AboutSection/AboutSection';
+import FooterSection from './FooterSection/FooterSection';
+import DesktopPreview from '../../components/DesktopPreview/DesktopPreview';
 
 import gotourIcon from '../../assets/images/gotour_icon.png';
 
 /* ── Rotating headlines for the desktop hero ── */
 const HERO_HEADLINES = [
-    { line1: 'GO TOUR — Sua', line2: 'Plataforma Digital', line3: 'de Turismo Global' },
-    { line1: 'Descubra destinos,', line2: 'planeie itinerários', line3: 'e reserve com segurança' },
-    { line1: 'Conecte-se a guias', line2: 'locais e viva', line3: 'experiências autênticas' },
-    { line1: 'Compare alojamentos,', line2: 'organize viagens', line3: 'tudo num só lugar' },
+    { line1: 'A plataforma digital', line2: 'de turismo global' },
+    { line1: 'Descubra destinos,', line2: 'planeie e reserve' },
+    { line1: 'Conecte-se a guias locais', line2: 'e viva experiências autênticas' },
+    { line1: 'Compare alojamentos', line2: 'e organize tudo num só lugar' },
 ];
 
+
+/* ── Scroll Reveal wrapper — only triggers on scroll DOWN ── */
+let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0;
+let isScrollingDown = true;
+if (typeof window !== 'undefined') {
+    window.addEventListener('scroll', () => {
+        isScrollingDown = window.scrollY > lastScrollY;
+        lastScrollY = window.scrollY;
+    }, { passive: true });
+}
+
+const ScrollReveal = ({ children }) => {
+    const ref = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && isScrollingDown) {
+                    setIsVisible(true);
+                    observer.unobserve(el);
+                }
+            },
+            { threshold: 0.06, rootMargin: '0px 0px -60px 0px' }
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <div
+            ref={ref}
+            className={`scroll-reveal ${isVisible ? 'scroll-reveal--visible' : ''}`}
+        >
+            {children}
+        </div>
+    );
+};
 
 
 const Welcome = () => {
     const { navigateForward } = useNavigation();
     const [loadingBtn, setLoadingBtn] = useState(null);
     const [showBottomSheet, setShowBottomSheet] = useState(false);
+
     const [sheetAnimating, setSheetAnimating] = useState(false);
     const [sheetMode, setSheetMode] = useState('social');
     const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth <= 1024);
@@ -201,26 +245,17 @@ const Welcome = () => {
                                     <h1 className="hero-h1">
                                         <span className="hero-h1-line">{currentHeadline.line1}</span>
                                         <span className="hero-h1-line">{currentHeadline.line2}</span>
-                                        <span className="hero-h1-line">{currentHeadline.line3}</span>
                                     </h1>
                                 </div>
 
                                 <p className="hero-sub">
-                                    GO TOUR é a plataforma digital de turismo que conecta viajantes a destinos, guias locais e experiências autênticas pelo mundo inteiro.
+                                    Conecte-se a destinos, guias locais e experiências autênticas pelo mundo inteiro.
                                 </p>
 
                                 <div className="hero-ctas">
                                     <button
                                         className="hero-btn-primary"
-                                        onClick={() => {
-                                            const savedStep = localStorage.getItem('signupStep');
-                                            const pendingProfile = localStorage.getItem('pendingProfileData');
-                                            if ((savedStep && parseInt(savedStep) > 1) || pendingProfile) {
-                                                navigateForward('/signup');
-                                                return;
-                                            }
-                                            setShowDesktopSignup(true);
-                                        }}
+                                        onClick={() => setShowDesktopSignup(true)}
                                     >
                                         Começar agora
                                     </button>
@@ -232,39 +267,54 @@ const Welcome = () => {
                                     </button>
                                 </div>
 
-                                {/* Desktop Legal Links */}
-                                <div className="hero-legal-links" style={{ marginTop: '24px', fontSize: '14px', color: '#E5E7EB' }}>
-                                    Aceder aos <button onClick={() => navigateForward('/terms-of-service')} style={{ background: 'none', border: 'none', color: '#3B82F6', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Termos de Serviço</button> e à <button onClick={() => navigateForward('/privacy-policy')} style={{ background: 'none', border: 'none', color: '#3B82F6', padding: 0, fontWeight: '500', cursor: 'pointer', textDecoration: 'none' }}>Política de Privacidade</button>.
-                                </div>
-                            </div>
 
-                            {/* ── RIGHT COLUMN — REMOVED ── */}
-                            <div className="hero-right">
-                                {/* Empty or can hold something else in the future */}
                             </div>
                         </div>
 
-                        {/* Desktop Login Full Screen Overlay */}
-                        {showDesktopLogin && (
-                            <DesktopLogin
-                                onBack={() => setShowDesktopLogin(false)}
-                                onNavigateSignup={() => {
-                                    setShowDesktopLogin(false);
-                                    setShowDesktopSignup(true);
-                                }}
-                            />
-                        )}
+                        {/* ── Desktop App Preview ── */}
+                        <DesktopPreview />
 
-                        {/* Desktop Signup Full Screen Overlay */}
-                        {showDesktopSignup && (
-                            <DesktopSignup
-                                onBack={() => setShowDesktopSignup(false)}
-                                onNavigateLogin={() => {
-                                    setShowDesktopSignup(false);
-                                    setShowDesktopLogin(true);
-                                }}
-                            />
-                        )}
+                        {/* Desktop Login Full Screen Overlay */}
+                        {/* Unified Desktop Auth Overlay */}
+                        <AnimatePresence>
+                            {showDesktopLogin && (
+                                <motion.div
+                                    key="desktop-login"
+                                    initial={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
+                                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                                    exit={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
+                                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                    style={{ position: 'fixed', inset: 0, zIndex: 9999 }}
+                                >
+                                    <DesktopLogin
+                                        onBack={() => setShowDesktopLogin(false)}
+                                        onNavigateSignup={() => {
+                                            setShowDesktopLogin(false);
+                                            setShowDesktopSignup(true);
+                                        }}
+                                    />
+                                </motion.div>
+                            )}
+
+                            {showDesktopSignup && (
+                                <motion.div
+                                    key="desktop-signup"
+                                    initial={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
+                                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                                    exit={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
+                                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                    style={{ position: 'fixed', inset: 0, zIndex: 9999 }}
+                                >
+                                    <DesktopSignup
+                                        onBack={() => setShowDesktopSignup(false)}
+                                        onNavigateLogin={() => {
+                                            setShowDesktopSignup(false);
+                                            setShowDesktopLogin(true);
+                                        }}
+                                    />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </>
                 )}
 
@@ -380,11 +430,25 @@ const Welcome = () => {
                 )}
             </div>
 
-            {/* Render Features Section only on Desktop, completely outside the constrained hero div */}
-            {!isMobile && <FeaturesSection />}
-            {!isMobile && <PricingSection />}
-            {!isMobile && <AboutSection />}
+            {/* Render sections only on Desktop */}
+            {!isMobile && (
+                <div style={{ backgroundColor: '#000', width: '100%', overflowX: 'hidden' }}>
+                    <ScrollReveal>
+                        <FeaturesSection />
+                    </ScrollReveal>
+                    <ScrollReveal>
+                        <PricingSection />
+                    </ScrollReveal>
+                    <ScrollReveal>
+                        <AboutSection />
+                    </ScrollReveal>
+                    <ScrollReveal>
+                        <FooterSection />
+                    </ScrollReveal>
+                </div>
+            )}
         </>
     );
 };
 export default Welcome;
+
