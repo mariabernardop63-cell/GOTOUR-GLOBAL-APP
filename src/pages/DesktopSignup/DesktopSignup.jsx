@@ -389,9 +389,24 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
         if (step === 5) {
             // Final Select Country Submission
             setIsLoading(true);
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            navigateForward('/home');
-            setIsLoading(false);
+            try {
+                // Mark registration as complete in Supabase metadata
+                await supabase.auth.updateUser({
+                    data: { full_signup_completed: true }
+                });
+                
+                // Clear local storage
+                localStorage.removeItem('pendingProfileData');
+                localStorage.removeItem('signupStep');
+
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                navigateForward('/home');
+            } catch (err) {
+                console.error('Error completing registration:', err);
+                navigateForward('/home'); // Still go home if possible
+            } finally {
+                setIsLoading(false);
+            }
         }
     };
 
