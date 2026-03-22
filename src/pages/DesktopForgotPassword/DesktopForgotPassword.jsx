@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Mail, ArrowLeft } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigation } from '../../App';
 import { supabase } from '../../lib/supabase';
+import { checkEmailExists } from '../../lib/authValidation';
 import useCooldown from '../../hooks/useCooldown';
 import AuthLeftPanel from '../SharedAuth/AuthLeftPanel';
 import AuthTabs from '../SharedAuth/AuthTabs';
@@ -38,6 +40,18 @@ const DesktopForgotPassword = () => {
         }
 
         setIsLoading(true);
+
+        const emailCheck = await checkEmailExists(email);
+        if (emailCheck.error) {
+            setError(emailCheck.error);
+            setIsLoading(false);
+            return;
+        }
+        if (!emailCheck.exists) {
+            setError('Este email não se encontra registado. Verifique e tente novamente.');
+            setIsLoading(false);
+            return;
+        }
 
         try {
             const { error: resetError } = await supabase.auth.resetPasswordForEmail(email);
@@ -158,7 +172,7 @@ const DesktopForgotPassword = () => {
     };
 
     return (
-        <div className="da-screen-wrapper">
+        <div className="da-screen-wrapper" style={{ pointerEvents: isLoading ? 'none' : 'auto', opacity: isLoading ? 0.7 : 1, transition: 'opacity 0.3s ease' }}>
             <div className="da-card-stack">
                 <div className="da-card">
                     {/* Left Pane: Illustration & Text */}
@@ -166,7 +180,15 @@ const DesktopForgotPassword = () => {
 
                     {/* Right Pane: Form Content */}
                     <div className="da-right-pane">
-                        <div className="da-form-content">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={step}
+                                initial={{ opacity: 0, x: 20, filter: 'blur(4px)' }}
+                                animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                                exit={{ opacity: 0, x: -20, filter: 'blur(4px)' }}
+                                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                className="da-form-content"
+                            >
                             <h1 className="dl-title">
                                 {step === 1 ? 'Recuperar acesso' : 'Verificar código'}
                             </h1>
@@ -174,7 +196,7 @@ const DesktopForgotPassword = () => {
                             {step === 1 && (
                                 <form className="da-form" onSubmit={handleSubmit}>
                                     <p className="da-welcome-subtitle" style={{ marginBottom: '24px', maxWidth: '100%' }}>
-                                        Introduza o email associado à sua conta e enviaremos um código de 8 dígitos para redefinir a sua palavra-passe.
+                                        Introduza o email associado à sua conta e enviaremos um código de 6 dígitos para redefinir a sua palavra-passe.
                                     </p>
 
                                     <div className="da-input-group">
@@ -187,6 +209,7 @@ const DesktopForgotPassword = () => {
                                             required
                                             autoFocus
                                             disabled={isLoading || isCoolingDown}
+                                            style={{ fontSize: '17px' }}
                                         />
                                     </div>
 
@@ -246,23 +269,22 @@ const DesktopForgotPassword = () => {
                                 </div>
                             )}
 
-                            <div style={{ marginTop: '24px', textAlign: 'center' }}>
-                                <button
-                                    onClick={() => {
-                                        if (step === 2) {
-                                            setStep(1);
-                                            setError('');
-                                            setOtp(Array(8).fill(''));
-                                        } else {
-                                            navigateBack('/login');
-                                        }
-                                    }}
-                                    className="da-forgot-link"
-                                >
-                                    {step === 2 ? 'Voltar' : 'Já tem uma conta? Iniciar Sessão'}
-                                </button>
+                            <div className="da-forgot-link-wrapper" style={{ marginTop: '32px' }}>
+                                {step === 2 ? (
+                                    <button onClick={() => { setStep(1); setError(''); setOtp(Array(8).fill('')); }} className="da-forgot-link-btn">
+                                        Voltar
+                                    </button>
+                                ) : (
+                                    <>
+                                        <span className="da-forgot-link-text">Já tem uma conta?</span>
+                                        <button onClick={() => navigateBack('/login')} className="da-forgot-link-btn">
+                                            Iniciar Sessão
+                                        </button>
+                                    </>
+                                )}
                             </div>
-                        </div>
+                        </motion.div>
+                        </AnimatePresence>
                     </div>
                 </div>
             </div>

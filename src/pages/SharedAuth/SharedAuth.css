@@ -16,6 +16,8 @@
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
     color: #334155;
+    isolation: isolate;
+    overflow: hidden;
 }
 
 /* Main Card Container */
@@ -183,9 +185,9 @@
 }
 
 .da-tab {
-    padding: 6px 20px;
+    padding: 8px 24px;
     border-radius: 100px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
     color: #334155;
@@ -231,7 +233,7 @@
     background-color: #FFFFFF;
     border: 1px solid #CBD5E1;
     border-radius: 0;
-    padding: 0 24px;
+    padding: 19px 24px 20px 24px; /* Centering 17px text in 58px border-box height */
     font-size: 17px; /* Increased from 15px */
     font-weight: 400;
     color: #1E293B;
@@ -239,25 +241,55 @@
     transition: border-color 0.2s ease;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     outline: none;
+    line-height: normal; /* Normal line-height plus symmetric padding = centered */
 }
 
 .da-input:focus {
     border-color: #4A72FF;
 }
 
+/* Autofill styling to prevent font-size issues */
+/* This specific animation trick forces WebKit to respect font sizing during autofill */
+@-webkit-keyframes autofill-fix {
+    0%, 100% {
+        color: #1E293B;
+        background: transparent;
+        font-size: 17px !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    }
+}
+
+input.da-input:-webkit-autofill,
+input.da-input:-webkit-autofill:hover, 
+input.da-input:-webkit-autofill:focus,
+input.da-input:-webkit-autofill:active {
+    -webkit-animation-name: autofill-fix;
+    -webkit-animation-fill-mode: both;
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+    font-size: 17px !important;
+}
+
 .da-input::placeholder {
     color: #94A3B8;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: normal;
+    vertical-align: middle;
 }
 
 .dl-input-password {
-    padding: 0 48px 0 16px;
+    padding: 19px 48px 20px 24px; /* Matches 24px left padding of .da-input */
+    line-height: normal;
 }
 
 .dl-input-password::placeholder {
-    /* Standard alignment */
+    font-size: 16px;
+    color: #94A3B8;
+    font-weight: 400;
+    line-height: normal;
+    vertical-align: middle;
 }
 
 .dl-password-toggle {
@@ -330,7 +362,7 @@
 }
 
 .da-forgot-link {
-    font-size: 13px;
+    font-size: 15px;
     color: #64748B;
     font-weight: 600;
     text-decoration: none;
@@ -342,6 +374,38 @@
 
 .da-forgot-link:hover {
     color: #4A72FF;
+}
+
+/* Split Link Helpers */
+.da-forgot-link-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 15px;
+    margin-top: 12px;
+}
+
+.da-forgot-link-text {
+    color: #64748B;
+    font-weight: 500;
+}
+
+.da-forgot-link-btn {
+    color: #4A72FF;
+    font-weight: 600;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 15px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.da-forgot-link-btn:hover {
+    opacity: 0.8;
+    text-decoration: underline;
 }
 
 /* Primary Button */
@@ -621,6 +685,17 @@
 
 .ds-phone-container:focus-within {
     border: 1px solid #4A72FF !important;
+}
+
+/* Title and Subtitle Centering Fix */
+.dl-title {
+    text-align: inherit; /* Allows parent to control centering via style prop */
+    margin-top: 0;
+}
+
+.ds-subtitle {
+    text-align: inherit;
+    margin-top: 0;
 }
 
 .ds-phone-input {

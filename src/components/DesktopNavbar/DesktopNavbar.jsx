@@ -17,11 +17,66 @@ const DesktopNavbar = ({ onLoginClick, onSignupClick }) => {
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
+        // 1. Initial sentinel for top scroll (50px threshold)
+        const sentinel = document.createElement('div');
+        sentinel.id = 'navbar-sentinel';
+        sentinel.style.position = 'absolute';
+        sentinel.style.top = '50px';
+        sentinel.style.left = '0';
+        sentinel.style.width = '100%';
+        sentinel.style.height = '1px';
+        sentinel.style.pointerEvents = 'none';
+        sentinel.style.zIndex = '-1';
+        document.body.appendChild(sentinel);
+
+        const observerOptions = { threshold: 0 };
+        
+        const handleIntersect = (entries) => {
+            entries.forEach(entry => {
+                // If sentinel is not intersecting, we've scrolled past 50px
+                if (entry.target.id === 'navbar-sentinel') {
+                    if (!entry.isIntersecting) setIsScrolled(true);
+                    else {
+                        // Check if we are still above the features section
+                        const feat = document.getElementById('funcionalidades');
+                        if (feat) {
+                            const rect = feat.getBoundingClientRect();
+                            if (rect.top > 100) setIsScrolled(false);
+                        } else {
+                            setIsScrolled(false);
+                        }
+                    }
+                }
+                
+                // If we hit functionalities, force scrolled state
+                if (entry.target.id === 'funcionalidades') {
+                    if (entry.isIntersecting || entry.boundingClientRect.top <= 0) {
+                        setIsScrolled(true);
+                    }
+                }
+            });
         };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+
+        const observer = new IntersectionObserver(handleIntersect, observerOptions);
+        observer.observe(sentinel);
+
+        // 2. Observe Features Section (#funcionalidades)
+        const featSection = document.getElementById('funcionalidades');
+        if (featSection) {
+            observer.observe(featSection);
+        }
+
+        // 3. Fallback for window scroll (redundant but safe)
+        const manualCheck = () => {
+            if (window.scrollY > 50) setIsScrolled(true);
+        };
+        window.addEventListener('scroll', manualCheck, { passive: true });
+
+        return () => {
+            observer.disconnect();
+            if (sentinel.parentNode) sentinel.parentNode.removeChild(sentinel);
+            window.removeEventListener('scroll', manualCheck);
+        };
     }, []);
 
     return (

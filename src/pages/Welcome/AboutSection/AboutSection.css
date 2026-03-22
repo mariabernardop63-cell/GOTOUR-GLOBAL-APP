@@ -9,113 +9,193 @@
     overflow: hidden;
 }
 
-/* ── 1. Glassmorphism Card Wrapper (Hero) ── */
-.abt-glass-header {
-    position: relative;
+/* ── 1. Premium Quote Banner (Hero) ── */
+.abt-quote-banner {
+    background-color: #000000;
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 32px 16px 64px;
-}
-
-.abt-glass-bgbox {
+    min-height: 480px;
+    padding: 100px 60px;
+    color: #FFFFFF;
     position: relative;
-    width: 100%;
-    min-height: 480px; /* Reduced from 600px */
-    border-radius: 24px;
     overflow: hidden;
     display: flex;
     align-items: center;
-    background: #0F172A;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
-.abt-glass-bg {
+.abt-quote-bg {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     background-image: url('../../../assets/images/about_hero_bg.jpg');
+    background-size: cover;
+    background-position: right center;
+    opacity: 0.45; /* Increased opacity from 0.25 to make it pop */
+    z-index: 1;
 }
 
-.abt-glass-overlay {
+.abt-quote-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.15); /* Soft darken for contrast, keeping light natural */
+    background: linear-gradient(90deg, #121212 0%, #121212 35%, rgba(18, 18, 18, 0.2) 100%); /* Reduced dark coverage on the right edge */
+    z-index: 2;
 }
 
-.abt-glass-container {
+.abt-quote-container {
     position: relative;
     z-index: 10;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
+    max-width: 1100px;
+    margin: 0;
     display: flex;
-    justify-content: flex-start;
+    flex-direction: column;
+    gap: 32px;
 }
 
-.abt-glass-card {
-    max-width: 540px; /* Reduced from 620px */
-    backdrop-filter: blur(24px);
-    background: rgba(255, 255, 255, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 32px; /* Reduced from 40px */
-    border-radius: 16px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+.abt-quote-icon {
+    color: #475569;
 }
 
-.abt-badge-immersive {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px 12px;
-    background: rgba(13, 185, 242, 0.1);
-    color: #0db9f2;
-    border-radius: 9999px;
+.abt-quote-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.abt-quote-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(2.2rem, 6vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 0;
+    max-width: 700px;
+}
+
+.abt-quote-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400; /* Regular */
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: #A0AAB3;
+    max-width: 800px;
+    margin: 0;
+}
+
+.abt-quote-footer {
+    padding-top: 16px;
+}
+
+.abt-quote-tag {
     font-size: 0.875rem;
     font-weight: 600;
-    margin-bottom: 24px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
 }
 
-.abt-headline {
-    font-size: clamp(2rem, 5vw, 3rem); /* Reduced from clamp(3rem, 7vw, 4.5rem) */
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: #0F172A;
-    margin-bottom: 24px;
+@media (max-width: 768px) {
+    .abt-quote-banner {
+        padding: 80px 24px;
+    }
+    
+    .abt-quote-title {
+        font-size: 2rem;
+    }
+    
+    .abt-quote-subtitle {
+        font-size: 1rem;
+    }
+    
+    .abt-quote-overlay {
+        background: linear-gradient(0deg, rgba(18, 18, 18, 0.9) 0%, rgba(18, 18, 18, 0.4) 100%);
+    }
 }
 
-.abt-subtext {
-    font-size: 1.15rem; /* Reduced from 1.5rem */
-    color: #475569;
-    line-height: 1.7;
-    margin-bottom: 40px;
+/* ── 1b. FAQ Section ── */
+.abt-faq-section {
+    background-color: #FFFFFF;
+    padding: 100px 60px;
 }
 
-.abt-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #0db9f2;
-    color: #ffffff;
-    font-weight: 600;
-    padding: 16px 36px; /* Larger button */
-    border-radius: 9999px;
-    font-size: 1.1rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border: none;
+.abt-faq-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 80px;
+}
+
+.abt-faq-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: #0A2540;
+    line-height: 1.2;
+}
+
+.abt-faq-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.abt-faq-item {
+    border-bottom: 1px solid #E2E8F0;
+    padding: 24px 0;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.abt-btn-primary:hover {
-    background-color: #0998c9;
-    transform: translateY(-1px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+.abt-faq-item:first-child {
+    border-top: 1px solid #E2E8F0;
+}
+
+.abt-faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.abt-faq-question span {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0A2540;
+    transition: color 0.2s ease;
+}
+
+.abt-faq-arrow {
+    color: #64748B;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.abt-faq-item.active .abt-faq-arrow {
+    transform: rotate(180deg);
+}
+
+.abt-faq-item.active .abt-faq-question span {
+    color: #3d3df5;
+}
+
+.abt-faq-answer {
+    overflow: hidden;
+}
+
+.abt-faq-answer p {
+    padding-top: 16px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0;
+}
+
+@media (max-width: 1024px) {
+    .abt-faq-container {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+    
+    .abt-faq-section {
+        padding: 64px 24px;
+    }
 }
 
 /* ── 2. Team Section ── */
@@ -131,11 +211,17 @@
 }
 
 .abt-section-title {
-    font-size: clamp(2.25rem, 5vw, 3rem); /* Increased from 2.25rem */
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.75rem, 4vw, 2.4rem); /* Reduced from clamp(2.25rem, 5vw, 3rem) */
     font-weight: 700;
     color: #0F172A;
     margin-bottom: 16px;
     letter-spacing: -0.01em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Allow 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal; /* To allow wrapping */
 }
 
 .abt-section-desc {

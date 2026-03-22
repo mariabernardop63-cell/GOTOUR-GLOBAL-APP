@@ -360,14 +360,8 @@ select.dl-input~.dl-floating-label {
     align-items: center;
 }
 
-.dl-input-password {
-    padding: 24px 48px 8px 48px;
-    /* right for eye, left for lock */
-}
+/* Password input padding now handled by SharedAuth.css for consistency across all auth screens */
 
-.has-icon-left .dl-input-password:focus {
-    padding: 23px 47px 7px 47px;
-}
 
 .dl-password-toggle {
     position: absolute;

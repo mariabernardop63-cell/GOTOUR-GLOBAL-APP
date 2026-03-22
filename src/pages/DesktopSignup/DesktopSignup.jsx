@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Loader2, User, Mail, Globe, Phone, Calendar, Lock, Eye, EyeOff, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Loader2, User, Mail, Globe, Phone, Calendar, Lock, Eye, EyeOff, ChevronDown, Star } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { countries } from '../../data/countries';
 import { supabase } from '../../lib/supabase';
+import { validateFullName, validatePhone, validateAge, checkEmailExists } from '../../lib/authValidation';
 import useCooldown from '../../hooks/useCooldown';
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import authBgNew from '../../assets/images/auth_bg_new.jpg';
 // We use the new universal layout format for auth
 import '../SharedAuth/SharedAuth.css';
@@ -13,9 +13,11 @@ import AuthLeftPanel from '../SharedAuth/AuthLeftPanel';
 import AuthTabs from '../SharedAuth/AuthTabs';
 import AuthSocialButtons from '../SharedAuth/AuthSocialButtons';
 import CustomDropdown from '../../components/CustomDropdown/CustomDropdown';
+import authBgCocktail from '../../assets/images/auth_bg_cocktail.jpg'; // Trigger HMR
 import CountryCodeDropdown from '../../components/CountryCodeDropdown/CountryCodeDropdown';
 import SkeletonAuth from '../../components/SkeletonAuth/SkeletonAuth';
 import { useLocation } from 'react-router-dom';
+import PreparingScreen from '../../components/PreparingScreen/PreparingScreen';
 
 const DesktopSignup = ({ onBack, onNavigateLogin }) => {
     const location = useLocation();
@@ -24,8 +26,18 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [showPasswords, setShowPasswords] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [isCocktailLoaded, setIsCocktailLoaded] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [showPreparing, setShowPreparing] = useState(false);
+
+    const handlePreparingComplete = useCallback(() => {
+        navigateForward('/home');
+    }, [navigateForward]);
+
+    const handleCountryClick = () => {
+        setShowPreparing(true);
+    };
 
     // Extra states for Magic Link / Flow
     const { cooldown, startCooldown, isCoolingDown } = useCooldown('gotour_signup_cooldown_desktop');
@@ -43,6 +55,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
     });
 
     const [isOAuthFlow, setIsOAuthFlow] = useState(false);
+    const [isTestFlow, setIsTestFlow] = useState(false);
 
     useEffect(() => {
         if (location.state?.requireProfileCompletion) {
@@ -105,45 +118,22 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
 
     const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-    const checkPhoneValidity = (phoneRaw, dialCode) => {
-        if (!phoneRaw) return { isValid: false, error: 'Telefone obrigatório' };
-
-        const cleanPhone = phoneRaw.replace(/\D/g, '');
-        if (cleanPhone.length === 0) return { isValid: false, error: 'Telefone obrigatório' };
-
-        const selectedCountry = countries.find(c => c.dialCode === dialCode);
-        const countryCodeIso = selectedCountry ? selectedCountry.code : undefined;
-
-        if (countryCodeIso === 'MZ') {
-            if (cleanPhone.length !== 9 || !['82', '83', '84', '85', '86', '87'].includes(cleanPhone.substring(0, 2))) {
-                return { isValid: false, error: 'Número incorreto' };
-            }
-            return { isValid: true, error: '' };
-        }
-
-        const fullNumber = (dialCode || '') + cleanPhone;
-        const phoneNumber = parsePhoneNumberFromString(fullNumber, countryCodeIso);
-
-        if (!phoneNumber || !phoneNumber.isValid()) {
-            return { isValid: false, error: 'Número incorreto' };
-        }
-
-        return { isValid: true, error: '' };
+    const checkPhoneValidity = (phoneRaw) => {
+        return validatePhone(phoneRaw);
     };
 
     const handlePhoneChange = (e) => {
-        // Allow only numbers and spaces
-        const val = e.target.value.replace(/[^\d\s]/g, '');
+        // Allow only digits
+        const val = e.target.value.replace(/\D/g, '');
         setFormData(prev => ({ ...prev, phone: val }));
 
         if (errors.phone) setErrors(prev => ({ ...prev, phone: '' }));
 
         if (isPhoneTouched) {
-            const valRes = checkPhoneValidity(val, phoneDialCode);
+            const valRes = checkPhoneValidity(val);
             setPhoneError(valRes.error);
-        } else if (val.replace(/\D/g, '').length >= 9) {
-            // Trigger dynamic validation if enough digits
-            const valRes = checkPhoneValidity(val, phoneDialCode);
+        } else if (val.length >= 7) {
+            const valRes = checkPhoneValidity(val);
             if (valRes.isValid) {
                 setPhoneError('');
                 setIsPhoneTouched(true);
@@ -153,14 +143,14 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
 
     const handlePhoneBlur = () => {
         setIsPhoneTouched(true);
-        const valRes = checkPhoneValidity(formData.phone, phoneDialCode);
+        const valRes = checkPhoneValidity(formData.phone);
         setPhoneError(valRes.error);
     };
 
     const handleDialCodeChange = (code) => {
         setPhoneDialCode(code);
         if (isPhoneTouched && formData.phone) {
-            const valRes = checkPhoneValidity(formData.phone, code);
+            const valRes = checkPhoneValidity(formData.phone);
             setPhoneError(valRes.error);
         }
     };
@@ -168,22 +158,23 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
     const validateStep = (currentStep, explicitOtp = null) => {
         const newErrors = {};
         if (currentStep === 1) {
-            if (!formData.fullName.trim()) newErrors.fullName = 'Nome obrigatório';
-            else if (formData.fullName.trim().length < 2) newErrors.fullName = 'Nome deve ter no mínimo 2 caracteres';
+            const nameResult = validateFullName(formData.fullName);
+            if (!nameResult.isValid) newErrors.fullName = nameResult.error;
             if (!formData.email.trim()) newErrors.email = 'Email obrigatório';
             else if (!isValidEmail(formData.email)) newErrors.email = 'Email inválido';
         }
         if (currentStep === 2) {
             if (!formData.nationality) newErrors.nationality = 'Selecione a nacionalidade';
 
-            const phoneVal = checkPhoneValidity(formData.phone, phoneDialCode);
+            const phoneVal = checkPhoneValidity(formData.phone);
             if (!phoneVal.isValid) {
                 newErrors.phone = phoneVal.error;
                 setPhoneError(phoneVal.error);
                 setIsPhoneTouched(true);
             }
 
-            if (!formData.dobDay || !formData.dobMonth || !formData.dobYear) newErrors.dob = 'Data de nascimento obrigatória';
+            const ageVal = validateAge(formData.dobDay, formData.dobMonth, formData.dobYear);
+            if (!ageVal.isValid) newErrors.dob = ageVal.error;
         }
         if (currentStep === 3) {
             const currentOtp = explicitOtp ? explicitOtp.join('') : otp.join('');
@@ -198,18 +189,19 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
     };
 
     const handleSkipStep2 = () => {
-        const stepErrors = validateStep(2);
-        if (Object.keys(stepErrors).length > 0) {
-            setErrors(stepErrors);
-            return;
-        }
+        // Skip demographics AND OTP — go directly to password creation
+        // No OTP code is sent because this is for TESTING ONLY
+        setErrors({});
+        setIsTestFlow(true); // Flag as local test flow to bypass Supabase
 
         const fullPhone = (phoneDialCode || '') + formData.phone.replace(/[\s\-\(\)]/g, '');
         const profileData = {
             fullName: formData.fullName,
-            nationality: formData.nationality,
+            nationality: formData.nationality || '',
             phone: fullPhone,
-            dateOfBirth: `${formData.dobYear}-${String(formData.dobMonth).padStart(2, '0')}-${String(formData.dobDay).padStart(2, '0')}`
+            dateOfBirth: (formData.dobYear && formData.dobMonth && formData.dobDay)
+                ? `${formData.dobYear}-${String(formData.dobMonth).padStart(2, '0')}-${String(formData.dobDay).padStart(2, '0')}`
+                : ''
         };
 
         localStorage.setItem('pendingProfileData', JSON.stringify(profileData));
@@ -227,36 +219,15 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
             setIsLoading(true);
             setErrors({});
 
-            try {
-                // To accurately check if an email exists without a secure backend RPC, 
-                // we attempt a real sign-up with a highly complex temporary password.
-                // If they exist, Supabase explicitly returns "User already registered".
-                // If they don't, it safely creates an unverified shell user that we immediately
-                // send an OTP to in Step 2, and then update with their real password in Step 4.
-                const tempPwd = Math.random().toString(36).slice(-8) + 'X9@!';
-                const { data, error: signUpError } = await supabase.auth.signUp({
-                    email: formData.email.trim(),
-                    password: tempPwd
-                });
-
-                if (signUpError) {
-                    const msg = signUpError.message.toLowerCase();
-                    if (msg.includes('already registered') || msg.includes('user already exists')) {
-                        setErrors({ email: 'Este email já está registado. Faça login ou recupere a sua conta.' });
-                        setIsLoading(false);
-                        return;
-                    }
-                }
-
-                // Supabase security feature: if the email already exists, signUp might SUCCEED 
-                // but return a fake user object with an EMPTY identities array to prevent enum attacks.
-                if (data?.user && (!data.user.identities || data.user.identities.length === 0)) {
-                    setErrors({ email: 'Este email já está registado. Faça login ou recupere a sua conta.' });
-                    setIsLoading(false);
-                    return;
-                }
-            } catch (err) {
-                console.error("Signup check error:", err);
+            // Opportunistic check: if network allows it, catch duplicates immediately.
+            // If it times out (error), let them proceed—Step 2 will definitively catch it natively.
+            const emailCheck = await checkEmailExists(formData.email);
+            if (emailCheck.error) {
+                console.warn('Fallback check timed out, proceeding to Step 2 native check', emailCheck.error);
+            } else if (emailCheck.exists) {
+                setErrors({ email: 'Este email já está registado. Faça login ou recupere a sua conta.' });
+                setIsLoading(false);
+                return;
             }
 
             // Save step progress
@@ -264,6 +235,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
             localStorage.setItem('signupEmail', formData.email.trim());
             localStorage.setItem('signupFullName', formData.fullName);
 
+            await new Promise(resolve => setTimeout(resolve, 600)); // Simulate check
             setIsLoading(false);
             setStep(2);
             return;
@@ -303,17 +275,19 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                     return;
                 }
 
-                // Normal OTP Flow ...
-                const { error } = await supabase.auth.signInWithOtp({
-                    email: formData.email
+                // Normal OTP Flow: register and send code
+                const tempPwd = Math.random().toString(36).slice(-8) + 'X9@!';
+                const { data, error } = await supabase.auth.signUp({
+                    email: formData.email.trim(),
+                    password: tempPwd
                 });
 
-                if (error) {
-                    const msg = error.message || '';
-                    if (msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('rate_limit')) {
+                if (error || (data?.user && data.user.identities && data.user.identities.length === 0)) {
+                    const msg = error ? error.message.toLowerCase() : '';
+                    if (msg.includes('rate limit') || msg.includes('rate_limit')) {
                         setErrors({ submit: 'Você tentou muitas vezes. Aguarde alguns minutos e tente novamente.' });
                         startCooldown();
-                    } else if (msg.toLowerCase().includes('already registered') || msg.toLowerCase().includes('already exists')) {
+                    } else if (!error || msg.includes('already registered') || msg.includes('already exists')) {
                         setErrors({ submit: 'Este email já está registado. Faça login ou recupere a sua conta.' });
                     } else {
                         setErrors({ submit: error.message || 'Erro ao enviar verificação. Tente novamente.' });
@@ -365,7 +339,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                     return;
                 }
 
-                // Success! 
+                // Success!
                 const stored = localStorage.getItem('pendingProfileData');
                 const dataToPass = stored ? JSON.parse(stored) : null;
 
@@ -380,8 +354,25 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
         if (step === 4) {
             // Password Creation logic
             setIsLoading(true);
-            // Simulate saving password
-            await new Promise(resolve => setTimeout(resolve, 800));
+            try {
+                if (isTestFlow) {
+                    // Test flow: Bypass Supabase creation completely
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                } else {
+                    const { data: { session } } = await supabase.auth.getSession();
+                    
+                    if (session) {
+                        const { error: updateError } = await supabase.auth.updateUser({
+                            password: formData.password
+                        });
+                        if (updateError) throw updateError;
+                    }
+                }
+            } catch (err) {
+                setErrors({ password: 'Erro ao guardar palavra-passe: ' + (err.message || '') });
+                setIsLoading(false);
+                return;
+            }
             setIsLoading(false);
             setStep(5); // Move to Country Selection
         }
@@ -390,12 +381,12 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
             // Final Select Country Submission
             setIsLoading(true);
             try {
-                // Mark registration as complete in Supabase metadata
-                await supabase.auth.updateUser({
-                    data: { full_signup_completed: true }
-                });
+                if (!isTestFlow) {
+                    await supabase.auth.updateUser({
+                        data: { full_signup_completed: true }
+                    });
+                }
                 
-                // Clear local storage
                 localStorage.removeItem('pendingProfileData');
                 localStorage.removeItem('signupStep');
 
@@ -403,7 +394,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                 navigateForward('/home');
             } catch (err) {
                 console.error('Error completing registration:', err);
-                navigateForward('/home'); // Still go home if possible
+                navigateForward('/home');
             } finally {
                 setIsLoading(false);
             }
@@ -547,6 +538,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                                 className="da-input"
                                 value={formData.fullName}
                                 onChange={handleChange}
+                                style={{ fontSize: '17px' }}
                             />
                         </div>
                         {errors.fullName && <span className="error-msg-ds">{errors.fullName}</span>}
@@ -559,6 +551,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                                 className="da-input"
                                 value={formData.email}
                                 onChange={handleChange}
+                                style={{ fontSize: '17px' }}
                             />
                         </div>
                         {errors.email && <span className="error-msg-ds">{errors.email}</span>}
@@ -597,6 +590,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                                     value={formData.phone}
                                     onChange={handlePhoneChange}
                                     onBlur={handlePhoneBlur}
+                                    style={{ fontSize: '17px' }}
                                 />
                             </div>
                         </div>
@@ -660,7 +654,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                 const isOtpComplete = otp.join('').length === 8;
                 return (
                     <div className="form-step fade-in-up">
-                        <div className={`dl-otp-container ${isLoading ? 'is-verifying' : ''}`} style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '24px' }}>
+                        <div className={`dl-otp-container ${isLoading ? 'is-verifying' : ''}`} style={{ display: 'flex', gap: '6px', justifyContent: 'center', marginBottom: '24px' }}>
                             {otp.map((digit, idx) => (
                                 <input
                                     key={idx}
@@ -683,7 +677,7 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                             <span
                                 className={`dl-link-text ${isCoolingDown ? 'disabled' : ''}`}
                                 onClick={!isCoolingDown ? handleResendCode : undefined}
-                                style={{ cursor: isCoolingDown ? 'not-allowed' : 'pointer', color: isCoolingDown ? '#9CA3AF' : 'var(--primary)', fontWeight: '500', fontSize: '14px' }}
+                                style={{ cursor: isCoolingDown ? 'not-allowed' : 'pointer', color: isCoolingDown ? '#9CA3AF' : '#4A72FF', fontWeight: '600', fontSize: '14px' }}
                             >
                                 {isCoolingDown ? `Aguarde ${cooldown}s para reenviar` : "Didn't get a code?"}
                             </span>
@@ -756,35 +750,6 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                         </button>
                     </div>
                 );
-            case 5:
-                const sortedFiltered = [...countries]
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .filter(c => c.name.toLowerCase().includes(searchTerm.toLowerCase()));
-                return (
-                    <div className="form-step fade-in-up">
-                        <div style={{ marginBottom: '24px' }}>
-                            <input
-                                type="text"
-                                className="da-glass-search-bar"
-                                placeholder="Search..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-
-                        <div className="da-country-list-wrapper">
-                            <div className="da-country-list-scroll">
-                                {sortedFiltered.map(c => (
-                                    <div key={c.code} className="da-country-list-item" onClick={handleNext}>
-                                        <img src={c.flagUrl} alt={c.code} className="da-country-flag-img" />
-                                        <span className="name">{c.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="da-country-list-bottom-bracket"></div>
-                        </div>
-                    </div>
-                );
             default:
                 return null;
         }
@@ -808,52 +773,199 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
         return '';
     };
 
+    if (showPreparing) {
+        return (
+            <AnimatePresence>
+                <PreparingScreen onComplete={handlePreparingComplete} duration={4000} />
+            </AnimatePresence>
+        );
+    }
+
     return (
-        <div className="da-screen-wrapper">
+        <div className="da-screen-wrapper" style={{ pointerEvents: isLoading ? 'none' : 'auto', opacity: isLoading ? 0.7 : 1, transition: 'opacity 0.3s ease' }}>
             <div className="da-card-stack">
                 <div className="da-card">
-                    {/* Left Pane: 3D Illustration & Text + AuthSocialButtons */}
-                    <AuthLeftPanel onGoogleClick={step === 1 ? handleGoogleSignup : undefined} onDiscordClick={step === 1 ? handleDiscordSignup : undefined} onBack={handleBackStep} />
-
-                    {/* Right Pane: Form */}
-                    <div className="da-right-pane">
-                        <AnimatePresence mode="wait">
-                            {(step === 1 || step === 2) && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: -10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -10 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <AuthTabs activeTab="register" onLoginClick={onNavigateLogin} />
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={step}
-                                initial={{ opacity: 0, x: 20, filter: 'blur(4px)' }}
-                                animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-                                exit={{ opacity: 0, x: -20, filter: 'blur(4px)' }}
-                                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                                className="da-form-content"
-                                style={{ marginTop: step === 5 ? '40px' : '0' }}
-                            >
-                                <h1 className="dl-title">{getTitle()}</h1>
-
-                                {(step === 3 || step === 5) && (
-                                    <p className="ds-subtitle" style={{ color: '#A0AAB3', fontSize: '15px', marginBottom: step === 5 ? '24px' : '32px' }}>
-                                        {getSubtitle()}
-                                    </p>
-                                )}
-
-                                <div className="da-form">
-                                    {renderStepContent()}
+                    {/* Left Pane: 3D Illustration & Text + AuthSocialButtons (or Country List for step 5) */}
+                    {step === 5 ? (
+                        <motion.div 
+                            className="da-left-pane"
+                            initial={{ opacity: 0, x: -30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        >
+                            <button className="da-back-btn-corner" onClick={handleBackStep} aria-label="Voltar">
+                                <ArrowLeft size={20} />
+                            </button>
+                            <div className="da-left-content" style={{ marginTop: '60px', maxWidth: '480px', width: '100%', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 120px)' }}>
+                                <h1 className="da-welcome-title" style={{ fontSize: '32px', marginBottom: '8px' }}>
+                                    Qual país gostaria de <br />
+                                    <span className="da-welcome-title-alt">explorar primeiro?</span>
+                                </h1>
+                                <p className="da-welcome-subtitle" style={{ marginBottom: '24px' }}>
+                                    Pesquise ou selecione um destino para personalizar sua jornada.
+                                </p>
+                                
+                                <div style={{ marginBottom: '16px' }}>
+                                    <input
+                                        type="text"
+                                        className="da-glass-search-bar"
+                                        placeholder="Search..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        style={{ width: '100%' }}
+                                    />
                                 </div>
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
+
+                                <div className="da-country-list-wrapper" style={{ flex: 1, marginTop: '0', height: 'auto' }}>
+                                    <div className="da-country-list-scroll" style={{ height: '100%' }}>
+                                        {[...countries]
+                                            .sort((a, b) => a.name.localeCompare(b.name))
+                                            .filter(c => c.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                                            .map(c => (
+                                                <div key={c.code} className="da-country-list-item" onClick={handleCountryClick} style={{ justifyContent: 'space-between' }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                                        <img src={c.flagUrl} alt={c.code} className="da-country-flag-img" />
+                                                        <span className="name">{c.name}</span>
+                                                    </div>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                        <Star size={16} fill="#FBBF24" color="#FBBF24" />
+                                                        <span style={{ fontSize: '14px', fontWeight: '600', color: '#475569' }}>
+                                                            {(4.0 + (c.code.charCodeAt(0) % 10) * 0.1).toFixed(1)}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                    <div className="da-country-list-bottom-bracket"></div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    ) : (
+                        <AuthLeftPanel onGoogleClick={step === 1 ? handleGoogleSignup : undefined} onDiscordClick={step === 1 ? handleDiscordSignup : undefined} onBack={handleBackStep} />
+                    )}
+
+                    {/* Right Pane: Form (or Immersive Graphic for step 5) */}
+                    {step === 5 ? (
+                        <motion.div 
+                            className="da-right-pane" 
+                            style={{ padding: 0, position: 'relative', overflow: 'hidden', backgroundColor: '#000' }}
+                            initial={{ opacity: 0, x: 30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                        >
+                            
+                            {/* Premium Glow Divider on Left Edge */}
+                            <div style={{
+                                position: 'absolute',
+                                left: 0,
+                                top: 0,
+                                bottom: 0,
+                                width: '2px',
+                                background: 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.8), transparent)',
+                                boxShadow: '0 0 30px 15px rgba(255, 255, 255, 0.2), 0 0 60px 20px rgba(212, 175, 55, 0.15)',
+                                zIndex: 10
+                            }} />
+
+                            {/* Airbnb-style Skeleton Loader */}
+                            <AnimatePresence>
+                                {!isCocktailLoaded && (
+                                    <motion.div
+                                        initial={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.5, ease: 'easeOut' }}
+                                        style={{
+                                            position: 'absolute',
+                                            top: 0, left: 0, right: 0, bottom: 0,
+                                            backgroundColor: '#e2e8f0', /* Neutral slate background */
+                                            zIndex: 5,
+                                            overflow: 'hidden'
+                                        }}
+                                    >
+                                        <motion.div
+                                            animate={{ x: ['-100%', '100%'] }}
+                                            transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)'
+                                            }}
+                                        />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            {/* High Quality, Lightweight Image Rendering */}
+                            <img 
+                                src={authBgCocktail} 
+                                alt="Premium Lifestyle Experience" 
+                                onLoad={() => setIsCocktailLoaded(true)}
+                                style={{ 
+                                    width: '100%', 
+                                    height: '100%', 
+                                    objectFit: 'cover',
+                                    /* Hardware acceleration for light processing but crisp quality */
+                                    transform: 'translateZ(0)',
+                                    willChange: 'transform',
+                                    filter: 'contrast(1.08) saturate(1.15) brightness(0.92)',
+                                    display: 'block',
+                                    opacity: isCocktailLoaded ? 1 : 0,
+                                    transition: 'opacity 0.6s ease-in',
+                                    position: 'relative',
+                                    zIndex: 1
+                                }} 
+                                loading="eager"
+                                decoding="async"
+                            />
+                        </motion.div>
+                    ) : (
+                        <div className="da-right-pane">
+                            <AnimatePresence mode="wait">
+                                {(step === 1 || step === 2) && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <AuthTabs activeTab="register" onLoginClick={onNavigateLogin} />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={step}
+                                    initial={{ opacity: 0, x: 20, filter: 'blur(4px)' }}
+                                    animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                                    exit={{ opacity: 0, x: -20, filter: 'blur(4px)' }}
+                                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                    className="da-form-content"
+                                    style={{ 
+                                        marginTop: '0',
+                                        textAlign: (step === 3 || step === 5) ? 'center' : 'left' 
+                                    }}
+                                >
+                                    <h1 
+                                        className="dl-title" 
+                                        style={{ textAlign: (step === 3 || step === 5) ? 'center' : 'left' }}
+                                    >
+                                        {getTitle()}
+                                    </h1>
+
+                                    {(step === 3 || step === 5) && (
+                                        <p className="ds-subtitle" style={{ color: '#A0AAB3', fontSize: '15px', marginBottom: '32px', textAlign: 'center' }}>
+                                            {getSubtitle()}
+                                        </p>
+                                    )}
+
+                                    <div className="da-form">
+                                        {renderStepContent()}
+                                    </div>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Star, Plane, Building2, Anchor, Compass, Globe } from 'lucide-react';
+import { ArrowRight, Star, Plane, Building2, Anchor, Compass, Globe, Quote, ChevronDown } from 'lucide-react';
 import './AboutSection.css';
 
 import founderImg from '../../../assets/images/founder_thiago.jpg';
@@ -158,8 +158,28 @@ const partnersList = [
     { name: 'AtlasCorp', icon: <Compass size={32} /> }
 ];
 
+const faqData = [
+    {
+        question: "Quanto custa uma jornada personalizada com a GoTour?",
+        answer: "Os preços variam significativamente conforme o nível de exclusividade, os voos selecionados e a complexidade da curadoria. Cada orçamento é elaborado sob medida para garantir o melhor valor em experiências de luxo."
+    },
+    {
+        question: "Qual é a flexibilidade dos roteiros criados pela Sasha IA?",
+        answer: "Total flexibilidade. Nossos roteiros são dinâmicos e podem ser ajustados em tempo real, mesmo durante a viagem, permitindo que você siga o seu ritmo e aproveite novas descobertas."
+    },
+    {
+        question: "Quais destinos estão disponíveis atualmente?",
+        answer: "Atualmente focamos em destinos premium na África e Europa, oferecendo o mais alto nível de imersão. No entanto, o nosso ecossistema está em constante expansão para cobrir os pontos mais exclusivos do globo."
+    },
+    {
+        question: "Como a GoTour garante a minha segurança em destinos remotos?",
+        answer: "Sua segurança é nossa prioridade. Oferecemos suporte VIP 24/7, monitoramento em tempo real e ligação direta com serviços de emergência e hospitais locais através do nosso Botão de Emergência Global."
+    }
+];
+
 const AboutSection = () => {
     const [reviewIndex, setReviewIndex] = useState(0);
+    const [activeFaq, setActiveFaq] = useState(null);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -178,32 +198,63 @@ const AboutSection = () => {
     return (
         <section id="sobre" className="abt-immersive-section">
             
-            {/* 1. Glassmorphism Card Wrapper (Hero) */}
-            <header className="abt-glass-header">
-                <div className="abt-glass-bgbox">
-                    <div className="abt-glass-bg"></div>
-                    <div className="abt-glass-overlay"></div>
-                    
-                    <div className="abt-glass-container">
-                        <div className="abt-glass-card">
-                            <div className="abt-badge-immersive">
-                                <Globe size={16} />
-                                Alcance Global
-                            </div>
-                            <h1 className="abt-headline">
-                                Redefinindo o Padrão do Turismo de Luxo.
-                            </h1>
-                            <p className="abt-subtext">
-                                Fundada por **Thiago Helio CS**, a GoTour nasceu da visão de fusionar tecnologia avançada com a curadoria de experiências exclusivas globalmente. Desenhamos jornadas sob medida que combinam precisão, privacidade e imersão cultural profunda.
-                            </p>
-                            <button className="abt-btn-primary">
-                                Saber mais
-                                <ArrowRight size={18} />
-                            </button>
+            {/* 1. Premium Quote Banner (Hero) */}
+            <header className="abt-quote-banner">
+                <div className="abt-quote-bg"></div>
+                <div className="abt-quote-overlay"></div>
+                <div className="abt-quote-container">
+                    <div className="abt-quote-icon">
+                        <Quote size={48} fill="currentColor" opacity={0.2} />
+                    </div>
+                    <div className="abt-quote-content">
+                        <h1 className="abt-quote-title">
+                            Saiba mais sobre a GO TOUR
+                        </h1>
+                        <p className="abt-quote-subtitle">
+                            A GoTour é um ecossistema de viagens premium projetado para unir tecnologia de ponta com a exclusividade do turismo de luxo. A nossa missão é transformar cada jornada numa experiência única, combinando o poder da Sasha IA com uma curadoria humana meticulosa, garantindo precisão, privacidade e imersão cultural profunda em cada destino.
+                        </p>
+                        <div className="abt-quote-footer">
+                            <span className="abt-quote-tag">Premium Travel Ecosystem</span>
                         </div>
                     </div>
                 </div>
             </header>
+
+            {/* 1b. FAQ Section */}
+            <section className="abt-faq-section">
+                <div className="abt-faq-container">
+                    <div className="abt-faq-left">
+                        <h2 className="abt-faq-title">Suas perguntas<br />respondidas</h2>
+                    </div>
+                    <div className="abt-faq-right">
+                        {faqData.map((item, index) => (
+                            <div 
+                                key={index} 
+                                className={`abt-faq-item ${activeFaq === index ? 'active' : ''}`}
+                                onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+                            >
+                                <div className="abt-faq-question">
+                                    <span>{item.question}</span>
+                                    <ChevronDown className="abt-faq-arrow" size={20} />
+                                </div>
+                                <AnimatePresence>
+                                    {activeFaq === index && (
+                                        <motion.div 
+                                            className="abt-faq-answer"
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: 'auto', opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                                        >
+                                            <p>{item.answer}</p>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
             {/* 2. Team Section */}
             <section className="abt-grid-section">

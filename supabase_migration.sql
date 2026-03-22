@@ -34,3 +34,19 @@ CREATE POLICY "Users can insert own profile"
   ON public.profiles
   FOR INSERT
   WITH CHECK (auth.uid() = id);
+
+-- ============================================
+-- RPC: Check if a user is REGISTERED (OTP-confirmed)
+-- A user is only considered registered after completing OTP verification.
+-- Users who started signup but abandoned before OTP are NOT counted.
+-- ============================================
+CREATE OR REPLACE FUNCTION check_user_exists(user_email TEXT) RETURNS BOOLEAN
+LANGUAGE plpgsql SECURITY DEFINER AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM auth.users
+    WHERE email = user_email
+    AND email_confirmed_at IS NOT NULL
+  );
+END;
+$$;

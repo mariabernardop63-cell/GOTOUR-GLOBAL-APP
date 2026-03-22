@@ -50,17 +50,19 @@ const LoginForm = ({ onSuccess, onForgotPassword, showSocial, showSignupLink, on
 
         try {
             const { data, error: loginError } = await supabase.auth.signInWithPassword({
-                email: formData.email,
+                email: formData.email.trim(),
                 password: formData.password
             });
 
             if (loginError) {
-                const msg = loginError.message || '';
-
-                if (msg.includes('Invalid login credentials')) {
+                const msg = (loginError.message || '').toLowerCase();
+                
+                if (msg.includes('invalid login credentials') || msg.includes('invalid_credentials')) {
                     setError('Email ou palavra-passe incorretos. Verifique os seus dados ou crie uma nova conta.');
-                } else if (msg.includes('Email not confirmed')) {
+                } else if (msg.includes('email not confirmed')) {
                     setError('O seu email ainda não foi confirmado. Verifique a sua caixa de entrada.');
+                } else if (msg.includes('rate limit') || msg.includes('rate_limit')) {
+                    setError('Demasiadas tentativas. Aguarde alguns minutos.');
                 } else {
                     setError(loginError.message || 'Não foi possível iniciar sessão. Tente novamente.');
                 }

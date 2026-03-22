@@ -12,13 +12,13 @@ const FooterSection = () => {
             <div className="footer-cta-banner">
                 <div className="footer-cta-inner">
                     <div className="footer-cta-text">
-                        <h3 className="footer-cta-title">Comece a sua próxima aventura</h3>
+                        <h3 className="footer-cta-title">Obtenha 7 dias grátis do plano pro da GO TOUR</h3>
                         <p className="footer-cta-sub">
                             Junte-se a milhares de viajantes. Disponível gratuitamente.
                         </p>
                     </div>
                     <div className="footer-cta-actions">
-                        <button className="footer-cta-btn-primary">Criar conta gratuita</button>
+                        <button className="footer-cta-btn-primary">Obter</button>
                         <button className="footer-cta-btn-secondary">Falar com a equipa</button>
                     </div>
                 </div>

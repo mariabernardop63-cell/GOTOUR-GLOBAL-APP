@@ -19,15 +19,15 @@ export const AuthProvider = ({ children }) => {
 
         // Listen for auth changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            async (event, session) => {
+            (event, session) => {
                 setSession(session);
                 setUser(session?.user ?? null);
                 setAuthEvent(event);
                 setLoading(false);
 
-                // Auto-create profile on first sign-in
+                // Auto-create profile on first sign-in (fire-and-forget to avoid blocking signInWithPassword)
                 if (event === 'SIGNED_IN' && session?.user) {
-                    await ensureProfile(session.user);
+                    ensureProfile(session.user).catch(err => console.error('Ensure profile err:', err));
                 }
             }
         );

@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Eye, EyeOff, ChevronDown, ArrowLeft, Loader2, Mail, Lock } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 import authBgNew from '../../assets/images/auth_bg_new.jpg';
 import { useNavigation } from '../../App';
 import { supabase } from '../../lib/supabase';
@@ -10,6 +11,7 @@ import '../SharedAuth/SharedAuth.css';
 import AuthLeftPanel from '../SharedAuth/AuthLeftPanel';
 import AuthTabs from '../SharedAuth/AuthTabs';
 import AuthSocialButtons from '../SharedAuth/AuthSocialButtons';
+import PreparingScreen from '../../components/PreparingScreen/PreparingScreen';
 
 const DesktopLogin = ({ onBack, onNavigateSignup }) => {
     const { navigateForward, navigateBack } = useNavigation();
@@ -19,6 +21,11 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
     const [langCode, setLangCode] = useState('PT');
     const [imageLoaded, setImageLoaded] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
+    const [showPreparing, setShowPreparing] = useState(false);
+
+    const handlePreparingComplete = useCallback(() => {
+        navigateForward('/home');
+    }, [navigateForward]);
 
     const handleCloseClick = () => {
         setIsClosing(true);
@@ -57,21 +64,25 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
         }
 
         setIsLoading(true);
+        let loginSuccess = false;
 
         // Test User Bypass (same as mobile LoginForm)
         if (email.trim() === '111111111111' && password === '111111111111') {
             setTimeout(() => {
                 setIsLoading(false);
-                window.location.href = '/home';
+                setShowPreparing(true);
             }, 1000);
             return;
         }
 
         try {
-            const { data, error: loginError } = await supabase.auth.signInWithPassword({
+            const loginPromise = supabase.auth.signInWithPassword({
                 email: email.trim(),
                 password: password,
             });
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT_LOGIN')), 30000));
+
+            const { data, error: loginError } = await Promise.race([loginPromise, timeoutPromise]);
 
             if (loginError) {
                 const msg = (loginError.message || '').toLowerCase();
@@ -84,19 +95,26 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
                 } else {
                     setError(loginError.message || 'Erro ao iniciar sessão.');
                 }
+                setIsLoading(false);
                 return;
             }
 
-            // Success. Push navigation to end of event loop to prevent Context re-render from swallowing it.
-            setTimeout(() => {
-                navigateForward('/home');
-            }, 0);
+            // Success: show preparing screen
+            loginSuccess = true;
+            setIsLoading(false);
+            setShowPreparing(true);
 
         } catch (err) {
-            setError('Erro de conexão. Verifique a sua ligação à internet.');
+            if (err.message === 'TIMEOUT_LOGIN') {
+                setError('O servidor demorou muito a responder. Tente novamente.');
+            } else {
+                setError('Erro: ' + (err.message || 'Falha de conexão.'));
+            }
             console.error('Login error:', err);
         } finally {
-            setIsLoading(false);
+            if (!loginSuccess) {
+                setIsLoading(false);
+            }
         }
     };
 
@@ -145,8 +163,15 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
         }
     };
 
+    // Show preparing screen
+    if (showPreparing) {
+        return (
+            <PreparingScreen onComplete={handlePreparingComplete} duration={4000} />
+        );
+    }
+
     return (
-        <div className="da-screen-wrapper">
+        <div className="da-screen-wrapper" style={{ pointerEvents: isLoading ? 'none' : 'auto', opacity: isLoading ? 0.7 : 1, transition: 'opacity 0.3s ease' }}>
             <div className="da-card-stack">
                 <div className="da-card">
                     {/* Left Pane: 3D Illustration & Welcome Text */}

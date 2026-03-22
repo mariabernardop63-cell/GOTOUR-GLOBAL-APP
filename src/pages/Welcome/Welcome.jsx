@@ -22,10 +22,10 @@ import gotourIcon from '../../assets/images/gotour_icon.png';
 
 /* ── Rotating headlines for the desktop hero ── */
 const HERO_HEADLINES = [
-    { line1: 'A plataforma digital', line2: 'de turismo global' },
-    { line1: 'Descubra destinos,', line2: 'planeie e reserve' },
-    { line1: 'Conecte-se a guias locais', line2: 'e viva experiências autênticas' },
-    { line1: 'Compare alojamentos', line2: 'e organize tudo num só lugar' },
+    { line1: 'Planeie toda a sua viagem', line2: 'num só lugar' },
+    { line1: 'Descubra cada destino', line2: 'com mapas inteligentes' },
+    { line1: 'Conecte-se a guias locais', line2: 'e viva o autêntico' },
+    { line1: 'Viaje com a Sasha,', line2: 'o seu guia IA pessoal' },
 ];
 
 
@@ -93,6 +93,17 @@ const Welcome = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    useEffect(() => {
+        if (!isMobile) {
+            document.documentElement.classList.add('hide-scrollbar-desktop');
+        } else {
+            document.documentElement.classList.remove('hide-scrollbar-desktop');
+        }
+        return () => {
+            document.documentElement.classList.remove('hide-scrollbar-desktop');
+        };
+    }, [isMobile]);
 
     /* ── Headline rotation every 5 s ── */
     useEffect(() => {
@@ -249,7 +260,7 @@ const Welcome = () => {
                                 </div>
 
                                 <p className="hero-sub">
-                                    Conecte-se a destinos, guias locais e experiências autênticas pelo mundo inteiro.
+                                    Conecte-se a destinos selecionados e guias locais e explore experiências autênticas pelo mundo inteiro.
                                 </p>
 
                                 <div className="hero-ctas">
@@ -284,7 +295,7 @@ const Welcome = () => {
                                     animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
                                     exit={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
                                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                                    style={{ position: 'fixed', inset: 0, zIndex: 9999 }}
+                                    style={{ position: 'fixed', inset: 0, zIndex: 9999, backgroundColor: '#FFFFFF' }}
                                 >
                                     <DesktopLogin
                                         onBack={() => setShowDesktopLogin(false)}
@@ -303,7 +314,7 @@ const Welcome = () => {
                                     animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
                                     exit={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
                                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                                    style={{ position: 'fixed', inset: 0, zIndex: 9999 }}
+                                    style={{ position: 'fixed', inset: 0, zIndex: 9999, backgroundColor: '#FFFFFF' }}
                                 >
                                     <DesktopSignup
                                         onBack={() => setShowDesktopSignup(false)}
