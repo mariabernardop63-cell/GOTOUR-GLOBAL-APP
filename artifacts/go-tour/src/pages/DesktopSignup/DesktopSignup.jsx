@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Loader2, User, Mail, Globe, Phone, Calendar, Lock, Eye, EyeOff, ChevronDown, Star } from 'lucide-react';
 import { useNavigation } from '../../App';
+import UnifiedDesktopAuth from '../SharedAuth/UnifiedDesktopAuth';
 import { countries } from '../../data/countries';
 import { supabase } from '../../lib/supabase';
 import { validateFullName, validatePhone, validateAge, checkEmailExists } from '../../lib/authValidation';
@@ -20,6 +21,9 @@ import { useLocation } from 'react-router-dom';
 import PreparingScreen from '../../components/PreparingScreen/PreparingScreen';
 
 const DesktopSignup = ({ onBack, onNavigateLogin }) => {
+    return <UnifiedDesktopAuth defaultTab="register" onBack={onBack} />;
+
+    // ── Legacy code below kept for reference — no longer rendered ──
     const location = useLocation();
     const { navigateForward, navigateBack } = useNavigation();
     const [step, setStep] = useState(1);

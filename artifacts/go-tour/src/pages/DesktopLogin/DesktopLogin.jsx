@@ -12,8 +12,12 @@ import AuthLeftPanel from '../SharedAuth/AuthLeftPanel';
 import AuthTabs from '../SharedAuth/AuthTabs';
 import AuthSocialButtons from '../SharedAuth/AuthSocialButtons';
 import PreparingScreen from '../../components/PreparingScreen/PreparingScreen';
+import UnifiedDesktopAuth from '../SharedAuth/UnifiedDesktopAuth';
 
 const DesktopLogin = ({ onBack, onNavigateSignup }) => {
+    return <UnifiedDesktopAuth defaultTab="login" onBack={onBack} />;
+
+    // ── Legacy code below kept for reference — no longer rendered ──
     const { navigateForward, navigateBack } = useNavigation();
     const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);

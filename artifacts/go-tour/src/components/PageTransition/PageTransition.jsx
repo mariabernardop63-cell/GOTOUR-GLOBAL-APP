@@ -1,47 +1,65 @@
 import { motion } from 'framer-motion';
 
-const PageTransition = ({ children, direction = 'forward' }) => {
+const EASING_ENTER = [0.22, 1, 0.36, 1];
+const EASING_EXIT  = [0.32, 0, 0.67, 0];
+
+const getVariants = (direction) => {
     const isAuth = direction === 'auth';
+    const isFade = direction === 'fade';
 
-    const getInitialX = () => {
-        if (direction === 'fade' || isAuth) return 0;
-        return direction === 'forward' ? '100%' : '-100%';
-    };
+    if (isAuth) {
+        return {
+            initial: { opacity: 0, y: 16, scale: 0.985 },
+            animate: {
+                opacity: 1, y: 0, scale: 1,
+                transition: { duration: 0.42, ease: EASING_ENTER },
+            },
+            exit: {
+                opacity: 0, y: 16, scale: 0.985,
+                transition: { duration: 0.28, ease: EASING_EXIT },
+            },
+        };
+    }
 
-    const getExitX = () => {
-        if (direction === 'fade' || isAuth) return 0;
-        return direction === 'forward' ? '-100%' : '100%';
+    if (isFade) {
+        return {
+            initial: { opacity: 0, y: 10 },
+            animate: {
+                opacity: 1, y: 0,
+                transition: { duration: 0.32, ease: EASING_ENTER },
+            },
+            exit: {
+                opacity: 0, y: 10,
+                transition: { duration: 0.22, ease: EASING_EXIT },
+            },
+        };
+    }
+
+    const xIn  = direction === 'forward' ? '100%' : '-100%';
+    const xOut = direction === 'forward' ? '-100%' : '100%';
+
+    return {
+        initial: { x: xIn, opacity: 1 },
+        animate: {
+            x: 0, opacity: 1,
+            transition: { duration: 0.46, ease: EASING_ENTER },
+        },
+        exit: {
+            x: xOut, opacity: 1,
+            transition: { duration: 0.46, ease: EASING_EXIT },
+        },
     };
+};
+
+const PageTransition = ({ children, direction = 'forward' }) => {
+    const variants = getVariants(direction);
 
     return (
         <motion.div
-            initial={{
-                x: getInitialX(),
-                opacity: (direction === 'fade' || isAuth) ? 0 : 1,
-                scale: isAuth ? 0.97 : (direction === 'fade' ? 0.98 : 1),
-                y: isAuth ? 12 : 0
-            }}
-            animate={{
-                x: 0,
-                opacity: 1,
-                scale: 1,
-                y: 0,
-                transitionEnd: {
-                    transform: 'none',
-                    position: 'relative'
-                }
-            }}
-            exit={{
-                x: getExitX(),
-                opacity: (direction === 'fade' || isAuth) ? 0 : 1,
-                scale: isAuth ? 0.97 : (direction === 'fade' ? 0.98 : 1),
-                y: isAuth ? 12 : 0
-            }}
-            transition={{
-                type: 'tween',
-                duration: isAuth ? 0.35 : (direction === 'fade' ? 0.25 : 0.5),
-                ease: isAuth ? [0.34, 1.56, 0.64, 1] : [0.33, 1, 0.68, 1],
-            }}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={variants}
             style={{
                 position: 'absolute',
                 top: 0,
