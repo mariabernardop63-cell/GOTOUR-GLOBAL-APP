@@ -1,0 +1,102 @@
+/* Button.css - Premium Design */
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 32px;
+    height: 56px;
+    /* Taller premium buttons */
+    border-radius: 28px;
+    /* More rounded */
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.02em;
+    user-select: none;
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+
+/* Primary Button (Gradient like Login) */
+.btn-primary {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(4, 140, 131, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    /* Subtle inner border */
+}
+
+.btn-primary:hover {
+    box-shadow: 0 8px 25px rgba(4, 140, 131, 0.4);
+    transform: translateY(-2px);
+    background: #03756d;
+}
+
+.btn-primary:active {
+    transform: scale(0.96) translateY(0);
+    box-shadow: 0 4px 10px rgba(4, 140, 131, 0.3);
+}
+
+/* Secondary Button (Transparent with White Border) */
+.btn-secondary {
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ffffff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+    transform: scale(0.96);
+}
+
+/* Outline Variant (Dark Context) */
+.btn-outline {
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+}
+
+.btn-outline:hover {
+    border-color: #048c83;
+    color: #048c83;
+    background: #f8fafc;
+}
+
+/* Sizes */
+.btn-sm {
+    height: 36px;
+    font-size: 13px;
+    padding: 0 16px;
+}
+
+.btn-md {
+    height: 44px;
+    font-size: 15px;
+}
+
+.btn-lg {
+    height: 52px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+/* Spinner styles moved to index.css for global usage */

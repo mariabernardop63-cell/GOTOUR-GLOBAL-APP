@@ -1,0 +1,473 @@
+/* =========================================================
+   FooterSection — Premium Light Theme (GoTour Edition)
+   ========================================================= */
+
+.footer-section {
+    background: #f7f7f7;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #475569;
+    position: relative;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* ── Top CTA Banner (Adapted but Hidden on Details) ── */
+.footer-cta-banner {
+    background: linear-gradient(135deg, rgba(74, 114, 255, 0.04) 0%, rgba(124, 58, 237, 0.03) 50%, rgba(16, 185, 129, 0.02) 100%);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.footer-cta-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 64px clamp(40px, 5vw, 100px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.footer-cta-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 10px;
+}
+
+.footer-cta-sub {
+    font-size: 1.1rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* ── Premium Pro SVG Animation ── */
+.footer-cta-text-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 20px; /* Space for the icon */
+}
+
+.premium-pro-animation-container {
+    position: absolute;
+    left: -120px; /* Moved further left as requested */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 140px;
+    height: 140px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Core Star Pulse & Rotate */
+.pro-core-icon {
+    transform-origin: 100px 100px;
+    animation: star-pulse 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes star-pulse {
+    0% { transform: scale(0.9) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(10deg); filter: drop-shadow(0 0 12px rgba(74, 114, 255, 0.6)); }
+    100% { transform: scale(0.9) rotate(0deg); }
+}
+
+/* Elegant Ribbons Shooting Out */
+.p-ribbon {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    opacity: 0;
+}
+
+.p-ribbon.r-1 { animation: ribbon-shoot 3s cubic-bezier(0.25, 1, 0.5, 1) infinite 0s; }
+.p-ribbon.r-2 { animation: ribbon-shoot 3s cubic-bezier(0.25, 1, 0.5, 1) infinite 0.2s; }
+.p-ribbon.r-3 { animation: ribbon-shoot 3s cubic-bezier(0.25, 1, 0.5, 1) infinite 0.4s; }
+.p-ribbon.r-4 { animation: ribbon-shoot 3s cubic-bezier(0.25, 1, 0.5, 1) infinite 0.1s; }
+.p-ribbon.r-5 { animation: ribbon-shoot 3s cubic-bezier(0.25, 1, 0.5, 1) infinite 0.3s; }
+
+@keyframes ribbon-shoot {
+    0% { stroke-dashoffset: 100; opacity: 0; }
+    20% { opacity: 1; }
+    50% { stroke-dashoffset: -100; opacity: 1; }
+    80% { stroke-dashoffset: -100; opacity: 0; }
+    100% { stroke-dashoffset: -100; opacity: 0; }
+}
+
+/* Glowing Sparks - Extended Trajectories & Realistic Rotation */
+.p-spark {
+    opacity: 0;
+    transform-origin: 100px 100px;
+}
+
+.p-spark.s-1 { animation: spark-fly 3.5s cubic-bezier(0.25, 1, 0.5, 1) infinite 0.1s; }
+.p-spark.s-2 { animation: spark-fly 3.5s cubic-bezier(0.25, 1, 0.5, 1) infinite 0.3s; }
+.p-spark.s-3 { animation: spark-fly 3.5s cubic-bezier(0.25, 1, 0.5, 1) infinite 0.5s; }
+.p-spark.s-4 { animation: spark-fly 3.5s cubic-bezier(0.25, 1, 0.5, 1) infinite 0.2s; }
+.p-spark.s-5 { animation: spark-fly 3.5s cubic-bezier(0.25, 1, 0.5, 1) infinite 0.4s; }
+.p-spark.s-6 { animation: spark-fly 4.5s cubic-bezier(0.2, 1, 0.6, 1) infinite 0.15s; }
+.p-spark.s-7 { animation: spark-fly 4s cubic-bezier(0.2, 1, 0.6, 1) infinite 0.45s; }
+.p-spark.s-8 { animation: spark-fly 5s cubic-bezier(0.2, 1, 0.6, 1) infinite 0.25s; }
+.p-spark.s-9 { animation: spark-fly 4.2s cubic-bezier(0.2, 1, 0.6, 1) infinite 0.55s; }
+.p-spark.s-10 { animation: spark-fly 4.8s cubic-bezier(0.2, 1, 0.6, 1) infinite 0.35s; }
+.p-spark.s-11 { animation: spark-fly 5.2s cubic-bezier(0.2, 1, 0.6, 1) infinite 0.1s; }
+.p-spark.s-12 { animation: spark-fly 4.3s cubic-bezier(0.2, 1, 0.6, 1) infinite 0.6s; }
+.p-spark.s-13 { animation: spark-fly 4.7s cubic-bezier(0.2, 1, 0.6, 1) infinite 0.2s; }
+.p-spark.s-14 { animation: spark-fly 5.5s cubic-bezier(0.2, 1, 0.6, 1) infinite 0.4s; }
+.p-spark.s-15 { animation: spark-fly 4.9s cubic-bezier(0.2, 1, 0.6, 1) infinite 0.3s; }
+
+@keyframes spark-fly {
+    0% { transform: scale(0) translate(0, 0) rotate(0deg); opacity: 0; }
+    15% { opacity: 1; transform: scale(1.2) translate(calc(var(--tx) * 0.2), calc(var(--ty) * 0.2)) rotate(calc(var(--rot) * 0.2)); }
+    100% { 
+        transform: scale(0) translate(var(--tx), var(--ty)) rotate(var(--rot)); 
+        opacity: 0; 
+    }
+}
+
+/* Realistic 360-degree spread, flying far outwards and spinning */
+.p-spark.s-1 { --tx: 180px; --ty: -220px; --rot: 360deg; }
+.p-spark.s-2 { --tx: 250px; --ty: 80px;  --rot: -270deg; }
+.p-spark.s-3 { --tx: -160px; --ty: 200px; --rot: 420deg; }
+.p-spark.s-4 { --tx: -220px; --ty: -100px; --rot: -360deg; }
+.p-spark.s-5 { --tx: 60px;  --ty: 280px; --rot: 180deg; }
+
+/* Extremely far right spread to reach the text and buttons */
+.p-spark.s-6 { --tx: 500px; --ty: -80px; --rot: 540deg; }
+.p-spark.s-7 { --tx: 650px; --ty: 40px; --rot: -420deg; }
+.p-spark.s-8 { --tx: 800px; --ty: -120px; --rot: 720deg; }
+.p-spark.s-9 { --tx: 950px; --ty: 60px; --rot: -540deg; }
+.p-spark.s-10 { --tx: 1150px; --ty: -40px; --rot: 680deg; } /* Reaches the far buttons */
+.p-spark.s-11 { --tx: 450px; --ty: 120px; --rot: -360deg; }
+.p-spark.s-12 { --tx: 700px; --ty: -150px; --rot: 480deg; }
+.p-spark.s-13 { --tx: 850px; --ty: 140px; --rot: -600deg; }
+.p-spark.s-14 { --tx: 1050px; --ty: -90px; --rot: 780deg; } /* Reaches the far buttons */
+.p-spark.s-15 { --tx: 1250px; --ty: 20px; --rot: -720deg; } /* Maximum reach */
+
+.footer-cta-actions {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.footer-cta-btn-primary {
+    height: 54px;
+    padding: 0 36px;
+    border-radius: 9999px;
+    background: #4A72FF;
+    color: #ffffff;
+    border: none;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-cta-btn-primary:hover {
+    background: #3B5BCC;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(74, 114, 255, 0.25);
+}
+
+.footer-cta-btn-secondary {
+    height: 44px;
+    padding: 0 24px;
+    border-radius: 9999px;
+    background: #f8fafc;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.footer-cta-btn-secondary:hover {
+    color: #0f172a;
+    border-color: #94a3b8;
+    background: #f1f5f9;
+}
+
+/* ── Container ── */
+.footer-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 80px clamp(40px, 5vw, 100px) 60px;
+}
+
+/* ── Main Grid ── */
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr 1.2fr;
+    gap: 40px;
+    margin-bottom: 48px;
+}
+
+/* ── Brand Column ── */
+.footer-brand-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-logo-img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.footer-logo-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 400; /* Regular weight as requested */
+    letter-spacing: 0.02em;
+    color: #0f172a;
+}
+
+.footer-brand-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+    max-width: 340px;
+}
+
+/* Download Buttons (Store Apps) */
+.footer-downloads {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.footer-download-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #f8fafc; /* premium light silver */
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    color: #0f172a;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.footer-download-btn:hover {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+}
+
+.footer-download-btn svg {
+    flex-shrink: 0;
+    color: #0f172a;
+    width: 15px;
+    height: 15px;
+}
+
+.footer-dl-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-dl-small {
+    font-size: 0.5rem;
+    color: #64748b;
+    line-height: 1;
+}
+
+.footer-dl-store {
+    font-size: 0.7rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #0f172a;
+}
+
+/* Social Icons */
+.footer-social {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.footer-social-link {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* perfectly circular */
+    color: #64748b;
+    background: #f1f5f9;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.footer-social-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+.footer-social-link:hover {
+    color: #ffffff;
+    background: #4A72FF; /* Signature brand pop */
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(74, 114, 255, 0.3);
+}
+
+/* ── Link Columns ── */
+.footer-links-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-col-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem; /* ~14px match airbnb */
+    font-weight: 550; /* Slightly lighter than 600, more refined */
+    letter-spacing: 0.01em;
+    text-transform: none;
+    color: #222222; /* Airbnb dark text */
+    margin: 0 0 12px;
+}
+
+.footer-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.footer-link-list a {
+    font-size: 0.875rem; /* ~14px match airbnb */
+    color: #717171; /* Airbnb grey text */
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    transform: none;
+}
+
+/* Airbnb Underline Hover */
+.footer-link-list a:hover {
+    color: #222222;
+    text-decoration: underline;
+    transform: none;
+}
+
+.footer-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background: rgba(74, 114, 255, 0.1);
+    color: #4A72FF;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-left: 4px;
+}
+
+/* Contact list */
+.footer-contact-list {
+    gap: 18px !important;
+}
+
+.footer-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: #475569;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+}
+
+.footer-contact-item:hover {
+    color: #0f172a;
+}
+
+.footer-contact-item svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #94a3b8;
+}
+
+/* ── Divider ── */
+.footer-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.06), transparent);
+    margin-bottom: 24px;
+}
+
+/* ── Bottom Bar ── */
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+}
+
+.footer-copyright {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.footer-bottom-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.footer-legal-link {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    padding: 4px 6px;
+}
+
+.footer-legal-link:hover {
+    color: #0f172a;
+}
+
+.footer-legal-dot {
+    color: #cbd5e1;
+    font-size: 0.8rem;
+}
+
+/* ── Region / Language ── */
+.footer-region {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0 8px;
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.footer-region svg {
+    color: #94a3b8;
+}
+
+/* ── Hide on mobile ── */
+@media (max-width: 1023px) {
+    .footer-section {
+        display: none;
+    }
+}

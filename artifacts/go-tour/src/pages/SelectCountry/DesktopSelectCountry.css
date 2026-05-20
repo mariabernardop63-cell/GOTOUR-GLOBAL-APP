@@ -1,0 +1,233 @@
+.dsc-overlay-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: fadeInBg 0.3s ease forwards;
+}
+
+.dsc-home-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    user-select: none;
+}
+
+.dsc-modal-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    z-index: 9999;
+    width: 70%;
+    max-width: 1200px;
+    height: 78vh;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    box-sizing: border-box;
+    animation: modalAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@media (max-width: 1280px) {
+    .dsc-modal-container {
+        width: 85%;
+    }
+}
+
+.dsc-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 32px;
+    color: #1A1D20;
+    text-align: left;
+    margin-bottom: 32px;
+    letter-spacing: -0.5px;
+}
+
+.dsc-search-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.dsc-search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748B;
+    pointer-events: none;
+}
+
+.dsc-search-input {
+    width: 100%;
+    height: 52px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 0 20px 0 52px;
+    font-size: 16px;
+    color: #1E293B;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    outline: none;
+}
+
+.dsc-search-input::placeholder {
+    color: #94A3B8;
+}
+
+.dsc-search-input:focus {
+    border-color: #3B82F6;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.dsc-list-container {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+    /* space for scrollbar */
+}
+
+/* Custom modern scrollbar for the list */
+.dsc-list-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dsc-list-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.dsc-list-container::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.4);
+    border-radius: 10px;
+}
+
+.dsc-list-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.6);
+}
+
+.dsc-country-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 0 16px;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 8px;
+    /* Smooth hover edges */
+    margin-bottom: 2px;
+}
+
+.dsc-country-row:last-child {
+    border-bottom: none;
+}
+
+.dsc-country-row:hover {
+    background-color: rgba(241, 245, 249, 0.8);
+}
+
+.dsc-country-row:active {
+    background-color: rgba(226, 232, 240, 0.9);
+}
+
+.dsc-country-row.is-selected {
+    background-color: rgba(241, 245, 249, 0.9);
+    pointer-events: none;
+}
+
+.dsc-country-left-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dsc-country-flag {
+    width: 24px;
+    height: auto;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.dsc-country-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #0F172A;
+}
+
+.dsc-country-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+}
+
+.spin {
+    animation: dsSpin 1s linear infinite;
+}
+
+@keyframes dsSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.dsc-empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #94A3B8;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Animations */
+@keyframes fadeInBg {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+        backdrop-filter: blur(0px);
+    }
+
+    to {
+        background-color: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(10px);
+    }
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}

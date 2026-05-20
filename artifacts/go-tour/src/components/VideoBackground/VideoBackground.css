@@ -1,0 +1,136 @@
+/* Container fixed to the viewport */
+.video-background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    overflow: hidden;
+    background-color: #000 !important;
+}
+
+/* Force body/html transparent when this component is mounted */
+:global(body.video-active),
+:global(html.video-active) {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+/* --- MOBILE SLIDESHOW --- */
+.mobile-slideshow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.slide-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    z-index: 1;
+}
+
+.slide-bg.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+.mobile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* --- DESKTOP VIDEO --- */
+.video-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: none;
+    /* Hidden on mobile */
+}
+
+/* Fallback for Desktop (Dubai Image) */
+.desktop-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 3;
+    /* Above video (z-2), below overlay (z-4) if needed */
+    transition: opacity 0.8s ease-in-out;
+    display: none;
+    /* Hidden on mobile */
+}
+
+.desktop-fallback.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.desktop-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    /* Slight dark overlay as requested */
+    z-index: 4;
+    /* Top most overlay */
+    pointer-events: none;
+    display: none;
+    /* Hidden on mobile */
+}
+
+/* --- MEDIA QUERIES --- */
+@media (min-width: 1024px) {
+    .mobile-slideshow {
+        display: none;
+        /* Hide slideshow on desktop */
+    }
+
+    .video-wrapper {
+        display: block;
+        /* Show video on desktop */
+    }
+
+    .desktop-fallback {
+        display: block;
+        /* Show fallback on desktop */
+    }
+
+    .desktop-overlay {
+        display: block;
+        /* Show overlay on desktop */
+    }
+}

@@ -1,0 +1,981 @@
+/* Premium Detail Screen (Desktop + Mobile) */
+
+.dd-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #ffffff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.dd-container .dd-content-wrapper.home-scroll-content {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 110px 48px 80px 48px; /* High specificity overrides default home-scroll-content */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Breadcrumbs / Back button */
+.dd-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+.dd-back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+    cursor: pointer;
+    padding: 8px 16px 8px 0;
+    transition: color 0.2s ease;
+}
+
+.dd-back-btn:hover {
+    color: #4A72FF;
+}
+
+.dd-top-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.dd-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 8px;
+    transition: opacity 0.2s;
+}
+
+.dd-action-btn:hover {
+    opacity: 0.7;
+}
+
+/* 2-Column Desktop Master Grid: Shifted specifically for Airbnb-style long scrolling */
+.dd-hero-layout {
+    display: grid;
+    grid-template-columns: 500px 1fr; /* Left rigid 500px to keep images compact as requested, right is fluid */
+    gap: 56px;
+    align-items: start;
+}
+
+/* Left side: Main Content */
+.dd-left-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.dd-main-image-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04);
+}
+
+.dd-main-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s ease;
+}
+
+.dd-main-image-wrap:hover img {
+    transform: scale(1.03);
+}
+
+/* 3 Thumbnails Grid (Match Principais Atrações ratio) */
+.dd-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.dd-gallery-thumb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4; /* Like Principais Atracoes */
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.dd-gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.dd-gallery-thumb:hover img {
+    transform: scale(1.05);
+}
+
+.dd-gallery-thumb.active {
+    border-color: #4A72FF;
+}
+
+.dd-gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.dd-image-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* NEW: SOBRE SECTION (Left Column text blocks) */
+.dd-sobre-section {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dd-sobre-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 400; /* Regular per user request */
+    color: #0f172a;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.3px;
+}
+
+.dd-yellow-rating-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.dd-stars-yellow {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.dd-yellow-rating-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dd-sobre-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* NOVO BLOCO 1: MAPA GRANDE */
+.dd-right-map-block {
+    width: 100%;
+    height: 240px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 32px;
+}
+
+.dd-right-map-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.dd-right-map-block:hover .dd-right-map-img {
+    transform: scale(1.05);
+}
+
+.dd-map-btn-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dd-btn-view-map-large {
+    background: #3b82f6;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.dd-btn-view-map-large:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+/* NOVO BLOCO 2: DESTAQUES VIP (PONTOS FORTES) */
+.dd-vip-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 36px 24px 28px 24px; /* extra top padding for the badge */
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    margin-bottom: 32px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.dd-vip-badge-ribbon {
+    position: absolute;
+    top: -16px;
+    left: 24px;
+    background: #facc15; /* Exquisite vibrant gold */
+    color: #0f172a;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dd-vip-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0 0 28px 0;
+}
+
+.dd-vip-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-bottom: 32px;
+}
+
+.dd-vip-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.dd-vip-icon-wrapper {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.dd-vip-text-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.dd-vip-f-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.dd-vip-f-desc {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.dd-vip-btn-reserve {
+    width: 100%;
+    background: #0f172a;
+    color: #ffffff;
+    border: none;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.dd-vip-btn-reserve:hover {
+    background: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.25);
+}
+
+/* Right side: Information block */
+/* Right side: Information block */
+.dd-right-sticky-column {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 32px;
+}
+
+.dd-title-poppins {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    font-weight: 400; /* Regular per user request */
+    color: #0f172a;
+    line-height: 1.15;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.5px;
+}
+
+/* Availability & Location Row */
+.dd-location-avail-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 15px;
+    color: #475569;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.dd-avail-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.dd-category-text {
+    color: #1e293b;
+}
+
+.dd-country-flag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dd-flag-img {
+    width: 20px;
+    height: 14px;
+    object-fit: cover;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.05); /* Straight high quality shape */
+}
+
+.dd-gps-loc {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.dd-dot-divider {
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+/* Rating Row (Restored Right Column) */
+.dd-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.dd-stars-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.dd-reviews-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.dd-reviews-link {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: #475569;
+    cursor: pointer;
+}
+
+/* Booking Card inside the details column */
+.dd-booking-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 24px 32px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.dd-booking-price-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.dd-price-strong {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.dd-price-label {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+.dd-button-primary {
+    background: #4A72FF;
+    color: #ffffff;
+    border: none;
+    padding: 16px 36px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(74, 114, 255, 0.2);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dd-button-primary:hover {
+    background: #365CCC;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px rgba(74, 114, 255, 0.3);
+}
+
+.dd-button-primary:active {
+    transform: translateY(1px);
+}
+
+/* Principais comodidades (Features Grid exact match) */
+.dd-section-divider {
+    height: 1px;
+    width: 100%;
+    background: #e2e8f0;
+    margin: 32px 0;
+}
+
+.dd-section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 24px;
+}
+
+.dd-amenities-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 32px; /* Vertical gap 20px, horizontal gap 32px */
+    margin-bottom: 32px;
+}
+
+.dd-amenity-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.dd-amenity-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
+.dd-amenity-text {
+    font-size: 16px;
+    color: #334155;
+    font-weight: 400;
+}
+
+/* Show all button */
+.dd-show-all-btn {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #0f172a;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 14px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    align-self: flex-start; /* Keeps it naturally sized on the left */
+}
+
+.dd-show-all-btn:hover {
+    background: #f1f5f9;
+}
+
+/* =========================================
+   REVIEWS SECTION (GoTour Style)
+   ========================================= */
+.dd-reviews-section {
+    padding: 32px 0 64px 0;
+    width: 100%;
+}
+
+.dd-reviews-main-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 32px;
+}
+
+/* Painel Tático Luxuoso (Hero Score + Progress Bars) */
+.dd-reviews-header-block {
+    display: flex;
+    gap: 64px;
+    margin-bottom: 40px;
+    align-items: center;
+}
+
+.dd-hero-score-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 250px;
+}
+
+.dd-hero-score-number {
+    font-family: 'Poppins', sans-serif;
+    font-size: 80px;
+    font-weight: 700;
+    line-height: 1;
+    color: #0f172a;
+    letter-spacing: -2px;
+}
+
+.dd-hero-score-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.dd-hero-stars-row {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 8px;
+}
+
+.dd-hero-score-subtitle {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.dd-progress-bars-col {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 48px;
+    row-gap: 20px;
+}
+
+.dd-progress-rule {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.dd-prule-label {
+    flex: 0 0 140px;
+    font-size: 14px;
+    color: #334155;
+    font-weight: 500;
+}
+
+.dd-prule-track {
+    flex: 1;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.dd-prule-fill {
+    height: 100%;
+    background: #0f172a;
+    border-radius: 4px;
+}
+
+.dd-prule-score {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0f172a;
+    min-width: 24px;
+    text-align: right;
+}
+
+/* Tópicos Mais Citados (Minimal Tickets) */
+.dd-frequent-mentions-container {
+    margin-bottom: 56px;
+}
+
+.dd-mentions-label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 16px;
+}
+
+.dd-mentions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.dd-mention-ticket {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 14px;
+    font-weight: 500;
+    color: #334155;
+    transition: background 0.2s;
+    cursor: default;
+}
+
+.dd-mention-ticket:hover {
+    background: #f1f5f9;
+}
+
+/* Reviews Grid */
+.dd-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 64px;
+    margin-top: 32px;
+}
+
+.dd-review-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.dd-review-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.dd-review-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #e2e8f0;
+}
+
+.dd-review-author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.dd-review-author-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0 0 2px 0;
+}
+
+.dd-review-author-meta {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.dd-review-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.dd-review-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.dd-review-date-stay {
+    font-size: 13px;
+    font-weight: 500;
+    color: #0f172a;
+}
+
+.dd-review-text {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #334155;
+    margin: 0 0 12px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.dd-review-show-more {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0f172a;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+.dd-review-show-more:hover {
+    color: #4A72FF;
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+    .dd-hero-layout {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+
+    .dd-right-sticky-column {
+        position: relative;
+        top: 0;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .dd-left-column {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .dd-content-wrapper {
+        padding: 24px 32px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dd-content-wrapper {
+        padding: 16px 20px 100px 20px;
+    }
+
+    .dd-title {
+        font-size: 32px;
+    }
+
+    .dd-booking-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+        padding: 24px;
+    }
+    
+    .dd-button-primary {
+        justify-content: center;
+    }
+    
+    .dd-features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* =========================================
+   FAQ ACCORDION (Perguntas Frequentes)
+   ========================================= */
+.dd-faq-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.dd-faq-item {
+    border-bottom: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.dd-faq-item:first-child {
+    border-top: 1px solid #e2e8f0;
+}
+
+.dd-faq-item:hover {
+    background: #f8fafc;
+}
+
+.dd-faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 4px;
+}
+
+.dd-faq-question span {
+    font-family: 'Inter', sans-serif;
+    font-size: 15.5px;
+    font-weight: 600;
+    color: #0f172a;
+    transition: color 0.25s ease;
+    line-height: 1.4;
+}
+
+.dd-faq-chevron {
+    color: #94a3b8;
+    flex-shrink: 0;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+}
+
+.dd-faq-active .dd-faq-chevron {
+    transform: rotate(180deg);
+    color: #4A72FF;
+}
+
+.dd-faq-active .dd-faq-question span {
+    color: #4A72FF;
+}
+
+.dd-faq-answer {
+    padding: 0 4px 22px 4px;
+    animation: faqFadeIn 0.3s ease;
+}
+
+.dd-faq-answer p {
+    font-family: 'Inter', sans-serif;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: #475569;
+    margin: 0;
+}
+
+@keyframes faqFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+   NAVIGATION ARROWS (< Próximo >)
+   ========================================= */
+.dd-nav-arrows {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 40px;
+    padding: 16px 0;
+}
+
+.dd-nav-arrow-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid #cbd5e1;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #64748b;
+    transition: all 0.25s ease;
+}
+
+.dd-nav-arrow-btn:hover {
+    color: #4A72FF;
+    border-color: #4A72FF;
+    background: rgba(74, 114, 255, 0.04);
+    transform: scale(1.08);
+}
+
+.dd-nav-arrow-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #334155;
+    letter-spacing: 0.02em;
+    user-select: none;
+}

@@ -1,0 +1,138 @@
+/* SosButton.css */
+
+.tic-sos-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 0;
+  width: 100%;
+}
+
+.tic-sos-btn-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.tic-sos-ripple {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(239, 68, 68, 0.4);
+  animation: ticSosRipple 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+.tic-sos-ripple:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
+@keyframes ticSosRipple {
+  0% { transform: scale(1); opacity: 1; border-width: 4px; }
+  100% { transform: scale(1.8); opacity: 0; border-width: 1px; }
+}
+
+.tic-sos-btn {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(145deg, #ef4444, #b91c1c);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 
+    0 10px 25px rgba(239, 68, 68, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tic-sos-btn:active {
+  transform: scale(0.92);
+  box-shadow: 
+    0 4px 10px rgba(239, 68, 68, 0.3),
+    inset 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.tic-sos-btn.triggering {
+  background: linear-gradient(145deg, #f87171, #ef4444);
+}
+
+.tic-sos-btn.active {
+  background: #991b1b;
+  animation: ticSosEmergency 1s infinite alternate;
+}
+
+@keyframes ticSosEmergency {
+  0% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.6), inset 0 0 20px rgba(0,0,0,0.5); }
+  100% { box-shadow: 0 0 60px rgba(239, 68, 68, 0.9), inset 0 0 10px rgba(0,0,0,0.5); }
+}
+
+.tic-sos-text {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.tic-sos-subtext {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+/* Status Panel */
+.tic-sos-status {
+  text-align: center;
+  min-height: 40px;
+}
+
+.tic-sos-status-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tic-text-primary);
+  margin-bottom: 4px;
+}
+
+.tic-sos-status-desc {
+  font-size: 11px;
+  color: var(--tic-text-tertiary);
+}
+
+/* Progress bar for press-and-hold */
+.tic-sos-progress-ring {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  pointer-events: none;
+  transform: rotate(-90deg);
+}
+
+.tic-sos-progress-circle {
+  fill: none;
+  stroke: #ef4444;
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
+}

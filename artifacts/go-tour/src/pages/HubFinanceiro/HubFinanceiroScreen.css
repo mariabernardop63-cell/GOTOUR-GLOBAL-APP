@@ -1,0 +1,442 @@
+/* Stripe-Inspired Premium Hub Financeiro Screen */
+
+:root {
+  --hub-bg: #F6F9FC;
+  --hub-card: #FFFFFF;
+  --hub-text-main: #0F172A;
+  --hub-text-sub: #475569;
+  --hub-text-light: #64748B;
+  --hub-border: #E2E8F0;
+  --hub-accent: #635BFF;
+  --hub-accent-hover: #0A2540;
+  --hub-success: #00D924;
+  --hub-success-bg: #E3F8E9;
+  --hub-danger: #DF1B41;
+  --hub-danger-bg: #FCE8EC;
+  --hub-warning: #FF7B00;
+  --hub-warning-bg: #FFF3E6;
+  
+  --hub-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --hub-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --hub-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --hub-radius-lg: 16px;
+  --hub-radius-md: 12px;
+  --hub-radius-sm: 8px;
+}
+
+/* Base Layout */
+.hub-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--hub-bg);
+  color: var(--hub-text-main);
+  font-family: 'Inter', 'SF Pro Display', sans-serif;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Navigation */
+.hub-nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hub-back-btn {
+  background: white;
+  border: 1px solid var(--hub-border);
+  box-shadow: var(--hub-shadow-sm);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hub-text-main);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hub-back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--hub-shadow-md);
+}
+
+.hub-nav-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--hub-text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Main Content Area */
+.hub-main {
+  position: relative;
+  z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 32px 64px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Page Header */
+.hub-header {
+  margin-top: 16px;
+  max-width: 600px;
+}
+
+.hub-header h1 {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--hub-accent-hover);
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+}
+
+.hub-header p {
+  font-size: 16px;
+  color: var(--hub-text-sub);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Dashboard Grid */
+.hub-grid {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Premium Card Style */
+.hub-card {
+  background: var(--hub-card);
+  border-radius: var(--hub-radius-lg);
+  box-shadow: var(--hub-shadow-md);
+  padding: 32px;
+  border: 1px solid rgba(0,0,0,0.02);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.hub-card:hover {
+  box-shadow: var(--hub-shadow-lg);
+}
+
+.hub-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.hub-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hub-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--hub-text-main);
+  margin: 0;
+}
+
+/* --- Left Column: Budget & Converter --- */
+
+/* Budget Chart (Half-Donut) */
+.hub-budget-chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.hub-chart-svg {
+  width: 240px;
+  height: 120px;
+  overflow: visible;
+}
+
+.hub-chart-bg {
+  fill: none;
+  stroke: var(--hub-bg);
+  stroke-width: 16;
+  stroke-linecap: round;
+}
+
+.hub-chart-fill {
+  fill: none;
+  stroke-width: 16;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hub-chart-text {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+}
+
+.hub-chart-balance {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--hub-text-main);
+  letter-spacing: -1px;
+}
+
+.hub-chart-label {
+  font-size: 13px;
+  color: var(--hub-text-sub);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Form Inputs (Stripe Style) */
+.hub-form-group {
+  margin-bottom: 16px;
+}
+
+.hub-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--hub-text-main);
+  margin-bottom: 6px;
+}
+
+.hub-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.hub-input-currency {
+  position: absolute;
+  left: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--hub-text-sub);
+  pointer-events: none;
+}
+
+.hub-input {
+  width: 100%;
+  height: 44px;
+  background: #FFFFFF;
+  border: 1px solid var(--hub-border);
+  border-radius: var(--hub-radius-sm);
+  padding: 0 12px 0 52px; /* Extra padding for currency symbol */
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--hub-text-main);
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.01);
+}
+
+.hub-input:focus {
+  outline: none;
+  border-color: var(--hub-accent);
+  box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.1);
+}
+
+/* Quick Exchange Converter */
+.hub-converter-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  background: var(--hub-bg);
+  padding: 16px;
+  border-radius: var(--hub-radius-md);
+}
+
+.hub-converter-col {
+  flex: 1;
+}
+
+.hub-converter-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--hub-text-main);
+}
+
+.hub-converter-label {
+  font-size: 12px;
+  color: var(--hub-text-sub);
+}
+
+.hub-converter-icon {
+  color: var(--hub-text-light);
+  flex-shrink: 0;
+}
+
+/* --- Right Column: Payment Methods & ATMs --- */
+
+/* Payment Methods Grid */
+.hub-methods-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hub-method-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--hub-card);
+  border: 1px solid var(--hub-border);
+  border-radius: var(--hub-radius-md);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.hub-method-item:hover {
+  border-color: var(--hub-accent);
+  background: #F8FAFC;
+  transform: translateY(-1px);
+}
+
+.hub-method-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hub-method-content {
+  flex: 1;
+}
+
+.hub-method-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--hub-text-main);
+  margin-bottom: 4px;
+}
+
+.hub-method-desc {
+  font-size: 13px;
+  color: var(--hub-text-sub);
+  line-height: 1.4;
+}
+
+/* ATMs List */
+.hub-atm-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.hub-atm-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--hub-radius-md);
+  background: var(--hub-bg);
+  border: 1px solid transparent;
+}
+
+.hub-atm-item:hover {
+  background: white;
+  border-color: var(--hub-border);
+  box-shadow: var(--hub-shadow-sm);
+}
+
+.hub-atm-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid var(--hub-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--hub-accent-hover);
+}
+
+.hub-atm-info h4 {
+  margin: 0 0 2px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--hub-text-main);
+}
+
+.hub-atm-info p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--hub-text-sub);
+  line-height: 1.4;
+}
+
+/* Alert Banner */
+.hub-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: var(--hub-warning-bg);
+  border-left: 4px solid var(--hub-warning);
+  border-radius: 0 var(--hub-radius-md) var(--hub-radius-md) 0;
+  margin-top: 24px;
+}
+
+.hub-alert-content h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #9A4B00;
+}
+
+.hub-alert-content p {
+  margin: 0;
+  font-size: 13px;
+  color: #B25A00;
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hub-grid {
+    grid-template-columns: 1fr;
+  }
+  .hub-nav {
+    padding: 24px;
+  }
+  .hub-main {
+    padding: 0 24px 48px 24px;
+  }
+  .hub-atm-list {
+    grid-template-columns: 1fr;
+  }
+}

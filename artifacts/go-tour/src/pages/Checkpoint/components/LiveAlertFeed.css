@@ -1,0 +1,121 @@
+/* LiveAlertFeed.css */
+
+.tic-alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+  /* Hide scrollbar */
+  scrollbar-width: none;
+}
+.tic-alert-list::-webkit-scrollbar {
+  display: none;
+}
+
+.tic-alert-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--tic-border);
+  border-radius: var(--tic-radius-md);
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+}
+
+.tic-alert-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(2px);
+}
+
+/* Glow lines based on severity */
+.tic-alert-glow-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.tic-alert-card.critical .tic-alert-glow-line {
+  background: var(--tic-critical);
+  box-shadow: 2px 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.tic-alert-card.warning .tic-alert-glow-line {
+  background: var(--tic-warning);
+  box-shadow: 2px 0 10px rgba(245, 158, 11, 0.5);
+}
+
+.tic-alert-card.info .tic-alert-glow-line {
+  background: var(--tic-accent);
+}
+
+/* Icon */
+.tic-alert-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tic-alert-card.critical .tic-alert-icon-wrap {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--tic-critical);
+  animation: ticPulseAlert 2s infinite;
+}
+
+.tic-alert-card.warning .tic-alert-icon-wrap {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--tic-warning);
+}
+
+.tic-alert-card.info .tic-alert-icon-wrap {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--tic-accent);
+}
+
+@keyframes ticPulseAlert {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+/* Content */
+.tic-alert-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tic-alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tic-alert-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--tic-text-primary);
+  letter-spacing: 0.2px;
+}
+
+.tic-alert-time {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--tic-text-tertiary);
+}
+
+.tic-alert-desc {
+  font-size: 12px;
+  color: var(--tic-text-secondary);
+  line-height: 1.4;
+}

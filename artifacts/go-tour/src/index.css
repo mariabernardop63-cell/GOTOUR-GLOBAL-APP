@@ -1,0 +1,303 @@
+/* Global Styles & Variables */
+:root {
+  /* Colors - Premium Fintech/Travel Palette */
+  --primary: #048c83;
+  --primary-light: #2dd4bf;
+  --primary-dark: #115e59;
+  --primary-soft: #f0fdfa;
+
+  /* Text */
+  --text-main: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --text-on-primary: #ffffff;
+
+  /* Gradients */
+  --bg-gradient: linear-gradient(135deg, #0e7490 0%, #22d3ee 50%, #f0f9ff 100%);
+  --card-gradient: linear-gradient(to bottom, #ffffff, #f8fafc);
+
+  /* Backgrounds */
+  --background: #F0F9FF;
+  --surface: #ffffff;
+
+  /* Status */
+  --error: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* Borders */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-card: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-float: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Scaling for Desktop */
+@media (min-width: 1024px) {
+  html {
+    font-size: 110%; /* Bumping base to 110% to give room for components */
+  }
+  
+  :root {
+    --spacing-xs: 6px;
+    --spacing-sm: 12px;
+    --spacing-md: 24px;
+    --spacing-lg: 36px;
+    --spacing-xl: 48px;
+    --spacing-2xl: 72px;
+  }
+}
+
+/* ===== SCROLL BEHAVIOR ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 100vh;
+  overflow-x: hidden !important;
+  /* Body handles all vertical scroll — no nested scroll containers */
+}
+
+/* Styled Scrollbar — Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Styled Scrollbar — Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+html.video-active,
+body.video-active {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ===== IMAGE FADE-IN ON LOAD ===== */
+img {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+img[data-loaded="false"] {
+  opacity: 0;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== SKELETON & SHIMMER (AIRBNB STYLE) ===== */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes skeletonBreathe {
+  0% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear, skeletonBreathe 1.5s infinite alternate ease-in-out;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content-fade-in {
+  animation: contentFadeIn 0.4s ease-out forwards;
+  background-color: #ffffff;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.slide-up {
+  animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Global Loading Spinner for Buttons */
+.btn-loading {
+  opacity: 0.9;
+  cursor: wait;
+  pointer-events: none;
+}
+
+.btn-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: btn-spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Utility classes for guaranteed single-line truncating */
+.hs-subtitle,
+.budget-subtitle,
+.explore-regions-subtitle,
+.near-you-subtitle,
+.must-see-subtitle,
+.ms-subtitle {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     display: block;
+     max-width: 100%;
+}
+
+.hs-pill-cover,
+.region-cost-pill,
+.bd-cost-pill,
+.hs-type-badge,
+.bd-type-badge,
+.hs-top-left-badge {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     max-width: 100%;
+}
+
+/* Ensure all Chevrons on section right links have the premium dark grey color */
+.hs-section-arrow,
+.budget-link,
+.near-you-link,
+.must-see-link,
+.ms-link {
+    color: #475569 !important;
+}
+
+.hs-section-arrow:hover,
+.budget-link:hover,
+.near-you-link:hover,
+.must-see-link:hover,
+.ms-link:hover {
+    color: #1e293b !important;
+}

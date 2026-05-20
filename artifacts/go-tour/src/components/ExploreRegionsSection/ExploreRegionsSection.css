@@ -1,0 +1,281 @@
+/* ExploreRegionsSection.css */
+
+.explore-regions-section {
+    width: 100%;
+    margin-bottom: 32px;
+    padding-left: 20px;
+}
+
+/* Header */
+.explore-regions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-right: 20px;
+    margin-bottom: 20px;
+}
+
+.explore-regions-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary, #1e293b);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.explore-regions-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary, #64748b);
+    font-weight: 400;
+    max-width: 80%;
+}
+
+.explore-regions-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: #048c83;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: opacity 0.2s;
+}
+
+.explore-regions-link:hover {
+    opacity: 0.8;
+}
+
+/* Scroll Container */
+.explore-regions-container {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    padding-right: 20px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.explore-regions-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Premium Region Card */
+.region-card-premium {
+    min-width: 220px;
+    width: 220px;
+    height: 280px;
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+    scroll-snap-align: start;
+}
+
+.region-card-premium:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+}
+
+.region-card-premium:active {
+    transform: scale(0.98);
+}
+
+.region-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.region-card-premium:hover .region-bg-image {
+    transform: scale(1.1);
+}
+
+/* Dark Gradient Overlay for text readability */
+.region-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.2) 40%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+    z-index: 1;
+}
+
+/* Top Right Badges (e.g. Rating) */
+.region-top-badges {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    gap: 8px;
+    z-index: 2;
+}
+
+.region-rating-badge {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 4px 8px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.region-rating-star {
+    color: #ffffff;
+    width: 10px;
+    height: 10px;
+}
+
+/* Main Content (Title, Meta) at the bottom */
+.region-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 24px 20px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.region-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.region-name {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+}
+
+.region-zone-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    display: block;
+}
+
+/* Cost and Meta Info Wrapper */
+.region-meta-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.region-cost-pill {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
+    padding: 6px 12px 6px 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    gap: 8px;
+    width: fit-content;
+}
+
+.region-cost-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+/* Desktop Fix: exactly matching budget destinations */
+@media (min-width: 1024px) {
+    .region-card-premium {
+        min-width: 200px;
+        width: 200px;
+        height: 250px;
+    }
+
+    .region-name {
+        font-size: 18px;
+    }
+}
+
+/* Explore More Card */
+.region-explore-card {
+    min-width: 180px;
+    height: 280px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    scroll-snap-align: start;
+}
+
+.region-explore-card:hover {
+    border-color: #048c83;
+    background: #faf5ff;
+}
+
+.region-explore-icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #f3e8ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #048c83;
+}
+
+.region-explore-text {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.region-explore-sub {
+    font-size: 12px;
+    color: #64748b;
+}
+
+@media (min-width: 1024px) {
+    .region-explore-card {
+        min-width: 160px;
+        height: 250px;
+        border-radius: 16px;
+    }
+}

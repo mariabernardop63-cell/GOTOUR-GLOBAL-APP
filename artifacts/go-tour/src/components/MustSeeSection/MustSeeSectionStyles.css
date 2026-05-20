@@ -1,0 +1,276 @@
+/* MustSeeSection.css */
+
+.must-see-section {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 24px;
+    padding-left: 20px;
+    background: #ffffff;
+}
+
+/* Header */
+.must-see-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* Align bottom for link */
+    padding-right: 20px;
+    margin-bottom: 16px;
+}
+
+.must-see-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.must-see-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary, #1e293b);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.premium-title-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 50%;
+    color: #0f172a;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.must-see-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary, #64748b);
+    font-weight: 400;
+}
+
+.must-see-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: #048c83;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.must-see-link:hover {
+    opacity: 0.8;
+}
+
+/* Scroll Container */
+.must-see-scroll-container {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    padding-right: 20px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.must-see-scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- NEW AIRBNB STYLE DESTINATION CARD --- */
+.dest-card-new {
+    min-width: 210px;
+    width: 210px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: transform 0.2s ease;
+}
+
+.dest-card-new:active {
+    transform: scale(0.98);
+}
+
+.dest-image-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Square for Airbnb style */
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background-color: #f1f5f9;
+}
+
+.dest-image-new {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.4s ease;
+}
+
+.dest-card-new:hover .dest-image-new {
+    transform: scale(1.05);
+}
+
+.dest-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 4px 8px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 2;
+}
+
+.dest-info-new {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dest-name-new {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dest-dates-new {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+}
+
+.dest-price-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.dest-price-new {
+    color: #64748b;
+}
+
+.dest-rating-new {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.dest-rating-new::before {
+    content: '·';
+    color: #94a3b8;
+    margin: 0 2px;
+}
+
+/* Explore More Card */
+.explore-more-card {
+    min-width: 180px;
+    height: 260px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    /* margin-right: 20px; */
+}
+
+.explore-more-card:hover {
+    border-color: #048c83;
+    background: #faf5ff;
+}
+
+.explore-icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #f3e8ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #048c83;
+}
+
+.explore-text {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.explore-sub {
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* Animation */
+@keyframes slideWait {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.must-see-anim {
+    animation: slideWait 0.5s ease-out forwards;
+}
+
+/* Desktop Fix: Smaller cards for Principais Atrações */
+@media (min-width: 1024px) {
+    .dest-card-new {
+        min-width: 185px;
+        width: 185px;
+        gap: 10px;
+    }
+
+    .dest-image-wrapper {
+        border-radius: 12px;
+    }
+
+    .dest-name-new {
+        font-size: 14px;
+    }
+
+    .dest-dates-new, .dest-price-row {
+        font-size: 13px;
+    }
+
+    .explore-more-card {
+        min-width: 160px;
+        height: 235px;
+        border-radius: 16px;
+    }
+}

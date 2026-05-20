@@ -1,0 +1,519 @@
+/* =========================================================
+   SOBRE — Narrative Variant with Reviews (Stitch)
+   ========================================================= */
+
+.abt-immersive-section {
+    background-color: #ffffff;
+    color: #475569;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
+
+/* ── 1. Premium Quote Banner (Hero) ── */
+.abt-quote-banner {
+    background-color: #000000;
+    width: 100%;
+    min-height: 480px;
+    padding: 100px 60px;
+    color: #FFFFFF;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.abt-quote-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('../../../assets/images/about_hero_bg.jpg');
+    background-size: cover;
+    background-position: right center;
+    opacity: 0.45; /* Increased opacity from 0.25 to make it pop */
+    z-index: 1;
+}
+
+.abt-quote-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #121212 0%, #121212 35%, rgba(18, 18, 18, 0.2) 100%); /* Reduced dark coverage on the right edge */
+    z-index: 2;
+}
+
+.abt-quote-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1100px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.abt-quote-icon {
+    color: #475569;
+}
+
+.abt-quote-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.abt-quote-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(2.2rem, 6vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 0;
+    max-width: 700px;
+}
+
+.abt-quote-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400; /* Regular */
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: #A0AAB3;
+    max-width: 800px;
+    margin: 0;
+}
+
+.abt-quote-footer {
+    padding-top: 16px;
+}
+
+.abt-quote-tag {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .abt-quote-banner {
+        padding: 80px 24px;
+    }
+    
+    .abt-quote-title {
+        font-size: 2rem;
+    }
+    
+    .abt-quote-subtitle {
+        font-size: 1rem;
+    }
+    
+    .abt-quote-overlay {
+        background: linear-gradient(0deg, rgba(18, 18, 18, 0.9) 0%, rgba(18, 18, 18, 0.4) 100%);
+    }
+}
+
+/* ── 1b. FAQ Section ── */
+.abt-faq-section {
+    background-color: #FFFFFF;
+    padding: 100px 60px;
+}
+
+.abt-faq-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 80px;
+}
+
+.abt-faq-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: #0A2540;
+    line-height: 1.2;
+}
+
+.abt-faq-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.abt-faq-item {
+    border-bottom: 1px solid #E2E8F0;
+    padding: 24px 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.abt-faq-item:first-child {
+    border-top: 1px solid #E2E8F0;
+}
+
+.abt-faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.abt-faq-question span {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0A2540;
+    transition: color 0.2s ease;
+}
+
+.abt-faq-arrow {
+    color: #64748B;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.abt-faq-item.active .abt-faq-arrow {
+    transform: rotate(180deg);
+}
+
+.abt-faq-item.active .abt-faq-question span {
+    color: #3d3df5;
+}
+
+.abt-faq-answer {
+    overflow: hidden;
+}
+
+.abt-faq-answer p {
+    padding-top: 16px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0;
+}
+
+@media (max-width: 1024px) {
+    .abt-faq-container {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+    
+    .abt-faq-section {
+        padding: 64px 24px;
+    }
+}
+
+/* ── 2. Team Section ── */
+.abt-grid-section {
+    padding: 96px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.abt-section-header {
+    max-width: 672px; /* max-w-2xl */
+    margin-bottom: 64px;
+}
+
+.abt-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.75rem, 4vw, 2.4rem); /* Reduced from clamp(2.25rem, 5vw, 3rem) */
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Allow 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal; /* To allow wrapping */
+}
+
+.abt-section-desc {
+    font-size: 1.25rem; /* Increased from 1.125rem */
+    color: #64748B;
+}
+
+.abt-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    position: relative;
+    min-height: 280px;
+}
+
+/* ── Single Founder Row ── */
+.abt-single-founder {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+    .abt-single-founder {
+        flex-direction: row;
+        align-items: center;
+        gap: 64px;
+    }
+    
+    .abt-single-imgbox {
+        flex: 1;
+        max-width: 380px;
+    }
+    
+    .abt-single-content {
+        flex: 1.5;
+    }
+}
+
+.abt-single-imgbox {
+    width: 100%;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #F1F5F9;
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1);
+}
+
+.abt-single-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.abt-single-founder:hover .abt-single-img {
+    transform: scale(1.03);
+}
+
+.abt-single-name {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: #0F172A;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+}
+
+.abt-single-role {
+    color: #0db9f2;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.abt-single-bio {
+    font-size: 1.25rem; /* Increased from 1.0625rem */
+    color: #475569;
+    line-height: 1.8;
+}
+@media (min-width: 768px) {
+    .abt-grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 56px;
+    }
+}
+
+/* ── Team Grid ── */
+.abt-team-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-top: 48px;
+}
+
+@media (min-width: 768px) {
+    .abt-team-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 56px;
+    }
+}
+
+.abt-team-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+}
+
+.abt-team-imgbox {
+    width: 200px;
+    height: 200px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #F1F5F9;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border: 4px solid #ffffff;
+}
+
+.abt-team-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.abt-team-card:hover .abt-team-img {
+    transform: scale(1.05);
+}
+
+.abt-team-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.abt-team-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+.abt-team-role {
+    color: #0db9f2;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ── 3. Testimonials (Avaliações) ── */
+.abt-reviews-section {
+    padding: 96px 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.abt-reviews-bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 400px;
+    background: rgba(13, 185, 242, 0.08);
+    filter: blur(120px);
+    border-radius: 100%;
+    z-index: -10;
+}
+
+.abt-reviews-card {
+    backdrop-filter: blur(24px);
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 32px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease;
+}
+
+.abt-reviews-card:hover {
+    transform: translateY(-4px);
+}
+
+.abt-reviews-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.abt-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.abt-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.abt-stars {
+    display: flex;
+    color: #FBBF24;
+    gap: 2px;
+}
+
+.abt-quote {
+    color: #1E293B;
+    font-style: italic;
+    line-height: 1.6;
+    font-size: 0.9375rem;
+    flex: 1;
+}
+
+.abt-reviewer-name {
+    font-weight: 700;
+    color: #0F172A;
+}
+
+.abt-reviewer-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #0db9f2;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ── 4. Partners Static Row ── */
+.abt-partners-band {
+    width: 100%;
+    background-color: #F8FAFC;
+    padding: 64px 24px;
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.abt-partners-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.abt-partners-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #64748B;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+
+.abt-partners-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.abt-partners-grid:hover {
+    opacity: 1;
+}
+
+@media (min-width: 640px) {
+    .abt-partners-grid {
+        gap: 80px;
+    }
+}
+
+.abt-partner-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #0F172A;
+}
+
+.abt-partner-text {
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    font-size: 1.25rem;
+}

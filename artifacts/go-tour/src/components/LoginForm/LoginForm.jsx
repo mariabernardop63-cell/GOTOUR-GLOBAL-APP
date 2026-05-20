@@ -1,0 +1,183 @@
+import React, { useState } from 'react';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { useNavigation } from '../../App';
+import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../context/AuthContext';
+import './LoginForm.css';
+
+const LoginForm = ({ onSuccess, onForgotPassword, showSocial, showSignupLink, onSignupClick }) => {
+    const { navigateForward } = useNavigation();
+    const { setUser, setSession } = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+
+    // Validation helpers
+    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email === '111111111111';
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setError('');
+    };
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        if (!formData.email || !formData.password) {
+            setError('Preencha todos os campos');
+            return;
+        }
+
+        if (!isValidEmail(formData.email)) {
+            setError('Email inválido');
+            return;
+        }
+
+        setIsLoading(true);
+
+        // Test User Bypass
+        if (formData.email === '111111111111' && formData.password === '111111111111') {
+            setTimeout(() => {
+                const mockSessionUser = {
+                    id: 'mock-test-user-id',
+                    email: 'viajanteteste@gotour.com',
+                    phone: '111111111111',
+                    created_at: new Date().toISOString()
+                };
+                setUser(mockSessionUser);
+                setSession({ user: mockSessionUser });
+                
+                setIsLoading(false);
+                if (onSuccess) {
+                    onSuccess();
+                } else {
+                    navigateForward('/home');
+                }
+            }, 2000); // Simulate network
+            return;
+        }
+
+        try {
+            const { data, error: loginError } = await supabase.auth.signInWithPassword({
+                email: formData.email.trim(),
+                password: formData.password
+            });
+
+            if (loginError) {
+                const msg = (loginError.message || '').toLowerCase();
+                
+                if (msg.includes('invalid login credentials') || msg.includes('invalid_credentials')) {
+                    setError('Email ou palavra-passe incorretos. Verifique os seus dados ou crie uma nova conta.');
+                } else if (msg.includes('email not confirmed')) {
+                    setError('O seu email ainda não foi confirmado. Verifique a sua caixa de entrada.');
+                } else if (msg.includes('rate limit') || msg.includes('rate_limit')) {
+                    setError('Demasiadas tentativas. Aguarde alguns minutos.');
+                } else {
+                    setError(loginError.message || 'Não foi possível iniciar sessão. Tente novamente.');
+                }
+                setIsLoading(false);
+                return;
+            }
+
+            // Success
+            if (onSuccess) {
+                onSuccess();
+            } else {
+                navigateForward('/home');
+            }
+        } catch (err) {
+            setError('Erro de conexão. Verifique a sua ligação à internet.');
+            console.error('Login error:', err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return (
+        <form className="login-form-content" onSubmit={handleLogin}>
+            <div className="input-field">
+                <Mail size={18} />
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                />
+            </div>
+
+            <div className="input-field">
+                <Lock size={18} />
+                <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Palavra-passe"
+                    value={formData.password}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                />
+                <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                    tabIndex="-1"
+                >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+            </div>
+
+            <div className="forgot-password-link">
+                <button type="button" onClick={onForgotPassword || (() => navigateForward('/forgot-password'))}>
+                    Esqueceu a palavra-passe?
+                </button>
+            </div>
+
+            {error && <div className="error-message">{error}</div>}
+
+            <button type="submit" className="login-btn" disabled={isLoading}>
+                {isLoading ? 'Processando...' : 'Entrar'}
+            </button>
+
+            {showSocial && (
+                <>
+                    <div className="sheet-divider">
+                        <div className="sheet-divider-line"></div>
+                        <span className="sheet-divider-text">OU</span>
+                        <div className="sheet-divider-line"></div>
+                    </div>
+
+                    <div className="social-login-section">
+                        <p>Ou continue com</p>
+                        <div className="social-row">
+                            <button className="social-btn" type="button" onClick={() => { }}>
+                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+                            </button>
+                            <button className="social-btn" type="button" onClick={() => { }}>
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+                                    <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.97 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" />
+                                </svg>
+                            </button>
+                            <button className="social-btn" type="button" onClick={() => { }}>
+                                <svg viewBox="0 0 24 24" fill="#1877F2" width="22" height="22">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </>
+            )}
+
+            {showSignupLink && (
+                <div className="signup-link">
+                    Não tem uma conta?
+                    <span onClick={onSignupClick || (() => navigateForward('/signup'))}>Registar-se</span>
+                </div>
+            )}
+        </form>
+    );
+};
+
+export default LoginForm;

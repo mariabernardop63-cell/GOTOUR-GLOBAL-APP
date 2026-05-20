@@ -1,0 +1,166 @@
+@import '../DesktopLogin/DesktopLogin.css';
+
+/* We will reuse mostly the DesktopLogin layout classes, 
+   but define any Signup Wizard specific tweaks here */
+
+.desktop-signup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 99999;
+    display: flex;
+    overflow: hidden;
+    animation: fadeInOverlay 0.3s ease forwards;
+}
+
+/* Responsive Hide Left Pane rules */
+@media screen and (max-width: 1024px) {
+    .desktop-signup-container .dl-left-pane {
+        display: none;
+    }
+
+    .desktop-signup-container .dl-right-pane {
+        width: 100%;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+
+.error-msg-ds {
+    color: #EF4444;
+    font-size: 13px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    display: block;
+    margin-left: 4px;
+}
+
+/* Ensure CustomDropdown matches the dl-input styles natively on the Signup form */
+.dl-input-group .custom-dropdown-header:not(.no-border) {
+    height: 56px;
+    background: transparent !important;
+    border: 1px solid #DADCE0;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    /* Custom Dropdown doesn't perfectly support the floating label natively inside, 
+       so we approximate the padding just for centering */
+    padding: 0 16px;
+}
+
+.dl-input-group .custom-dropdown-header.open:not(.no-border) {
+    border: 2px solid var(--gotour-primary, #3BB2B8);
+    padding: 0 15px;
+    /* Offset the border increase */
+}
+
+/* =========================================
+   Redesigned Country Code & Phone Input
+   ========================================= */
+
+.ds-phone-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 48px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    background: #FFFFFF;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ds-phone-container:hover {
+    border-color: #D1D5DB;
+}
+
+.ds-phone-container:focus-within {
+    border-color: var(--gotour-primary, #3BB2B8);
+    box-shadow: 0 0 0 3px rgba(59, 178, 184, 0.15);
+    /* Teal focus glow */
+}
+
+.ds-phone-container.invalid {
+    border-color: #EF4444;
+}
+
+.ds-phone-container.invalid:focus-within {
+    border-color: #EF4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.ds-phone-container.valid {
+    border-color: #10B981;
+}
+
+.ds-phone-container.valid:focus-within {
+    border-color: #10B981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.ds-country-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    min-width: 110px;
+    height: 100%;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.ds-country-flag {
+    width: 20px;
+    height: 14px;
+    object-fit: cover;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    margin-right: 10px;
+    display: block;
+}
+
+.ds-country-code {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #111827;
+    margin-right: 14px;
+}
+
+.ds-country-arrow {
+    color: #6B7280;
+    transition: color 0.15s ease;
+}
+
+.ds-country-selector:hover .ds-country-arrow {
+    color: #374151;
+}
+
+.ds-phone-divider {
+    width: 1px;
+    height: 60%;
+    background-color: #E5E7EB;
+    margin: 0 12px;
+}
+
+.ds-phone-input {
+    flex: 1;
+    height: 100%;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 400;
+    color: #111827;
+    padding: 0 16px 0 0;
+    outline: none;
+    font-family: inherit;
+}
+
+.ds-phone-input::placeholder {
+    color: #9CA3AF;
+}

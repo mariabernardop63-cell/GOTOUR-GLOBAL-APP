@@ -1,0 +1,303 @@
+.auth-layout-container {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-desktop-grid {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    z-index: 10;
+}
+
+.auth-left-col {
+    display: none;
+    flex: 1;
+    padding: 60px 80px;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-right-col {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+}
+
+@media (min-width: 1024px) {
+    .auth-left-col {
+        display: flex;
+    }
+
+    .auth-right-col {
+        width: 440px;
+        flex-shrink: 0;
+        background: #ffffff;
+        /* Requested page background #ffffff */
+    }
+
+    .auth-desktop-grid {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    /* 
+     * DESKTOP OVERRIDES FOR AUTH FORMS 
+     * Overrides the default teal mobile theme from Login.css / Signup.css 
+     */
+    .auth-right-col .login-glass-container,
+    .auth-right-col .signup-glass-container {
+        background: #ffffff;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: none;
+    }
+
+    /* Inputs */
+    .auth-right-col .input-field {
+        height: 56px;
+        background: #e5e5e5 !important;
+        border: none !important;
+        /* Base state: no border */
+        border-radius: 14px;
+        box-shadow: inset 0 0 0 1.5px transparent;
+        /* Pre-allocate space for border */
+        transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .auth-right-col .input-field:focus-within {
+        background: #e5e5e5 !important;
+        box-shadow: inset 0 0 0 1.5px #000000 !important;
+        /* Clean black border on focus */
+    }
+
+    /* Input text */
+    .auth-right-col .input-field input,
+    .auth-right-col .input-field .custom-select {
+        color: #000000 !important;
+        background-color: transparent !important;
+    }
+
+    /* WebKit Autofill Overrides to maintain #e5e5e5 background */
+    .auth-right-col .input-field input:-webkit-autofill,
+    .auth-right-col .input-field input:-webkit-autofill:hover,
+    .auth-right-col .input-field input:-webkit-autofill:focus,
+    .auth-right-col .input-field input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 50px #e5e5e5 inset !important;
+        -webkit-text-fill-color: #000000 !important;
+        border-radius: 14px !important;
+    }
+
+    .auth-right-col .input-field input::placeholder {
+        color: #8E8E93 !important;
+        opacity: 1 !important;
+        font-size: 16px !important;
+        line-height: normal !important;
+    }
+
+    /* Subdue the icons slightly since it's not the teal theme anymore */
+    .auth-right-col .input-field svg {
+        color: #111111 !important;
+    }
+
+    /* Buttons */
+    .auth-right-col .login-main-btn,
+    .auth-right-col .signup-main-btn,
+    .auth-right-col .login-btn {
+        height: 56px !important;
+        background: linear-gradient(135deg, #A6E7C3 0%, #8EDDB4 100%) !important;
+        color: #1A1A1A !important;
+        border-radius: 28px !important;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06) !important;
+        font-weight: 600;
+    }
+
+    .auth-right-col .login-main-btn:hover,
+    .auth-right-col .signup-main-btn:hover,
+    .auth-right-col .login-btn:hover {
+        background: linear-gradient(135deg, #8EDDB4 0%, #7AD4A6 100%) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.09) !important;
+    }
+
+    /* Social Buttons */
+    .auth-right-col .social-btn {
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 0 !important;
+        border: 1px solid #E6E6E6 !important;
+        background: #FFFFFF !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding-left: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .auth-right-col .social-row {
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 16px !important;
+    }
+
+    /* Remove the pseudo-element text */
+    .auth-right-col .social-btn::after {
+        content: none !important;
+    }
+
+    /* Make SVG/IMG icons smaller inside the 38px container */
+    .auth-right-col .social-btn img,
+    .auth-right-col .social-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+        margin: 0 !important;
+    }
+
+    /* Typography */
+    .auth-right-col .login-header h1,
+    .auth-right-col .signup-header h1 {
+        font-size: 28px !important;
+        color: #111111 !important;
+    }
+
+    /* Links */
+    .auth-right-col .forgot-password-row span,
+    .auth-right-col .signup-link span,
+    .auth-right-col .login-link span {
+        color: #111111 !important;
+    }
+
+    /* Back Button */
+    .auth-right-col .back-icon-btn,
+    .auth-right-col .signup-form-back {
+        color: #111111 !important;
+    }
+
+    .auth-right-col .back-icon-btn svg {
+        color: #111111 !important;
+    }
+}
+
+/* Marketing Panel Styles moved from Welcome.css */
+.auth-marketing-panel {
+    max-width: 600px;
+}
+
+.logo-brand-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 60px;
+}
+
+.brand-logo-img {
+    width: 40px;
+    height: 40px;
+}
+
+.brand-name-text {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.marketing-title {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.marketing-subtitle {
+    font-size: 18px;
+    font-weight: 500;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.marketing-desc {
+    margin-top: 15px;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.rotating-text-container {
+    height: 160px;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.text-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.8s, transform 0.8s;
+    transform: translateY(20px);
+}
+
+.text-slide.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.rotation-indicators {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 60px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s;
+}
+
+.dot.active {
+    width: 24px;
+    border-radius: 4px;
+    background: white;
+}
+
+.mini-features {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.6;
+    margin-bottom: 40px;
+}
+
+.feat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.stats-row {
+    display: flex;
+    gap: 40px;
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-num {
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.6;
+}

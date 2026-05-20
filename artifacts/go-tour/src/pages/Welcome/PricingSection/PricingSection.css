@@ -1,0 +1,271 @@
+/* =========================================================
+   DARK THEME FRAMER PRICING (IMAGE EXACT MATCH)
+   ========================================================= */
+
+.dark-pricing-section {
+    background-color: #ffffff;
+    color: #0A2540;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 80px 24px 120px;
+    border-top: 1px solid #E2E8F0;
+}
+
+.dark-pricing-container {
+    max-width: 1300px; /* Increased from 1100px */
+    margin: 0 auto;
+}
+
+/* Optional header just to introduce the section nicely */
+.dark-pricing-header {
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.dark-pricing-title {
+    font-size: 3.2rem; /* Increased from 2.5rem */
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin: 0 0 16px;
+    color: #0A2540;
+}
+
+.dark-pricing-subtitle {
+    font-size: 1.35rem; /* Increased from 1.1rem */
+    color: #4A5568;
+}
+
+/* --- Responsive Grid --- */
+.dark-pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: stretch;
+}
+
+@media (min-width: 1024px) {
+    .dark-pricing-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* --- Base Card Styling --- */
+.dark-card {
+    background-color: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.pro-card {
+    background-color: #F8FAFC;
+    border: 1px solid #3b82f6;
+    box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1);
+}
+
+/* --- Card Header --- */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.card-title {
+    font-size: 1.8rem; /* Increased from 1.5rem */
+    font-weight: 600;
+    margin: 0 0 6px;
+    color: #0F172A;
+}
+
+.card-subtitle {
+    font-size: 1.05rem; /* Increased from 0.85rem */
+    color: #64748B;
+    margin: 0;
+}
+
+/* Inside-Card Toggle Match */
+.card-annual-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.card-annual-toggle.disabled {
+    cursor: default;
+}
+
+.toggle-text {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #64748B;
+    letter-spacing: 0.05em;
+}
+
+.toggle-switch {
+    width: 32px;
+    height: 18px;
+    background-color: #E2E8F0;
+    border-radius: 999px;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.toggle-switch.on {
+    background-color: #3b82f6;
+}
+
+/* Blue toggle */
+.pro-switch.on {
+    background-color: #0ea5e9;
+}
+
+/* Slightly brighter blue for Pro */
+
+.toggle-knob {
+    width: 14px;
+    height: 14px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s;
+}
+
+.toggle-switch.on .toggle-knob {
+    transform: translateX(14px);
+}
+
+/* --- Price Block --- */
+.card-price-block {
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 24px 0;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.price-val {
+    font-size: 1rem;
+    color: #0F172A;
+    font-weight: 500;
+}
+
+.price-per {
+    font-size: 1rem;
+    color: #64748B;
+    margin-left: 4px;
+}
+
+/* --- Features List --- */
+.card-features {
+    flex: 1;
+}
+
+.feature-intro {
+    font-size: 0.85rem;
+    color: #64748B;
+    margin: 0 0 20px;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 1.1rem; /* Increased from 0.85rem */
+    color: #475569;
+    line-height: 1.6;
+}
+
+.feature-list li svg {
+    color: #3b82f6;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.feature-list li strong {
+    color: #94A3B8;
+    font-weight: 400;
+    margin-left: 4px;
+}
+
+.feature-list li span {
+    flex: 1;
+}
+
+/* Pro Card specifics */
+.pro-card .card-price-block {
+    border-color: #93C5FD;
+}
+
+/* --- Buttons --- */
+.card-footer-action {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.dark-btn {
+    width: 100%;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-family: inherit;
+    margin-bottom: 16px;
+}
+
+.btn-gray {
+    background-color: #F1F5F9;
+    color: #0F172A;
+    border: 1px solid #E2E8F0;
+}
+
+.btn-gray:hover {
+    background-color: #E2E8F0;
+}
+
+.btn-blue {
+    background-color: #0088ff;
+    /* Bright blue from image */
+    color: #ffffff;
+}
+
+.btn-blue:hover {
+    background-color: #0070f3;
+}
+
+/* --- Footer Note --- */
+.footer-note {
+    font-size: 0.75rem;
+    color: #a1a1aa;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.footer-note a {
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.footer-note a:hover {
+    text-decoration: underline;
+}

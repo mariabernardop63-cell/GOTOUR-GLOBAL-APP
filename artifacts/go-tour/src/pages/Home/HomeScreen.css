@@ -1,0 +1,540 @@
+/* HomeScreen.css */
+.home-page {
+    background-color: #ffffff;
+    min-height: 100vh;
+    padding-bottom: 70px;
+    /* Space for BottomNavBar */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    isolation: isolate; /* Create stacking context so body gradient never shows */
+}
+
+.home-header-container {
+    background-color: #fff;
+    transition: all 0.3s ease;
+    z-index: 50;
+    width: 100%;
+}
+
+.home-header-container.sticky-active {
+    position: sticky;
+    top: 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.home-content-scrollable {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure SearchBar inside sticky container doesn't double-stick incorrectly if it has its own sticky rules */
+.home-header-container.sticky-active .search-bar-container {
+    position: relative;
+    /* Override sticky if it was sticky */
+    top: 0;
+    padding-top: 0;
+}
+
+.tab-loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 40px;
+}
+
+/* ============================
+   GOTOUR STROKE / SELF-DRAWING MASK
+   Logo draws itself using an SVG Mask sweep
+   and rotates in 3D left-to-right
+   ============================ */
+.gotour-preloader {
+    width: 72px;
+    height: 72px;
+    position: relative;
+    perspective: 800px; /* Required for 3D rotation */
+}
+
+.preloader-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    transform-style: preserve-3d;
+    animation: preloader-spin 4s cubic-bezier(0.4, 0, 0.2, 1) infinite; /* One full spin takes 4 seconds */
+}
+
+/* Mask paths that draw the logo sequentially */
+.mask-stroke {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+}
+
+/* Speed doubled: 2s instead of 3s, so it draws exactly twice in the 4s spin window */
+.mask-left {
+    animation: mask-draw 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.mask-right {
+    animation: mask-draw 2s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.15s;
+}
+
+.mask-center {
+    animation: mask-draw-accent 2s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.3s;
+}
+
+/* === MASK DRAW: line draws in, holds, then erases out === */
+@keyframes mask-draw {
+    0%        { stroke-dashoffset: 200; }
+    25%       { stroke-dashoffset: 0; }
+    60%       { stroke-dashoffset: 0; opacity: 1; }
+    85%       { stroke-dashoffset: -200; opacity: 0; }
+    100%      { stroke-dashoffset: -200; opacity: 0; }
+}
+
+@keyframes mask-draw-accent {
+    0%        { stroke-dashoffset: 200; }
+    20%       { stroke-dashoffset: 0; }
+    55%       { stroke-dashoffset: 0; opacity: 1; }
+    80%       { stroke-dashoffset: -200; opacity: 0; }
+    100%      { stroke-dashoffset: -200; opacity: 0; }
+}
+
+/* 3D Spin from Left to Right */
+@keyframes preloader-spin {
+    0%   { transform: rotateY(-180deg); }
+    50%  { transform: rotateY(0deg); }
+    100% { transform: rotateY(180deg); }
+}
+
+
+.home-content {
+    padding: 0 20px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 24px 0 16px 0;
+}
+
+.recommendations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.place-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.place-image-placeholder {
+    height: 160px;
+    background-color: #e5e7eb;
+}
+
+.place-info {
+    padding: 16px;
+}
+
+.place-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.place-location {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.search-results-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-results-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    margin-top: -12px;
+    margin-bottom: 12px;
+}
+
+.results-separator {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 0 0 16px 0;
+}
+
+.results-query-title {
+    font-size: 17px;
+    font-weight: 500;
+    color: #475569;
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.2px;
+}
+
+.query-text {
+    font-weight: 600;
+    font-style: italic;
+    color: #1e293b;
+}
+
+.results-intent-label {
+    color: #64748b;
+    font-weight: 400;
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+/* Premium Filter Button */
+.premium-filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 12px;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-filter-btn:hover {
+    background: rgba(0, 0, 0, 0.04);
+    transform: translateY(-1px);
+}
+
+.premium-filter-btn:active {
+    transform: translateY(0);
+}
+
+.filter-btn-text {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.search-results-content {
+    padding: 0 20px;
+    margin-top: 0px;
+    padding-bottom: 120px;
+}
+
+.grid-results-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+}
+
+/* ===== Desktop Nav Strip (hidden on mobile) ===== */
+.desktop-nav-strip {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .home-page {
+        padding-bottom: 0;
+    }
+
+    /* Search Row */
+    .desktop-search-nav-row {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 0 40px;
+        position: relative;
+        gap: 24px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .desktop-search-nav-row .search-bar-container:not(.search-focused-sticky) {
+        flex: 1;
+        max-width: 700px;
+        margin-left: auto;
+    }
+
+    /* Premium Header Selectors Styles */
+    .desktop-header-selectors {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        max-width: 500px;
+        overflow: visible; /* Fixed clipping issue during scroll */
+        transition: opacity 0.3s ease, transform 0.3s ease, max-width 0.4s ease, gap 0.4s ease;
+    }
+
+    .premium-selector-wrapper {
+        position: relative;
+    }
+
+    .premium-selector-item {
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        padding: 8px 0;
+        transition: opacity 0.2s ease;
+    }
+
+    .premium-selector-item:hover {
+        opacity: 0.7;
+    }
+
+    .selector-triangle {
+        color: #94a3b8;
+        margin-top: 1px;
+    }
+
+    .selector-flag-img {
+        width: 22px;
+        height: 16px;
+        object-fit: cover;
+        border-radius: 2px;
+    }
+
+    .selector-label {
+        font-size: 13px;
+        font-weight: 500;
+        color: #1e293b;
+        letter-spacing: 0.8px;
+        white-space: nowrap;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    /* Dropdown UI */
+    .premium-dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        margin-top: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        z-index: 1000;
+        min-width: 180px;
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .dropdown-option {
+        background: none;
+        border: none;
+        padding: 10px 12px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        width: 100%;
+        text-align: left;
+        transition: background 0.2s ease;
+    }
+
+    .dropdown-option:hover {
+        background: rgba(0, 0, 0, 0.03);
+    }
+
+    .opt-flag-img {
+        width: 20px;
+        height: 14px;
+        object-fit: cover;
+        border-radius: 2px;
+    }
+
+    .opt-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: #475569;
+        font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    /* Desktop nav strip — floating bottom-center rounded rectangle */
+    .desktop-nav-strip {
+        position: fixed;
+        bottom: 64px; /* Elevated further */
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 24px; /* Increased internal spacing to stretch length */
+        background: rgba(255, 255, 255, 0.73); /* 73% opacity */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 10px 32px; /* Increased horizontal padding */
+        border-radius: 9999px; /* Pill/rounded rectangle shape */
+        z-index: 1000;
+        margin: 0;
+    }
+
+    .desktop-nav-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: none;
+        border: none;
+        border-radius: 50%; /* Circle shape for hover hitboxes */
+        cursor: pointer;
+        color: #6b7280;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .desktop-nav-item:hover {
+        background: #f3f4f6;
+        color: #1f2937;
+    }
+
+    .desktop-nav-item.active {
+        background: #1e293b;
+        color: #ffffff;
+    }
+
+    /* Globe top-right on desktop */
+    .globe-selector {
+        position: fixed !important;
+        top: 24px;
+        right: 70px;
+        z-index: 200;
+    }
+
+    .search-row-glass {
+        justify-content: flex-start;
+    }
+
+    .search-bar-glass {
+        height: 54px;
+    }
+}
+
+/* =========================================
+   ADVANCED SCROLL ANIMATION (TWO-STAGE)
+   ========================================= */
+
+.desktop-search-nav-row {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: right top;
+}
+
+/* When the search bar morphs into the top header */
+.home-page.search-morphed .desktop-search-nav-row {
+    margin-bottom: -64px; /* Collapse the extra DOM space */
+    padding: 0;
+    z-index: 105;
+    position: relative;
+}
+
+.home-page.is-searching .desktop-search-nav-row {
+    margin-bottom: -32px; /* Less negative margin so the Travel Planner isn't squished */
+    padding: 0;
+    z-index: 105;
+    position: relative;
+}
+
+/* Move the transform properties ONLY to the non-focused search bar */
+.home-page.search-morphed .desktop-search-nav-row .search-bar-container:not(.search-focused-sticky) {
+    transform: translateY(-66px) translateX(-95px); /* Needs more Y translation because Home header is taller (56px logo) */
+    max-width: 260px; /* Shrink to a pill next to icons, slightly wider for breathing room */
+    margin-left: auto; /* Force to the right side */
+}
+
+.home-page.is-searching .desktop-search-nav-row .search-bar-container:not(.search-focused-sticky) {
+    transform: translateY(-52px) translateX(-95px); /* Less Y translation because Search header is shorter (28px chevron) */
+    max-width: 260px;
+    margin-left: auto;
+}
+
+.home-page.search-morphed .desktop-header-selectors,
+.home-page.is-searching .desktop-header-selectors {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-20px) scale(0.9);
+    max-width: 0px;
+    gap: 0px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Base transitions for smooth inner scaling */
+.search-bar-container {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-bar-glass {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.home-page.search-morphed .search-bar-container:not(.search-focused-sticky),
+.home-page.is-searching .search-bar-container:not(.search-focused-sticky) {
+    padding: 0;
+}
+
+.home-page.search-morphed .search-bar-container:not(.search-focused-sticky) .search-bar-glass,
+.home-page.is-searching .search-bar-container:not(.search-focused-sticky) .search-bar-glass {
+    height: 42px;
+    padding: 2px 4px 2px 14px;
+    background: #f8fafc;
+    border-color: rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.home-page.search-morphed .search-bar-container:not(.search-focused-sticky) .search-circle-btn,
+.home-page.is-searching .search-bar-container:not(.search-focused-sticky) .search-circle-btn {
+    width: 34px;
+    height: 34px;
+}
+
+.home-page.search-morphed .search-bar-container:not(.search-focused-sticky) .search-input-glass,
+.home-page.is-searching .search-bar-container:not(.search-focused-sticky) .search-input-glass {
+    font-size: 13px;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .home-page.search-morphed .desktop-search-nav-row .search-bar-container:not(.search-focused-sticky) {
+        transform: translateY(-66px) translateX(-90px);
+        max-width: 180px;
+    }
+    .home-page.is-searching .desktop-search-nav-row .search-bar-container:not(.search-focused-sticky) {
+        transform: translateY(-52px) translateX(-90px);
+        max-width: 180px;
+    }
+}
+@media (max-width: 400px) {
+    .home-page.search-morphed .desktop-search-nav-row .search-bar-container:not(.search-focused-sticky) {
+        transform: translateY(-66px) translateX(-76px);
+        max-width: 140px; /* Even smaller to avoid clipping logo */
+    }
+    .home-page.is-searching .desktop-search-nav-row .search-bar-container:not(.search-focused-sticky) {
+        transform: translateY(-52px) translateX(-76px);
+        max-width: 140px;
+    }
+    .home-page.search-morphed .search-bar-container:not(.search-focused-sticky) .search-input-glass::placeholder,
+    .home-page.is-searching .search-bar-container:not(.search-focused-sticky) .search-input-glass::placeholder {
+        color: transparent; /* hide placeholder when tiny */
+    }
+}

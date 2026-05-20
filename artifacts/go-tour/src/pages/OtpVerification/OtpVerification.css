@@ -1,0 +1,204 @@
+/* OtpVerification.css - Mobile-First Design (identical on all screen sizes) */
+
+.otp-page {
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    padding: 40px 24px;
+}
+
+/* Logo */
+.otp-logo-container {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.otp-logo-img {
+    height: 48px;
+    width: auto;
+}
+
+.otp-logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #000000;
+    text-transform: uppercase;
+}
+
+/* Header */
+.otp-header {
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 320px;
+}
+
+.otp-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 12px;
+}
+
+.otp-subtitle {
+    font-size: 15px;
+    color: #000000;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* Form */
+.otp-form {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Input Bars */
+.otp-inputs-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.otp-input-bar {
+    width: 55px;
+    height: 55px;
+    border: none;
+    border-bottom: 3px solid #307573;
+    border-radius: 0;
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    color: #000000;
+    background: transparent;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.otp-input-bar:focus {
+    border-color: #307573;
+    transform: translateY(-2px);
+}
+
+.otp-input-bar.filled {
+    border-color: #1e293b;
+}
+
+/* Resend Link */
+.otp-resend {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 14px;
+    color: #000000;
+}
+
+.otp-resend-link {
+    color: #307573;
+    font-weight: 600;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.otp-resend-link:disabled {
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+/* Error & Warning */
+.otp-error-msg {
+    color: #ef4444;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.otp-warning-msg {
+    color: #f59e0b;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+/* Verify Button */
+.otp-button {
+    width: 100%;
+    background: #1e293b;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-family: inherit;
+}
+
+.otp-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(30, 41, 59, 0.3);
+}
+
+.otp-button:active {
+    transform: translateY(0);
+}
+
+/* Footer */
+.otp-footer {
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+.otp-back-link {
+    color: #000000;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.otp-back-link:hover {
+    color: #307573;
+}
+
+/* Transitions */
+.slide-exit {
+    transform: translateX(-100vw);
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide-enter {
+    animation: slideEnter 0.5s ease-out forwards;
+}
+
+@keyframes slideEnter {
+    from {
+        transform: translateX(100vw);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

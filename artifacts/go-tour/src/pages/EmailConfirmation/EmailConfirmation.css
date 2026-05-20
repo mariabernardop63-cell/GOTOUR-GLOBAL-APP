@@ -1,0 +1,177 @@
+/* EmailConfirmation.css - Mobile-First Design (identical on all screen sizes) */
+
+.email-conf-page {
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: transparent;
+}
+
+/* Overlay — hidden */
+.email-conf-overlay {
+    display: none;
+}
+
+/* Logo Section — hidden */
+.email-conf-logo-section {
+    display: none;
+}
+
+/* Glass Container */
+.email-conf-glass-container {
+    width: 100%;
+    max-width: none;
+    min-height: 100dvh;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: none;
+    border-radius: 0;
+    padding: 40px 24px;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    animation: emailConfFadeInUp 0.6s ease-out;
+}
+
+/* Back button */
+.email-conf-back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    background: none;
+    border: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.email-conf-back-btn svg {
+    color: #1e293b;
+}
+
+.email-conf-back-btn:hover {
+    opacity: 0.7;
+}
+
+.email-conf-header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.email-conf-header p {
+    font-size: 1rem;
+    color: #1e293b;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.email-display {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 12px 20px;
+    border-radius: 12px;
+    width: 100%;
+    border: 1.5px solid #307573;
+}
+
+.email-display p {
+    color: #000000;
+    font-size: 0.95rem;
+}
+
+.email-display strong {
+    color: #000000;
+    font-weight: 600;
+}
+
+.email-conf-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.email-conf-main-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 6px -1px rgba(4, 140, 131, 0.5);
+    font-family: inherit;
+}
+
+.email-conf-main-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(4, 140, 131, 0.6);
+}
+
+.email-conf-hint {
+    font-size: 0.85rem;
+    color: #1e293b;
+    text-align: center;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+.resend-link {
+    font-size: 0.9rem;
+    color: #000000;
+    margin-top: 10px;
+}
+
+.resend-link span {
+    color: #307573;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.resend-link span:hover {
+    color: #048c83;
+    text-decoration: underline;
+}
+
+/* Animations */
+@keyframes emailConfFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: emailConfFadeInUp 0.6s ease-out;
+}

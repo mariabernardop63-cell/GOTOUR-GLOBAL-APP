@@ -1,0 +1,146 @@
+/* AIGuardianPanel.css */
+
+.tic-guardian-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+}
+
+.tic-guardian-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--tic-border);
+}
+
+.tic-guardian-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.tic-guardian-avatar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+  animation: ticAiPulse 3s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes ticAiPulse {
+  0% { opacity: 0.3; transform: scale(0.95); }
+  100% { opacity: 0.8; transform: scale(1.05); }
+}
+
+.tic-guardian-core {
+  display: flex;
+  flex-direction: column;
+}
+
+.tic-guardian-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tic-guardian-subtitle {
+  font-size: 11px;
+  color: var(--tic-accent);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Chat/Analysis Area */
+.tic-guardian-feed {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: none;
+}
+.tic-guardian-feed::-webkit-scrollbar { display: none; }
+
+.tic-guardian-msg {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--tic-text-secondary);
+  line-height: 1.5;
+  animation: ticFadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.tic-guardian-msg::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 2px;
+  height: calc(100% - 24px);
+  background: var(--tic-accent);
+  border-radius: 0 2px 2px 0;
+  opacity: 0.5;
+}
+
+.tic-guardian-msg.warning::before {
+  background: var(--tic-warning);
+}
+
+.tic-guardian-msg-time {
+  font-size: 10px;
+  color: var(--tic-text-tertiary);
+  margin-top: 6px;
+  text-align: right;
+  font-family: monospace;
+}
+
+@keyframes ticFadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Typing Indicator */
+.tic-typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 8px 14px;
+  align-items: center;
+  width: fit-content;
+}
+
+.tic-typing-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--tic-text-tertiary);
+  animation: ticTyping 1.4s infinite ease-in-out both;
+}
+
+.tic-typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.tic-typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes ticTyping {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}

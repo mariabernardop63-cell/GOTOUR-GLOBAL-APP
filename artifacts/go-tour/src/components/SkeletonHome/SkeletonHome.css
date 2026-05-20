@@ -1,0 +1,212 @@
+/* ============================================================
+   SkeletonHome.css — Geometry Stabilized Edition
+   ============================================================ */
+
+   @keyframes skeletonFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes shimmerWave {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes skeletonBreatheFluid {
+    0% { opacity: 0.75; }
+    100% { opacity: 1; }
+}
+
+.shimmer {
+    background: #f1f5f9; /* Static neutral gray as requested, no animation */
+    border-radius: 8px;
+}
+
+.skeleton-search-bar,
+.skeleton-chips-row,
+.skeleton-must-see,
+.skeleton-near-you,
+.skeleton-recommendations {
+    animation: skeletonFadeIn 0.3s ease-out forwards;
+}
+
+.skeleton-must-see {
+    margin-top: 20px;
+    margin-bottom: 24px;
+}
+
+.skeleton-near-you {
+    margin-bottom: 32px;
+}
+
+/* 1. SEARCH BAR (White container with grey ghosts inside) */
+.skeleton-search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
+}
+
+.skeleton-search-pill-container {
+    width: 60%;
+    max-width: 400px;
+    height: 54px;
+    border-radius: 9999px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px 0 24px;
+}
+
+.skeleton-search-text {
+    width: 120px;
+    height: 14px;
+    border-radius: 6px;
+    background-color: #e0e0e0;
+}
+
+.skeleton-search-icon-round {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+}
+
+/* 2. CHIPS */
+.skeleton-chips-row {
+    display: flex;
+    gap: 32px;
+    padding: 12px 20px;
+    overflow: hidden;
+}
+
+.skeleton-chip {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* 3 & 4. HORIZONTAL SCROLLS */
+.skeleton-horizontal-scroll {
+    display: flex;
+    gap: 16px; /* Matched actual layout gap */
+    padding: 12px 20px; /* Reduced vertical padding to match real sections */
+    overflow: hidden;
+}
+
+/* 5. VERTICAL GRID */
+.skeleton-vertical-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
+    padding: 24px 20px;
+}
+
+/* UNIVERSAL CARD STRUCTURE */
+.skeleton-ab-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.skeleton-ab-image {
+    width: 100%;
+    border-radius: 16px;
+    background-color: #ededed;
+}
+
+.skeleton-ab-text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 4px;
+}
+
+/* Ghost Lines */
+.skeleton-ab-line-main {
+    width: 85%;
+    height: 14px;
+    border-radius: 6px;
+    background-color: #e0e0e0;
+}
+
+.skeleton-ab-line-sub {
+    width: 60%;
+    height: 14px;
+    border-radius: 6px;
+    background-color: #e0e0e0;
+    opacity: 0.7;
+}
+
+/* GEOMETRY OVERRIDES (The Fix) */
+
+/* MustSee: Exactly matching dest-card-new dimensions */
+.skeleton-must-see-card {
+    width: 210px; /* Match mobile default width */
+}
+.skeleton-must-see-card .skeleton-ab-image {
+    aspect-ratio: 1 / 1; /* Match square aspect ratio */
+    border-radius: 16px; /* Match real border-radius */
+}
+
+@media (min-width: 1024px) {
+    .skeleton-must-see-card {
+        width: 185px; /* Match desktop width */
+    }
+}
+
+/* NearYou: Exactly 160px wide, with 10px padding like real cards */
+.skeleton-near-you-card {
+    width: 160px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #f1f5f9;
+}
+.skeleton-near-you-card .skeleton-ab-image {
+    height: 100px; /* Exact match with near-img-wrapper height */
+    border-radius: 16px;
+    margin-bottom: 10px; /* Match real image margin */
+}
+.skeleton-near-you-card .skeleton-ab-text-block {
+    gap: 6px; /* Match real info gap */
+}
+
+/* Large Grid Recommendations */
+.skeleton-large-card {
+    width: 100%; /* Flexible based on grid */
+}
+.skeleton-large-card .skeleton-ab-image {
+    aspect-ratio: 1 / 0.95; /* Almost square */
+}
+
+/* Explore Regions Skeleton - Large vertical image-only cards */
+.skeleton-region-card {
+    width: 260px;
+    height: 340px;
+}
+.skeleton-region-card .skeleton-ab-image {
+    height: 100%;
+    border-radius: 24px;
+}
+
+@media (min-width: 1024px) {
+    .skeleton-region-card {
+        width: 240px;
+        height: 310px;
+    }
+}
+
+
+/* Mobile specific fixes */
+@media (max-width: 768px) {
+    .skeleton-search-pill-container {
+        width: 100%;
+        max-width: none;
+    }
+}
