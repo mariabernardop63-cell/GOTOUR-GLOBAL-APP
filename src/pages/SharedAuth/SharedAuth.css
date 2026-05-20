@@ -259,12 +259,23 @@
     }
 }
 
+@keyframes autofill-fix {
+    0%, 100% {
+        color: #1E293B;
+        background: transparent;
+        font-size: 17px !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    }
+}
+
 input.da-input:-webkit-autofill,
 input.da-input:-webkit-autofill:hover, 
 input.da-input:-webkit-autofill:focus,
 input.da-input:-webkit-autofill:active {
     -webkit-animation-name: autofill-fix;
+    animation-name: autofill-fix;
     -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
     transition: background-color 5000s ease-in-out 0s;
     font-size: 17px !important;

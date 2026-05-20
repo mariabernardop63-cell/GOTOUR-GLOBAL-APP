@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Loader2, SlidersHorizontal, Globe, ChevronDown } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Search, Loader2, User, ChevronDown, ChevronLeft, Clock, Trash2 } from 'lucide-react';
+import { useNavigation } from '../../App';
+import { extractSearchIntent } from '../../services/aiSearchService';
 import './SearchBarAIStyles.css';
 
 const CountryDropdown = ({ selectedCountry, onSelect, isOpen, onClose }) => {
@@ -31,37 +34,70 @@ const CountryDropdown = ({ selectedCountry, onSelect, isOpen, onClose }) => {
     );
 };
 
-const SearchBarAI = ({ onSearch, isSearching, isLoading, selectedCountry, onCountryChange }) => {
+const SearchBarAI = ({ onSearch, isSearching, isLoading, isSkeleton, selectedCountry, onCountryChange }) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { setModalBackground } = useNavigation();
+    
     const [searchText, setSearchText] = useState('');
     const [isFocused, setIsFocused] = useState(false);
-    const [isCountryOpen, setIsCountryOpen] = useState(false);
+    const [localLoading, setLocalLoading] = useState(false);
+    const [searchHistory, setSearchHistory] = useState([
+        'Praias em Inhambane',
+        'Hotéis baratos na Beira',
+        'Aluguer de carros',
+        'Restaurantes de marisco maputo'
+    ]);
     const containerRef = useRef(null);
 
-    const showNeon = isLoading;
+    const showNeon = isLoading || localLoading;
 
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (containerRef.current && !containerRef.current.contains(event.target)) {
-                setIsCountryOpen(false);
+                setIsFocused(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleSearchClick = () => {
-        if (searchText.trim()) {
-            onSearch(searchText);
+    const handleSearchClick = async (e) => {
+        if (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
+        if (searchText.trim() && !localLoading && !isLoading) {
+            // Add to history without duplicates
+            setSearchHistory(prev => {
+                const filtered = prev.filter(item => item !== searchText.trim());
+                return [searchText.trim(), ...filtered].slice(0, 8); // Keep up to 8
+            });
+
+            // Stage 1: Spin for loading and move to focus mode
+            setLocalLoading(true);
+            setIsFocused(true);
+
             if (document.activeElement instanceof HTMLElement) {
                 document.activeElement.blur();
             }
-            setIsFocused(false);
+
+            // Call to Gemini AI service for semantic parsing
+            const aiAnalysis = await extractSearchIntent(searchText.trim());
+
+            // Add an artificial small visual delay just for UI premium feel
+            setTimeout(() => {
+                setLocalLoading(false);
+                setIsFocused(false);
+                onSearch(searchText.trim(), aiAnalysis);
+            }, 800);
         }
     };
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            handleSearchClick();
+            handleSearchClick(e);
         }
     };
 
@@ -71,66 +107,116 @@ const SearchBarAI = ({ onSearch, isSearching, isLoading, selectedCountry, onCoun
             ref={containerRef}
         >
             <div className="search-row-glass">
-                {/* Globe Icon — Country Selector */}
-                {!isFocused && (
-                    <div className="globe-selector">
-                        <button
-                            className="globe-btn"
-                            onClick={() => setIsCountryOpen(!isCountryOpen)}
-                            aria-label="Select country"
-                        >
-                            <Globe size={20} strokeWidth={1.8} />
-                        </button>
-                        <CountryDropdown
-                            selectedCountry={selectedCountry}
-                            onSelect={onCountryChange}
-                            isOpen={isCountryOpen}
-                            onClose={() => setIsCountryOpen(false)}
-                        />
-                    </div>
-                )}
+                {/* Removed duplicate user profile icon from SearchBarAI as requested */}
 
-                {/* Filter Icon when focused */}
+                {/* Back Icon when focused */}
                 {isFocused && (
                     <div className="focused-left-icons">
-                        <div className="icon-badge-glass">
-                            <SlidersHorizontal size={20} color="#1e293b" />
-                        </div>
+                        <button className="icon-badge-glass" onClick={() => setIsFocused(false)} aria-label="Voltar">
+                            <ChevronLeft size={24} color="#1e293b" />
+                        </button>
                     </div>
                 )}
 
                 {/* Glassmorphism Search Bar */}
-                <div className={`glass-wrapper ${showNeon ? 'active-neon' : ''}`}>
+                <div className={`glass-wrapper ${showNeon ? 'active-neon' : ''} ${isFocused ? 'wrapper-focused' : ''}`}>
                     <div className="search-bar-glass">
-                        <Search className="search-icon-glass" size={18} />
+                        {isSkeleton ? (
+                            <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'flex-end', paddingRight: '4px' }}>
+                                <div className="skeleton-search-icon-round shimmer" style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#ececec' }} />
+                            </div>
+                        ) : (
+                            <>
+                                <Search className="search-icon-glass" size={18} />
 
-                        <input
-                            type="text"
-                            placeholder={isFocused ? "Pesquisar..." : "Pesquisar destinos, hotéis..."}
-                            className="search-input-glass"
-                            value={searchText}
-                            onChange={(e) => setSearchText(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                            onFocus={() => setIsFocused(true)}
-                            onBlur={() => { }}
-                        />
+                                <input
+                                    type="text"
+                                    placeholder={isFocused ? "Pesquisar..." : "Pesquisar destinos, hotéis..."}
+                                    className="search-input-glass"
+                                    value={searchText}
+                                    onChange={(e) => setSearchText(e.target.value)}
+                                    onKeyDown={handleKeyDown}
+                                    onFocus={() => setIsFocused(true)}
+                                    onBlur={() => { }}
+                                />
 
-                        {/* Circular Search Button */}
-                        <button
-                            className={`search-circle-btn ${isLoading ? 'loading' : ''}`}
-                            onClick={handleSearchClick}
-                            disabled={isLoading}
-                            aria-label="Search"
-                        >
-                            {isLoading ? (
-                                <Loader2 className="spinner-icon" size={18} />
-                            ) : (
-                                <Search size={18} strokeWidth={2.2} />
-                            )}
-                        </button>
+                                {/* Circular Search Button */}
+                                <button
+                                    className={`search-circle-btn ${isLoading || localLoading ? 'loading' : ''}`}
+                                    onClick={handleSearchClick}
+                                    disabled={isLoading || localLoading}
+                                    aria-label="Search"
+                                >
+                                    {isLoading || localLoading ? (
+                                        <Loader2 className="spinner-icon" size={18} />
+                                    ) : (
+                                        <Search size={18} strokeWidth={2.2} />
+                                    )}
+                                </button>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
+
+            {/* Recent Searches Dropdown */}
+            {isFocused && (
+                <div className="recent-searches-dropdown">
+                    <div className="recent-searches-header">
+                        <span className="recent-searches-title">Pesquisas recentes</span>
+                    </div>
+                    
+                    {searchHistory.length > 0 ? (
+                        <div className="recent-searches-list">
+                            {searchHistory.slice(0, 5).map((item, index) => (
+                                <div key={index} className="recent-search-item">
+                                    <div 
+                                        className="recent-search-content"
+                                        onClick={async () => {
+                                            if (localLoading || isLoading) return;
+                                            setSearchText(item);
+                                            
+                                            // Handle history click exactly with AI parsing
+                                            setLocalLoading(true);
+                                            setIsFocused(true);
+                                            
+                                            const aiAnalysis = await extractSearchIntent(item);
+                                            
+                                            setTimeout(() => {
+                                                setLocalLoading(false);
+                                                setIsFocused(false);
+                                                onSearch(item, aiAnalysis);
+                                            }, 800);
+                                        }}
+                                    >
+                                        <Clock size={20} color="#94a3b8" className="recent-icon" />
+                                        <span className="recent-text">{item}</span>
+                                    </div>
+                                    <button 
+                                        className="recent-delete-btn"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setSearchHistory(prev => prev.filter(h => h !== item));
+                                        }}
+                                        aria-label="Remover pesquisa"
+                                    >
+                                        <Trash2 size={18} />
+                                    </button>
+                                </div>
+                            ))}
+                            {searchHistory.length > 5 && (
+                                <button className="recent-view-more-btn">
+                                    Ver mais
+                                </button>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="recent-searches-empty">
+                            Nenhuma pesquisa recente.
+                        </div>
+                    )}
+                </div>
+            )}
 
             {/* Backdrop for focused mode */}
             {isFocused && (

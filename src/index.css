@@ -153,12 +153,10 @@ img[data-loaded="false"] {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -194,7 +192,7 @@ img[data-loaded="false"] {
 @keyframes contentFadeIn {
   from {
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(8px);
   }
 
   to {
@@ -205,17 +203,16 @@ img[data-loaded="false"] {
 
 .content-fade-in {
   animation: contentFadeIn 0.4s ease-out forwards;
+  background-color: #ffffff;
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -260,4 +257,47 @@ img[data-loaded="false"] {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Utility classes for guaranteed single-line truncating */
+.hs-subtitle,
+.budget-subtitle,
+.explore-regions-subtitle,
+.near-you-subtitle,
+.must-see-subtitle,
+.ms-subtitle {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     display: block;
+     max-width: 100%;
+}
+
+.hs-pill-cover,
+.region-cost-pill,
+.bd-cost-pill,
+.hs-type-badge,
+.bd-type-badge,
+.hs-top-left-badge {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     max-width: 100%;
+}
+
+/* Ensure all Chevrons on section right links have the premium dark grey color */
+.hs-section-arrow,
+.budget-link,
+.near-you-link,
+.must-see-link,
+.ms-link {
+    color: #475569 !important;
+}
+
+.hs-section-arrow:hover,
+.budget-link:hover,
+.near-you-link:hover,
+.must-see-link:hover,
+.ms-link:hover {
+    color: #1e293b !important;
 }

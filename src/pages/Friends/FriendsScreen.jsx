@@ -5,7 +5,7 @@ import {
     Eye, UserMinus, Ban, MoreVertical, Clock, Wifi, Star,
     ChevronDown, MapPin, Compass, Globe
 } from 'lucide-react';
-import DesktopSidebar from '../../components/DesktopSidebar/DesktopSidebar';
+import { useNavigation } from '../../App';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import HomeHeader from '../../components/HomeHeader/HomeHeader';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
@@ -44,6 +44,7 @@ const FILTERS = ['Todos', 'Online', 'Recentes', 'Favoritos'];
 
 const FriendsScreen = () => {
     const navigate = useNavigate();
+    const { navigateBack } = useNavigation();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
@@ -153,7 +154,7 @@ const FriendsScreen = () => {
         return (
             <div className="friends-list-grid">
                 {filteredFriends.map(friend => (
-                    <div key={friend.id} className="friend-card" onClick={() => setProfileModal(friend)}>
+                    <div key={friend.id} className="friend-card" onClick={() => navigate('/profile', { state: { user: friend } })}>
                         <div className="friend-card-avatar-wrapper">
                             <img src={friend.avatar} alt={friend.name} className="friend-card-avatar" />
                             {friend.online && <div className="friend-online-dot"></div>}
@@ -170,7 +171,7 @@ const FriendsScreen = () => {
                             <button className="friend-action-btn" title="Enviar mensagem" onClick={(e) => { e.stopPropagation(); navigate('/messages'); }}>
                                 <MessageCircle size={16} />
                             </button>
-                            <button className="friend-action-btn" title="Ver perfil" onClick={(e) => { e.stopPropagation(); navigate(`/user/${friend.id}`); }}>
+                            <button className="friend-action-btn" title="Ver perfil" onClick={(e) => { e.stopPropagation(); navigate('/profile', { state: { user: friend } }); }}>
                                 <Eye size={16} />
                             </button>
                             <button className="friend-action-btn danger" title="Remover amigo" onClick={(e) => { e.stopPropagation(); removeFriend(friend.id); }}>
@@ -212,7 +213,7 @@ const FriendsScreen = () => {
                             <button className="friend-action-pill reject" onClick={(e) => { e.stopPropagation(); rejectRequest(req.id); }}>
                                 <X size={16} /> Recusar
                             </button>
-                            <button className="friend-action-btn" title="Ver perfil" onClick={(e) => { e.stopPropagation(); navigate(`/user/${req.id}`); }}>
+                            <button className="friend-action-btn" title="Ver perfil" onClick={(e) => { e.stopPropagation(); navigate('/profile', { state: { user: req } }); }}>
                                 <Eye size={16} />
                             </button>
                         </div>
@@ -305,7 +306,9 @@ const FriendsScreen = () => {
 
     return (
         <div className="friends-layout-root">
-            <DesktopSidebar />
+            <button className="friends-close-btn desktop-only" onClick={() => navigateBack()} aria-label="Fechar">
+                <X size={24} />
+            </button>
             <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
 
             <div className="home-fixed-header mobile-only">
@@ -402,7 +405,7 @@ const FriendsScreen = () => {
                             <button className="modal-action-btn primary" onClick={() => { setProfileModal(null); navigate('/messages'); }}>
                                 <MessageCircle size={16} /> Enviar Mensagem
                             </button>
-                            <button className="modal-action-btn secondary" onClick={() => { setProfileModal(null); navigate(`/user/${profileModal.id}`); }}>
+                            <button className="modal-action-btn secondary" onClick={() => { setProfileModal(null); navigate('/profile', { state: { user: profileModal } }); }}>
                                 <Eye size={16} /> Ver Perfil Completo
                             </button>
                         </div>

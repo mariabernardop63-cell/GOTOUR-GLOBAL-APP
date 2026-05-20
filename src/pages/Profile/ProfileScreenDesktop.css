@@ -1,10 +1,5 @@
-/* ===== DESKTOP LAYOUT (min-width: 1024px) ===== */
-@media (min-width: 1024px) {
-    .profile-page {
-        flex-direction: row;
-        background: #f8fafc;
-        /* Lighter background for desktop */
-    }
+/* ===== DESKTOP LAYOUT (min-width: 768px) ===== */
+@media (min-width: 768px) {
 
     /* Hide Mobile Header elements */
     .profile-fixed-header {
@@ -16,17 +11,49 @@
         display: none !important;
     }
 
-    /* Shift content to the right of the sidebar */
+    /* Center content without sidebar */
     .profile-scroll-content {
-        margin-left: 280px;
-        /* Width of DesktopSidebar */
         padding-top: 0;
         /* Remove top padding since header is gone */
-        padding-bottom: 40px;
-        /* Less bottom padding needed */
+        padding-bottom: 120px;
+        /* Space for floating bottom nav */
         max-width: 1000px;
-        margin: 0 auto 0 280px;
-        /* Center content in the remaining space */
+        margin: 0 auto;
+        /* Center content in the full space */
+        
+        /* Custom scrollbar — visible and styled */
+        scrollbar-width: thin;
+        scrollbar-color: rgba(139, 92, 246, 0.35) transparent;
+    }
+
+    .profile-scroll-content::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    .profile-scroll-content::-webkit-scrollbar-track {
+        background: transparent;
+        margin: 8px 0;
+    }
+
+    .profile-scroll-content::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, rgba(139,92,246,0.4), rgba(139,92,246,0.2));
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .profile-scroll-content::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, rgba(139,92,246,0.6), rgba(139,92,246,0.35));
+    }
+
+    /* Hide scrollbar on page body only */
+    .profile-page {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .profile-page::-webkit-scrollbar {
+        display: none;
+        width: 0;
     }
 
     /* Adjust banner for desktop */
@@ -37,6 +64,9 @@
 
     /* Adjust profile header container */
     .profile-header-container {
+        display: flex;
+        align-items: center;
+        gap: 32px;
         padding: 0 40px;
         margin-top: -60px;
         /* Pull up to overlap banner more smoothly */
@@ -44,6 +74,7 @@
 
     .profile-avatar-section {
         margin-bottom: 0;
+        margin-left: -16px;
         /* Horizontal layout adjustment */
     }
 
@@ -55,10 +86,11 @@
     }
 
     .profile-info-section {
-        margin-top: 16px;
+        margin-top: 60px; /* Counteracts banner overlap, centering texts directly parallel to avatar bottom-half bounds */
         align-items: flex-start;
         /* Align left */
         text-align: left;
+        flex: 1;
     }
 
     .profile-user-info {
@@ -76,5 +108,107 @@
         /* Shift buttons to the right twice */
         justify-content: flex-start;
         /* Align left */
+    }
+
+    /* Desktop Navigation Floating Pill */
+    .desktop-nav-strip {
+        position: fixed;
+        bottom: 64px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        background: rgba(255, 255, 255, 0.73);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 10px 32px;
+        border-radius: 9999px;
+        z-index: 1000;
+        margin: 0;
+    }
+
+    .desktop-nav-item {
+        background: transparent;
+        border: none;
+        color: #64748b;
+        cursor: pointer;
+        padding: 12px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .desktop-nav-item:hover {
+        background: rgba(0, 0, 0, 0.04);
+        color: #1e293b;
+        transform: translateY(-2px);
+    }
+    
+    /* Top Left Close X Button */
+    .profile-close-btn {
+        position: absolute;
+        top: 24px;
+        left: 24px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.05);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 999;
+        transition: all 0.2s ease;
+        color: #1e293b;
+    }
+    
+    .profile-close-btn:hover {
+        background: rgba(0, 0, 0, 0.1);
+        transform: scale(1.05);
+    }
+
+    /* ===== DESKTOP MODAL BEHAVIOR ===== */
+    /* When rendered with 'is-modal' via App.jsx overlay */
+    .profile-page.is-modal {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 100%;
+        max-width: 1000px;
+        height: 90vh;
+        border-radius: 0;
+        overflow: hidden;
+        background: #ffffff;
+        box-shadow: 0 0 60px rgba(0, 0, 0, 0.15);
+        z-index: 10000;
+        /* Smooth fade + slide up WITHOUT using transform to prevent containing block bugs */
+        animation: profile-modal-slide 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+
+    @keyframes profile-modal-slide {
+        from { opacity: 0; margin-top: 5vh; }
+        to { opacity: 1; margin-top: auto; }
+    }
+
+    /* Modal close button adjustments */
+    .profile-page.is-modal .profile-close-btn {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        color: #0f172a;
+    }
+
+    .profile-page.is-modal .profile-close-btn:hover {
+        background: #ffffff;
+        transform: scale(1.1);
     }
 }

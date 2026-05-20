@@ -1,369 +1,418 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
-    User, MessageCircle, Edit3, MoreHorizontal,
-    Image, Layers, Bookmark, Heart,
-    Plus, Compass, Menu, Pencil, Camera, ImagePlus, Film, Trash2, Globe, Settings, Share2, MapPin, BadgeCheck
+    User, MessageCircle, MoreHorizontal, Image,
+    Layers, Bookmark, Heart, Plus, Share2, MapPin,
+    BadgeCheck, Settings, X, Pencil, ChevronDown,
+    Map, Navigation, Tent, Camera, Edit, UserPlus, UserMinus,
+    LogOut
 } from 'lucide-react';
+import { useNavigation } from '../../App';
+import { useAuth } from '../../context/AuthContext';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
-import DesktopSidebar from '../../components/DesktopSidebar/DesktopSidebar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import HomeHeader from '../../components/HomeHeader/HomeHeader';
 import EditProfileModal from '../../components/EditProfileModal/EditProfileModal';
-import SearchBarAI from '../../components/SearchBarAI/SearchBarAI'; // We only need it if we import CountryDropdown, but let's make a copy of it or extract it if needed. Actually we can just render the Globe button here and not a full dropdown if just visual, or implement a simple dropdown
 import gotourLogo from '../../assets/images/gotour_icon.png';
 import './ProfileScreen.css';
-import './ProfileScreenDesktop.css';
 import '../../components/HomeHeader/HomeFixedHeaderStyles.css';
 
-// Reusing CountryDropdown locally for Profile
-const CountryDropdown = ({ selectedCountry, onSelect, isOpen, onClose }) => {
-    const countries = [
-        { code: 'MZ', flag: '🇲🇿', name: 'Moçambique' },
-        { code: 'ZA', flag: '🇿🇦', name: 'África do Sul' },
-        { code: 'PT', flag: '🇵🇹', name: 'Portugal' },
-        { code: 'BR', flag: '🇧🇷', name: 'Brasil' },
-    ];
-
-    if (!isOpen) return null;
-
-    return (
-        <div className="country-dropdown-glass profile-globe-dropdown">
-            {countries.map((country) => (
-                <button
-                    key={country.code}
-                    className={`country-option-glass ${selectedCountry.code === country.code ? 'active' : ''}`}
-                    onClick={() => {
-                        onSelect(country);
-                        onClose();
-                    }}
-                >
-                    <span className="country-flag">{country.flag}</span>
-                    <span className="country-label">{country.name}</span>
-                </button>
-            ))}
-        </div>
-    );
-};
-
-// Mock user data
+// Mock user data based on the new requirements
 const mockUser = {
-    name: 'Nome do Usuário',
-    username: '@gotour_user',
-    bio: 'Amante de viagens e aventuras. 🌍✈️ Explorando o mundo, um destino de cada vez.',
-    avatar: null,
-    coverImage: null,
-    hasStory: false,
-    stats: { friends: 0, collections: 0, posts: 0 }
+    name: 'James Aminoff',
+    username: '@james_aminoff',
+    bio: 'My name is James, I\'m a traveler and content creator from LA. Please follow my adventures.',
+    avatar: 'https://i.pravatar.cc/150?img=11', // Placeholder avatar
+    coverImage: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&q=80&w=1200', // Premium abstract cover
+    nationality: { code: 'MZ', flag: '🇲🇿', name: 'Moçambique' },
+    category: 'Explorador',
+    interests: ['Natureza', 'Fotografia', 'Culturas', 'Mochilão', 'Gastronomia'],
+    stats: { friends: 216, posts: 283, likes: 4872 }
 };
 
-const TABS = [
-    { id: 'publicacoes', label: 'Publicações' },
-    { id: 'colecoes', label: 'Coleções' },
-    { id: 'visitar', label: 'Visitar Depois' },
-    { id: 'favorito', label: 'Favorito' },
+// Mock Friends
+const MOCK_FRIENDS = [
+    { id: 1, name: 'Lindsey Workman', category: 'Viajante', avatar: 'https://i.pravatar.cc/150?img=5' },
+    { id: 2, name: 'Charlie Lipshutz', category: 'Turista', avatar: 'https://i.pravatar.cc/150?img=8' },
 ];
 
-const TAB_CONTENT = {
-    publicacoes: {
-        icon: Image, title: 'Você ainda não tem nenhuma publicação.',
-        description: 'Comece agora e compartilhe suas experiências de viagem com outros viajantes.',
-        buttonText: 'Publicar algo', buttonIcon: Plus,
-    },
-    colecoes: {
-        icon: Layers, title: 'Você ainda não tem nenhuma coleção.',
-        description: 'Organize seus destinos favoritos em coleções temáticas.',
-        buttonText: 'Criar coleção', buttonIcon: Plus,
-    },
-    visitar: {
-        icon: Bookmark, title: 'Você não adicionou nenhum lugar para visitar depois.',
-        description: 'Salve destinos incríveis para planejar suas próximas aventuras.',
-        buttonText: 'Explorar destinos', buttonIcon: Compass,
-    },
-    favorito: {
-        icon: Heart, title: 'Você ainda não tem favoritos.',
-        description: 'Marque publicações e destinos que mais gostou como favoritos.',
-        buttonText: 'Adicionar favoritos', buttonIcon: Heart,
-    },
-};
+const MOCK_POSTS = [
+    { id: 1, image: 'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?auto=format&fit=crop&q=80&w=400' },
+    { id: 2, image: 'https://images.unsplash.com/photo-1506744626753-dba8d4ce9a8f?auto=format&fit=crop&q=80&w=400' },
+    { id: 3, image: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&q=80&w=400' },
+    { id: 4, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=400' },
+    { id: 5, image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=400' },
+    { id: 6, image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80&w=400' }
+];
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ isModal = false }) => {
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState('publicacoes');
+    const location = useLocation();
+    const friendData = location.state?.user; // If passed from message screen
+    const isMe = !friendData;
+
+    const { setModalBackground, modalBackground, navigateFade } = useNavigation();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [showBannerModal, setShowBannerModal] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [user, setUser] = useState(mockUser);
-    const [selectedCountry, setSelectedCountry] = useState({ code: 'MZ', flag: '🇲🇿', name: 'Moçambique' });
-    const [isCountryOpen, setIsCountryOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(true); // New state for skeleton
-    const modalRef = useRef(null);
-    const globeRef = useRef(null);
+    const [friendRequested, setFriendRequested] = useState(false);
+    
+    // Dropdown state for Content Filter
+    const [contentFilter, setContentFilter] = useState('Tudo');
+    const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+    const filterRef = useRef(null);
+
+    const { user: authUser, signOut } = useAuth();
+
+    // Initialize profile dynamically based on supabase authenticated user details if present
+    const getInitialUser = () => {
+        if (friendData) {
+            return { ...mockUser, ...friendData };
+        }
+        if (authUser) {
+            const emailName = authUser.email ? authUser.email.split('@')[0] : 'Viajante';
+            const formattedName = emailName.charAt(0).toUpperCase() + emailName.slice(1);
+            return {
+                ...mockUser,
+                name: formattedName,
+                username: `@${emailName.toLowerCase()}`
+            };
+        }
+        return mockUser;
+    };
+
+    const [user, setUser] = useState(getInitialUser());
+    const [isLoading, setIsLoading] = useState(true);
+
+    const handleSignOut = async () => {
+        try {
+            await signOut();
+            setModalBackground(null);
+            navigateFade('/home');
+        } catch (err) {
+            console.error("Erro ao terminar sessão:", err);
+        }
+    };
+
+    const handleClose = () => {
+        if (modalBackground) {
+            setModalBackground(null);
+            navigate(modalBackground.pathname);
+        } else {
+            navigate(-1);
+        }
+    };
 
     const handleSaveProfile = (updatedData) => {
         setUser(prev => ({
             ...prev,
             name: updatedData.name,
             username: updatedData.username,
-            avatar: updatedData.avatar || prev.avatar
+            avatar: updatedData.avatar || prev.avatar,
+            bio: updatedData.bio || prev.bio
         }));
     };
 
-    const currentTabContent = TAB_CONTENT[activeTab];
-    const TabIcon = currentTabContent.icon;
-    const ButtonIcon = currentTabContent.buttonIcon;
-
-    // Simulate data loading
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsLoading(false);
-        }, 800);
-        return () => clearTimeout(timer);
-    }, []);
-
-    // Close modal & globe on click outside
+    // Close dropdown on click outside
     useEffect(() => {
         const handleClick = (e) => {
-            if (showBannerModal && modalRef.current && !modalRef.current.contains(e.target)) {
-                setShowBannerModal(false);
-            }
-            if (isCountryOpen && globeRef.current && !globeRef.current.contains(e.target)) {
-                setIsCountryOpen(false);
+            if (isFilterDropdownOpen && filterRef.current && !filterRef.current.contains(e.target)) {
+                setIsFilterDropdownOpen(false);
             }
         };
         document.addEventListener('mousedown', handleClick);
         return () => document.removeEventListener('mousedown', handleClick);
-    }, [showBannerModal, isCountryOpen]);
+    }, [isFilterDropdownOpen]);
+
+    // Simulate loading
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 600);
+        return () => clearTimeout(timer);
+    }, []);
 
     const hasAvatar = !!user.avatar;
     const hasCover = !!user.coverImage;
 
-    // Skeleton loader component
-    const ProfileSkeleton = () => (
-        <div className="profile-skeleton-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: '800px', margin: '0 auto', paddingTop: '24px' }}>
-            <div className="skeleton-avatar" style={{ width: '112px', height: '112px', borderRadius: '50%', background: '#e2e8f0', marginBottom: '16px', animation: 'pulse 1.5s infinite' }}></div>
-            <div className="skeleton-name" style={{ width: '200px', height: '24px', borderRadius: '4px', background: '#e2e8f0', marginBottom: '16px', animation: 'pulse 1.5s infinite' }}></div>
-            <div className="skeleton-actions" style={{ display: 'flex', gap: '10px', width: '100%', padding: '0 20px', marginBottom: '24px', justifyContent: 'center' }}>
-                <div style={{ flex: 1, maxWidth: '160px', height: '42px', borderRadius: '14px', background: '#e2e8f0', animation: 'pulse 1.5s infinite' }}></div>
-                <div style={{ flex: 1, maxWidth: '160px', height: '42px', borderRadius: '14px', background: '#e2e8f0', animation: 'pulse 1.5s infinite' }}></div>
-                <div style={{ width: '42px', height: '42px', borderRadius: '14px', background: '#e2e8f0', animation: 'pulse 1.5s infinite' }}></div>
-                <div style={{ width: '42px', height: '42px', borderRadius: '14px', background: '#e2e8f0', animation: 'pulse 1.5s infinite' }}></div>
-            </div>
-            <div className="skeleton-stats" style={{ display: 'flex', gap: '32px', marginBottom: '32px', justifyContent: 'center' }}>
-                <div style={{ width: '40px', height: '30px', borderRadius: '4px', background: '#e2e8f0', animation: 'pulse 1.5s infinite' }}></div>
-                <div style={{ width: '40px', height: '30px', borderRadius: '4px', background: '#e2e8f0', animation: 'pulse 1.5s infinite' }}></div>
-                <div style={{ width: '40px', height: '30px', borderRadius: '4px', background: '#e2e8f0', animation: 'pulse 1.5s infinite' }}></div>
-            </div>
-            <div className="skeleton-tabs" style={{ display: 'flex', gap: '16px', width: '100%', padding: '0 16px', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-                <div style={{ width: '80px', height: '20px', borderRadius: '4px', background: '#e2e8f0', marginBottom: '10px', animation: 'pulse 1.5s infinite' }}></div>
-                <div style={{ width: '80px', height: '20px', borderRadius: '4px', background: '#e2e8f0', marginBottom: '10px', animation: 'pulse 1.5s infinite' }}></div>
-                <div style={{ width: '80px', height: '20px', borderRadius: '4px', background: '#e2e8f0', marginBottom: '10px', animation: 'pulse 1.5s infinite' }}></div>
-            </div>
-            <style>{`
-                @keyframes pulse {
-                    0%, 100% { opacity: 1; }
-                    50% { opacity: .5; }
-                }
-            `}</style>
-        </div>
-    );
+    const FILTERS = ['Tudo', 'Publicações', 'Coleções', 'Visitar Depois', 'Favorito'];
 
     return (
-        <div className="profile-page">
-            <DesktopSidebar />
-            <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+        <div className="profile-layout-root">
+            <button className="profile-close-btn modal-desktop desktop-only" onClick={handleClose} aria-label="Fechar">
+                <X size={24} />
+            </button>
+            {isModal && (
+                <button className="profile-close-btn mobile-only" onClick={handleClose} aria-label="Close Profile">
+                    <X size={24} strokeWidth={2} />
+                </button>
+            )}
+            
+            {!isModal && <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />}
 
             {/* FIXED HEADER (Home style) */}
-            <div className="home-fixed-header profile-fixed-header">
+            <div className="home-fixed-header mobile-only profile-fixed-header profile-list-header">
                 <HomeHeader
                     onMenuClick={() => setIsDrawerOpen(!isDrawerOpen)}
-                    onLogoClick={() => navigate('/home')}
+                    onLogoClick={() => navigateFade('/home')}
                     isDrawerOpen={isDrawerOpen}
                 />
-
-                {/* Globe on Desktop (Top Right near Hamburger) */}
-                <div className="globe-selector profile-globe" ref={globeRef}>
-                    <button
-                        className="globe-btn"
-                        onClick={() => setIsCountryOpen(!isCountryOpen)}
-                        aria-label="Select country"
-                    >
-                        <Globe size={20} strokeWidth={1.8} />
-                    </button>
-                    <CountryDropdown
-                        selectedCountry={selectedCountry}
-                        onSelect={setSelectedCountry}
-                        isOpen={isCountryOpen}
-                        onClose={() => setIsCountryOpen(false)}
-                    />
-                </div>
             </div>
 
             {/* SCROLLABLE CONTENT */}
-            <main className="profile-scroll-content">
+            <main className="profile-main-wrapper">
+                <div className="profile-scroll-content">
                 {isLoading ? (
-                    <ProfileSkeleton />
+                    <div className="profile-skeleton-loader">Loading...</div>
                 ) : (
-                    <>
-                        {/* BANNER (Full Width - Facebook style) */}
-                        <div className="profile-banner-wrapper">
-                            <div className="profile-banner">
-                                {user.coverImage ? (
-                                    <img src={user.coverImage} alt="Capa do perfil" className="profile-banner-image" />
-                                ) : (
-                                    <div className="profile-banner-gradient" />
-                                )}
-                                <button className="profile-banner-edit-btn" onClick={() => setShowBannerModal(true)} aria-label="Editar capa">
-                                    <Pencil size={16} />
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* BANNER EDIT MODAL */}
-                        {showBannerModal && (
-                            <div className="banner-modal-overlay">
-                                <div className="banner-modal" ref={modalRef}>
-                                    <div className="banner-modal-handle" />
-                                    <p className="banner-modal-title">Editar Perfil</p>
-
-                                    {hasAvatar ? (
-                                        <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
-                                            <span className="banner-modal-option-icon"><Camera size={20} /></span>
-                                            Trocar foto de perfil
-                                        </button>
+                    <div className="profile-grid-layout">
+                        
+                        {/* LEFT/MAIN COLUMN */}
+                        <div className="profile-main-col">
+                            
+                            {/* PREMIUM COVER & AVATAR BLOCK */}
+                            <div className="profile-cover-card">
+                                <div className="profile-cover-image-area">
+                                    {user.coverImage ? (
+                                        <img src={user.coverImage} alt="Capa" className="cover-img" />
                                     ) : (
-                                        <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
-                                            <span className="banner-modal-option-icon"><Camera size={20} /></span>
-                                            Adicionar foto de perfil
+                                        <div className="cover-gradient" />
+                                    )}
+
+                                    {/* Edit Button inside Cover */}
+                                    {isMe && (
+                                        <button 
+                                            className="profile-cover-edit-btn" 
+                                            onClick={() => setIsEditModalOpen(true)}
+                                        >
+                                            <Edit size={14} />
+                                            <span>Edit Profile</span>
                                         </button>
                                     )}
 
-                                    {hasCover ? (
-                                        <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
-                                            <span className="banner-modal-option-icon"><ImagePlus size={20} /></span>
-                                            Trocar foto de capa
-                                        </button>
-                                    ) : (
-                                        <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
-                                            <span className="banner-modal-option-icon"><ImagePlus size={20} /></span>
-                                            Adicionar foto de capa
-                                        </button>
-                                    )}
-
-                                    {!user.hasStory ? (
-                                        <button className="banner-modal-option" onClick={() => setShowBannerModal(false)}>
-                                            <span className="banner-modal-option-icon"><Film size={20} /></span>
-                                            Adicionar história
-                                        </button>
-                                    ) : (
-                                        <button className="banner-modal-option destructive" onClick={() => setShowBannerModal(false)}>
-                                            <span className="banner-modal-option-icon"><Trash2 size={20} /></span>
-                                            Remover história
-                                        </button>
-                                    )}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* AVATAR & INFO CONTAINER (For horizontal layout on desktop) */}
-                        <div className="profile-header-container">
-                            {/* AVATAR (overlapping cover - Facebook style) */}
-                            <div className="profile-avatar-section">
-                                <div className="profile-avatar">
-                                    {user.avatar ? (
-                                        <img src={user.avatar} alt={user.name} />
-                                    ) : (
-                                        <User size={48} className="profile-avatar-placeholder" />
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="profile-info-section">
-                                {/* USER INFO (centered, horizontal Name | Username) */}
-                                <div className="profile-user-info">
-                                    <h1 className="profile-user-name">
-                                        {user.name} <span className="profile-username-divider">|</span> <span className="profile-username">{user.username}</span>
-                                    </h1>
-                                    <div className="profile-user-badges">
-                                        <div className="profile-badge-item">
-                                            <MapPin size={16} className="profile-badge-icon" />
-                                            <span>Moçambique</span>
+                                    {/* Avatar & Info overlaying the cover */}
+                                    <div className="profile-cover-overlay-info">
+                                        <div className="profile-cover-avatar">
+                                            {user.avatar ? (
+                                                <img src={user.avatar} alt={user.name} />
+                                            ) : (
+                                                <User size={40} color="#fff" />
+                                            )}
                                         </div>
-                                        <span className="profile-badge-divider">|</span>
-                                        <div className="profile-badge-item">
-                                            <BadgeCheck size={16} className="profile-badge-icon explorer-icon" />
-                                            <span>Explorador</span>
+                                        <div className="profile-cover-text">
+                                            <h1 className="cover-name">{user.name}</h1>
+                                            <p className="cover-username">{user.username}</p>
                                         </div>
                                     </div>
-                                    <div className="profile-user-bio">
-                                        {user.bio ? (
-                                            user.bio.length > 100 ? user.bio.substring(0, 100) + '...' : user.bio
-                                        ) : (
-                                            <span className="profile-bio-placeholder">Adicionar Biografia</span>
-                                        )}
+                                </div>
+
+                                {/* STATS BAR (Only Amigos, Posts, Curtidas) */}
+                                <div className="profile-stats-bar">
+                                    <div className="profile-stat-box">
+                                        <span className="stat-number">{user.stats?.posts || 0}</span>
+                                        <span className="stat-label">Posts</span>
+                                        <div className="stat-active-indicator" />
+                                    </div>
+                                    <div className="profile-stat-box">
+                                        <span className="stat-number">{user.stats?.friends || 0}</span>
+                                        <span className="stat-label">Amigos</span>
+                                    </div>
+                                    <div className="profile-stat-box">
+                                        <span className="stat-number">{user.stats?.likes || 0}</span>
+                                        <span className="stat-label">Curtidas</span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* ACTION BUTTONS */}
-                        <div className="profile-actions">
-                            <button className="profile-action-btn primary" onClick={() => setIsEditModalOpen(true)}>
-                                Editar Perfil
-                            </button>
-                            <button className="profile-action-btn secondary-outline" onClick={() => navigate('/messages')}>
-                                Mensagens
-                            </button>
-                            <button className="profile-action-btn icon-only subtle" aria-label="Definições" onClick={() => navigate('/settings')}>
-                                <Settings size={20} />
-                            </button>
-                            <button className="profile-action-btn icon-only subtle" aria-label="Partilhar">
-                                <Share2 size={20} />
-                            </button>
-                        </div>
-
-                        {/* STATS (centered row) */}
-                        <div className="profile-stats">
-                            <div className="profile-stat-item">
-                                <span className="profile-stat-number">{user.stats.friends}</span>
-                                <span className="profile-stat-label">A Seguir</span>
-                            </div>
-                            <div className="profile-stat-item">
-                                <span className="profile-stat-number">{user.stats.collections}</span>
-                                <span className="profile-stat-label">Seguidores</span>
-                            </div>
-                            <div className="profile-stat-item">
-                                <span className="profile-stat-number">{user.stats.posts}</span>
-                                <span className="profile-stat-label">Interações</span>
-                            </div>
-                        </div>
-
-                        {/* TABS */}
-                        <div className="profile-tabs-card">
-                            <div className="profile-tabs-scroll">
-                                {TABS.map((tab) => (
-                                    <button key={tab.id} className={`profile-tab-btn ${activeTab === tab.id ? 'active' : ''}`} onClick={() => setActiveTab(tab.id)}>
-                                        {tab.label}
+                            {/* ACTION BUTTONS — Different for own vs other user */}
+                            {isMe ? (
+                                <div className="profile-action-bar profile-action-bar--premium">
+                                    <button className="profile-premium-btn profile-premium-btn--secondary" onClick={() => navigateFade('/messages')}>
+                                        <MessageCircle size={18} />
+                                        <span>Mensagens</span>
                                     </button>
+                                    <button className="profile-premium-btn profile-premium-btn--secondary" onClick={() => navigateFade('/settings')}>
+                                        <Settings size={18} />
+                                        <span>Definições</span>
+                                    </button>
+                                    <button className="profile-premium-btn profile-premium-btn--primary" onClick={() => { navigator.clipboard?.writeText(window.location.href); }}>
+                                        <Share2 size={18} />
+                                        <span>Partilhar Perfil</span>
+                                    </button>
+                                    <button className="profile-premium-btn profile-premium-btn--cancel" onClick={handleSignOut}>
+                                        <LogOut size={18} />
+                                        <span>Terminar Sessão</span>
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="profile-action-bar profile-action-bar--premium">
+                                    {friendRequested ? (
+                                        <button className="profile-premium-btn profile-premium-btn--cancel" onClick={() => setFriendRequested(false)}>
+                                            <X size={18} />
+                                            <span>Cancelar Pedido</span>
+                                        </button>
+                                    ) : (
+                                        <button className="profile-premium-btn profile-premium-btn--primary" onClick={() => setFriendRequested(true)}>
+                                            <UserPlus size={18} />
+                                            <span>Adicionar Amigo</span>
+                                        </button>
+                                    )}
+                                    <button className="profile-premium-btn profile-premium-btn--secondary" onClick={() => navigateFade('/chat', { state: { user: friendData } })}>
+                                        <MessageCircle size={18} />
+                                        <span>Mensagem</span>
+                                    </button>
+                                    <button className="profile-premium-btn profile-premium-btn--ghost" onClick={() => {}}>
+                                        <MoreHorizontal size={18} />
+                                        <span>Mais</span>
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* CONTENT SECTION HEADER */}
+                            <div className="profile-content-header">
+                                <h2 className="content-title">Meus conteúdos</h2>
+                                
+                                <div className="content-filter" ref={filterRef}>
+                                    <button 
+                                        className="content-filter-btn" 
+                                        onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                                    >
+                                        <span className="filter-prefix">ORDENAR POR</span>
+                                        <span className="filter-value">{contentFilter}</span>
+                                        <ChevronDown size={16} />
+                                    </button>
+                                    
+                                    {isFilterDropdownOpen && (
+                                        <div className="content-filter-dropdown">
+                                            {FILTERS.map(f => (
+                                                <button 
+                                                    key={f} 
+                                                    className={`filter-option ${contentFilter === f ? 'active' : ''}`}
+                                                    onClick={() => {
+                                                        setContentFilter(f);
+                                                        setIsFilterDropdownOpen(false);
+                                                    }}
+                                                >
+                                                    {f}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* POST FEED GRID */}
+                            <div className="profile-posts-grid">
+                                {MOCK_POSTS.map(post => (
+                                    <div key={post.id} className="profile-grid-item">
+                                        <img src={post.image} alt="Post content" />
+                                    </div>
                                 ))}
                             </div>
+
                         </div>
 
-                        {/* TAB CONTENT */}
-                        <div className="profile-tab-content-card" key={activeTab}>
-                            <div className="tab-content-icon"><TabIcon size={28} /></div>
-                            <h2 className="tab-content-title">{currentTabContent.title}</h2>
-                            <p className="tab-content-description">{currentTabContent.description}</p>
-                            <button className="tab-content-btn">
-                                <ButtonIcon size={16} /> {currentTabContent.buttonText}
-                            </button>
-                        </div>
-                    </>
+                        {/* RIGHT SIDEBAR (Widgets) */}
+                        <aside className="profile-sidebar">
+                            
+                            {/* BIOGRAPHY WIDGET */}
+                            <div className="profile-widget">
+                                <div className="widget-header">
+                                    <h3 className="widget-title">Biografia</h3>
+                                    <button className="widget-more-btn"><MoreHorizontal size={18} /></button>
+                                </div>
+                                <div className="widget-body">
+                                    {user.bio ? (
+                                        <p className="bio-text">{user.bio}</p>
+                                    ) : (
+                                        <p 
+                                            className="bio-placeholder" 
+                                            onClick={() => setIsEditModalOpen(true)}
+                                        >
+                                            Escreva algo aqui sobre você
+                                        </p>
+                                    )}
+                                </div>
+                                
+                                <div className="widget-info-list">
+                                    <div className="info-item">
+                                        <MapPin size={18} className="info-icon" />
+                                        <span>{user.nationality?.name || 'Não definida'}</span>
+                                    </div>
+                                    <div className="info-item">
+                                        <BadgeCheck size={18} className="info-icon" />
+                                        <span>{user.category || 'Não definida'}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* INTERESTS WIDGET */}
+                            <div className="profile-widget">
+                                <div className="widget-header">
+                                    <h3 className="widget-title">Interesses</h3>
+                                </div>
+                                <div className="widget-body">
+                                    {user.interests && user.interests.length > 0 ? (
+                                        <div className="interests-pills">
+                                            {user.interests.map((interest, idx) => (
+                                                <span key={idx} className="interest-pill">{interest}</span>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <button className="add-interest-btn" onClick={() => setIsEditModalOpen(true)}>
+                                            <Plus size={16} /> Adicionar interesses
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* SOCIAL / FRIENDS WIDGET */}
+                            <div className="profile-widget">
+                                <div className="widget-header">
+                                    <h3 className="widget-title">Amigos</h3>
+                                    <button 
+                                        className="widget-link-btn"
+                                        onClick={() => navigateFade('/friends')}
+                                    >
+                                        Ver mais
+                                    </button>
+                                </div>
+                                <div className="widget-body">
+                                    <div className="friends-list">
+                                        {MOCK_FRIENDS.slice(0, 2).map(friend => (
+                                            <div key={friend.id} className="friend-row">
+                                                <div className="friend-info">
+                                                    <div className="friend-avatar-wrap">
+                                                        <img src={friend.avatar} alt={friend.name} />
+                                                        <div className="friend-online-dot" />
+                                                    </div>
+                                                    <div className="friend-details">
+                                                        <h4>{friend.name}</h4>
+                                                        <span>{friend.category}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="friend-actions">
+                                                    <button className="friend-msg-btn" aria-label="Message">
+                                                        <MessageCircle size={18} />
+                                                    </button>
+                                                    <button className="friend-more-btn" aria-label="More">
+                                                        <MoreHorizontal size={18} />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </aside>
+
+                    </div>
                 )}
+                </div>
             </main>
+            
             <BottomNavBar />
 
-            {/* Premium Floating Editor Modal */}
             <EditProfileModal
                 isOpen={isEditModalOpen}
                 onClose={() => setIsEditModalOpen(false)}

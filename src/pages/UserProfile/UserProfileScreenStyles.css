@@ -55,6 +55,187 @@
     margin: 8px 0;
 }
 
+/* ── PREMIUM ACTION BUTTONS (UserProfile View) ── */
+.userprofile-actions-premium {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    justify-content: center;
+}
+
+.userprofile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 12px;
+    border: none;
+    font-size: 13px;
+    font-weight: 650;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Primary — Adicionar Amigo */
+.userprofile-btn--primary {
+    background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.userprofile-btn--primary:hover {
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+}
+
+.userprofile-btn--primary:active {
+    transform: translateY(0);
+}
+
+/* Accent — Mensagem */
+.userprofile-btn--accent {
+    background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.userprofile-btn--accent:hover {
+    background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+}
+
+.userprofile-btn--accent:active {
+    transform: translateY(0);
+}
+
+/* Secondary — Partilhar */
+.userprofile-btn--secondary {
+    background: #F1F5F9;
+    color: #1E293B;
+    border: 1px solid #E2E8F0;
+}
+
+.userprofile-btn--secondary:hover {
+    background: #E2E8F0;
+    border-color: #CBD5E1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.userprofile-btn--secondary:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Ghost — Mais Opções */
+.userprofile-btn--ghost {
+    background: transparent;
+    color: #64748B;
+    border: 1px solid #E2E8F0;
+    flex: 0 0 auto;
+}
+
+.userprofile-btn--ghost:hover {
+    background: #F1F5F9;
+    color: #1E293B;
+    border-color: #CBD5E1;
+    transform: translateY(-1px);
+}
+
+.userprofile-btn--ghost:active {
+    transform: translateY(0);
+}
+
+/* Outline Danger — Remover Amigo */
+.userprofile-btn--outline-danger {
+    background: transparent;
+    color: #ef4444;
+    border: 1.5px solid #fca5a5;
+}
+
+.userprofile-btn--outline-danger:hover {
+    background: #FEF2F2;
+    border-color: #ef4444;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.12);
+}
+
+.userprofile-btn--outline-danger:active {
+    transform: translateY(0);
+}
+
+/* Cancel — Cancelar Pedido */
+.userprofile-btn--cancel {
+    background: #ef4444;
+    color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.userprofile-btn--cancel:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+}
+
+.userprofile-btn--cancel:active {
+    transform: translateY(0);
+}
+
+/* ── SCROLLBAR FOR USERPROFILE ── */
+.userprofile-root .profile-scroll-content {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 92, 246, 0.35) transparent;
+}
+
+.userprofile-root .profile-scroll-content::-webkit-scrollbar {
+    width: 7px;
+}
+
+.userprofile-root .profile-scroll-content::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 8px 0;
+}
+
+.userprofile-root .profile-scroll-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(139, 92, 246, 0.4), rgba(139, 92, 246, 0.2));
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.userprofile-root .profile-scroll-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(139, 92, 246, 0.6), rgba(139, 92, 246, 0.35));
+}
+
+/* ── DESKTOP MODAL OVERRIDE ── */
+@media (min-width: 1025px) {
+    .userprofile-root {
+        position: fixed;
+        top: 28px;
+        bottom: 28px;
+        left: 115px;
+        right: 115px;
+        width: auto !important;
+        height: auto !important;
+        background: #ffffff;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+        z-index: 9998;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+}
+
 /* Avatar Viewer Overlay */
 .avatar-viewer-overlay {
     position: fixed;

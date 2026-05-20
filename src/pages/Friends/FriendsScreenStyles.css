@@ -8,7 +8,6 @@
 
 .friends-main-content {
     flex: 1;
-    margin-left: 280px;
     display: flex;
     height: 100vh;
     overflow: hidden;
@@ -731,5 +730,67 @@
     .friend-profile-modal {
         width: 95vw;
         padding: 28px;
+    }
+}
+/* Desktop Integration: Matching Profile/Notifications Style */
+@media (min-width: 1025px) {
+    .friends-layout-root {
+        position: fixed;
+        top: 28px;
+        bottom: 28px;
+        left: 115px;
+        right: 115px;
+        width: auto !important;
+        height: auto !important;
+        background: #ffffff;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+        z-index: 9998;
+        border-radius: 0;
+    }
+
+    .friends-main-content {
+        margin-left: 0;
+        height: 100%;
+    }
+
+    .mobile-only {
+        display: none !important;
+    }
+
+    .desktop-only {
+        display: flex !important;
+    }
+
+    /* Close Button Style */
+    .friends-close-btn {
+        position: absolute;
+        top: 24px;
+        left: 24px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.05);
+        border: none;
+        display: none; /* Shown via desktop-only class */
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.2s ease;
+        color: #1e293b;
+    }
+
+    .friends-close-btn:hover {
+        background: rgba(0, 0, 0, 0.1);
+        transform: scale(1.05);
+    }
+
+    .friends-list-header {
+        padding-left: 80px; /* Offset for the close button */
+    }
+
+    /* Floating Navigation Pill Adjustment */
+    .bottom-nav {
+         display: none !important;
     }
 }

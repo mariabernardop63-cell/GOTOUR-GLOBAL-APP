@@ -1,216 +1,212 @@
-/* SkeletonHome.css — Per-section skeleton styles matching real content */
+/* ============================================================
+   SkeletonHome.css — Geometry Stabilized Edition
+   ============================================================ */
 
-@keyframes skeletonFadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+   @keyframes skeletonFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.skeleton-home,
+@keyframes shimmerWave {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes skeletonBreatheFluid {
+    0% { opacity: 0.75; }
+    100% { opacity: 1; }
+}
+
+.shimmer {
+    background: #f1f5f9; /* Static neutral gray as requested, no animation */
+    border-radius: 8px;
+}
+
+.skeleton-search-bar,
+.skeleton-chips-row,
 .skeleton-must-see,
 .skeleton-near-you,
-.skeleton-recommendations,
-.skeleton-search-bar,
-.skeleton-chips-row {
+.skeleton-recommendations {
     animation: skeletonFadeIn 0.3s ease-out forwards;
 }
 
-/* ===== SEARCH BAR SKELETON ===== */
-.skeleton-search-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 20px;
-}
-
-.skeleton-country-btn {
-    width: 48px;
-    height: 40px;
-    border-radius: 12px;
-    flex-shrink: 0;
-}
-
-.skeleton-search-input {
-    flex: 1;
-    height: 44px;
-    border-radius: 14px;
-}
-
-.skeleton-search-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
-    flex-shrink: 0;
-}
-
-/* ===== CHIPS SKELETON ===== */
-.skeleton-chips-row {
-    display: flex;
-    gap: 10px;
-    padding: 8px 20px;
-    overflow: hidden;
-}
-
-.skeleton-chip {
-    width: 90px;
-    height: 36px;
-    border-radius: 20px;
-    flex-shrink: 0;
-}
-
-/* ===== SECTION HEADER (title + subtitle + link) ===== */
-.skeleton-section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px 20px 12px;
-}
-
-.skeleton-title {
-    width: 200px;
-    height: 20px;
-    margin-bottom: 8px;
-    border-radius: 6px;
-}
-
-.skeleton-subtitle {
-    width: 260px;
-    height: 14px;
-    border-radius: 6px;
-}
-
-.skeleton-link {
-    width: 80px;
-    height: 16px;
-    border-radius: 6px;
-    margin-top: 4px;
-}
-
-/* ===== MUST-SEE SECTION SKELETON ===== */
 .skeleton-must-see {
-    margin-bottom: 24px;
     margin-top: 20px;
+    margin-bottom: 24px;
 }
 
-.skeleton-horizontal-scroll {
-    display: flex;
-    gap: 16px;
-    padding-bottom: 12px;
-    padding-right: 20px;
-    padding-left: 20px;
-    overflow: hidden;
-}
-
-/* Matches destination-card: 180px wide, 260px tall */
-.skeleton-dest-card {
-    min-width: 180px;
-    height: 260px;
-    border-radius: 20px;
-    flex-shrink: 0;
-}
-
-/* ===== NEAR YOU SECTION SKELETON ===== */
 .skeleton-near-you {
     margin-bottom: 32px;
 }
 
-.skeleton-near-you .skeleton-horizontal-scroll {
-    gap: 14px;
-    padding-bottom: 16px;
+/* 1. SEARCH BAR (White container with grey ghosts inside) */
+.skeleton-search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
 }
 
-.skeleton-near-card {
-    min-width: 160px;
-    flex-shrink: 0;
-    border-radius: 18px;
+.skeleton-search-pill-container {
+    width: 60%;
+    max-width: 400px;
+    height: 54px;
+    border-radius: 9999px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px 0 24px;
+}
+
+.skeleton-search-text {
+    width: 120px;
+    height: 14px;
+    border-radius: 6px;
+    background-color: #e0e0e0;
+}
+
+.skeleton-search-icon-round {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+}
+
+/* 2. CHIPS */
+.skeleton-chips-row {
+    display: flex;
+    gap: 32px;
+    padding: 12px 20px;
     overflow: hidden;
-    background: #fff;
+}
+
+.skeleton-chip {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* 3 & 4. HORIZONTAL SCROLLS */
+.skeleton-horizontal-scroll {
+    display: flex;
+    gap: 16px; /* Matched actual layout gap */
+    padding: 12px 20px; /* Reduced vertical padding to match real sections */
+    overflow: hidden;
+}
+
+/* 5. VERTICAL GRID */
+.skeleton-vertical-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
+    padding: 24px 20px;
+}
+
+/* UNIVERSAL CARD STRUCTURE */
+.skeleton-ab-card {
     display: flex;
     flex-direction: column;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.skeleton-ab-image {
+    width: 100%;
+    border-radius: 16px;
+    background-color: #ededed;
+}
+
+.skeleton-ab-text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 4px;
+}
+
+/* Ghost Lines */
+.skeleton-ab-line-main {
+    width: 85%;
+    height: 14px;
+    border-radius: 6px;
+    background-color: #e0e0e0;
+}
+
+.skeleton-ab-line-sub {
+    width: 60%;
+    height: 14px;
+    border-radius: 6px;
+    background-color: #e0e0e0;
+    opacity: 0.7;
+}
+
+/* GEOMETRY OVERRIDES (The Fix) */
+
+/* MustSee: Exactly matching dest-card-new dimensions */
+.skeleton-must-see-card {
+    width: 210px; /* Match mobile default width */
+}
+.skeleton-must-see-card .skeleton-ab-image {
+    aspect-ratio: 1 / 1; /* Match square aspect ratio */
+    border-radius: 16px; /* Match real border-radius */
+}
+
+@media (min-width: 1024px) {
+    .skeleton-must-see-card {
+        width: 185px; /* Match desktop width */
+    }
+}
+
+/* NearYou: Exactly 160px wide, with 10px padding like real cards */
+.skeleton-near-you-card {
+    width: 160px;
     padding: 10px;
-    padding-bottom: 12px;
+    background: #fff;
+    border-radius: 18px;
     border: 1px solid #f1f5f9;
 }
-
-.skeleton-near-img {
-    width: 100%;
-    height: 100px;
+.skeleton-near-you-card .skeleton-ab-image {
+    height: 100px; /* Exact match with near-img-wrapper height */
     border-radius: 16px;
-    flex-shrink: 0;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Match real image margin */
+}
+.skeleton-near-you-card .skeleton-ab-text-block {
+    gap: 6px; /* Match real info gap */
 }
 
-.skeleton-near-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+/* Large Grid Recommendations */
+.skeleton-large-card {
+    width: 100%; /* Flexible based on grid */
+}
+.skeleton-large-card .skeleton-ab-image {
+    aspect-ratio: 1 / 0.95; /* Almost square */
 }
 
-.skeleton-near-name {
-    width: 70%;
-    height: 14px;
-    border-radius: 4px;
+/* Explore Regions Skeleton - Large vertical image-only cards */
+.skeleton-region-card {
+    width: 260px;
+    height: 340px;
+}
+.skeleton-region-card .skeleton-ab-image {
+    height: 100%;
+    border-radius: 24px;
 }
 
-.skeleton-near-category {
-    width: 40%;
-    height: 12px;
-    border-radius: 4px;
+@media (min-width: 1024px) {
+    .skeleton-region-card {
+        width: 240px;
+        height: 310px;
+    }
 }
 
-.skeleton-near-meta {
-    width: 55%;
-    height: 12px;
-    border-radius: 4px;
-    margin-top: auto;
-}
 
-/* ===== RECOMMENDATIONS SKELETON ===== */
-.skeleton-recommendations {
-    padding: 0;
-}
-
-.skeleton-vertical-cards {
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.skeleton-vertical-card {
-    border-radius: 16px;
-    overflow: hidden;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.skeleton-vcard-image {
-    width: 100%;
-    height: 160px;
-    background-color: #e5e7eb;
-    /* match .place-image-placeholder */
-}
-
-.skeleton-vcard-info {
-    padding: 16px;
-}
-
-.skeleton-vcard-title {
-    width: 60%;
-    height: 16px;
-    margin-bottom: 8px;
-    border-radius: 4px;
-}
-
-.skeleton-vcard-text {
-    width: 40%;
-    height: 12px;
-    border-radius: 4px;
+/* Mobile specific fixes */
+@media (max-width: 768px) {
+    .skeleton-search-pill-container {
+        width: 100%;
+        max-width: none;
+    }
 }

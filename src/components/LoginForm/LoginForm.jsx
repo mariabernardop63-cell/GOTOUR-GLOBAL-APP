@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useNavigation } from '../../App';
 import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../context/AuthContext';
 import './LoginForm.css';
 
 const LoginForm = ({ onSuccess, onForgotPassword, showSocial, showSignupLink, onSignupClick }) => {
     const { navigateForward } = useNavigation();
+    const { setUser, setSession } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
@@ -38,6 +40,15 @@ const LoginForm = ({ onSuccess, onForgotPassword, showSocial, showSignupLink, on
         // Test User Bypass
         if (formData.email === '111111111111' && formData.password === '111111111111') {
             setTimeout(() => {
+                const mockSessionUser = {
+                    id: 'mock-test-user-id',
+                    email: 'viajanteteste@gotour.com',
+                    phone: '111111111111',
+                    created_at: new Date().toISOString()
+                };
+                setUser(mockSessionUser);
+                setSession({ user: mockSessionUser });
+                
                 setIsLoading(false);
                 if (onSuccess) {
                     onSuccess();

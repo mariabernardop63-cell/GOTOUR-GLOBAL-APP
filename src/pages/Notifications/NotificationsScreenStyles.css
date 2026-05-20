@@ -1,16 +1,23 @@
+/* Full-viewport backdrop to cover the body's blue gradient */
+.notifications-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 9997;
+}
+
 .notifications-layout-root {
     display: flex;
     height: 100vh;
     background-color: #f8fafc;
     overflow: hidden;
     position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Main Content Area */
 .notifications-main-content {
     flex: 1;
-    margin-left: 280px;
-    /* Offset for DesktopSidebar */
     display: flex;
     height: 100vh;
     overflow: hidden;
@@ -424,6 +431,7 @@
     line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -771,5 +779,67 @@
     .notif-filter-trigger {
         width: 100%;
         justify-content: space-between;
+    }
+}
+/* Desktop Integration: Matching Profile Screen Style */
+@media (min-width: 1025px) {
+    .notifications-layout-root {
+        position: fixed;
+        top: 28px;
+        bottom: 28px;
+        left: 115px;
+        right: 115px;
+        width: auto !important;
+        height: auto !important;
+        background: #ffffff;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+        z-index: 9998;
+        border-radius: 0;
+    }
+
+    .notifications-main-content {
+        margin-left: 0;
+        height: 100%;
+    }
+
+    .mobile-only {
+        display: none !important;
+    }
+
+    .desktop-only {
+        display: flex !important;
+    }
+
+    /* Close Button Style */
+    .notif-close-btn {
+        position: absolute;
+        top: 24px;
+        left: 24px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.05);
+        border: none;
+        display: none; /* Shown via desktop-only class */
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.2s ease;
+        color: #1e293b;
+    }
+
+    .notif-close-btn:hover {
+        background: rgba(0, 0, 0, 0.1);
+        transform: scale(1.05);
+    }
+
+    .notif-list-header {
+        padding-left: 80px; /* Offset for the close button */
+    }
+
+    /* Floating Navigation Pill Adjustment */
+    .bottom-nav {
+         display: none !important;
     }
 }

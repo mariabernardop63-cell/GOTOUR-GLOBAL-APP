@@ -1,0 +1,40 @@
+.carousel-arrows-wrapper {
+    display: flex;
+    gap: 16px; /* spacing between arrows */
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.carousel-arrow-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #475569;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    border-radius: 50%;
+}
+
+.carousel-arrow-btn:hover {
+    color: #1e293b;
+    background: #f1f5f9;
+}
+
+.carousel-arrow-btn.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(10px);
+}
+
+.carousel-arrow-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+}
+
+.carousel-arrow-btn.always-visible {
+    opacity: 1;
+}

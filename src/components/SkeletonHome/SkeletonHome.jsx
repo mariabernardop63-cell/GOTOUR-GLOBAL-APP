@@ -2,67 +2,64 @@ import React from 'react';
 import './SkeletonHome.css';
 
 /* ============================================================
-   Per-section skeleton components that match real content layout
+   Airbnb-style Skeletons (Geometry Matched)
    ============================================================ */
 
-/** Skeleton for SearchBar area */
+/** 1. SearchBar: Real white pill with ghost items inside */
 export const SkeletonSearchBar = () => (
     <div className="skeleton-search-bar">
-        <div className="skeleton-country-btn shimmer" />
-        <div className="skeleton-search-input shimmer" />
-        <div className="skeleton-search-icon shimmer" />
+        <div className="skeleton-search-pill-container">
+            <div className="skeleton-search-text shimmer" />
+            <div className="skeleton-search-icon-round shimmer" />
+        </div>
     </div>
 );
 
-/** Skeleton for Filter Chips Row */
+/** 2. Chips: Small round items */
 export const SkeletonChips = () => (
     <div className="skeleton-chips-row">
-        {[1, 2, 3, 4, 5].map((i) => (
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
             <div key={i} className="skeleton-chip shimmer" />
         ))}
     </div>
 );
 
-/** Skeleton for MustSee Section — matches horizontal scroll cards */
+/** Generic Title-only skeleton (for sections that share cards) */
+export const SkeletonSectionHeader = () => (
+    <div className="skeleton-section-header-simple">
+        <div className="skeleton-ab-line-main shimmer" style={{ width: '220px', height: '20px', marginBottom: '16px', marginLeft: '20px' }} />
+    </div>
+);
+
+/** 3. MustSee: 210px cards */
 export const SkeletonMustSee = () => (
     <div className="skeleton-must-see">
-        {/* Title area */}
-        <div className="skeleton-section-header">
-            <div>
-                <div className="skeleton-title shimmer" />
-                <div className="skeleton-subtitle shimmer" />
-            </div>
-            <div className="skeleton-link shimmer" />
-        </div>
-        {/* Horizontal cards matching destination-card dimensions */}
+        <SkeletonSectionHeader />
         <div className="skeleton-horizontal-scroll">
-            {[1, 2, 3].map((i) => (
-                <div key={i} className="skeleton-dest-card shimmer" />
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+                <div key={`ms-${i}`} className="skeleton-ab-card skeleton-must-see-card">
+                    <div className="skeleton-ab-image shimmer" />
+                    <div className="skeleton-ab-text-block">
+                        <div className="skeleton-ab-line-main shimmer" />
+                        <div className="skeleton-ab-line-sub shimmer" />
+                    </div>
+                </div>
             ))}
         </div>
     </div>
 );
 
-/** Skeleton for NearYou Section — matches horizontal small cards */
+/** 4. NearYou: Small 160px cards */
 export const SkeletonNearYou = () => (
     <div className="skeleton-near-you">
-        {/* Title area */}
-        <div className="skeleton-section-header">
-            <div>
-                <div className="skeleton-title shimmer" />
-                <div className="skeleton-subtitle shimmer" />
-            </div>
-            <div className="skeleton-link shimmer" />
-        </div>
-        {/* Horizontal small cards */}
+        <SkeletonSectionHeader />
         <div className="skeleton-horizontal-scroll">
-            {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="skeleton-near-card">
-                    <div className="skeleton-near-img shimmer" />
-                    <div className="skeleton-near-info">
-                        <div className="skeleton-near-name shimmer" />
-                        <div className="skeleton-near-category shimmer" />
-                        <div className="skeleton-near-meta shimmer" />
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+                <div key={`ny-${i}`} className="skeleton-ab-card skeleton-near-you-card">
+                    <div className="skeleton-ab-image shimmer" />
+                    <div className="skeleton-ab-text-block">
+                        <div className="skeleton-ab-line-main shimmer" />
+                        <div className="skeleton-ab-line-sub shimmer" />
                     </div>
                 </div>
             ))}
@@ -70,17 +67,49 @@ export const SkeletonNearYou = () => (
     </div>
 );
 
-/** Skeleton for Recommendations Section — matches vertical place-cards */
+/** 5. Explore Regions: 260px wide vertical cards */
+export const SkeletonExploreRegions = () => (
+    <div className="skeleton-explore-regions">
+        <SkeletonSectionHeader />
+        <div className="skeleton-horizontal-scroll">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <div key={`reg-${i}`} className="skeleton-ab-card skeleton-region-card">
+                    <div className="skeleton-ab-image shimmer" />
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
+/** 6. Standard/Category Sections: Recyclable 180px cards */
+export const SkeletonStandardSection = () => (
+    <div className="skeleton-standard-section" style={{ marginBottom: '32px' }}>
+        <SkeletonSectionHeader />
+        <div className="skeleton-horizontal-scroll">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+                <div key={`std-${i}`} className="skeleton-ab-card skeleton-must-see-card">
+                    <div className="skeleton-ab-image shimmer" />
+                    <div className="skeleton-ab-text-block">
+                        <div className="skeleton-ab-line-main shimmer" />
+                        <div className="skeleton-ab-line-sub shimmer" />
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
+/** 7. Recommendations: Full vertical grid cards */
 export const SkeletonRecommendations = () => (
     <div className="skeleton-recommendations">
-        <div className="skeleton-title shimmer" style={{ margin: '24px 20px 16px' }} />
-        <div className="skeleton-vertical-cards">
-            {[1, 2, 3].map((i) => (
-                <div key={i} className="skeleton-vertical-card">
-                    <div className="skeleton-vcard-image shimmer" />
-                    <div className="skeleton-vcard-info">
-                        <div className="skeleton-vcard-title shimmer" />
-                        <div className="skeleton-vcard-text shimmer" />
+        <SkeletonSectionHeader />
+        <div className="skeleton-vertical-grid">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => (
+                <div key={`rc-${i}`} className="skeleton-ab-card skeleton-large-card">
+                    <div className="skeleton-ab-image shimmer" />
+                    <div className="skeleton-ab-text-block">
+                        <div className="skeleton-ab-line-main shimmer" />
+                        <div className="skeleton-ab-line-sub shimmer" />
                     </div>
                 </div>
             ))}
@@ -88,15 +117,4 @@ export const SkeletonRecommendations = () => (
     </div>
 );
 
-/** Legacy full-page skeleton (kept for backwards compatibility) */
-const SkeletonHome = () => {
-    return (
-        <div className="skeleton-home">
-            <SkeletonMustSee />
-            <SkeletonNearYou />
-            <SkeletonRecommendations />
-        </div>
-    );
-};
-
-export default SkeletonHome;
+export default SkeletonMustSee;

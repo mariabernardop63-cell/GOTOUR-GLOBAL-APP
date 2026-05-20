@@ -71,7 +71,9 @@ export const AuthProvider = ({ children }) => {
 
     const value = {
         user,
+        setUser,
         session,
+        setSession,
         loading,
         authEvent,
         signOut,

@@ -1,0 +1,379 @@
+/* Stripe-Inspired Premium Checkpoint Screen */
+
+:root {
+  --stripe-bg: #F6F9FC;
+  --stripe-card: #FFFFFF;
+  --stripe-text-main: #0F172A;
+  --stripe-text-sub: #475569;
+  --stripe-text-light: #64748B;
+  --stripe-border: #E2E8F0;
+  --stripe-accent: #635BFF;
+  --stripe-accent-hover: #0A2540;
+  --stripe-success: #00D924;
+  --stripe-success-bg: #E3F8E9;
+  --stripe-danger: #DF1B41;
+  --stripe-danger-bg: #FCE8EC;
+  --stripe-warning: #FF7B00;
+  --stripe-warning-bg: #FFF3E6;
+  
+  --stripe-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --stripe-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --stripe-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --stripe-radius-lg: 16px;
+  --stripe-radius-md: 12px;
+}
+
+/* Base Layout */
+.chk-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--stripe-bg);
+  color: var(--stripe-text-main);
+  font-family: 'Inter', 'SF Pro Display', sans-serif;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mesh Gradient Header Background */
+.chk-mesh-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 380px;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,0.03) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(225,39%,30%,0.03) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(339,49%,30%,0.03) 0, transparent 50%);
+  z-index: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+}
+
+/* Top Navigation */
+.chk-nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.chk-back-btn {
+  background: white;
+  border: 1px solid var(--stripe-border);
+  box-shadow: var(--stripe-shadow-sm);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--stripe-text-main);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chk-back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--stripe-shadow-md);
+}
+
+.chk-nav-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--stripe-text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Main Content Area */
+.chk-main {
+  position: relative;
+  z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 32px 64px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Page Header */
+.chk-header {
+  margin-top: 24px;
+  max-width: 600px;
+}
+
+.chk-header h1 {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--stripe-accent-hover);
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+}
+
+.chk-header p {
+  font-size: 16px;
+  color: var(--stripe-text-sub);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Dashboard Grid */
+.chk-grid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Premium Card Style */
+.chk-card {
+  background: var(--stripe-card);
+  border-radius: var(--stripe-radius-lg);
+  box-shadow: var(--stripe-shadow-md);
+  padding: 32px;
+  border: 1px solid rgba(0,0,0,0.02);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.chk-card:hover {
+  box-shadow: var(--stripe-shadow-lg);
+}
+
+/* Card Headers */
+.chk-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.chk-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chk-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--stripe-text-main);
+  margin: 0;
+}
+
+/* --- Safety Score Section --- */
+.chk-score-circle {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 24px auto;
+}
+
+.chk-score-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.chk-score-bg {
+  fill: none;
+  stroke: var(--stripe-bg);
+  stroke-width: 8;
+}
+
+.chk-score-progress {
+  fill: none;
+  stroke: var(--stripe-success);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-out;
+}
+
+.chk-score-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.chk-score-number {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--stripe-text-main);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.chk-score-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--stripe-text-sub);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.chk-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--stripe-success-bg);
+  color: #00A31B;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 auto;
+}
+
+/* --- Emergency Contacts Grid --- */
+.chk-emergency-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.chk-contact-btn {
+  background: white;
+  border: 1px solid var(--stripe-border);
+  border-radius: var(--stripe-radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.chk-contact-btn:hover {
+  border-color: var(--stripe-accent);
+  background: #F8FAFC;
+}
+
+.chk-contact-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chk-contact-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--stripe-text-main);
+}
+
+.chk-contact-number {
+  font-size: 13px;
+  color: var(--stripe-text-sub);
+  font-family: monospace;
+}
+
+/* --- Action Button (Check-in) --- */
+.chk-action-btn {
+  background: var(--stripe-accent);
+  color: white;
+  border: none;
+  border-radius: var(--stripe-radius-md);
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(99, 91, 255, 0.2);
+}
+
+.chk-action-btn:hover {
+  background: var(--stripe-accent-hover);
+  box-shadow: 0 6px 12px rgba(10, 37, 64, 0.2);
+  transform: translateY(-1px);
+}
+
+/* --- Live Feed List --- */
+.chk-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chk-feed-item {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--stripe-border);
+}
+
+.chk-feed-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.chk-feed-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chk-feed-content h4 {
+  margin: 0 0 4px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--stripe-text-main);
+}
+
+.chk-feed-content p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--stripe-text-sub);
+  line-height: 1.5;
+}
+
+.chk-feed-time {
+  font-size: 12px;
+  color: var(--stripe-text-light);
+  margin-top: 6px;
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .chk-grid {
+    grid-template-columns: 1fr;
+  }
+  .chk-nav {
+    padding: 24px;
+  }
+  .chk-main {
+    padding: 0 24px 48px 24px;
+  }
+}

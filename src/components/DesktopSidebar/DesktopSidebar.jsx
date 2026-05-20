@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { LayoutGrid, MapPinned, User, Rss, Home, Search, Loader2, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigation } from '../../App';
 import gotourLogo from '../../assets/images/gotour_icon.png';
 import './DesktopSidebar.css';
 
 const DesktopSidebar = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { setModalBackground } = useNavigation();
 
     // Animation States
     const [isExiting, setIsExiting] = useState(false);
@@ -31,6 +33,11 @@ const DesktopSidebar = () => {
 
         // Wait for stagger animation to finish (~400ms) before routing
         setTimeout(() => {
+            if (item.path === '/notifications' || item.path === '/profile') {
+                setModalBackground(location);
+            } else {
+                setModalBackground(null);
+            }
             navigate(item.path);
         }, 500); // Route after animation finishes
     };
@@ -87,7 +94,7 @@ const DesktopSidebar = () => {
 
                 <motion.nav className="desktop-sidebar-nav" variants={containerVariants}>
                     {navItems.map((item) => {
-                        const isActive = location.pathname.startsWith(item.path);
+                        const isActive = location.pathname.startsWith(item.path) || (item.path === '/home' && location.pathname === '/');
                         const isClicked = clickedItemId === item.id;
 
                         return (

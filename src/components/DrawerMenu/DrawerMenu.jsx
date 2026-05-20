@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigation } from '../../App';
 import {
     X, User, ChevronRight, Star, Crown,
     MessageCircle, Users, Bell, Heart,
@@ -26,7 +27,15 @@ const DrawerMenu = ({ isOpen, onClose }) => {
         return () => { document.body.style.overflow = 'unset'; };
     }, [isOpen]);
 
+    const location = useLocation();
+    const { setModalBackground } = useNavigation();
+
     const handleNav = (path) => {
+        if (path === '/notifications' || path === '/profile' || path === '/friends' || path === '/messages') {
+            setModalBackground(location);
+        } else {
+            setModalBackground(null);
+        }
         onClose();
         setTimeout(() => navigate(path), 250);
     };

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useNavigation } from '../../App';
 import {
-    Bell, Check, Trash2, Archive, Search, ChevronDown,
+    Bell, Check, Trash2, Archive, Search, ChevronDown, X,
     MessageCircle, UserPlus, UserCheck, AlertCircle, PhoneMissed, AtSign
 } from 'lucide-react';
-import DesktopSidebar from '../../components/DesktopSidebar/DesktopSidebar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import HomeHeader from '../../components/HomeHeader/HomeHeader';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
@@ -97,6 +97,7 @@ const FILTERS = ['Todas', 'Não lidas', 'Mensagens', 'Amizades', 'Sistema', 'Cha
 
 const NotificationsScreen = () => {
     const navigate = useNavigate();
+    const { navigateBack } = useNavigation();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [notifications, setNotifications] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -167,7 +168,9 @@ const NotificationsScreen = () => {
 
     return (
         <div className="notifications-layout-root">
-            <DesktopSidebar />
+            <button className="notif-close-btn desktop-only" onClick={() => navigateBack()} aria-label="Fechar">
+                <X size={24} />
+            </button>
             <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
 
             {/* Mobile/Tablet Fixed Header (Hidden on large desktop by layout) */}
@@ -268,7 +271,23 @@ const NotificationsScreen = () => {
                                                     >
                                                         {notif.unread && <div className="notif-unread-indicator"></div>}
 
-                                                        <div className="notif-item-avatar-wrapper">
+                                                        <button 
+                                                            className="notif-item-avatar-wrapper clickable"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                if (notif.avatar) {
+                                                                    navigate('/profile', { 
+                                                                        state: { 
+                                                                            user: { 
+                                                                                name: notif.title.split(' ')[0], // Best effort name
+                                                                                avatar: notif.avatar,
+                                                                                username: `@${notif.title.split(' ')[0].toLowerCase()}`
+                                                                            } 
+                                                                        } 
+                                                                    });
+                                                                }
+                                                            }}
+                                                        >
                                                             {notif.avatar ? (
                                                                 <img src={notif.avatar} alt="Avatar" className="notif-item-avatar" />
                                                             ) : (
@@ -281,7 +300,7 @@ const NotificationsScreen = () => {
                                                                     <NotifIcon size={10} color="#fff" strokeWidth={3} />
                                                                 </div>
                                                             )}
-                                                        </div>
+                                                        </button>
 
                                                         <div className="notif-item-content">
                                                             <div className="notif-item-title-row">

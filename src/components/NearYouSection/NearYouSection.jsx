@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Map, Star, Image as ImageIcon } from 'lucide-react';
+import { Map, Star, Image as ImageIcon, Navigation } from 'lucide-react';
+import CarouselArrows from '../CarouselArrows/CarouselArrows';
 import './NearYouSection.css';
 
 // Fixed Mock Data (Hardcoded as requested)
@@ -119,9 +120,9 @@ const NearCard = ({ place, onClick }) => {
                         </span>
                         <span>• {place.distance}</span>
                     </div>
-                    {/* Button removed to keep it cleaner as requested, or can add back small "Ver" */}
+                    {/* Button changed to blue as requested */}
                     <div style={{
-                        background: '#048c83',
+                        background: '#3b82f6',
                         color: 'white',
                         padding: '4px 10px',
                         borderRadius: '12px',
@@ -155,13 +156,16 @@ const NearYouSection = () => {
     return (
         <div className="near-you-section near-anim">
             <div className="near-you-header">
-                <div>
-                    <h2 className="near-you-title">📍 Perto de Ti</h2>
+                <div className="near-you-titles" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <h2 className="near-you-title" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div className="premium-title-badge" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', background: '#eff6ff', border: '1px solid #dbeafe', borderRadius: '50%', color: '#3b82f6', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
+                            <Navigation size={16} strokeWidth={2.5} />
+                        </div>
+                        Perto de Ti
+                    </h2>
                     <span className="near-you-subtitle">Descubra lugares incríveis ao seu redor</span>
                 </div>
-                <button className="near-you-link" onClick={() => navigate('/map')}>
-                    Ver no mapa <Map size={14} />
-                </button>
+                <CarouselArrows />
             </div>
 
             <div className="near-you-scroll-container">

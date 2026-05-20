@@ -1,6 +1,7 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { LayoutGrid, MapPinned, User, Rss } from 'lucide-react'; // Switched Files to Rss (WiFi style)
+import { useNavigation } from '../../App';
 import homeIcon from '../../assets/images/home_icon.png';
 import './BottomNavBar.css';
 
@@ -27,12 +28,12 @@ const CustomIcon = ({ iconSrc, size, className }) => (
 );
 
 const BottomNavBar = () => {
-    const navigate = useNavigate();
     const location = useLocation();
     const isVisible = useScrollDirection();
+    const { setModalBackground, navigateFade } = useNavigation();
 
     // Determine active tab
-    const isActive = (path) => location.pathname === path;
+    const isActive = (path) => location.pathname === path || (path === '/home' && location.pathname === '/');
 
     const navItems = [
         { id: 'home', label: 'Home', icon: (props) => <CustomIcon iconSrc={homeIcon} {...props} />, path: '/home', customSize: 40 }, // Increased size aggressively to 40
@@ -42,13 +43,22 @@ const BottomNavBar = () => {
         { id: 'profile', label: 'Perfil', icon: User, path: '/profile', customSize: 30 }, // Switched to User vector (no circle)
     ];
 
+    const isMapPage = location.pathname === '/map';
+
     return (
-        <nav className={`bottom-nav ${!isVisible ? 'navbar-hidden' : ''}`}>
+        <nav className={`bottom-nav ${(!isVisible && !isMapPage) ? 'navbar-hidden' : ''}`}>
             {navItems.map((item) => (
                 <button
                     key={item.id}
                     className={`nav-item ${isActive(item.path) ? 'active' : ''}`}
-                    onClick={() => navigate(item.path)}
+                    onClick={() => {
+                        if (item.id === 'profile') {
+                            setModalBackground(location);
+                        } else {
+                            setModalBackground(null);
+                        }
+                        navigateFade(item.path);
+                    }}
                     aria-label={item.label} // Added aria-label since text is removed
                 >
                     <div className="icon-container">

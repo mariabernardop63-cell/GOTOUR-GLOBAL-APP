@@ -6,7 +6,7 @@
     left: 0;
     right: 0;
     z-index: 100;
-    background: linear-gradient(180deg, #ffffff 0%, #ffffff 40%, #f5f5f7 100%);
+    background: #ffffff;
     padding-bottom: 0;
 }
 
@@ -21,25 +21,145 @@
     background: linear-gradient(90deg, transparent 0%, #d1d5db 20%, #d1d5db 80%, transparent 100%);
 }
 
-/* Content below the fixed header needs padding to not be hidden */
+/* Content below the fixed header needs permanent padding to not overlap.
+   We never transition padding-top because scroll anchoring handles the space naturally,
+   and animating DOM height during scroll causes massive jitter. */
 .home-scroll-content {
     padding-top: 222px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    transition: padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #ffffff;
 }
 
-.scrolled-hide-chips .home-scroll-content {
-    padding-top: 140px;
+/* When in search/results mode the header is shorter (no big search row) */
+.home-page.is-searching .home-scroll-content {
+    padding-top: 215px;
 }
 
 @media (max-width: 400px) {
     .home-scroll-content {
         padding-top: 205px;
     }
-
-    .scrolled-hide-chips .home-scroll-content {
-        padding-top: 125px;
+    .home-page.is-searching .home-scroll-content {
+        padding-top: 195px;
     }
+}
+
+/* =============================================
+   TRAVEL PLANNER BAR — search results header
+   ============================================= */
+.travel-planner-bar {
+    display: flex;
+    align-items: center;
+    margin: 12px 20px 8px 20px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 6px;
+    gap: 0;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+}
+
+.tp-segment {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+}
+
+.tp-segment:hover {
+    background: #ffffff;
+    border-color: #f1f5f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.tp-segment.tp-active {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.tp-seg-icon {
+    color: #94a3b8;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+}
+
+.tp-segment.tp-active .tp-seg-icon,
+.tp-segment:hover .tp-seg-icon {
+    color: #3b82f6;
+}
+
+.tp-seg-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.tp-seg-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1;
+}
+
+.tp-seg-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+    letter-spacing: -0.1px;
+}
+
+.tp-divider {
+    width: 1px;
+    height: 28px;
+    background: #e2e8f0;
+    flex-shrink: 0;
+}
+
+/* Search button — right end pill */
+.tp-search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: #1e293b; /* Dark contrast background */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #ffffff; /* FIXED: White icon so it's visible! */
+    flex-shrink: 0;
+    margin-left: 6px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.tp-search-btn:hover {
+    background: #3b82f6; /* Premium blue on hover */
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+    transform: scale(1.06);
+}
+
+.tp-search-btn:active {
+    transform: scale(0.97);
 }

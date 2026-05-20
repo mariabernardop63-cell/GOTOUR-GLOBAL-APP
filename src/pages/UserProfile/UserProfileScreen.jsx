@@ -6,7 +6,6 @@ import {
     Globe, Share2, MapPin, BadgeCheck, Download, UserPlus, UserMinus, ShieldAlert, Ban, Shield, Link, X
 } from 'lucide-react';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
-import DesktopSidebar from '../../components/DesktopSidebar/DesktopSidebar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import HomeHeader from '../../components/HomeHeader/HomeHeader';
 import '../Profile/ProfileScreen.css';
@@ -129,8 +128,16 @@ const UserProfileScreen = () => {
     }, [isCountryOpen, showMoreMenu]);
 
     const handleMessageClick = () => {
-        // Navigation logic to open the specific chat with this user
-        navigate('/chat');
+        // Navigate to chat with this specific user
+        navigate('/chat', { state: { user: { id: id, name: user.name, username: user.username, avatar: user.avatar } } });
+    };
+
+    const handleShareProfile = () => {
+        if (navigator.share) {
+            navigator.share({ title: user.name, text: `Veja o perfil de ${user.name} no GoTour!`, url: window.location.href });
+        } else {
+            navigator.clipboard?.writeText(window.location.href);
+        }
     };
 
     // Skeleton loader component
@@ -163,38 +170,24 @@ const UserProfileScreen = () => {
     );
 
     return (
-        <div className="profile-page">
-            <DesktopSidebar />
+        <div className="profile-layout-root userprofile-root">
+            <button className="profile-close-btn modal-desktop desktop-only" onClick={() => navigate(-1)} aria-label="Fechar">
+                <X size={24} />
+            </button>
             <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
 
             {/* FIXED HEADER */}
-            <div className="home-fixed-header profile-fixed-header">
+            <div className="home-fixed-header mobile-only profile-fixed-header">
                 <HomeHeader
                     onMenuClick={() => setIsDrawerOpen(!isDrawerOpen)}
                     onLogoClick={() => navigate('/home')}
                     isDrawerOpen={isDrawerOpen}
                 />
-
-                {/* Globe on Desktop */}
-                <div className="globe-selector profile-globe" ref={globeRef}>
-                    <button
-                        className="globe-btn"
-                        onClick={() => setIsCountryOpen(!isCountryOpen)}
-                        aria-label="Select country"
-                    >
-                        <Globe size={20} strokeWidth={1.8} />
-                    </button>
-                    <CountryDropdown
-                        selectedCountry={selectedCountry}
-                        onSelect={setSelectedCountry}
-                        isOpen={isCountryOpen}
-                        onClose={() => setIsCountryOpen(false)}
-                    />
-                </div>
             </div>
 
             {/* SCROLLABLE CONTENT */}
-            <main className="profile-scroll-content">
+            <main className="profile-main-wrapper">
+                <div className="profile-scroll-content">
                 {isLoading ? (
                     <ProfileSkeleton />
                 ) : (
@@ -245,42 +238,49 @@ const UserProfileScreen = () => {
                             </div>
                         </div>
 
-                        {/* ACTION BUTTONS FOR OTHER USER */}
-                        <div className="profile-actions">
+                        {/* ACTION BUTTONS FOR OTHER USER — Premium */}
+                        <div className="profile-actions userprofile-actions-premium">
+                            {/* Friend Add/Remove button */}
                             {isFriend ? (
                                 <button
-                                    className="profile-action-btn secondary-outline"
+                                    className="userprofile-btn userprofile-btn--outline-danger"
                                     onClick={() => setIsFriend(false)}
                                 >
-                                    <UserMinus size={18} /> Mando Convite
+                                    <UserMinus size={18} />
+                                    <span>Remover Amigo</span>
                                 </button>
                             ) : friendRequested ? (
                                 <button
-                                    className="profile-action-btn primary"
+                                    className="userprofile-btn userprofile-btn--cancel"
                                     onClick={() => setFriendRequested(false)}
-                                    style={{ background: '#ef4444', borderColor: '#ef4444', color: 'white' }}
                                 >
-                                    <X size={18} /> Cancelar
+                                    <X size={18} />
+                                    <span>Cancelar Pedido</span>
                                 </button>
                             ) : (
                                 <button
-                                    className="profile-action-btn primary"
+                                    className="userprofile-btn userprofile-btn--primary"
                                     onClick={() => setFriendRequested(true)}
                                 >
-                                    <UserPlus size={18} /> Adicionar amigo
+                                    <UserPlus size={18} />
+                                    <span>Adicionar Amigo</span>
                                 </button>
                             )}
 
-                            <button className="profile-action-btn secondary-outline" onClick={handleMessageClick}>
-                                <MessageCircle size={18} /> Mensagem
+                            {/* Mensagem — navigates to chat with this user */}
+                            <button className="userprofile-btn userprofile-btn--accent" onClick={handleMessageClick}>
+                                <MessageCircle size={18} />
+                                <span>Mensagem</span>
                             </button>
 
-                            <div style={{ position: 'relative' }} ref={moreMenuRef}>
-                                <button className="profile-action-btn icon-only subtle" onClick={() => setShowMoreMenu(!showMoreMenu)}>
-                                    <MoreVertical size={20} />
+                            {/* Mais Opções */}
+                            <div style={{ position: 'relative', flex: '0 0 auto' }} ref={moreMenuRef}>
+                                <button className="userprofile-btn userprofile-btn--ghost" onClick={() => setShowMoreMenu(!showMoreMenu)}>
+                                    <MoreHorizontal size={18} />
+                                    <span>Mais</span>
                                 </button>
 
-                                {/* 3 DOTS MENU */}
+                                {/* Dropdown Menu */}
                                 {showMoreMenu && (
                                     <div className="user-profile-more-dropdown premium-dropdown">
                                         <div className="dropdown-section">
@@ -311,10 +311,6 @@ const UserProfileScreen = () => {
                                     </div>
                                 )}
                             </div>
-
-                            <button className="profile-action-btn icon-only subtle" onClick={() => alert('Compartilhar perfil')}>
-                                <Share2 size={20} />
-                            </button>
                         </div>
 
                         {/* STATS */}
@@ -352,6 +348,7 @@ const UserProfileScreen = () => {
                         </div>
                     </>
                 )}
+                </div>
             </main>
             <BottomNavBar />
 

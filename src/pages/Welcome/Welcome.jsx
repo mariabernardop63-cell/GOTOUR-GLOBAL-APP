@@ -291,10 +291,10 @@ const Welcome = () => {
                             {showDesktopLogin && (
                                 <motion.div
                                     key="desktop-login"
-                                    initial={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
-                                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                                    exit={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
-                                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                    initial={{ opacity: 0, scale: 0.97, y: 12 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.97, y: 12 }}
+                                    transition={{ duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
                                     style={{ position: 'fixed', inset: 0, zIndex: 9999, backgroundColor: '#FFFFFF' }}
                                 >
                                     <DesktopLogin
@@ -310,10 +310,10 @@ const Welcome = () => {
                             {showDesktopSignup && (
                                 <motion.div
                                     key="desktop-signup"
-                                    initial={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
-                                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                                    exit={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
-                                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                    initial={{ opacity: 0, scale: 0.97, y: 12 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.97, y: 12 }}
+                                    transition={{ duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
                                     style={{ position: 'fixed', inset: 0, zIndex: 9999, backgroundColor: '#FFFFFF' }}
                                 >
                                     <DesktopSignup

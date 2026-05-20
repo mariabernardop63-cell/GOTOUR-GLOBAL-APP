@@ -28,10 +28,7 @@ const DesktopLogin = ({ onBack, onNavigateSignup }) => {
     }, [navigateForward]);
 
     const handleCloseClick = () => {
-        setIsClosing(true);
-        setTimeout(() => {
-            onBack();
-        }, 1500);
+        onBack();
     };
 
     // Fetch user IP country on mount for language

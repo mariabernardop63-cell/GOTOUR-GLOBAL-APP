@@ -1,0 +1,213 @@
+/* BudgetDestinationsSection.css */
+
+.budget-dest-section {
+    width: 100%;
+    margin-bottom: 32px;
+    padding-left: 20px;
+}
+
+.budget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-right: 20px;
+    margin-bottom: 20px;
+}
+
+.budget-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.budget-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary, #1e293b);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.budget-title-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: #ecfdf5; /* Emerald 50 */
+    border: 1px solid #d1fae5; /* Emerald 100 */
+    border-radius: 50%;
+    color: #10b981; /* Emerald 500 */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.budget-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary, #64748b);
+    font-weight: 400;
+}
+
+.budget-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: #10b981;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.budget-link:hover {
+    opacity: 0.8;
+}
+
+.budget-scroll-container {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    padding-right: 20px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.budget-scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Premium Budged Card - Smaller than ExploreRegions */
+.bd-card-premium {
+    min-width: 220px; /* Reduced from 260px */
+    width: 220px;
+    height: 280px; /* Reduced from 340px */
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+    scroll-snap-align: start;
+}
+
+.bd-card-premium:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.bd-card-premium:active {
+    transform: scale(0.98);
+}
+
+.bd-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s ease;
+}
+
+.bd-card-premium:hover .bd-bg-image {
+    transform: scale(1.1);
+}
+
+.bd-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.05) 60%,
+        rgba(0, 0, 0, 0.85) 100%
+    );
+    z-index: 1;
+}
+
+.bd-top-badges {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    display: flex;
+    gap: 8px;
+    z-index: 2;
+}
+
+.bd-type-badge {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 6px 12px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.bd-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 16px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.bd-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
+}
+
+.bd-location {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Green pill specifically for budget */
+.bd-cost-pill {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(16, 185, 129, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    border-radius: 100px;
+    padding: 4px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #a7f3d0; /* emerald-200 */
+    gap: 6px;
+    width: fit-content;
+    margin-top: 4px;
+}
+
+@media (min-width: 1024px) {
+    .bd-card-premium {
+        min-width: 200px;
+        width: 200px;
+        height: 250px;
+    }
+
+    .bd-name {
+        font-size: 18px;
+    }
+}

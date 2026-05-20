@@ -1,0 +1,94 @@
+.explore-cta-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 20px 64px;
+    width: 100%;
+}
+
+.explore-cta-btn-premium {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 100px;
+    padding: 8px 8px 8px 24px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02);
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    width: 100%;
+    max-width: 380px;
+}
+
+.explore-cta-btn-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+.explore-cta-btn-premium:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.explore-cta-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 16px;
+}
+
+.explore-cta-text {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b; /* Dark text for contrast */
+    letter-spacing: -0.3px;
+}
+
+.explore-cta-icon-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0f172a; /* Super dark premium blue/black */
+    color: #ffffff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), background 0.4s ease;
+}
+
+.explore-cta-btn-premium:hover .explore-cta-icon-pill {
+    transform: translateX(-4px); /* Pushes arrow slightly left on hover before hovering arrow */
+    background: #3b82f6; /* Blue transition on hover for a pop of color */
+}
+
+.explore-cta-arrow {
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.explore-cta-btn-premium:hover .explore-cta-arrow {
+    transform: translateX(4px); /* Arrow shoots right */
+}
+
+.explore-cta-subtitle {
+    margin: 0;
+    font-size: 14px;
+    color: #64748b;
+    text-align: center;
+    font-weight: 400;
+    max-width: 320px;
+    line-height: 1.5;
+    animation: explore-fade-up 0.8s ease backwards;
+    animation-delay: 0.1s;
+}
+
+@keyframes explore-fade-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}

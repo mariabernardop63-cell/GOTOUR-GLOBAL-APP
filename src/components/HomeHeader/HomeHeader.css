@@ -25,20 +25,22 @@
     align-items: center;
 }
 
-.menu-button {
+.menu-pill-button {
     background: none;
     border: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
     cursor: pointer;
-    padding: 12px; /* Increased from 8px */
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #1e293b;
+    gap: 10px;
+    transition: opacity 0.2s ease;
 }
 
-.menu-button:hover {
-    background-color: #f1f5f9;
-    border-radius: 50%;
+.menu-pill-button:hover {
+    opacity: 0.7;
 }
 
 /* HAMBURGER MENU ANIMATION */
@@ -85,3 +87,43 @@
 .menu-button:active .hamburger-icon {
     transform: scale(0.95);
 }
+
+/* ==========================================
+   MINI SEARCH PILL — search results mode
+   ========================================== */
+.mini-search-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 9999px;
+    padding: 7px 14px 7px 10px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 180px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.mini-search-pill:hover {
+    background: #e8edf3;
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.mini-search-icon {
+    color: #1e293b;
+    flex-shrink: 0;
+}
+
+.mini-search-text {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.1px;
+    max-width: 120px;
+}

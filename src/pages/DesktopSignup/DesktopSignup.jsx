@@ -402,15 +402,11 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
     };
 
     const handleBackStep = () => {
-        setIsClosing(true);
-        setTimeout(() => {
-            if (step > 1 && step < 5) {
-                setStep(prev => prev - 1);
-                setIsClosing(false);
-            } else if (step === 1) {
-                onBack();
-            }
-        }, 1500);
+        if (step > 1 && step < 5) {
+            setStep(prev => prev - 1);
+        } else if (step === 1) {
+            onBack();
+        }
     };
 
     const handleGoogleSignup = async () => {

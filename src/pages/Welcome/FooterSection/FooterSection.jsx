@@ -2,27 +2,98 @@ import React from 'react';
 import './FooterSection.css';
 import gotourIcon from '../../../assets/images/gotour_icon.png';
 
-const FooterSection = () => {
+const FooterSection = ({ hideBanner = false }) => {
     const currentYear = new Date().getFullYear();
 
     return (
         <footer className="footer-section">
 
             {/* ── Top CTA Banner ── */}
-            <div className="footer-cta-banner">
-                <div className="footer-cta-inner">
-                    <div className="footer-cta-text">
-                        <h3 className="footer-cta-title">Obtenha 7 dias grátis do plano pro da GO TOUR</h3>
-                        <p className="footer-cta-sub">
-                            Junte-se a milhares de viajantes. Disponível gratuitamente.
-                        </p>
-                    </div>
-                    <div className="footer-cta-actions">
-                        <button className="footer-cta-btn-primary">Obter</button>
-                        <button className="footer-cta-btn-secondary">Falar com a equipa</button>
+            {!hideBanner && (
+                <div className="footer-cta-banner">
+                    <div className="footer-cta-inner">
+                        <div className="footer-cta-text-wrapper">
+                            {/* Premium SVG Animation (Star + Ribbons + Sparks) */}
+                            <div className="premium-pro-animation-container">
+                                <svg viewBox="0 0 200 200" width="140" height="140" className="premium-pro-svg" overflow="visible">
+                                    <defs>
+                                        <linearGradient id="pro-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stopColor="#4A72FF" />
+                                            <stop offset="100%" stopColor="#7C3AED" />
+                                        </linearGradient>
+                                        <linearGradient id="ribbon-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stopColor="#F472B6" />
+                                            <stop offset="100%" stopColor="#4A72FF" />
+                                        </linearGradient>
+                                        <linearGradient id="ribbon-2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stopColor="#34D399" />
+                                            <stop offset="100%" stopColor="#4A72FF" />
+                                        </linearGradient>
+                                        <linearGradient id="ribbon-3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stopColor="#FBBF24" />
+                                            <stop offset="100%" stopColor="#F43F5E" />
+                                        </linearGradient>
+                                        <filter id="glow-star" x="-20%" y="-20%" width="140%" height="140%">
+                                            <feGaussianBlur stdDeviation="4" result="blur"/>
+                                            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                                        </filter>
+                                    </defs>
+
+                                    {/* Animated Ribbons Shooting Out Extra Far to Reach Text & Buttons */}
+                                    <g className="pro-ribbons" fill="none" strokeWidth="4" strokeLinecap="round">
+                                        <path className="p-ribbon r-1" pathLength="100" stroke="url(#ribbon-1)" d="M 100 100 C 300 50, 700 30, 2000 60" />
+                                        <path className="p-ribbon r-2" pathLength="100" stroke="url(#ribbon-2)" d="M 100 100 C 400 90, 800 130, 1800 150" />
+                                        <path className="p-ribbon r-3" pathLength="100" stroke="url(#ribbon-3)" d="M 100 100 C 500 150, 900 180, 2200 120" />
+                                        <path className="p-ribbon r-4" pathLength="100" stroke="url(#ribbon-1)" d="M 100 100 C 200 60, 500 40, 1500 20" />
+                                        <path className="p-ribbon r-5" pathLength="100" stroke="url(#ribbon-3)" d="M 100 100 C 250 140, 600 160, 1900 180" />
+                                    </g>
+
+                                    {/* Floating Sparks */}
+                                    <g className="pro-sparks" fill="#FFFFFF">
+                                        <circle className="p-spark s-1" cx="100" cy="100" r="3" />
+                                        <circle className="p-spark s-2" cx="100" cy="100" r="4" />
+                                        <circle className="p-spark s-3" cx="100" cy="100" r="2.5" />
+                                        <circle className="p-spark s-4" cx="100" cy="100" r="3.5" />
+                                        <circle className="p-spark s-5" cx="100" cy="100" r="2" />
+                                        <circle className="p-spark s-6" cx="100" cy="100" r="4" />
+                                        <circle className="p-spark s-7" cx="100" cy="100" r="2.5" />
+                                        <circle className="p-spark s-8" cx="100" cy="100" r="3.5" />
+                                        <circle className="p-spark s-9" cx="100" cy="100" r="3" />
+                                        <circle className="p-spark s-10" cx="100" cy="100" r="2" />
+                                        <circle className="p-spark s-11" cx="100" cy="100" r="4.5" />
+                                        <circle className="p-spark s-12" cx="100" cy="100" r="2.5" />
+                                        <circle className="p-spark s-13" cx="100" cy="100" r="3" />
+                                        <circle className="p-spark s-14" cx="100" cy="100" r="4" />
+                                        <circle className="p-spark s-15" cx="100" cy="100" r="2" />
+                                    </g>
+
+                                    {/* Central Premium Star/Diamond */}
+                                    <g className="pro-core-icon">
+                                        {/* Outer glowing star */}
+                                        <path d="M 100 40 L 112 88 L 160 100 L 112 112 L 100 160 L 88 112 L 40 100 L 88 88 Z" fill="url(#pro-grad)" filter="url(#glow-star)"/>
+                                        {/* Inner bright star */}
+                                        <path d="M 100 65 L 106 94 L 135 100 L 106 106 L 100 135 L 94 106 L 65 100 L 94 94 Z" fill="#FFFFFF" opacity="0.9"/>
+                                        {/* Core shine dot */}
+                                        <circle cx="100" cy="100" r="6" fill="#FFFFFF" />
+                                    </g>
+                                </svg>
+                            </div>
+
+                            <div className="footer-cta-text">
+                                <h3 className="footer-cta-title">Obtenha 7 dias grátis do plano pro da GO TOUR</h3>
+                                <p className="footer-cta-sub">
+                                    Junte-se a milhares de viajantes. Disponível gratuitamente.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="footer-cta-actions">
+                            <button className="footer-cta-btn-primary">Obter</button>
+                            <button className="footer-cta-btn-secondary">Falar com a equipa</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
 
             <div className="footer-container">
 
@@ -101,7 +172,7 @@ const FooterSection = () => {
                         <ul className="footer-link-list">
                             <li><a href="#sobre">Sobre nós</a></li>
                             <li><a href="#">Blog</a></li>
-                            <li><a href="#">Carreiras <span className="footer-badge">A recrutar</span></a></li>
+                            <li><a href="#">Carreiras</a></li>
                             <li><a href="#">Imprensa</a></li>
                             <li><a href="#">Parceiros</a></li>
                             <li><a href="#">Programa de afiliados</a></li>

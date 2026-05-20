@@ -1,538 +1,452 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
-    ArrowLeft, Menu, Plus, MessageSquare, Film, MoreVertical,
-    Settings, Archive, CheckCheck, Lock, User,
-    MessageCircle, Users, Bell, Heart, Search,
-    MapPin, Compass, BookOpen, Layers, Phone, Video, Info as InfoIcon,
-    Calendar, Briefcase, Clock, Ticket, Star, Crown,
-    SlidersHorizontal, Globe, Palette, BellRing, ShieldCheck,
-    Mic, Paperclip, Smile, Send, Check, Image as ImageIcon, FileText, ChevronRight,
-    UserCircle, Shield, Moon, MoreHorizontal, Trash2, X, Square, AlertCircle, SearchX, Pin, BellOff, Ban
+    ArrowLeft, MessageSquare, MoreVertical,
+    Settings, Archive, User,
+    Users, Search,
+    Phone, Video,
+    ListFilter,
+    MessageSquarePlus,
+    X
 } from 'lucide-react';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
+import ChatInputBar from '../../components/ChatInputBar/ChatInputBar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
-import DesktopSidebar from '../../components/DesktopSidebar/DesktopSidebar';
+import { useNavigation } from '../../App';
 import gotourLogo from '../../assets/images/gotour_icon.png';
-import dubaiImage from '../../assets/images/dubai_city.png';
 import './MessagesScreenStyles.css';
 
-// Custom Gemini Icon Component
-const GeminiIcon = ({ size = 26 }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M11.9961 0C12.6025 6.0145 17.6534 10.9157 23.3361 11.9056C17.6534 12.8955 12.6025 17.7967 11.9961 24C11.3897 17.7967 6.13843 12.8955 0.655273 11.9056C6.13843 10.9157 11.3897 6.0145 11.9961 0Z" fill="url(#paint0_linear)" />
-        <defs>
-            <linearGradient id="paint0_linear" x1="11.9957" y1="0" x2="11.9957" y2="24" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#1C7FF2" />
-                <stop offset="0.35" stopColor="#9D38FA" />
-                <stop offset="0.75" stopColor="#F93766" />
-                <stop offset="1" stopColor="#FABC36" />
-            </linearGradient>
-        </defs>
-    </svg>
-);
-
-// Mock data
+// Mock data — conversations
 const mockConversations = [
     {
         id: 'gotour-welcome',
         name: 'Equipe GoTour',
         avatar: gotourLogo,
-        lastMessage: 'Bem-vindo ao GoTour! 🌍 Estamos felizes em ter você...',
-        time: 'Agora',
+        lastMessage: 'Estamos • Maputo',
+        location: '🇲🇿 Maputo',
+        time: '14:10',
         unread: 1,
         online: true,
+        lastSeen: 'Online',
         sentStatus: 'none',
-        isFriend: true
+        isFriend: true,
+        verified: true,
+        isArchived: false
     },
     {
         id: 'ana-silva',
         name: 'Ana Silva',
         avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
-        lastMessage: 'As fotos de Dubai ficaram incríveis! ✨',
-        time: '14:30',
+        lastMessage: 'Acho que Tóquio é a melhor escolha para a nossa próxima aventura em grupo!',
+        location: '🇯🇵 Tóquio',
+        time: '14:20',
         unread: 0,
         online: false,
+        lastSeen: 'Há 3h',
         sentStatus: 'read',
-        isFriend: true
+        isFriend: true,
+        verified: true,
+        isArchived: false
     },
     {
-        id: 'grupo-viagem',
-        name: 'Viagem Japão 2026',
-        avatar: null,
-        lastMessage: 'Carlos: Alguém já viu os tickets do trem-bala?',
-        time: 'Ontem',
-        unread: 5,
-        online: false,
+        id: 'ana-sofia',
+        name: 'Ana Sofia',
+        avatar: 'https://i.pravatar.cc/150?u=as001',
+        lastMessage: 'Olá! Como estás? Posso te fazer uma pergunta?',
+        location: '🇲🇿 Maputo',
+        time: '12:45',
+        unread: 3,
+        online: true,
         sentStatus: 'none',
-        isGroup: true
+        isFriend: true,
+        isArchived: false
     },
     {
-        id: 'spam-1',
-        name: 'Oferta Especial',
-        avatar: null,
-        lastMessage: 'Você ganhou 10,000 milhas grátis! Clique aqui.',
-        time: 'Segunda',
-        unread: 1,
+        id: 'vinicius-grego',
+        name: 'Vinícius Grego',
+        avatar: 'https://i.pravatar.cc/150?u=vg001',
+        lastMessage: 'Já reservaste o hotel para Tóquio? Vi um muito bom perto de Shibuya.',
+        location: '🇯🇵 Tóquio',
+        time: '14:05',
+        unread: 0,
         online: false,
-        isSpam: true
+        lastSeen: 'Há 3h',
+        sentStatus: 'read',
+        isFriend: true,
+        verified: true,
+        isArchived: false
     },
     {
         id: 'comm-1',
         name: 'Mochileiros MZ',
         avatar: null,
-        lastMessage: 'Novo post: Melhor roteiro em Cape Town.',
-        time: '23/02',
+        lastMessage: 'Cape Town • Maputo',
+        location: '🇲🇿 Maputo',
+        time: '09:16',
         unread: 2,
         online: false,
-        isCommunity: true
+        lastSeen: '12:00',
+        isCommunity: true,
+        isArchived: false
     },
     {
-        id: 'arq-1',
-        name: 'Luís Mendes',
-        avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026024c',
-        lastMessage: 'Combinado, abraço!',
-        time: '20/02',
+        id: 'grupo-viagem',
+        name: 'Viagem Japão 2026',
+        avatar: null,
+        lastMessage: 'Tóquio',
+        location: '🇯🇵 Tóquio',
+        time: '',
+        unread: 5,
+        online: false,
+        lastSeen: 'Ontem',
+        sentStatus: 'none',
+        isGroup: true,
+        isArchived: false
+    },
+    {
+        id: 'felipe-costa',
+        name: 'Felipe Costa',
+        avatar: 'https://i.pravatar.cc/150?u=fc001',
+        lastMessage: 'Sarajevo',
+        location: '🇧🇦 Sarajevo',
+        time: '23 Apr',
         unread: 0,
         online: false,
-        isArchived: true,
-        isFriend: true
+        lastSeen: '23 Apr',
+        sentStatus: 'read',
+        isFriend: true,
+        isArchived: false
     }
 ];
 
-const mockChatMessages = [
-    { id: 1, text: 'Olá! Bem-vindo ao GoTour.', sender: 'them', time: '10:00', date: 'Hoje' },
-    { id: 2, text: 'Espero que aproveite a plataforma.', sender: 'them', time: '10:01' },
-    { id: 3, text: 'Muito obrigado! A interface está sensacional. 🔥', sender: 'me', time: '10:05', status: 'read' },
+const initialChatMessages = [
+    {
+        id: 1, sender: 'contact', senderName: 'GoTour',
+        text: 'Bem-vindo ao GoTour! 🌍 Estamos felizes em ter você conosco.',
+        time: '23:30',
+    },
+    {
+        id: 2, sender: 'contact', senderName: 'GoTour',
+        text: 'Explore destinos incríveis, compartilhe suas experiências e conecte-se com outros viajantes ao redor do mundo. ✈️',
+        time: '23:30',
+    },
+    {
+        id: 3, sender: 'contact', senderName: 'GoTour',
+        text: 'Se precisar de ajuda, estamos aqui! Basta nos enviar uma mensagem. 😊',
+        time: '23:31',
+    },
 ];
 
 const MessagesScreen = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { navigateBack, setModalBackground } = useNavigation();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [showNewMenu, setShowNewMenu] = useState(false);
-    const [activeFilter, setActiveFilter] = useState('Todas'); // state for filters
-    const [activeChat, setActiveChat] = useState(null); // state for tracking selected standard chat
+    const [activeChat, setActiveChat] = useState(null);
+    const [conversations, setConversations] = useState(mockConversations);
+    const [messages, setMessages] = useState(initialChatMessages);
+    const [showMoreMenu, setShowMoreMenu] = useState(false);
+    const [selectedMessageIds, setSelectedMessageIds] = useState([]);
+    const [currentTab, setCurrentTab] = useState('mensagens');
+    const [toastMessage, setToastMessage] = useState('');
+    
+    const messagesEndRef = useRef(null);
+    const messagesContainerRef = useRef(null);
+    const moreMenuRef = useRef(null);
+    const pressTimer = useRef(null);
 
-    // New Active Chat States
-    const [isChatSearching, setIsChatSearching] = useState(false);
-    const [chatSearchTerm, setChatSearchTerm] = useState('');
-    const [selectedMessages, setSelectedMessages] = useState([]);
-    const [showDeleteMessageModal, setShowDeleteMessageModal] = useState(false);
-    const [showActiveChatMenu, setShowActiveChatMenu] = useState(false);
-
-    // Long press logic
-    const longPressTimeoutRef = React.useRef(null);
-    const longPressTriggeredRef = React.useRef(false);
-
-    const handleMessagePointerDown = (msgId) => {
-        longPressTriggeredRef.current = false;
-        longPressTimeoutRef.current = setTimeout(() => {
-            longPressTriggeredRef.current = true;
-            handleToggleMessageSelection(msgId);
-        }, 500); // 500ms long press to select
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    const handleMessagePointerUp = () => {
-        if (longPressTimeoutRef.current) clearTimeout(longPressTimeoutRef.current);
-    };
+    useEffect(() => {
+        if (activeChat) scrollToBottom();
+    }, [messages, activeChat]);
 
-    const handleToggleMessageSelection = (msgId) => {
-        if (selectedMessages.includes(msgId)) {
-            setSelectedMessages(prev => prev.filter(id => id !== msgId));
-        } else {
-            setSelectedMessages(prev => [...prev, msgId]);
-        }
-    };
-
-    const handleDeleteSelectedMessages = () => {
-        // Logic to delete messages from mockChatMessages would go here
-        setSelectedMessages([]);
-        setShowDeleteMessageModal(false);
-    };
-
-    const [showDeleteChatModal, setShowDeleteChatModal] = useState(false);
-    const handleDeleteChat = () => {
-        // Mock logic to delete the entire active chat
-        setShowDeleteChatModal(false);
-        setActiveChat(null);
-    };
-
-    const highlightText = (text, highlight) => {
-        if (!highlight.trim()) return text;
-        const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
-        return parts.map((part, index) =>
-            part.toLowerCase() === highlight.toLowerCase() ?
-                <span key={index} style={{ backgroundColor: '#bfdbfe', color: '#1e3a8a', padding: '0 2px', borderRadius: '4px' }}>{part}</span> : part
-        );
-    };
-
-    const activeChatMenuRef = React.useRef(null);
-    const menuRef = React.useRef(null);
-
-    React.useEffect(() => {
+    // Click outside handler for the more menu
+    useEffect(() => {
         const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                setShowNewMenu(false);
-            }
-            if (activeChatMenuRef.current && !activeChatMenuRef.current.contains(event.target)) {
-                setShowActiveChatMenu(false);
+            if (moreMenuRef.current && !moreMenuRef.current.contains(event.target)) {
+                setShowMoreMenu(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    // Derived logic for lists and badges
-    const unreadCount = mockConversations.filter(c => c.unread > 0 && !c.isSpam && !c.isArchived).length;
-    const spamCount = mockConversations.filter(c => c.isSpam && c.unread > 0).length;
-    const groupCount = mockConversations.filter(c => c.isGroup && c.unread > 0).length;
-    const commCount = mockConversations.filter(c => c.isCommunity && c.unread > 0).length;
+    const toggleMessageSelection = (id) => {
+        setSelectedMessageIds(prev => 
+            prev.includes(id) ? prev.filter(mid => mid !== id) : [...prev, id]
+        );
+    };
 
-    const filteredConversations = mockConversations.filter(convo => {
-        switch (activeFilter) {
-            case 'Todas': return !convo.isSpam && !convo.isArchived;
-            case 'Não lidas': return convo.unread > 0 && !convo.isSpam;
-            case 'Arquivadas': return convo.isArchived;
-            case 'Spam': return convo.isSpam;
-            case 'Favoritos': return convo.isFavorite; // mock data doesn't have favs yet but logic applies
-            case 'Amigos': return convo.isFriend;
-            case 'Grupos': return convo.isGroup;
-            case 'Comunidades': return convo.isCommunity;
-            case 'Histórias': return convo.hasStory;
-            default: return true;
+    const handleConvoClick = (convo) => {
+        setActiveChat(convo);
+    };
+
+    // Long press logic for archiving/unarchiving conversations (3 seconds)
+    const startPress = (convoId) => {
+        pressTimer.current = setTimeout(() => {
+            toggleArchiveConvo(convoId);
+        }, 3000);
+    };
+
+    const endPress = () => {
+        if (pressTimer.current) {
+            clearTimeout(pressTimer.current);
         }
+    };
+
+    const toggleArchiveConvo = (convoId) => {
+        let msg = "";
+        setConversations(prev => prev.map(c => {
+            if (c.id === convoId) {
+                const newArchived = !c.isArchived;
+                msg = newArchived ? "Conversa arquivada!" : "Conversa desarquivada!";
+                return { ...c, isArchived: newArchived };
+            }
+            return c;
+        }));
+        if (msg) {
+            setToastMessage(msg);
+            setTimeout(() => setToastMessage(''), 2500);
+        }
+        if (activeChat?.id === convoId) {
+            setActiveChat(null);
+        }
+    };
+
+    // Filter conversations based on current active tab
+    const filteredConversations = conversations.filter(convo => {
+        if (currentTab === 'arquivadas') {
+            return convo.isArchived;
+        } else if (currentTab === 'mensagens') {
+            return !convo.isArchived;
+        } else if (currentTab === 'comunidades') {
+            return convo.isCommunity || convo.isGroup;
+        }
+        return true;
     });
 
-    const getBadge = (count) => count > 0 ? <span className="filter-badge">{count}</span> : null;
-
     return (
-        <div className="messages-layout premium-redesign">
-            <DesktopSidebar />
-            <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+        <div className="messages-ws-layout">
+            {toastMessage && (
+                <div className="ws-toast">
+                    {toastMessage}
+                </div>
+            )}
 
-            <div className="messages-content-wrapper">
-
-                {/* =========================================
-                    COLUMN 1: CHAT LIST
-                ========================================= */}
-                <div className={`messages-list-column ${activeChat ? 'hide-on-mobile' : ''}`}>
-                    <header className="messages-main-header">
-                        <div className="header-brand">
-                            <button className="messages-logo-btn mobile-only" onClick={() => navigate('/home')} aria-label="Home">
-                                <img src={gotourLogo} alt="GoTour" className="messages-header-logo" />
-                            </button>
-                            <h1 className="messages-list-title">Mensagens</h1>
-                        </div>
-                        <div className="header-actions">
-                            <button className="transparent-icon-btn" aria-label="Menu" onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
-                                <Menu size={24} />
-                            </button>
-                        </div>
-                    </header>
-
-                    {/* Premium Search */}
-                    <div className="messages-search-container">
-                        <div className="search-row-layout">
-                            <div className="search-input-wrapper flex-auto">
-                                <Search size={18} className="search-icon" />
-                                <input type="text" placeholder="Pesquisar..." className="premium-search-input" />
-                            </div>
-
-                            <button className="transparent-icon-btn more-options-btn" onClick={() => setShowNewMenu(!showNewMenu)} aria-label="Mais opções">
-                                <MoreVertical size={24} />
-                            </button>
-                        </div>
-
-                        {/* More Menu Dropdown logic from the old header */}
-                        {showNewMenu && (
-                            <div className="messages-new-dropdown left-aligned premium-dropdown" ref={menuRef}>
-                                <div className="dropdown-section">
-                                    <span className="dropdown-label">Ações de Conversa</span>
-                                    <button onClick={() => setShowNewMenu(false)}><MessageSquare size={16} color="#475569" /> Nova mensagem</button>
-                                    <button onClick={() => setShowNewMenu(false)}><Users size={16} color="#475569" /> Criar Grupo</button>
-                                    <button onClick={() => setShowNewMenu(false)}><Globe size={16} color="#475569" /> Criar Comunidade</button>
-                                </div>
-                                <div className="menu-divider" />
-                                <div className="dropdown-section">
-                                    <span className="dropdown-label">Organização</span>
-                                    <button onClick={() => setShowNewMenu(false)}><CheckCheck size={16} color="#475569" /> Marcar lidas</button>
-                                    <button onClick={() => setShowNewMenu(false)}><Archive size={16} color="#475569" /> Arquivadas</button>
-                                </div>
-                                <div className="menu-divider" />
-                                <div className="dropdown-section">
-                                    <span className="dropdown-label">Conta & Preferências</span>
-                                    <button onClick={() => { setShowNewMenu(false); navigate('/profile'); }}><UserCircle size={16} color="#475569" /> Meu Perfil</button>
-                                    <button onClick={() => { setShowNewMenu(false); navigate('/settings'); }}><Shield size={16} color="#475569" /> Privacidade</button>
-                                    <button onClick={() => { setShowNewMenu(false); navigate('/settings'); }}><Moon size={16} color="#475569" /> Tema Escuro</button>
-                                    <button onClick={() => { setShowNewMenu(false); navigate('/settings'); }}><Settings size={16} color="#475569" /> Todas as Definições</button>
-                                </div>
-                            </div>
-                        )}
+            <div className="ws-window">
+                {/* --- A. LEFT SIDEBAR --- */}
+                <aside className="ws-sidebar">
+                    <div className="ws-logo-container" style={{ justifyContent: 'flex-start' }}>
+                        <button 
+                            onClick={() => navigate('/home')} 
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1E293B' }}
+                            aria-label="Voltar para Home"
+                        >
+                            <X size={24} />
+                        </button>
                     </div>
 
-                    {/* Filters Scroll */}
-                    <div className="messages-filters-scroll">
-                        {['Todas', 'Não lidas', 'Arquivadas', 'Favoritos', 'Histórias', 'Grupos', 'Comunidades'].map(f => (
-                            <button
-                                key={f}
-                                className={`filter-pill ${activeFilter === f ? 'active' : ''}`}
-                                onClick={() => setActiveFilter(f)}
-                            >
-                                {f}
-                                {f === 'Não lidas' && getBadge(unreadCount)}
-                                {f === 'Grupos' && getBadge(groupCount)}
-                                {f === 'Comunidades' && getBadge(commCount)}
-                            </button>
-                        ))}
+                    <nav className="ws-nav">
+                        <button 
+                            className={`ws-nav-item ${currentTab === 'mensagens' ? 'active' : ''}`}
+                            onClick={() => setCurrentTab('mensagens')}
+                        >
+                            <MessageSquare size={20} />
+                            <span>Mensagens</span>
+                        </button>
+                        <button 
+                            className={`ws-nav-item ${currentTab === 'comunidades' ? 'active' : ''}`}
+                            onClick={() => setCurrentTab('comunidades')}
+                        >
+                            <Users size={20} />
+                            <span>Comunidades</span>
+                        </button>
+                        <button 
+                            className={`ws-nav-item ${currentTab === 'arquivadas' ? 'active' : ''}`}
+                            onClick={() => setCurrentTab('arquivadas')}
+                        >
+                            <Archive size={20} />
+                            <span>Arquivadas</span>
+                        </button>
+                    </nav>
+
+                    <div className="ws-nav-bottom">
+                        <button className="ws-nav-item" onClick={() => navigate('/settings')}>
+                            <Settings size={20} />
+                            <span>Definições</span>
+                        </button>
+                    </div>
+                </aside>
+
+                {/* --- B. CENTER PANEL (Activities & Chats) --- */}
+                <div className={`ws-center-panel ${activeChat ? 'hidden-on-mobile' : ''}`}>
+                    <div className="ws-center-header">
+                        <div className="ws-search-bar">
+                            <Search size={16} color="#94A3B8" />
+                            <input type="text" placeholder="Search anything" />
+                        </div>
                     </div>
 
-                    {/* Conversation List */}
-                    <div className="conversations-list premium-scroll">
+                    <div className="ws-chat-list-container">
+                        <div className="ws-list-label">conversas</div>
                         {filteredConversations.length > 0 ? (
                             filteredConversations.map((convo) => (
                                 <button
                                     key={convo.id}
-                                    className={`conversation-item premium ${activeChat?.id === convo.id ? 'active-chat' : ''}`}
-                                    onClick={() => {
-                                        // Deselect mode if a new chat is opened
-                                        if (!convo.isGroup && !convo.isCommunity) {
-                                            setActiveChat(convo);
-                                            setSelectedMessages([]);
-                                            setIsChatSearching(false);
-                                            setChatSearchTerm('');
-                                        }
-                                    }}
+                                    className={`ws-chat-item ${activeChat?.id === convo.id ? 'active' : ''}`}
+                                    onClick={() => handleConvoClick(convo)}
+                                    onPointerDown={() => startPress(convo.id)}
+                                    onPointerUp={endPress}
+                                    onPointerLeave={endPress}
                                 >
-                                    <div className="conversation-avatar">
-                                        {convo.avatar ? <img src={convo.avatar} alt={convo.name} /> : <User size={26} color="#94a3b8" />}
-                                        {convo.online && <div className="online-indicator"></div>}
+                                    <div className="ws-chat-item-avatar">
+                                        {convo.avatar ? <img src={convo.avatar} alt={convo.name} /> : <User size={24} color="#94a3b8" />}
+                                        {convo.online && <div className="online-dot"></div>}
                                     </div>
-                                    <div className="conversation-content">
-                                        <div className="conversation-header-row">
-                                            <span className="conversation-name">{convo.name}</span>
-                                            <span className="conversation-time">{convo.time}</span>
+                                    <div className="ws-chat-item-content">
+                                        <div className="ws-chat-item-top">
+                                            <span className="ws-chat-item-name">{convo.name}</span>
+                                            <span className="ws-chat-item-time">{convo.time}</span>
                                         </div>
-                                        <div className="conversation-preview-row">
-                                            <span className={`conversation-preview ${convo.unread > 0 ? 'is-unread' : ''}`}>
-                                                {convo.lastMessage}
-                                            </span>
-                                            <div className="conversation-status-area">
-                                                {convo.unread > 0 ? (
-                                                    <span className="conversation-badge">{convo.unread}</span>
-                                                ) : convo.sentStatus === 'read' ? (
-                                                    <CheckCheck size={16} className="status-read" />
-                                                ) : convo.sentStatus === 'delivered' ? (
-                                                    <CheckCheck size={16} className="status-delivered" />
-                                                ) : convo.sentStatus === 'sent' ? (
-                                                    <Check size={16} className="status-sent" />
-                                                ) : null}
-                                            </div>
+                                        <div className="ws-chat-item-bottom">
+                                            <span className="ws-chat-item-msg">{convo.lastMessage}</span>
+                                            {convo.unread > 0 && <span className="ws-chat-item-badge">{convo.unread}</span>}
                                         </div>
                                     </div>
                                 </button>
                             ))
                         ) : (
-                            <div className="empty-filter-state">
-                                <MessageSquare size={48} color="#cbd5e1" />
-                                <p>Nenhuma mensagem encontrada nesta secção.</p>
+                            <div style={{ textAlign: 'center', padding: '30px 10px', color: '#94A3B8', fontSize: '13px' }}>
+                                Nenhuma conversa encontrada
                             </div>
                         )}
                     </div>
                 </div>
 
-                {/* =========================================
-                    COLUMN 2: ACTIVE CHAT AREA 
-                ========================================= */}
-                {activeChat && (
-                    <div className="messages-active-chat-column">
-                        <header className="active-chat-header premium-shadow">
-
-                            {/* Selection Mode Header */}
-                            {selectedMessages.length > 0 ? (
-                                <div className="active-chat-selection-mode">
-                                    <div className="selection-info">
-                                        <button className="clear-icon-btn" onClick={() => setSelectedMessages([])}>
-                                            <Square size={22} color="#0f172a" />
-                                        </button>
-                                        <span className="selection-count">{selectedMessages.length} selecionada(s)</span>
+                {/* --- C. RIGHT PANEL (Chat Window) --- */}
+                <div className={`ws-right-panel ${!activeChat ? 'hidden-on-mobile' : ''}`}>
+                    {activeChat ? (
+                        <>
+                            <header className="ws-chat-header">
+                                <div className="ws-chat-header-user">
+                                    <button 
+                                        onClick={() => setActiveChat(null)}
+                                        style={{ background: 'none', border: 'none', cursor: 'pointer', paddingRight: '8px', display: 'flex', alignItems: 'center' }}
+                                        className="ws-mobile-back"
+                                    >
+                                        <ArrowLeft size={24} color="#1E293B" />
+                                    </button>
+                                    <div className="ws-chat-item-avatar">
+                                        {activeChat.avatar ? <img src={activeChat.avatar} alt={activeChat.name} /> : <User size={44} color="#94a3b8" />}
+                                        {activeChat.online && <div className="online-dot"></div>}
                                     </div>
-                                    <button className="delete-selection-btn" onClick={() => setShowDeleteMessageModal(true)}>
-                                        <Trash2 size={22} color="#ef4444" />
-                                    </button>
-                                </div>
-                            ) : isChatSearching ? (
-                                <div className="active-chat-search-mode">
-                                    <button className="clear-icon-btn" onClick={() => { setIsChatSearching(false); setChatSearchTerm(''); }}>
-                                        <ArrowLeft size={22} color="#64748b" />
-                                    </button>
-                                    <div className="chat-search-input-wrapper">
-                                        <input
-                                            type="text"
-                                            placeholder="Pesquisar na conversa..."
-                                            value={chatSearchTerm}
-                                            onChange={(e) => setChatSearchTerm(e.target.value)}
-                                            autoFocus
-                                        />
-                                        {chatSearchTerm && (
-                                            <button className="clear-icon-btn" onClick={() => setChatSearchTerm('')}>
-                                                <X size={18} color="#94a3b8" />
-                                            </button>
-                                        )}
+                                    <div className="ws-chat-header-info">
+                                        <span className="ws-chat-header-name">{activeChat.name}</span>
+                                        <span className="ws-chat-header-status">{activeChat.lastSeen || 'Offline'}</span>
                                     </div>
                                 </div>
-                            ) : (
-                                <>
-                                    <div className="active-chat-user-info">
-                                        <button className="mobile-only back-to-list-btn" onClick={() => setActiveChat(null)}>
-                                            <ArrowLeft size={24} color="#0f172a" />
-                                        </button>
-                                        <div
-                                            className="chat-header-avatar profile-avatar-clickable"
-                                            onClick={() => navigate('/user/1')}
-                                        >
-                                            {activeChat.avatar ? <img src={activeChat.avatar} alt={activeChat.name} /> : <User size={24} color="#94a3b8" />}
-                                            {activeChat.online && <div className="online-indicator"></div>}
-                                        </div>
-                                        <div className="chat-header-details">
-                                            <h2>{activeChat.name}</h2>
-                                            <span>{activeChat.online ? 'Online agora' : `Visto às ${activeChat.time}`}</span>
-                                        </div>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <div className="ws-chat-header-actions" ref={moreMenuRef}>
+                                        <button><Phone size={20} /></button>
+                                        <button><Video size={20} /></button>
+                                        <button onClick={() => setShowMoreMenu(!showMoreMenu)}><MoreVertical size={20} /></button>
                                     </div>
-                                    <div className="active-chat-actions" style={{ position: 'relative' }}>
-                                        <button className="clear-icon-btn"><Phone size={22} color="#0d9488" /></button>
-                                        <button className="clear-icon-btn"><Video size={22} color="#0d9488" /></button>
-                                        <div className="header-divider" />
-                                        <button className="clear-icon-btn" onClick={() => setIsChatSearching(true)}><Search size={22} color="#64748b" /></button>
-                                        <button className="clear-icon-btn" onClick={() => setShowActiveChatMenu(!showActiveChatMenu)}><MoreVertical size={22} color="#64748b" /></button>
-
-                                        {/* Dropdown Menu inside Active Chat */}
-                                        {showActiveChatMenu && (
-                                            <div className="messages-new-dropdown right-aligned premium-dropdown" ref={activeChatMenuRef}>
-                                                <div className="dropdown-section">
-                                                    <button onClick={() => { setShowActiveChatMenu(false); navigate('/user/1'); }}><User size={16} color="#475569" /> Ver perfil</button>
-                                                    <button onClick={() => setShowActiveChatMenu(false)}><Pin size={16} color="#475569" /> Fixar conversa</button>
-                                                    <button onClick={() => { setShowActiveChatMenu(false); setIsChatSearching(true); }}><Search size={16} color="#475569" /> Pesquisar na conversa</button>
-                                                </div>
-                                                <div className="menu-divider" />
-                                                <div className="dropdown-section">
-                                                    <button onClick={() => setShowActiveChatMenu(false)}><BellOff size={16} color="#475569" /> Silenciar</button>
-                                                </div>
-                                                <div className="menu-divider" />
-                                                <div className="dropdown-section">
-                                                    <button onClick={() => { setShowActiveChatMenu(false); setShowDeleteChatModal(true); }} className="danger-text"><Trash2 size={16} color="#ef4444" /> Apagar conversa</button>
-                                                    <button onClick={() => setShowActiveChatMenu(false)} className="danger-text"><Ban size={16} color="#ef4444" /> Bloquear</button>
-                                                    <button onClick={() => setShowActiveChatMenu(false)} className="danger-text"><AlertCircle size={16} color="#ef4444" /> Denunciar</button>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </>
-                            )}
-                        </header>
-
-                        <div className="active-chat-scroll premium-scroll">
-                            {mockChatMessages.map((msg, idx) => {
-                                const isSelected = selectedMessages.includes(msg.id);
-                                return (
-                                    <React.Fragment key={msg.id}>
-                                        {msg.date && <div className="chat-date-separator"><span>{msg.date}</span></div>}
-                                        <div
-                                            className={`chat-bubble-wrapper ${msg.sender === 'me' ? 'is-me' : 'is-them'} ${isSelected ? 'is-selected' : ''}`}
-                                            onMouseDown={() => handleMessagePointerDown(msg.id)}
-                                            onMouseUp={handleMessagePointerUp}
-                                            onMouseLeave={handleMessagePointerUp}
-                                            onTouchStart={() => handleMessagePointerDown(msg.id)}
-                                            onTouchEnd={handleMessagePointerUp}
+                                    <div className="ws-top-right-icons">
+                                        <button 
                                             onClick={() => {
-                                                // Ignore this click if it was the release of a long press
-                                                if (longPressTriggeredRef.current) {
-                                                    longPressTriggeredRef.current = false; // Reset
-                                                    return;
-                                                }
-                                                // If we are already in selection mode, click to toggle.
-                                                if (selectedMessages.length > 0) {
-                                                    handleToggleMessageSelection(msg.id);
-                                                }
+                                                setModalBackground(location);
+                                                navigate('/profile');
                                             }}
+                                            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}
                                         >
-                                            {/* Avatar for incoming messages */}
-                                            {msg.sender !== 'me' && (
-                                                <div className="chat-bubble-avatar">
-                                                    {activeChat.avatar ? <img src={activeChat.avatar} alt="Avatar" /> : <User size={16} color="#94a3b8" />}
-                                                </div>
-                                            )}
+                                            <User size={24} strokeWidth={2} color="#475569" />
+                                        </button>
+                                        <button 
+                                            onClick={() => setIsDrawerOpen(true)}
+                                            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}
+                                        >
+                                            <ListFilter size={24} strokeWidth={2.5} color="#0e172a" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </header>
 
-                                            <div className="chat-bubble">
-                                                <p>{highlightText(msg.text, chatSearchTerm)}</p>
-                                                <div className="bubble-meta">
-                                                    <span className="bubble-time">{msg.time}</span>
-                                                    {msg.sender === 'me' && msg.status === 'read' && <CheckCheck size={14} className="status-read" />}
-                                                </div>
-                                            </div>
+                            <div className="ws-chat-messages" ref={messagesContainerRef}>
+                                <div className="ws-message-date">Hoje</div>
+                                {messages.map((msg) => (
+                                    <div 
+                                        key={msg.id} 
+                                        className={`ws-message-row ${msg.sender === 'user' ? 'sent' : 'received'}`}
+                                        onClick={() => toggleMessageSelection(msg.id)}
+                                    >
+                                        <div className="ws-message-bubble">
+                                            {msg.text}
                                         </div>
-                                    </React.Fragment>
-                                );
-                            })}
-                        </div>
-
-                        <footer className="active-chat-input-area">
-                            <button className="input-action-btn"><Plus size={24} color="#64748b" /></button>
-                            <button className="input-action-btn"><ImageIcon size={24} color="#64748b" /></button>
-
-                            <div className="premium-input-box">
-                                <input type="text" placeholder="Escreva uma mensagem..." />
-                                <button className="input-inner-btn"><Smile size={20} color="#94a3b8" /></button>
+                                        <span className="ws-message-meta">{msg.time}</span>
+                                    </div>
+                                ))}
+                                <div ref={messagesEndRef} />
                             </div>
 
-                            <button className="input-action-btn primary"><Send size={22} color="#ffffff" /></button>
-                        </footer>
-                    </div>
-                )}
+                            <div className="ws-chat-input-area">
+                                <ChatInputBar 
+                                    onSendMessage={(text) => {
+                                        setMessages([...messages, {
+                                            id: Date.now(), sender: 'user', senderName: 'Eu', text: text,
+                                            time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                                        }]);
+                                    }}
+                                    onSendImage={(photoSrc, text) => {
+                                        setMessages([...messages, {
+                                            id: Date.now(), sender: 'user', senderName: 'Eu', text: text ? `📷 ${text}` : '📷 Imagem enviada',
+                                            time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                                        }]);
+                                    }}
+                                    onSendAudio={(audioSrc, duration) => {
+                                        setMessages([...messages, {
+                                            id: Date.now(), sender: 'user', senderName: 'Eu', text: `🎤 Áudio (${duration}s)`,
+                                            time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                                        }]);
+                                    }}
+                                    onSendLocation={(lat, lng) => {
+                                        setMessages([...messages, {
+                                            id: Date.now(), sender: 'user', senderName: 'Eu', text: '📍 Localização partilhada',
+                                            time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                                        }]);
+                                    }}
+                                />
+                            </div>
+                        </>
+                    ) : (
+                        <div className="ws-empty-chat">
+                            <div className="ws-top-right-icons" style={{ position: 'absolute', top: 24, right: 32, display: 'flex' }}>
+                                <button 
+                                    onClick={() => {
+                                        setModalBackground(location);
+                                        navigate('/profile');
+                                    }}
+                                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}
+                                >
+                                    <User size={24} strokeWidth={2} color="#475569" />
+                                </button>
+                                <button 
+                                    onClick={() => setIsDrawerOpen(true)}
+                                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}
+                                >
+                                    <ListFilter size={24} strokeWidth={2.5} color="#0e172a" />
+                                </button>
+                            </div>
+                            <MessageSquare size={64} color="#E2E8F0" />
+                            <h2 style={{ marginTop: '16px', color: '#94A3B8', fontWeight: 500, fontSize: '16px' }}>Selecione uma conversa</h2>
+                        </div>
+                    )}
+                </div>
             </div>
-
-            {/* Gemini FAB - Hide on mobile when chat is active */}
-            {!activeChat && (
-                <button className="gemini-fab" aria-label="Sasha IA">
-                    <GeminiIcon size={28} />
-                </button>
-            )}
-
-            {/* Mobile Nav Overlay - Hide when chat is active */}
-            {!activeChat && <BottomNavBar />}
-
-            {/* Custom Delete Message Modal */}
-            {showDeleteMessageModal && (
-                <div className="messages-modal-overlay">
-                    <div className="messages-modal-card">
-                        <div className="modal-icon-wrapper danger">
-                            <Trash2 size={24} color="#ef4444" />
-                        </div>
-                        <h3>Apagar Mensagem</h3>
-                        <p>Tem a certeza que quer apagar permanentemente {selectedMessages.length} mensagem(s)? Esta ação não pode ser desfeita.</p>
-                        <div className="modal-actions">
-                            <button className="btn-cancel" onClick={() => setShowDeleteMessageModal(false)}>Cancelar</button>
-                            <button className="btn-danger" onClick={handleDeleteSelectedMessages}>Deletar</button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Custom Delete Chat Modal */}
-            {showDeleteChatModal && (
-                <div className="messages-modal-overlay">
-                    <div className="messages-modal-card">
-                        <div className="modal-icon-wrapper danger">
-                            <Trash2 size={24} color="#ef4444" />
-                        </div>
-                        <h3>Apagar Conversa</h3>
-                        <p>Tem a certeza que quer apagar permanentemente toda a conversa com <strong>{activeChat?.name}</strong>? Esta ação não pode ser desfeita.</p>
-                        <div className="modal-actions">
-                            <button className="btn-cancel" onClick={() => setShowDeleteChatModal(false)}>Cancelar</button>
-                            <button className="btn-danger" onClick={handleDeleteChat}>Deletar</button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+            <BottomNavBar />
         </div>
     );
 };

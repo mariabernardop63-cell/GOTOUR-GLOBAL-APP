@@ -32,9 +32,7 @@
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: #ffffff; /* Solid White */
     border: 1px solid rgba(0, 0, 0, 0.06);
     display: flex;
     align-items: center;
@@ -137,8 +135,8 @@
     height: 200%;
     background: conic-gradient(transparent 0deg,
             transparent 90deg,
-            #048c83 180deg,
-            #2dd4bf 270deg,
+            #dbeafe 180deg,
+            #2563eb 270deg,
             transparent 360deg);
     animation: neonRotate 3s linear infinite;
     z-index: -1;
@@ -159,9 +157,7 @@
 .search-bar-glass {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: #ffffff; /* Solid White */
     border: 1px solid rgba(0, 0, 0, 0.06);
     border-radius: 50px;
     padding: 2px 4px 2px 16px;
@@ -174,7 +170,7 @@
 }
 
 .search-bar-glass:focus-within {
-    background: rgba(255, 255, 255, 0.85);
+    background: #ffffff;
     border-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
 }
@@ -206,7 +202,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #048c83;
+    background: #2563eb; /* Blue */
     border: none;
     display: flex;
     align-items: center;
@@ -216,13 +212,13 @@
     flex-shrink: 0;
     margin-left: 6px;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(4, 140, 131, 0.3);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3); /* Blue shadow */
 }
 
 .search-circle-btn:hover {
-    background: #037a73;
+    background: #1d4ed8; /* Darker blue */
     transform: scale(1.05);
-    box-shadow: 0 4px 14px rgba(4, 140, 131, 0.4);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
 }
 
 .search-circle-btn:active {
@@ -230,7 +226,7 @@
 }
 
 .search-circle-btn.loading {
-    background: #048c83;
+    background: #2563eb;
     cursor: wait;
     pointer-events: none;
 }
@@ -263,9 +259,7 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: #ffffff; /* Solid White */
     border-radius: 50%;
     color: #1e293b;
     border: 1px solid rgba(0, 0, 0, 0.06);
@@ -288,32 +282,147 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 10px 16px;
-    height: 70px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    background: transparent; /* Backdrop component handles background */
+    padding: 16px 20px;
+    height: auto;
+    box-shadow: none;
     animation: slideDown 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .search-focused-sticky .search-row-glass {
-    max-width: 100%;
+    position: relative;
+    z-index: 1002;
+    width: 100%;
+    max-width: 800px;
+    margin: 0;
+}
+
+/* ===== RECENT SEARCHES DROPDOWN ===== */
+.recent-searches-dropdown {
+    position: relative;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    z-index: 1001;
+    padding: 16px 0;
+    width: 100%;
+    max-width: 800px;
+    margin: 0;
+    animation: slideDownFade 0.3s ease;
+}
+
+@media (min-width: 768px) {
+    .recent-searches-dropdown {
+        left: unset;
+        right: unset;
+    }
+}
+
+.recent-searches-header {
+    padding: 0 24px 12px 24px;
+}
+
+.recent-searches-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.recent-search-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.recent-search-item:hover {
+    background: #f8fafc;
+}
+
+.recent-search-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
+
+.recent-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.recent-delete-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.recent-delete-btn:hover {
+    color: #ef4444;
+    background: #fee2e2;
+}
+
+.recent-view-more-btn {
+    width: calc(100% - 48px);
+    margin: 12px 24px 0 24px;
+    padding: 10px;
+    background: #f1f5f9;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #3b82f6;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.recent-view-more-btn:hover {
+    background: #e2e8f0;
+}
+
+.recent-searches-empty {
+    padding: 24px;
+    text-align: center;
+    color: #64748b;
+    font-size: 15px;
+}
+
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ===== BACKDROP ===== */
 .search-focused-backdrop {
     position: fixed;
-    top: 70px;
+    top: 0; /* Cover everything behind the sticky bar */
     left: 0;
     width: 100vw;
-    height: calc(100vh - 70px);
+    height: 100vh;
     background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 999;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
     animation: fadeIn 0.3s ease;
 }
 

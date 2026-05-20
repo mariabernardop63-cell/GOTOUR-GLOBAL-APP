@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, Star, MapPin, ArrowRight } from 'lucide-react';
+import { Star, MapPin, ArrowRight, Heart, Crown } from 'lucide-react';
+import CarouselArrows from '../CarouselArrows/CarouselArrows';
 import './MustSeeSectionStyles.css';
 
 // Mocks (can be moved to a data file later)
@@ -121,35 +122,43 @@ const MustSeeSection = ({ countryName = 'Moçambique' }) => {
         <div className="must-see-section must-see-anim">
             <div className="must-see-header">
                 <div className="must-see-titles">
-                    <h2 className="must-see-title"><span style={{ fontSize: '16px', marginRight: '6px' }}>⭐</span>Principais atrações</h2>
+                    <h2 className="must-see-title">
+                        <div className="premium-title-badge" style={{ background: '#fffbeb', borderColor: '#fde68a', color: '#f59e0b' }}>
+                            <Crown size={18} strokeWidth={2.5} />
+                        </div>
+                        Principais atrações
+                    </h2>
                     <span className="must-see-subtitle">Os lugares mais incríveis que você vai ver em {countryName}</span>
                 </div>
-                <button className="must-see-link" onClick={handleSeeAll}>
-                    Explorar mais
-                </button>
+                <CarouselArrows />
             </div>
 
             <div className="must-see-scroll-container">
                 {MUST_SEE_PLACES.map((place) => (
                     <div
                         key={place.id}
-                        className="destination-card"
+                        className="dest-card-new"
                         onClick={() => handleCardClick(place)}
                     >
-                        <div className="dest-badge">
-                            <Star size={10} fill="#fff" stroke="none" />
-                            {place.rating}
+                        <div className="dest-image-wrapper">
+                            <img
+                                src={place.image}
+                                alt={place.name}
+                                className="dest-image-new"
+                                loading="lazy"
+                            />
+                            <div className="dest-badge">
+                                <Star size={10} fill="#fff" stroke="none" />
+                                {place.rating}
+                            </div>
                         </div>
-                        <img
-                            src={place.image}
-                            alt={place.name}
-                            className="destination-image"
-                            loading="lazy"
-                        />
-                        <div className="destination-overlay">
-                            <span className="dest-name">{place.name}</span>
-                            <span className="dest-location-row">{place.province} • {place.district}</span>
-                            <span className="dest-distance">{place.distance} • 🚗 15min</span>
+                        
+                        <div className="dest-info-new">
+                            <h3 className="dest-name-new">{place.name} · {place.district}</h3>
+                            <p className="dest-dates-new">17 – 19 de abr.</p>
+                            <div className="dest-price-row">
+                                <span className="dest-price-new">Total: R$622</span>
+                            </div>
                         </div>
                     </div>
                 ))}
