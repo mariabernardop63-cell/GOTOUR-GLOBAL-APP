@@ -1,0 +1,20 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "GnHz99LrR4CrVVSEhNIA5"
+uri = "file://artifacts/go-tour-mobile/assets/images/icon.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "D0nKVpqfAmEBjIxHVAHyM"
+uri = "file://artifacts/go-tour-mobile/assets/images/beach_hero.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "ZsSNsuF-k_Fv93qGINkCy"
+uri = "file://artifacts/go-tour-mobile/assets/images/city_hero.png"
+type = "image"
+title = "generated_image"

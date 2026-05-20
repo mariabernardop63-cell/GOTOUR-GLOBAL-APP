@@ -1,0 +1,27 @@
+kind = "mobile"
+previewPath = "/go-tour-mobile/"
+title = "GO TOUR Mobile"
+version = "1.0.0"
+id = "artifacts/go-tour-mobile"
+router = "expo-domain"
+
+[[integratedSkills]]
+name = "expo"
+version = "1.0.0"
+
+[[services]]
+ensurePreviewReachable = "/status"
+name = "expo"
+paths = [ "/go-tour-mobile/" ]
+localPort = 24538
+
+[services.development]
+run = "pnpm --filter @workspace/go-tour-mobile run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/go-tour-mobile", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/go-tour-mobile", "run", "serve" ]
+
+[services.env]
+PORT = "24538"
+BASE_PATH = "/go-tour-mobile/"
