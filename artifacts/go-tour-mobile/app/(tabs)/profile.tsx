@@ -141,13 +141,24 @@ export default function ProfileScreen() {
 
         {/* Menu */}
         <View style={[styles.menuSection, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          <MenuItem icon="edit-2" label="Editar Perfil" onPress={() => router.push("/edit-profile")} />
           <MenuItem icon="heart" label="Favoritos" />
           <MenuItem icon="map" label="As Minhas Viagens" />
-          <MenuItem icon="users" label="Amigos" />
-          <MenuItem icon="bell" label="Notificações" />
-          <MenuItem icon="globe" label="Idioma" value="Português" />
-          <MenuItem icon="moon" label="Tema" value="Automático" />
-          <MenuItem icon="help-circle" label="Ajuda & Suporte" />
+          <MenuItem icon="users" label="Amigos" onPress={() => router.push("/friends")} />
+          <MenuItem icon="bell" label="Notificações" onPress={() => router.push("/notifications")} />
+        </View>
+
+        {/* Utility tools */}
+        <View style={[styles.menuSection, { backgroundColor: colors.card, borderColor: colors.border, marginTop: 12 }]}>
+          <MenuItem icon="dollar-sign" label="Monitor de Câmbio" onPress={() => router.push("/currency")} />
+          <MenuItem icon="cloud" label="Radar Meteorológico" onPress={() => router.push("/weather")} />
+          <MenuItem icon="globe" label="Fuso Horário" onPress={() => router.push("/timezone")} />
+          <MenuItem icon="activity" label="Pulso Local" onPress={() => router.push("/pulse")} />
+        </View>
+
+        <View style={[styles.menuSection, { backgroundColor: colors.card, borderColor: colors.border, marginTop: 12 }]}>
+          <MenuItem icon="settings" label="Definições" onPress={() => router.push("/settings")} />
+          <MenuItem icon="file-text" label="Legal" onPress={() => router.push("/legal")} />
         </View>
 
         <View style={[styles.menuSection, { backgroundColor: colors.card, borderColor: colors.border, marginTop: 12 }]}>

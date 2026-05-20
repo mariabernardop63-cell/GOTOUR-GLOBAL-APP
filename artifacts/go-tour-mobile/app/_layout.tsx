@@ -27,7 +27,17 @@ function RootLayoutNav() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="login" options={{ headerShown: false, presentation: "modal" }} />
       <Stack.Screen name="signup" options={{ headerShown: false, presentation: "modal" }} />
+      <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
       <Stack.Screen name="destination/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="settings" options={{ headerShown: false }} />
+      <Stack.Screen name="edit-profile" options={{ headerShown: false }} />
+      <Stack.Screen name="notifications" options={{ headerShown: false }} />
+      <Stack.Screen name="friends" options={{ headerShown: false }} />
+      <Stack.Screen name="currency" options={{ headerShown: false }} />
+      <Stack.Screen name="timezone" options={{ headerShown: false }} />
+      <Stack.Screen name="weather" options={{ headerShown: false }} />
+      <Stack.Screen name="pulse" options={{ headerShown: false }} />
+      <Stack.Screen name="legal" options={{ headerShown: false }} />
     </Stack>
   );
 }

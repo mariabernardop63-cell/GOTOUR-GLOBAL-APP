@@ -143,6 +143,12 @@ export default function LoginScreen() {
             )}
           </Pressable>
 
+          <Pressable onPress={() => router.push("/forgot-password")}>
+            <Text style={[styles.switchText, { color: colors.primary }]}>
+              Esqueceste a palavra-passe?
+            </Text>
+          </Pressable>
+
           <Pressable onPress={() => router.replace("/signup")}>
             <Text style={[styles.switchText, { color: colors.mutedForeground }]}>
               Não tens conta?{" "}
