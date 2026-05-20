@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Loader2, User, Mail, Globe, Phone, Calendar, Lock, Eye, EyeOff, ChevronDown, Star } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import UnifiedDesktopAuth from '../SharedAuth/UnifiedDesktopAuth';
 import { countries } from '../../data/countries';
 import { supabase } from '../../lib/supabase';

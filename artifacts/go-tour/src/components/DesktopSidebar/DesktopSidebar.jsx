@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { LayoutGrid, MapPinned, User, Rss, Home, Search, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import gotourLogo from '../../assets/images/gotour_icon.png';
 import './DesktopSidebar.css';
 

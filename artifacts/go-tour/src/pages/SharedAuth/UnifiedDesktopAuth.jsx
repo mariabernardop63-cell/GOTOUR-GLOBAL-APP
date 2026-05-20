@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, Star, ArrowLeft } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { supabase } from '../../lib/supabase';
 import { validateFullName, validatePhone, validateAge, checkEmailExists } from '../../lib/authValidation';
 import useCooldown from '../../hooks/useCooldown';

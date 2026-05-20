@@ -37,7 +37,7 @@ import {
 import useHomeData from '../../hooks/useHomeData';
 import { Loader2, LayoutGrid, MapPinned, User, Rss, Home, ChevronDown, Globe, Star, MapPin, Clock, Sparkles, Building2, ConciergeBell, Utensils, Camera, Zap, Ticket, Landmark, Waves, Palmtree, Moon, Bus, Navigation2, Car, Plane, ShoppingBag, SlidersHorizontal, Search, MapIcon, CalendarRange, Users, X } from 'lucide-react';
 import gotourLogo from '../../assets/images/gotour_icon.png';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 
 // Import MOCK DATA for Results Grid
 import { MOCK_RECOMMENDED, MOCK_HOTELS, MOCK_RESTAURANTS } from '../../components/HomeSections/PlacesSections';

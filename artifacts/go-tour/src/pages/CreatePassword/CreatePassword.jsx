@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import DesktopCreatePassword from '../DesktopCreatePassword/DesktopCreatePassword';

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Search, Loader2 } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { useApp } from '../../context/AppContext';
 import { countries } from '../../data/countries';
 import HomeScreen from '../Home/HomeScreen';

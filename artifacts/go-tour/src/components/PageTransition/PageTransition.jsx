@@ -22,15 +22,16 @@ const getVariants = (direction) => {
     }
 
     if (isFade) {
+        // No transform here — keeps position:fixed children (BottomNavBar) stable
         return {
-            initial: { opacity: 0, y: 10 },
+            initial: { opacity: 0 },
             animate: {
-                opacity: 1, y: 0,
-                transition: { duration: 0.32, ease: EASING_ENTER },
+                opacity: 1,
+                transition: { duration: 0.28, ease: EASING_ENTER },
             },
             exit: {
-                opacity: 0, y: 10,
-                transition: { duration: 0.22, ease: EASING_EXIT },
+                opacity: 0,
+                transition: { duration: 0.18, ease: EASING_EXIT },
             },
         };
     }

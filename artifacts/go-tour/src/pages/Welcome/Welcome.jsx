@@ -1,7 +1,7 @@
 import './Welcome.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import Button from '../../components/Button/Button';
 import { ArrowLeft } from 'lucide-react';
 import LoginForm from "../../components/LoginForm/LoginForm";

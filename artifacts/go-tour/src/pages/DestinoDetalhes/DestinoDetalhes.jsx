@@ -15,7 +15,7 @@ import {
     MOCK_BEACHES, MOCK_NIGHTLIFE, MOCK_TRANSPORT, MOCK_CARRENTAL, 
     MOCK_FLIGHTS, MOCK_SHOPPING, UniversalCard, SectionWrapper 
 } from '../../components/HomeSections/NewCategoriesSections';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 
 const DestinoDetalhes = () => {
     const location = useLocation();

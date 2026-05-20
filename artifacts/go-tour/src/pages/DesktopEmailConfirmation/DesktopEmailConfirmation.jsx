@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, ArrowLeft, ChevronDown } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import useCooldown from '../../hooks/useCooldown';

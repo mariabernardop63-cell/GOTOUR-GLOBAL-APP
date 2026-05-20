@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Eye, EyeOff, ChevronDown, ArrowLeft, Loader2, Mail, Lock } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import authBgNew from '../../assets/images/auth_bg_new.jpg';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { supabase } from '../../lib/supabase';
 import CustomDropdown from '../../components/CustomDropdown/CustomDropdown';
 import { countries } from '../../data/countries';

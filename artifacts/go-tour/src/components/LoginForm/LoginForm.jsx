@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../context/AuthContext';
 import './LoginForm.css';

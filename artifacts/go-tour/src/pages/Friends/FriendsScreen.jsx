@@ -5,7 +5,7 @@ import {
     Eye, UserMinus, Ban, MoreVertical, Clock, Wifi, Star,
     ChevronDown, MapPin, Compass, Globe
 } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import HomeHeader from '../../components/HomeHeader/HomeHeader';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';

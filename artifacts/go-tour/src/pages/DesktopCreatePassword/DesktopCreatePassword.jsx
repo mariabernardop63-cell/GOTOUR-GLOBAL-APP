@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import authBgNew from '../../assets/images/auth_bg_new.jpg';

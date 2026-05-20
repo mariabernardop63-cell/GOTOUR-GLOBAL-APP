@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { User, Mail, Globe, Phone, Calendar, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { countries } from '../../data/countries';
 import { useApp } from '../../context/AppContext';
 import { supabase } from '../../lib/supabase';

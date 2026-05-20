@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ListFilter, User, ChevronLeft, Search } from 'lucide-react';
 import gotourLogo from '../../assets/images/gotour_icon.png';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import './HomeHeader.css';
 
 const HomeHeader = ({ onMenuClick, onLogoClick, isDrawerOpen, isSearching, searchQuery, onSearchClick }) => {

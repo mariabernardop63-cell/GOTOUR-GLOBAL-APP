@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import SearchBarAI from '../../components/SearchBarAI/SearchBarAI';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 
 // Sections moved from Home
 import MustSeeSection from '../../components/MustSeeSection/MustSeeSection';

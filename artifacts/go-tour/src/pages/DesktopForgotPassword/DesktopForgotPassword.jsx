@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Mail, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { supabase } from '../../lib/supabase';
 import { checkEmailExists } from '../../lib/authValidation';
 import useCooldown from '../../hooks/useCooldown';

@@ -6,7 +6,7 @@ import {
     Heart, MessageCircle, Share2, Radio, Home, LayoutGrid, Rss, MapPinned, X,
     UserPlus, UserMinus, MessageSquare, Eye
 } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import gotourLogo from '../../assets/images/gotour_icon.png';

@@ -11,7 +11,7 @@ import {
 
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import gotourLogo from '../../assets/images/gotour_icon.png';
 import './MapScreenStyles.css';
 

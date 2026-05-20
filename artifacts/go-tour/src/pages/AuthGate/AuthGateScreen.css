@@ -109,13 +109,8 @@
     margin-bottom: 32px;
 }
 
-.ag-spark-icon {
-    animation: agPulse 2s infinite ease-in-out;
-}
-
-@keyframes agPulse {
-    0%, 100% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.2); opacity: 1; }
+.ag-globe-icon {
+    opacity: 0.9;
 }
 
 .ag-brand-section {

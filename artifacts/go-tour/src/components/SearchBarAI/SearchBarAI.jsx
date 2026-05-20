@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, Loader2, User, ChevronDown, ChevronLeft, Clock, Trash2 } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { extractSearchIntent } from '../../services/aiSearchService';
 import './SearchBarAIStyles.css';
 

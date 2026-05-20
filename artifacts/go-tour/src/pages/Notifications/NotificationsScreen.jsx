@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import {
     Bell, Check, Trash2, Archive, Search, ChevronDown, X,
     MessageCircle, UserPlus, UserCheck, AlertCircle, PhoneMissed, AtSign

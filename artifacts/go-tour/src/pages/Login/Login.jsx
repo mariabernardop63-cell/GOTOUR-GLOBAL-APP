@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import DesktopLogin from '../DesktopLogin/DesktopLogin';
 import { supabase } from '../../lib/supabase';

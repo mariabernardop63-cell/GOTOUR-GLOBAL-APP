@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { useApp } from '../../context/AppContext';
 import { supabase } from '../../lib/supabase';
 import gotourLogo from '../../assets/images/gotour_icon.png';

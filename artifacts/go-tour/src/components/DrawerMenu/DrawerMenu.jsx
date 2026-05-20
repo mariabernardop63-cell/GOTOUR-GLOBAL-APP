@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import {
     X, User, ChevronRight, Star, Crown,
     MessageCircle, Users, Bell, Heart,

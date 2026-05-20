@@ -4,22 +4,17 @@
     left: 0;
     right: 0;
 
-    /* Clean White Background */
     background: #ffffff;
     border-top: 1px solid #f0f0f0;
     box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
-
-    /* Rounded top corners */
     border-radius: 24px 24px 0 0;
 
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding: 12px 16px 24px 16px;
-    z-index: 1000;
+    z-index: 1001;
     height: 70px;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
 }
 
 /* Hide bottom nav on desktop */
@@ -29,8 +24,14 @@
     }
 }
 
-.bottom-nav.navbar-hidden {
-    transform: translateY(100%);
+/* Sliding active indicator — a small rounded bar that moves with framer-motion */
+.nav-slide-bar {
+    position: absolute;
+    top: 0;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: #1e293b;
+    pointer-events: none;
 }
 
 .nav-item {
@@ -69,23 +70,7 @@
     letter-spacing: 0.2px;
 }
 
-/* Active Indicator Dot */
-.active-indicator {
-    width: 4px;
-    height: 4px;
-    background-color: #1e293b;
-    border-radius: 50%;
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.nav-item.active .active-indicator {
-    opacity: 1;
-}
+/* Active indicator is now handled by the sliding nav-slide-bar above */
 
 /* Remove special feed styling - keep consistent */
 .nav-item-special {

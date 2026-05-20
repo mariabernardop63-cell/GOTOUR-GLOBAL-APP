@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { createContext, useContext, useCallback, useRef, useEffect, useState } from 'react';
+import { useCallback, useRef, useEffect, useState } from 'react';
 import Welcome from './pages/Welcome/Welcome';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
@@ -35,20 +35,10 @@ import PrivacyPolicy from './pages/Legal/PrivacyPolicy';
 import TermsOfService from './pages/Legal/TermsOfService';
 import { AppProvider } from './context/AppContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { NavigationContext, useNavigation } from './context/NavigationContext';
 import AuthGateScreen from './pages/AuthGate/AuthGateScreen';
 import PageTransition from './components/PageTransition/PageTransition';
 import './App.css';
-
-// Navigation context for direction tracking
-const NavigationContext = createContext();
-
-export const useNavigation = () => {
-    const context = useContext(NavigationContext);
-    if (!context) {
-        throw new Error('useNavigation must be used within NavigationProvider');
-    }
-    return context;
-};
 
 // Navigation provider component
 const NavigationProvider = ({ children }) => {
@@ -203,7 +193,11 @@ const AnimatedRoutes = () => {
                         {!activeBackgroundPath && (
                             <Route 
                                 path="/profile" 
-                                element={user ? <ProfileScreen /> : <AuthGateScreen onClose={() => navigate('/home')} onNavigateSignup={() => navigate('/signup')} onNavigateLogin={() => navigate('/login')} />} 
+                                element={user ? <ProfileScreen /> : (
+                                    <div style={{ position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(8px)', zIndex: 9999 }}>
+                                        <AuthGateScreen onClose={() => navigate('/home')} onNavigateSignup={() => navigate('/signup')} onNavigateLogin={() => navigate('/login')} />
+                                    </div>
+                                )} 
                             />
                         )}
                         <Route path="/user/:id" element={<UserProfileScreen />} />
@@ -214,7 +208,11 @@ const AnimatedRoutes = () => {
                         <Route path="/message-settings" element={<MessageSettings />} />
                         <Route 
                             path="/destino-detalhes" 
-                            element={user ? <DestinoDetalhes /> : <AuthGateScreen onClose={() => navigate('/home')} onNavigateSignup={() => navigate('/signup')} onNavigateLogin={() => navigate('/login')} />} 
+                            element={user ? <DestinoDetalhes /> : (
+                                <div style={{ position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(8px)', zIndex: 9999 }}>
+                                    <AuthGateScreen onClose={() => navigate('/home')} onNavigateSignup={() => navigate('/signup')} onNavigateLogin={() => navigate('/login')} />
+                                </div>
+                            )} 
                         />
                         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                         <Route path="/terms-of-service" element={<TermsOfService />} />

@@ -7,7 +7,7 @@ import {
     Map, Navigation, Tent, Camera, Edit, UserPlus, UserMinus,
     LogOut
 } from 'lucide-react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import { useAuth } from '../../context/AuthContext';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';

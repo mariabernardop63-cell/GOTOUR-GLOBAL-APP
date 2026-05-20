@@ -1,37 +1,33 @@
 import React from 'react';
-import { X, Sparkles, Compass, Map, ShieldCheck } from 'lucide-react';
-import authBgCocktail from '../../assets/images/auth_bg_cocktail.jpg';
+import { X, Globe, Compass, Map, ShieldCheck, Sparkles } from 'lucide-react';
+import louvreBg from '../../assets/images/louvre_bg.jpg';
 import './AuthGateScreen.css';
 
 const AuthGateScreen = ({ onClose, onNavigateSignup, onNavigateLogin }) => {
     return (
         <div className="ag-modal-container" onClick={(e) => e.stopPropagation()}>
-            {/* Split Layout */}
             <div className="ag-content">
-                
-                {/* Left Sidebar - Premium Travel Visual / Background Image */}
+
+                {/* Left Sidebar */}
                 <div className="ag-sidebar">
-                    {/* Background Image with elegant overlay for text readability */}
-                    <div 
-                        className="ag-sidebar-bg" 
-                        style={{ backgroundImage: `url(${authBgCocktail})` }} 
+                    <div
+                        className="ag-sidebar-bg"
+                        style={{ backgroundImage: `url(${louvreBg})` }}
                     />
                     <div className="ag-sidebar-overlay" />
-                    
-                    {/* Glowing blur accents */}
                     <div className="ag-glow-accent" />
-                    
+
                     <div className="ag-sidebar-content">
                         <div className="ag-premium-badge">
-                            <Sparkles size={14} className="ag-spark-icon" />
+                            <Globe size={13} className="ag-globe-icon" />
                             <span>EXPERIÊNCIA EXCLUSIVA</span>
                         </div>
-                        
+
                         <div className="ag-brand-section">
                             <h2 className="ag-brand-name">GO TOUR</h2>
                             <p className="ag-brand-tagline">Seu companheiro de viagem global</p>
                         </div>
-                        
+
                         <div className="ag-features-list">
                             <div className="ag-feature-item">
                                 <div className="ag-feat-icon-wrap">
@@ -66,9 +62,8 @@ const AuthGateScreen = ({ onClose, onNavigateSignup, onNavigateLogin }) => {
                     </div>
                 </div>
 
-                {/* Right Area - Persuasive message & Auth Actions */}
+                {/* Right Area */}
                 <div className="ag-main-area">
-                    {/* Close Button */}
                     <button className="ag-close-btn" onClick={onClose} aria-label="Fechar">
                         <X size={20} strokeWidth={2.5} />
                     </button>
@@ -85,7 +80,7 @@ const AuthGateScreen = ({ onClose, onNavigateSignup, onNavigateLogin }) => {
 
                         <div className="ag-action-group">
                             <button className="ag-primary-btn" onClick={onNavigateSignup}>
-                                <span>Começar Agora</span>
+                                <span>Começar Gratuitamente</span>
                                 <Sparkles size={16} fill="currentColor" />
                             </button>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 
 const AuthTabs = ({ activeTab, onLoginClick, onSignupClick }) => {
     const { navigateForward } = useNavigation();

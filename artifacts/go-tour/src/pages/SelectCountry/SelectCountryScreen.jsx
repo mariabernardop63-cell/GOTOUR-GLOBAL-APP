@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, ChevronRight, Check } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
-import { useNavigation } from '../../App';
+import { useNavigation } from '../../context/NavigationContext';
 import Button from '../../components/Button/Button';
 import DesktopSelectCountry from './DesktopSelectCountry';
 import './SelectCountryScreen.css';
