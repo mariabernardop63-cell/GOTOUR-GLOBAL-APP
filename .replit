@@ -33,8 +33,9 @@ args = "PORT=8080 pnpm --filter @workspace/api-server run dev & PORT=18089 BASE_
 waitForPort = 18089
 
 [agent]
-stack = "PNPM_WORKSPACE"
+stack = "BEST_EFFORT_FALLBACK"
 expertMode = true
+integrations = ["javascript_gemini_ai_integrations:2.0.0"]
 
 [postMerge]
 path = "scripts/post-merge.sh"
@@ -55,3 +56,6 @@ externalPort = 80
 [[ports]]
 localPort = 24538
 externalPort = 3000
+
+[nix]
+channel = "stable-25_05"
