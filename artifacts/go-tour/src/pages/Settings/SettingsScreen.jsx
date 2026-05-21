@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { upsertProfile, uploadAvatar } from '../../lib/profileService';
+import { supabase } from '../../lib/supabase';
 import {
     User, Shield, Lock, Bell, Settings as SettingsIcon,
     Globe, HelpCircle, Briefcase, Search, ChevronRight,
@@ -7,26 +10,11 @@ import {
     EyeOff, MoreHorizontal, ArrowLeft,
     Compass, MapPinned, Tent, GraduationCap, Laptop,
     Phone, Calendar, Users, Languages,
-    MessageCircle, Play, Smartphone, History, ShieldAlert, Database
+    MessageCircle, Play, Smartphone, History, ShieldAlert, Database,
+    Check, Loader2
 } from 'lucide-react';
-import HomeHeader from '../../components/HomeHeader/HomeHeader';
 import './SettingsScreen.css';
 
-// Mock User Data
-const initialUserData = {
-    name: "Nome do Usuário",
-    username: "@gotour_user",
-    email: "usuario@email.com",
-    phone: "+258 84 000 0000",
-    nationality: "Moçambique",
-    dob: "1990-01-01",
-    gender: "Não especificar",
-    accountType: "Explorador",
-    avatar: null,
-    cover: null
-};
-
-// Sidebar Categories
 const SETTINGS_CATEGORIES = [
     { id: 'profile', icon: User, label: 'Perfil e Aparência' },
     { id: 'account', icon: SettingsIcon, label: 'Conta e Dados Pessoais' },
@@ -69,14 +57,109 @@ const SETTINGS_OPTIONS = [
 
 const SettingsScreen = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { user: authUser, profile, refreshProfile } = useAuth();
+
     const [activeCategory, setActiveCategory] = useState('profile');
-    const [activeSetting, setActiveSetting] = useState(null); // The specific setting open in the right panel
+    const [activeSetting, setActiveSetting] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [userData, setUserData] = useState(initialUserData);
 
-    // Filter logic based on search
+    const [editName, setEditName] = useState('');
+    const [editUsername, setEditUsername] = useState('');
+    const [editPhone, setEditPhone] = useState('');
+    const [editNationality, setEditNationality] = useState('');
+    const [editProfileType, setEditProfileType] = useState('');
+    const [pwdNew, setPwdNew] = useState('');
+    const [pwdConfirm, setPwdConfirm] = useState('');
+    const [showPwd, setShowPwd] = useState(false);
+
+    const [isSaving, setIsSaving] = useState(false);
+    const [saveSuccess, setSaveSuccess] = useState('');
+    const [saveError, setSaveError] = useState('');
+
+    const fileInputRef = useRef(null);
+
+    useEffect(() => {
+        if (profile) {
+            setEditName(profile.name || '');
+            setEditUsername(profile.username || '');
+            setEditPhone(profile.phone || '');
+            setEditNationality(profile.nationality || '');
+            setEditProfileType(profile.category || '');
+        }
+    }, [profile]);
+
+    useEffect(() => {
+        if (location.state?.openSetting) {
+            const s = location.state.openSetting;
+            setActiveSetting(s);
+            const opt = SETTINGS_OPTIONS.find(o => o.id === s);
+            if (opt) setActiveCategory(opt.category);
+        }
+    }, [location.state]);
+
+    const showFeedback = (msg, isError = false) => {
+        if (isError) { setSaveError(msg); setTimeout(() => setSaveError(''), 3500); }
+        else { setSaveSuccess(msg); setTimeout(() => setSaveSuccess(''), 3500); }
+    };
+
+    const saveField = async (updates, successMsg) => {
+        if (!authUser?.id) return;
+        setIsSaving(true);
+        try {
+            await upsertProfile(authUser.id, updates);
+            await refreshProfile();
+            showFeedback(successMsg);
+        } catch (err) {
+            console.error('Settings save error:', err);
+            showFeedback('Erro ao guardar. Tente novamente.', true);
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleSavePassword = async () => {
+        if (pwdNew.length < 6) { showFeedback('Mínimo 6 caracteres.', true); return; }
+        if (pwdNew !== pwdConfirm) { showFeedback('As senhas não coincidem.', true); return; }
+        setIsSaving(true);
+        try {
+            const { error } = await supabase.auth.updateUser({ password: pwdNew });
+            if (error) throw error;
+            setPwdNew(''); setPwdConfirm('');
+            showFeedback('Senha atualizada com sucesso!');
+        } catch (err) {
+            showFeedback('Erro ao atualizar senha.', true);
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleAvatarChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file || !authUser?.id) return;
+        e.target.value = '';
+        setIsSaving(true);
+        try {
+            const url = await uploadAvatar(authUser.id, file);
+            await upsertProfile(authUser.id, { avatar_url: url });
+            await refreshProfile();
+            showFeedback('Foto atualizada!');
+        } catch (err) {
+            showFeedback('Erro ao carregar foto.', true);
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const displayName = profile?.name || authUser?.email?.split('@')[0] || 'Utilizador';
+    const displayUsername = profile?.username ? `@${profile.username}` : (authUser?.email ? `@${authUser.email.split('@')[0]}` : '@utilizador');
+    const displayEmail = authUser?.email || 'email@exemplo.com';
+    const displayPhone = profile?.phone || 'Sem número';
+    const displayCategory = profile?.category || 'Seleciona o teu perfil';
+    const displayNationality = profile?.nationality || 'De onde és?';
+    const displayDob = profile?.date_of_birth || '—';
+
     const isSearching = searchTerm.trim().length > 0;
-
     const searchResults = isSearching
         ? SETTINGS_OPTIONS.filter(opt => {
             const term = searchTerm.toLowerCase();
@@ -84,7 +167,6 @@ const SettingsScreen = () => {
         })
         : [];
 
-    // Filter categories based on search term or if they contain matching options
     const filteredCategories = isSearching
         ? SETTINGS_CATEGORIES.filter(category =>
             category.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -92,7 +174,28 @@ const SettingsScreen = () => {
         )
         : SETTINGS_CATEGORIES;
 
-    // --- Render Methods for Central Panel ---
+    const SaveFeedback = () => (
+        <>
+            {saveSuccess && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '10px', marginBottom: '16px', color: '#166534', fontSize: '14px' }}>
+                    <Check size={16} /> {saveSuccess}
+                </div>
+            )}
+            {saveError && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', marginBottom: '16px', color: '#991b1b', fontSize: '14px' }}>
+                    <AlertCircle size={16} /> {saveError}
+                </div>
+            )}
+        </>
+    );
+
+    const SaveBtn = ({ onClick, label = 'Guardar Alterações' }) => (
+        <button className="btn-primary" onClick={onClick} disabled={isSaving} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {isSaving ? <Loader2 size={16} className="spin-icon" /> : null}
+            {isSaving ? 'A guardar...' : label}
+        </button>
+    );
+
     const renderCentralContent = () => {
         switch (activeCategory) {
             case 'profile':
@@ -109,7 +212,11 @@ const SettingsScreen = () => {
                                 onClick={() => setActiveSetting('edit_avatar')}
                             >
                                 <div className="settings-option-info">
-                                    <div className="settings-option-icon"><Camera size={20} /></div>
+                                    <div className="settings-option-icon">
+                                        {profile?.avatar_url
+                                            ? <img src={profile.avatar_url} alt="Avatar" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover' }} />
+                                            : <Camera size={20} />}
+                                    </div>
                                     <div className="settings-option-text">
                                         <h3>Foto de Perfil</h3>
                                         <p>Atualiza a foto de identificação da tua conta.</p>
@@ -128,7 +235,7 @@ const SettingsScreen = () => {
                                     </div>
                                     <div className="settings-option-text">
                                         <h3>Nome de Utilizador</h3>
-                                        <p>Muda o teu @identificador único.</p>
+                                        <p>{displayUsername}</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={20} className="settings-chevron" />
@@ -142,7 +249,7 @@ const SettingsScreen = () => {
                                     <div className="settings-option-icon"><User size={20} /></div>
                                     <div className="settings-option-text">
                                         <h3>Nome Exibido</h3>
-                                        <p>{userData.name}</p>
+                                        <p>{displayName}</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={20} className="settings-chevron" />
@@ -156,7 +263,7 @@ const SettingsScreen = () => {
                                     <div className="settings-option-icon"><Briefcase size={20} /></div>
                                     <div className="settings-option-text">
                                         <h3>Tipo de Perfil</h3>
-                                        <p>{userData.accountType || 'Seleciona o teu perfil'}</p>
+                                        <p>{displayCategory}</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={20} className="settings-chevron" />
@@ -170,7 +277,7 @@ const SettingsScreen = () => {
                                     <div className="settings-option-icon"><Globe size={20} /></div>
                                     <div className="settings-option-text">
                                         <h3>Nacionalidade</h3>
-                                        <p>{userData.nationality || 'De onde és?'}</p>
+                                        <p>{displayNationality}</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={20} className="settings-chevron" />
@@ -186,7 +293,6 @@ const SettingsScreen = () => {
                             <h2>Conta e Dados Pessoais</h2>
                             <p>Gerencia as tuas informações privadas e definições regionais.</p>
                         </div>
-                        {/* More settings blocks to come */}
                         <div className="settings-card-group">
                             <div
                                 className={`settings-option-card ${activeSetting === 'edit_email' ? 'active' : ''}`}
@@ -196,7 +302,7 @@ const SettingsScreen = () => {
                                     <div className="settings-option-icon"><SettingsIcon size={20} /></div>
                                     <div className="settings-option-text">
                                         <h3>Endereço de Email</h3>
-                                        <p>{userData.email}</p>
+                                        <p>{displayEmail}</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={20} className="settings-chevron" />
@@ -210,7 +316,7 @@ const SettingsScreen = () => {
                                     <div className="settings-option-icon"><Phone size={20} /></div>
                                     <div className="settings-option-text">
                                         <h3>Número de Celular</h3>
-                                        <p>{userData.phone}</p>
+                                        <p>{displayPhone}</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={20} className="settings-chevron" />
@@ -224,7 +330,7 @@ const SettingsScreen = () => {
                                     <div className="settings-option-icon"><Calendar size={20} /></div>
                                     <div className="settings-option-text">
                                         <h3>Data de Nascimento</h3>
-                                        <p>{userData.dob}</p>
+                                        <p>{displayDob}</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={20} className="settings-chevron" />
@@ -238,7 +344,7 @@ const SettingsScreen = () => {
                                     <div className="settings-option-icon"><Users size={20} /></div>
                                     <div className="settings-option-text">
                                         <h3>Género</h3>
-                                        <p>{userData.gender}</p>
+                                        <p>{profile?.gender || 'Não especificado'}</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={20} className="settings-chevron" />
@@ -252,7 +358,7 @@ const SettingsScreen = () => {
                                     <div className="settings-option-icon"><Languages size={20} /></div>
                                     <div className="settings-option-text">
                                         <h3>Idioma Preferido</h3>
-                                        <p>Português (PT)</p> /* Mock default language */
+                                        <p>Português (PT)</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={20} className="settings-chevron" />
@@ -344,7 +450,7 @@ const SettingsScreen = () => {
                                     <div className="settings-option-icon"><Shield size={20} /></div>
                                     <div className="settings-option-text">
                                         <h3>Palavra-passe</h3>
-                                        <p>Atualizada há 3 meses</p>
+                                        <p>Alterar senha da conta</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={20} className="settings-chevron" />
@@ -484,7 +590,6 @@ const SettingsScreen = () => {
         }
     };
 
-    // --- Render Methods for Right Panel ---
     const renderRightPanelContent = () => {
         if (!activeSetting) {
             return (
@@ -503,21 +608,26 @@ const SettingsScreen = () => {
                         <h3>Editar Foto de Perfil</h3>
                         <p className="editor-subtitle">Carrega uma imagem em alta resolução (min 400x400).</p>
 
+                        <SaveFeedback />
+
                         <div className="editor-avatar-preview-container">
                             <div className="editor-avatar-preview">
-                                {userData.avatar ? (
-                                    <img src={userData.avatar} alt="Avatar Preview" />
+                                {profile?.avatar_url ? (
+                                    <img src={profile.avatar_url} alt="Avatar Preview" />
                                 ) : (
                                     <User size={64} className="editor-avatar-placeholder" />
                                 )}
                             </div>
-                            <button className="editor-avatar-upload-btn">
-                                <Camera size={18} />
+                            <button className="editor-avatar-upload-btn" onClick={() => fileInputRef.current?.click()} disabled={isSaving}>
+                                {isSaving ? <Loader2 size={18} className="spin-icon" /> : <Camera size={18} />}
                             </button>
+                            <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleAvatarChange} />
                         </div>
 
                         <div className="editor-actions">
-                            <button className="btn-primary">Carregar Nova Foto</button>
+                            <button className="btn-primary" onClick={() => fileInputRef.current?.click()} disabled={isSaving}>
+                                {isSaving ? 'A carregar...' : 'Carregar Nova Foto'}
+                            </button>
                             <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Cancelar</button>
                         </div>
                     </div>
@@ -529,15 +639,23 @@ const SettingsScreen = () => {
                         <h3>Nome Exibido</h3>
                         <p className="editor-subtitle">Altera o nome visível no teu perfil GoTour.</p>
 
+                        <SaveFeedback />
+
                         <div className="editor-form">
                             <div className="form-group">
                                 <label>Nome Completo</label>
-                                <input type="text" defaultValue={userData.name} className="settings-input" />
+                                <input
+                                    type="text"
+                                    value={editName}
+                                    onChange={e => setEditName(e.target.value)}
+                                    className="settings-input"
+                                    placeholder="O seu nome completo"
+                                />
                             </div>
                         </div>
 
                         <div className="editor-actions">
-                            <button className="btn-primary">Guardar Alterações</button>
+                            <SaveBtn onClick={() => saveField({ name: editName.trim() }, 'Nome atualizado!')} />
                             <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Cancelar</button>
                         </div>
                     </div>
@@ -549,30 +667,38 @@ const SettingsScreen = () => {
                         <h3>Nome de Utilizador</h3>
                         <p className="editor-subtitle">Este é o teu identificador único na plataforma.</p>
 
+                        <SaveFeedback />
+
                         <div className="editor-form">
                             <div className="form-group">
                                 <label>Username (@)</label>
-                                <input type="text" defaultValue={userData.username} className="settings-input" />
+                                <input
+                                    type="text"
+                                    value={editUsername}
+                                    onChange={e => setEditUsername(e.target.value.replace(/\s+/g, '').toLowerCase())}
+                                    className="settings-input"
+                                    placeholder="nome_utilizador"
+                                />
                                 <span className="input-hint">Pode ser alterado 1 vez a cada 30 dias.</span>
                             </div>
                         </div>
 
                         <div className="editor-actions">
-                            <button className="btn-primary">Verificar e Guardar</button>
+                            <SaveBtn onClick={() => saveField({ username: editUsername.trim() }, 'Username atualizado!')} label="Verificar e Guardar" />
                             <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Cancelar</button>
                         </div>
                     </div>
                 );
 
-            case 'edit_profile_type':
+            case 'edit_profile_type': {
                 const profileTypes = [
                     { id: 'turista', label: 'Turista', icon: <User size={18} /> },
                     { id: 'explorador', label: 'Explorador', icon: <Compass size={18} /> },
                     { id: 'viajante', label: 'Viajante', icon: <MapPinned size={18} /> },
                     { id: 'mochileiro', label: 'Mochileiro', icon: <Briefcase size={18} /> },
-                    { id: 'aventureiro', label: 'Aventureiro', icon: <Tent size={18} /> }, // We'll need to import Tent
-                    { id: 'estudante', label: 'Estudante', icon: <GraduationCap size={18} /> }, // We'll need to import GraduationCap
-                    { id: 'nomada_digital', label: 'Nómada Digital', icon: <Laptop size={18} /> }, // We'll need to import Laptop
+                    { id: 'aventureiro', label: 'Aventureiro', icon: <Tent size={18} /> },
+                    { id: 'estudante', label: 'Estudante', icon: <GraduationCap size={18} /> },
+                    { id: 'nomada_digital', label: 'Nómada Digital', icon: <Laptop size={18} /> },
                     { id: 'criador_conteudo', label: 'Criador de Conteúdo', icon: <Camera size={18} /> }
                 ];
 
@@ -581,17 +707,19 @@ const SettingsScreen = () => {
                         <h3>Tipo de Perfil</h3>
                         <p className="editor-subtitle">Como te identificas na tua jornada GoTour?</p>
 
+                        <SaveFeedback />
+
                         <div className="editor-form" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                             {profileTypes.map((type) => (
                                 <button
                                     key={type.id}
-                                    className={`profile-type-btn ${userData.accountType === type.label ? 'active' : ''}`}
-                                    onClick={() => setUserData({ ...userData, accountType: type.label })}
+                                    className={`profile-type-btn ${editProfileType === type.label ? 'active' : ''}`}
+                                    onClick={() => setEditProfileType(type.label)}
                                     style={{
                                         display: 'flex', alignItems: 'center', gap: '8px', padding: '14px',
-                                        borderRadius: '12px', border: userData.accountType === type.label ? '2px solid #0d9488' : '1px solid #e2e8f0',
-                                        background: userData.accountType === type.label ? '#f0fdfa' : '#fff',
-                                        color: userData.accountType === type.label ? '#0d9488' : '#475569',
+                                        borderRadius: '12px', border: editProfileType === type.label ? '2px solid #0d9488' : '1px solid #e2e8f0',
+                                        background: editProfileType === type.label ? '#f0fdfa' : '#fff',
+                                        color: editProfileType === type.label ? '#0d9488' : '#475569',
                                         cursor: 'pointer', transition: 'all 0.2s', textAlign: 'left', fontWeight: '500'
                                     }}
                                 >
@@ -602,16 +730,18 @@ const SettingsScreen = () => {
                         </div>
 
                         <div className="editor-actions" style={{ marginTop: '24px' }}>
-                            <button className="btn-primary">Guardar Perfil</button>
+                            <SaveBtn onClick={() => saveField({ category: editProfileType }, 'Tipo de perfil guardado!')} label="Guardar Perfil" />
                             <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Cancelar</button>
                         </div>
                     </div>
                 );
+            }
 
-            case 'edit_nationality':
+            case 'edit_nationality': {
                 const popularCountries = [
                     "Moçambique", "Angola", "Portugal", "Brasil", "Cabo Verde",
-                    "São Tomé e Príncipe", "Guiné-Bissau", "África do Sul", "Espanha", "Estados Unidos"
+                    "São Tomé e Príncipe", "Guiné-Bissau", "África do Sul", "Espanha", "Estados Unidos",
+                    "Reino Unido", "França", "Alemanha", "Itália", "Canadá", "Austrália"
                 ];
 
                 return (
@@ -619,51 +749,55 @@ const SettingsScreen = () => {
                         <h3>Nacionalidade</h3>
                         <p className="editor-subtitle">De onde és? Ajudamos-te a conectar com viajantes da tua região.</p>
 
+                        <SaveFeedback />
+
                         <div className="editor-form">
                             <div className="form-group">
                                 <label>País de Origem</label>
                                 <select
                                     className="settings-input"
-                                    defaultValue={userData.nationality}
+                                    value={editNationality}
                                     style={{ appearance: 'auto', paddingRight: '16px', cursor: 'pointer' }}
-                                    onChange={(e) => setUserData({ ...userData, nationality: e.target.value })}
+                                    onChange={(e) => setEditNationality(e.target.value)}
                                 >
-                                    <option value="" disabled>Seleciona um país...</option>
-                                    {popularCountries.map(country => (
-                                        <option key={country} value={country}>{country}</option>
+                                    <option value="">Selecionar país...</option>
+                                    {popularCountries.map(c => (
+                                        <option key={c} value={c}>{c}</option>
                                     ))}
-                                    <option value="outros">Outros países...</option>
                                 </select>
                             </div>
                         </div>
 
                         <div className="editor-actions">
-                            <button className="btn-primary">Atualizar Nacionalidade</button>
+                            <SaveBtn onClick={() => saveField({ nationality: editNationality }, 'Nacionalidade atualizada!')} label="Guardar Nacionalidade" />
                             <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Cancelar</button>
                         </div>
                     </div>
                 );
+            }
 
             case 'edit_email':
                 return (
                     <div className="settings-dynamic-editor animated-slide-left">
                         <h3>Endereço de Email</h3>
-                        <p className="editor-subtitle">Altera o email associado à tua conta.</p>
+                        <p className="editor-subtitle">O email atual da tua conta.</p>
 
                         <div className="editor-form">
                             <div className="form-group">
-                                <label>Novo Email</label>
-                                <input type="email" placeholder="Ex: novoemail@exemplo.com" className="settings-input" />
-                            </div>
-                            <div className="form-group">
-                                <label>Palavra-passe atual</label>
-                                <input type="password" placeholder="Confirma a tua segurança" className="settings-input" />
+                                <label>Email Atual</label>
+                                <input
+                                    type="email"
+                                    value={displayEmail}
+                                    className="settings-input"
+                                    readOnly
+                                    style={{ background: '#f8fafc', color: '#64748b' }}
+                                />
+                                <span className="input-hint">O email é gerido pela autenticação Supabase. Para alterar, contacte o suporte.</span>
                             </div>
                         </div>
 
                         <div className="editor-actions">
-                            <button className="btn-primary">Atualizar Email</button>
-                            <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Cancelar</button>
+                            <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Fechar</button>
                         </div>
                     </div>
                 );
@@ -674,16 +808,23 @@ const SettingsScreen = () => {
                         <h3>Número de Celular</h3>
                         <p className="editor-subtitle">Mantém o teu número de contacto atualizado.</p>
 
+                        <SaveFeedback />
+
                         <div className="editor-form">
                             <div className="form-group">
-                                <label>Número Atual</label>
-                                <input type="tel" defaultValue={userData.phone} className="settings-input" />
-                                <span className="input-hint">Será enviado um código SMS de verificação ao efetuar a alteração.</span>
+                                <label>Número de Telefone</label>
+                                <input
+                                    type="tel"
+                                    value={editPhone}
+                                    onChange={e => setEditPhone(e.target.value)}
+                                    className="settings-input"
+                                    placeholder="+258 84 000 0000"
+                                />
                             </div>
                         </div>
 
                         <div className="editor-actions">
-                            <button className="btn-primary">Verificar Número</button>
+                            <SaveBtn onClick={() => saveField({ phone: editPhone.trim() }, 'Número atualizado!')} label="Guardar Número" />
                             <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Cancelar</button>
                         </div>
                     </div>
@@ -698,7 +839,7 @@ const SettingsScreen = () => {
                         <div className="editor-form">
                             <div className="form-group">
                                 <label>Dia / Mês / Ano</label>
-                                <input type="date" defaultValue={userData.dob} className="settings-input" style={{ cursor: 'pointer' }} />
+                                <input type="date" defaultValue={profile?.date_of_birth || ''} className="settings-input" style={{ cursor: 'pointer' }} />
                                 <span className="input-hint">A tua data de nascimento não será exibida publicamente.</span>
                             </div>
                         </div>
@@ -719,7 +860,8 @@ const SettingsScreen = () => {
                         <div className="editor-form">
                             <div className="form-group">
                                 <label>Como te identificas?</label>
-                                <select className="settings-input" defaultValue={userData.gender} style={{ appearance: 'auto', cursor: 'pointer' }}>
+                                <select className="settings-input" defaultValue={profile?.gender || ''} style={{ appearance: 'auto', cursor: 'pointer' }}>
+                                    <option value="">Selecionar...</option>
                                     <option value="Masculino">Masculino</option>
                                     <option value="Feminino">Feminino</option>
                                     <option value="Não binário">Não binário</option>
@@ -851,26 +993,66 @@ const SettingsScreen = () => {
                 return (
                     <div className="settings-dynamic-editor animated-slide-left">
                         <h3>Palavra-passe</h3>
-                        <p className="editor-subtitle">Assegura que a tua conta utiliza uma palavra-passe complexa de pelo menos 8 caracteres.</p>
+                        <p className="editor-subtitle">Assegura que a tua conta utiliza uma palavra-passe complexa de pelo menos 6 caracteres.</p>
+
+                        <SaveFeedback />
 
                         <div className="editor-form">
                             <div className="form-group">
-                                <label>Palavra-passe atual</label>
-                                <input type="password" placeholder="Insere a atual" className="settings-input" />
-                            </div>
-                            <div className="form-group">
                                 <label>Nova Palavra-passe</label>
-                                <input type="password" placeholder="No mínimo 8 caracteres" className="settings-input" />
+                                <div style={{ position: 'relative' }}>
+                                    <input
+                                        type={showPwd ? 'text' : 'password'}
+                                        value={pwdNew}
+                                        onChange={e => setPwdNew(e.target.value)}
+                                        placeholder="No mínimo 6 caracteres"
+                                        className="settings-input"
+                                        style={{ paddingRight: '44px' }}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPwd(!showPwd)}
+                                        style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}
+                                    >
+                                        {showPwd ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
                             </div>
                             <div className="form-group">
                                 <label>Confirmar Nova Palavra-passe</label>
-                                <input type="password" placeholder="Repetir nova senha" className="settings-input" />
+                                <input
+                                    type={showPwd ? 'text' : 'password'}
+                                    value={pwdConfirm}
+                                    onChange={e => setPwdConfirm(e.target.value)}
+                                    placeholder="Repetir nova senha"
+                                    className="settings-input"
+                                />
                             </div>
                         </div>
 
                         <div className="editor-actions">
-                            <button className="btn-primary">Atualizar Palavra-passe</button>
+                            <SaveBtn onClick={handleSavePassword} label="Atualizar Palavra-passe" />
                             <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Cancelar</button>
+                        </div>
+                    </div>
+                );
+
+            case 'security_2fa':
+                return (
+                    <div className="settings-dynamic-editor animated-slide-left">
+                        <h3>Autenticação em 2 Passos</h3>
+                        <p className="editor-subtitle">Adiciona uma camada extra de segurança à tua conta. Em breve disponível.</p>
+
+                        <div className="editor-form">
+                            <div style={{ padding: '20px', background: '#f0fdfa', borderRadius: '12px', border: '1px solid #a7f3d0', textAlign: 'center' }}>
+                                <CheckCircle2 size={32} color="#0d9488" style={{ marginBottom: '8px' }} />
+                                <p style={{ margin: 0, color: '#0d9488', fontWeight: '600' }}>Funcionalidade em Breve</p>
+                                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '13px' }}>A autenticação 2FA estará disponível numa próxima atualização.</p>
+                            </div>
+                        </div>
+
+                        <div className="editor-actions">
+                            <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Fechar</button>
                         </div>
                     </div>
                 );
@@ -885,25 +1067,18 @@ const SettingsScreen = () => {
                             <div className="settings-toggle-row" style={{ alignItems: 'flex-start' }}>
                                 <div className="toggle-info">
                                     <h4 style={{ margin: '0 0 4px 0', fontSize: '15px', color: '#1e293b', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <Laptop size={16} /> Windows PC (Atual)
+                                        <Laptop size={16} /> Sessão Atual
                                     </h4>
-                                    <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>Maputo, Moçambique • Ativo agora</p>
+                                    <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>Sessão ativa agora</p>
                                 </div>
-                            </div>
-
-                            <div className="settings-toggle-row" style={{ alignItems: 'flex-start' }}>
-                                <div className="toggle-info">
-                                    <h4 style={{ margin: '0 0 4px 0', fontSize: '15px', color: '#1e293b', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <Smartphone size={16} /> iPhone 13 Pro
-                                    </h4>
-                                    <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>Matola, Moçambique • Há 2 horas</p>
-                                </div>
-                                <button className="btn-secondary" style={{ padding: '6px 12px', fontSize: '13px', height: 'auto', border: '1px solid #e2e8f0', color: '#ef4444', background: '#fff' }}>Encerrar</button>
                             </div>
                         </div>
 
                         <div className="editor-actions">
-                            <button className="btn-secondary" style={{ color: '#ef4444' }}>Encerrar Todas as Outras Sessões</button>
+                            <button className="btn-secondary" style={{ color: '#ef4444' }} onClick={async () => {
+                                await supabase.auth.signOut({ scope: 'others' });
+                                showFeedback('Outras sessões encerradas!');
+                            }}>Encerrar Outras Sessões</button>
                         </div>
                     </div>
                 );
@@ -918,23 +1093,9 @@ const SettingsScreen = () => {
                             <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
                                     <span style={{ fontWeight: '600', color: '#1e293b', fontSize: '14px' }}>Sucesso</span>
-                                    <span style={{ color: '#64748b', fontSize: '13px' }}>Hoje, 14:30</span>
+                                    <span style={{ color: '#64748b', fontSize: '13px' }}>Agora</span>
                                 </div>
-                                <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>Windows • Chrome • Maputo, MZ</p>
-                            </div>
-                            <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                                    <span style={{ fontWeight: '600', color: '#1e293b', fontSize: '14px' }}>Sucesso</span>
-                                    <span style={{ color: '#64748b', fontSize: '13px' }}>Ontem, 09:15</span>
-                                </div>
-                                <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>iOS • GoTour App • Matola, MZ</p>
-                            </div>
-                            <div style={{ padding: '16px', background: '#fef2f2', borderRadius: '12px', border: '1px solid #fecaca' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                                    <span style={{ fontWeight: '600', color: '#ef4444', fontSize: '14px' }}>Falha (Palavra-passe)</span>
-                                    <span style={{ color: '#64748b', fontSize: '13px' }}>12 Fev, 23:45</span>
-                                </div>
-                                <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>Desconhecido • Firefox • Pretória, ZA</p>
+                                <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>Sessão atual</p>
                             </div>
                         </div>
                     </div>
@@ -962,14 +1123,6 @@ const SettingsScreen = () => {
                                 </div>
                                 <div className="settings-toggle true"><div className="toggle-knob"></div></div>
                             </div>
-
-                            <div className="settings-toggle-row">
-                                <div className="toggle-info">
-                                    <h4 style={{ margin: '0 0 4px 0', fontSize: '15px', color: '#1e293b' }}>Logins Falhados</h4>
-                                    <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>Alertas sobre múltiplas tentativas erradas.</p>
-                                </div>
-                                <div className="settings-toggle false"><div className="toggle-knob"></div></div>
-                            </div>
                         </div>
 
                         <div className="editor-actions">
@@ -985,23 +1138,13 @@ const SettingsScreen = () => {
                         <p className="editor-subtitle">Garante que não perdes o acesso à tua conta e dados.</p>
 
                         <div className="editor-form">
-                            <div className="form-group">
-                                <label>Email de Recuperação (Opcional)</label>
-                                <input type="email" placeholder="email.alternativo@exemplo.com" className="settings-input" />
-                                <span className="input-hint">Usado apenas se perderes o acesso ao email principal.</span>
-                            </div>
-
-                            <div style={{ marginTop: '24px', padding: '16px', border: '1px solid #e2e8f0', borderRadius: '12px', background: '#f8fafc' }}>
+                            <div style={{ padding: '16px', border: '1px solid #e2e8f0', borderRadius: '12px', background: '#f8fafc' }}>
                                 <h4 style={{ margin: '0 0 8px 0', fontSize: '15px', color: '#1e293b' }}>Cópia de Dados Pessoais</h4>
-                                <p style={{ margin: '0 0 16px 0', fontSize: '13px', color: '#64748b' }}>Podes descarregar um ficheiro ZIP (opcional) com as tuas publicações, roteiros salvos e mensagens.</p>
+                                <p style={{ margin: '0 0 16px 0', fontSize: '13px', color: '#64748b' }}>Podes descarregar um ficheiro com os teus dados de perfil.</p>
                                 <button className="btn-secondary" style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                                    <Database size={16} /> Baixar Cópia (ZIP)
+                                    <Database size={16} /> Baixar Cópia
                                 </button>
                             </div>
-                        </div>
-
-                        <div className="editor-actions">
-                            <button className="btn-primary">Guardar Opções</button>
                         </div>
                     </div>
                 );
@@ -1039,16 +1182,6 @@ const SettingsScreen = () => {
                                         <Users size={16} /> Amigos
                                     </h4>
                                     <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>Notificações sobre atividades ou interações dos teus amigos na plataforma.</p>
-                                </div>
-                                <div className="settings-toggle true"><div className="toggle-knob"></div></div>
-                            </div>
-
-                            <div className="settings-toggle-row">
-                                <div className="toggle-info">
-                                    <h4 style={{ margin: '0 0 4px 0', fontSize: '15px', color: '#1e293b', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <Calendar size={16} /> Eventos e tours
-                                    </h4>
-                                    <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>Alertas sobre novos eventos, pacotes turísticos ou tours recomendados.</p>
                                 </div>
                                 <div className="settings-toggle true"><div className="toggle-knob"></div></div>
                             </div>
@@ -1141,7 +1274,7 @@ const SettingsScreen = () => {
                                     className={`settings-nav-item ${activeCategory === category.id ? 'active' : ''}`}
                                     onClick={() => {
                                         setActiveCategory(category.id);
-                                        setActiveSetting(null); // Reset right panel when changing category
+                                        setActiveSetting(null);
                                     }}
                                 >
                                     <Icon size={20} className="nav-item-icon" />

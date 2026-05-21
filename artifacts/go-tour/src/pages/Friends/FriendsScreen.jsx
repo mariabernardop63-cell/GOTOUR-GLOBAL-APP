@@ -55,6 +55,7 @@ const FriendsScreen = () => {
     const [requestsSent, setRequestsSent] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
     const [profileModal, setProfileModal] = useState(null);
+    const [suggestionsSearch, setSuggestionsSearch] = useState('');
     const modalRef = useRef(null);
 
     useEffect(() => {
@@ -258,18 +259,26 @@ const FriendsScreen = () => {
     };
 
     const renderSuggestions = () => {
-        if (suggestions.length === 0) {
+        const filteredSuggestions = suggestionsSearch.trim()
+            ? suggestions.filter(s =>
+                s.name.toLowerCase().includes(suggestionsSearch.toLowerCase()) ||
+                s.username.toLowerCase().includes(suggestionsSearch.toLowerCase()) ||
+                (s.location && s.location.toLowerCase().includes(suggestionsSearch.toLowerCase()))
+            )
+            : suggestions;
+
+        if (filteredSuggestions.length === 0) {
             return (
                 <div className="friends-empty-state">
                     <div className="empty-icon-circle"><Compass size={32} color="#94a3b8" /></div>
-                    <h3>Sem sugestões no momento.</h3>
-                    <p>Volte mais tarde para novas sugestões de amizade.</p>
+                    <h3>{suggestionsSearch ? 'Nenhum resultado encontrado.' : 'Sem sugestões no momento.'}</h3>
+                    <p>{suggestionsSearch ? 'Tenta um nome ou localização diferente.' : 'Volte mais tarde para novas sugestões de amizade.'}</p>
                 </div>
             );
         }
         return (
             <div className="friends-list-grid">
-                {suggestions.map(sug => (
+                {filteredSuggestions.map(sug => (
                     <div key={sug.id} className="friend-card suggestion-card">
                         <div className="friend-card-avatar-wrapper">
                             <img src={sug.avatar} alt={sug.name} className="friend-card-avatar" />
@@ -344,6 +353,21 @@ const FriendsScreen = () => {
                                 </button>
                             ))}
                         </div>
+
+                        {/* SEARCH (for suggestions tab) */}
+                        {activeSection === 'suggestions' && (
+                            <div className="friends-controls-row">
+                                <div className="friends-search-wrapper">
+                                    <Search size={18} className="search-icon" />
+                                    <input
+                                        type="text"
+                                        placeholder="Pesquisar sugestões por nome ou localização..."
+                                        value={suggestionsSearch}
+                                        onChange={(e) => setSuggestionsSearch(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                        )}
 
                         {/* SEARCH + FILTERS (only for friends list) */}
                         {activeSection === 'friends' && (

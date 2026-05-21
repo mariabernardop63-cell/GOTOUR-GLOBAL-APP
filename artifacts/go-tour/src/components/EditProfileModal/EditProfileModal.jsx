@@ -24,7 +24,7 @@ const ALL_INTERESTS = [
     'Vida Selvagem', 'Mergulho', 'Caminhadas', 'Campismo', 'Surf'
 ];
 
-const EditProfileModal = ({ isOpen, onClose, onSave }) => {
+const EditProfileModal = ({ isOpen, onClose, onSave, openToBio = false }) => {
     const { user: authUser, profile, refreshProfile } = useAuth();
 
     const [name, setName] = useState('');
@@ -60,7 +60,7 @@ const EditProfileModal = ({ isOpen, onClose, onSave }) => {
             setIsCheckingUsername(false);
             setIsSelectingType(false);
             setIsSelectingInterests(false);
-            setIsEditingBio(false);
+            setIsEditingBio(openToBio || false);
             setSearchTypeQuery('');
             setSaveError('');
         } else if (isOpen && !profile && authUser) {

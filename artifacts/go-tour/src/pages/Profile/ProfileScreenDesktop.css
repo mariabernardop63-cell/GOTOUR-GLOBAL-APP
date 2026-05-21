@@ -20,7 +20,9 @@
         max-width: 1000px;
         margin: 0 auto;
         /* Center content in the full space */
-        
+        padding-right: 24px;
+        /* Push scrollbar further from content toward the right edge */
+
         /* Custom scrollbar — visible and styled */
         scrollbar-width: thin;
         scrollbar-color: rgba(139, 92, 246, 0.35) transparent;

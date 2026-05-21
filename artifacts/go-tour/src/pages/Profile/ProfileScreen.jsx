@@ -27,6 +27,7 @@ const ProfileScreen = ({ isModal = false }) => {
     const { setModalBackground, modalBackground, navigateFade } = useNavigation();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [modalOpenToBio, setModalOpenToBio] = useState(false);
     const [friendRequested, setFriendRequested] = useState(false);
     const [isUploadingCover, setIsUploadingCover] = useState(false);
 
@@ -322,7 +323,7 @@ const ProfileScreen = ({ isModal = false }) => {
                                             isMe ? (
                                                 <button
                                                     className="bio-placeholder-btn"
-                                                    onClick={() => setIsEditModalOpen(true)}
+                                                    onClick={() => { setModalOpenToBio(true); setIsEditModalOpen(true); }}
                                                 >
                                                     Diga mais sobre você
                                                 </button>
@@ -347,7 +348,7 @@ const ProfileScreen = ({ isModal = false }) => {
                                     {isMe && !category && (
                                         <button
                                             className="widget-configure-btn"
-                                            onClick={() => setIsEditModalOpen(true)}
+                                            onClick={() => navigate('/settings', { state: { openSetting: 'edit_profile_type' } })}
                                         >
                                             <Plus size={14} />
                                             <span>Configurar tipo de viajante</span>
@@ -415,8 +416,9 @@ const ProfileScreen = ({ isModal = false }) => {
 
             <EditProfileModal
                 isOpen={isEditModalOpen}
-                onClose={() => setIsEditModalOpen(false)}
+                onClose={() => { setIsEditModalOpen(false); setModalOpenToBio(false); }}
                 onSave={handleSaveProfile}
+                openToBio={modalOpenToBio}
             />
         </div>
     );
