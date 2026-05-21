@@ -3,12 +3,16 @@ import { useLocation } from 'react-router-dom';
 import { LayoutGrid, MapPinned, User, Rss, Home, Search, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigation } from '../../context/NavigationContext';
+import { useAuth } from '../../context/AuthContext';
 import gotourLogo from '../../assets/images/gotour_icon.png';
 import './DesktopSidebar.css';
 
 const DesktopSidebar = () => {
     const location = useLocation();
     const { navigateFade, setModalBackground } = useNavigation();
+    const { profile } = useAuth();
+
+    const avatarUrl = profile?.avatar_url || null;
 
     const navItems = [
         { id: 'home',          label: 'Home',         icon: Home,       path: '/home' },
@@ -29,7 +33,6 @@ const DesktopSidebar = () => {
         navigateFade(item.path);
     };
 
-    // Entry stagger for sidebar items on first mount
     const containerVariants = {
         hidden: { opacity: 0 },
         show: {
@@ -71,6 +74,8 @@ const DesktopSidebar = () => {
                     const isActive = location.pathname.startsWith(item.path) ||
                         (item.path === '/home' && location.pathname === '/');
 
+                    const isProfile = item.id === 'profile';
+
                     return (
                         <motion.button
                             key={item.id}
@@ -83,11 +88,19 @@ const DesktopSidebar = () => {
                             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                         >
                             <div className="sidebar-nav-icon-wrapper">
-                                <item.icon
-                                    size={26}
-                                    strokeWidth={isActive ? 2.5 : 1.8}
-                                    fill={isActive && item.id !== 'home' ? 'currentColor' : 'none'}
-                                />
+                                {isProfile && avatarUrl ? (
+                                    <img
+                                        src={avatarUrl}
+                                        alt="Perfil"
+                                        className="sidebar-avatar-img"
+                                    />
+                                ) : (
+                                    <item.icon
+                                        size={26}
+                                        strokeWidth={isActive ? 2.5 : 1.8}
+                                        fill={isActive && item.id !== 'home' && !isProfile ? 'currentColor' : 'none'}
+                                    />
+                                )}
                             </div>
                             <span className="sidebar-nav-label">{item.label}</span>
                         </motion.button>

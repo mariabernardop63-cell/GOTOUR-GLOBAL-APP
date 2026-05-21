@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useNavigation } from '../../context/NavigationContext';
+import { useAuth } from '../../context/AuthContext';
+import { getDisplayName, getUsername } from '../../lib/profileService';
 import {
     X, User, ChevronRight, Star, Crown,
     MessageCircle, Users, Bell, Heart,
@@ -16,6 +18,11 @@ import './DrawerMenu.css';
 const DrawerMenu = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
     const [isPlanOpen, setIsPlanOpen] = useState(false);
+    const { user: authUser, profile, signOut } = useAuth();
+
+    const displayName = getDisplayName(profile, authUser);
+    const username = getUsername(profile, authUser);
+    const avatarUrl = profile?.avatar_url || null;
 
     useEffect(() => {
         if (isOpen) {
@@ -40,13 +47,19 @@ const DrawerMenu = ({ isOpen, onClose }) => {
         setTimeout(() => navigate(path), 250);
     };
 
+    const handleSignOut = async () => {
+        onClose();
+        await signOut();
+        setTimeout(() => navigate('/home'), 300);
+    };
+
     return (
         <>
             <div className={`drawer-overlay ${isOpen ? 'open' : ''}`} onClick={onClose} />
 
             <div className={`drawer-panel ${isOpen ? 'open' : ''}`}>
 
-                {/* ===== HEADER ===== */}
+                {/* HEADER */}
                 <div className="drawer-head">
                     <button className="drawer-close" onClick={onClose} aria-label="Fechar menu">
                         <X size={22} strokeWidth={2.5} />
@@ -54,11 +67,15 @@ const DrawerMenu = ({ isOpen, onClose }) => {
 
                     <div className="drawer-profile" onClick={() => handleNav('/profile')}>
                         <div className="drawer-avatar">
-                            <User size={26} />
+                            {avatarUrl ? (
+                                <img src={avatarUrl} alt="Perfil" className="drawer-avatar-img" />
+                            ) : (
+                                <User size={26} />
+                            )}
                         </div>
                         <div className="drawer-user-info">
-                            <span className="drawer-user-name">Usuário</span>
-                            <span className="drawer-user-email">usuario@email.com</span>
+                            <span className="drawer-user-name">{displayName}</span>
+                            <span className="drawer-user-email">{authUser?.email || username}</span>
                         </div>
                         <ChevronRight size={20} className="drawer-profile-arrow" />
                     </div>
@@ -88,10 +105,9 @@ const DrawerMenu = ({ isOpen, onClose }) => {
                     </div>
                 </div>
 
-                {/* ===== SCROLLABLE BODY ===== */}
+                {/* SCROLLABLE BODY */}
                 <div className="drawer-body">
 
-                    {/* Quick Shortcuts */}
                     <div className="drawer-shortcuts">
                         <button className="drawer-shortcut" onClick={() => handleNav('/messages')}>
                             <div className="drawer-shortcut-icon"><MessageCircle size={20} /></div>
@@ -117,7 +133,6 @@ const DrawerMenu = ({ isOpen, onClose }) => {
 
                     <div className="drawer-sep" />
 
-                    {/* Ferramentas */}
                     <p className="drawer-section-label">Ferramentas</p>
                     <nav className="drawer-nav">
                         <DrawerItem icon={MessageCircle} label="Mensagens" onClick={() => handleNav('/messages')} />
@@ -137,7 +152,6 @@ const DrawerMenu = ({ isOpen, onClose }) => {
 
                     <div className="drawer-sep" />
 
-                    {/* Definições */}
                     <p className="drawer-section-label">Definições</p>
                     <nav className="drawer-nav">
                         <DrawerItem icon={SlidersHorizontal} label="Conta" onClick={() => handleNav('/settings')} />
@@ -149,7 +163,6 @@ const DrawerMenu = ({ isOpen, onClose }) => {
 
                     <div className="drawer-sep" />
 
-                    {/* Privacidade */}
                     <p className="drawer-section-label">Privacidade</p>
                     <nav className="drawer-nav">
                         <DrawerItem icon={Lock} label="Privacidade da Conta" onClick={() => handleNav('/settings')} />
@@ -160,7 +173,6 @@ const DrawerMenu = ({ isOpen, onClose }) => {
 
                     <div className="drawer-sep" />
 
-                    {/* Suporte */}
                     <p className="drawer-section-label">Suporte</p>
                     <nav className="drawer-nav">
                         <DrawerItem icon={LifeBuoy} label="Central de Ajuda" />
@@ -170,9 +182,9 @@ const DrawerMenu = ({ isOpen, onClose }) => {
                     </nav>
                 </div>
 
-                {/* ===== FOOTER ===== */}
+                {/* FOOTER */}
                 <div className="drawer-foot">
-                    <button className="drawer-logout">
+                    <button className="drawer-logout" onClick={handleSignOut}>
                         <LogOut size={20} />
                         <span>Terminar Sessão</span>
                     </button>
@@ -182,7 +194,6 @@ const DrawerMenu = ({ isOpen, onClose }) => {
     );
 };
 
-/* Drawer Item Component */
 const DrawerItem = ({ icon: Icon, label, onClick }) => (
     <button className="drawer-item" onClick={onClick}>
         <Icon size={20} strokeWidth={1.8} />

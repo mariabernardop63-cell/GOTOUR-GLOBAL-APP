@@ -11,7 +11,7 @@
 }
 
 .home-header-logo {
-    height: 56px; /* Increased from 48px */
+    height: 56px;
     width: auto;
     object-fit: contain;
 }
@@ -43,11 +43,51 @@
     opacity: 0.7;
 }
 
+/* Avatar button in header */
+.header-avatar-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-avatar-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+    transition: border-color 0.2s;
+}
+
+.header-avatar-img:hover {
+    border-color: #3b82f6;
+}
+
+.header-avatar-placeholder {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    border: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.header-avatar-placeholder:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
 /* HAMBURGER MENU ANIMATION */
 .hamburger-icon {
     width: 24px;
     height: 18px;
-    /* Proportional height for 3 bars */
     position: relative;
     cursor: pointer;
     display: flex;
@@ -59,17 +99,12 @@
     display: block;
     width: 100%;
     height: 2.5px;
-    /* Adjust thickness */
     background-color: #1e293b;
-    /* Dark neutral */
     border-radius: 4px;
     transition: all 0.3s ease-in-out;
     transform-origin: center;
 }
 
-/* CLOSED STATE DEFAULT POSITIONS (Implicit in Flex) */
-
-/* OPEN STATE (X) */
 .hamburger-icon.open .bar.top {
     transform: translateY(7.5px) rotate(45deg);
 }
@@ -83,14 +118,11 @@
     transform: translateY(-7.5px) rotate(-45deg);
 }
 
-/* Optional: Click Effect */
 .menu-button:active .hamburger-icon {
     transform: scale(0.95);
 }
 
-/* ==========================================
-   MINI SEARCH PILL — search results mode
-   ========================================== */
+/* MINI SEARCH PILL */
 .mini-search-pill {
     display: flex;
     align-items: center;
@@ -126,4 +158,4 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     letter-spacing: -0.1px;
     max-width: 120px;
-}
+}

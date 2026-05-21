@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
 
 const AuthContext = createContext();
@@ -8,16 +8,46 @@ export const AuthProvider = ({ children }) => {
     const [session, setSession] = useState(null);
     const [loading, setLoading] = useState(true);
     const [authEvent, setAuthEvent] = useState(null);
+    const [profile, setProfile] = useState(null);
+    const [profileLoading, setProfileLoading] = useState(false);
+
+    const fetchProfile = useCallback(async (userId) => {
+        if (!userId) { setProfile(null); return; }
+        setProfileLoading(true);
+        try {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .maybeSingle();
+            if (error) {
+                console.error('Error fetching profile:', error);
+            } else {
+                setProfile(data || null);
+            }
+        } catch (err) {
+            console.error('Error fetching profile:', err);
+        } finally {
+            setProfileLoading(false);
+        }
+    }, []);
+
+    const refreshProfile = useCallback(async () => {
+        if (user?.id) {
+            await fetchProfile(user.id);
+        }
+    }, [user, fetchProfile]);
 
     useEffect(() => {
-        // Get initial session
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session);
             setUser(session?.user ?? null);
             setLoading(false);
+            if (session?.user) {
+                ensureProfile(session.user).then(() => fetchProfile(session.user.id));
+            }
         });
 
-        // Listen for auth changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
             (event, session) => {
                 setSession(session);
@@ -25,15 +55,18 @@ export const AuthProvider = ({ children }) => {
                 setAuthEvent(event);
                 setLoading(false);
 
-                // Auto-create profile on first sign-in (fire-and-forget to avoid blocking signInWithPassword)
                 if (event === 'SIGNED_IN' && session?.user) {
-                    ensureProfile(session.user).catch(err => console.error('Ensure profile err:', err));
+                    ensureProfile(session.user)
+                        .then(() => fetchProfile(session.user.id))
+                        .catch(err => console.error('Ensure profile err:', err));
+                } else if (event === 'SIGNED_OUT') {
+                    setProfile(null);
                 }
             }
         );
 
         return () => subscription.unsubscribe();
-    }, []);
+    }, [fetchProfile]);
 
     const ensureProfile = async (user) => {
         try {
@@ -41,19 +74,21 @@ export const AuthProvider = ({ children }) => {
                 .from('profiles')
                 .select('id')
                 .eq('id', user.id)
-                .single();
+                .maybeSingle();
 
-            if (error && error.code === 'PGRST116') {
-                // Profile doesn't exist, create it
+            if (!data && !error) {
+                const emailName = user.email ? user.email.split('@')[0] : 'viajante';
                 const { error: insertError } = await supabase
                     .from('profiles')
                     .insert({
                         id: user.id,
-                        phone: user.phone || null,
-                        created_at: new Date().toISOString()
+                        name: null,
+                        username: null,
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
                     });
 
-                if (insertError) {
+                if (insertError && insertError.code !== '23505') {
                     console.error('Error creating profile:', insertError);
                 }
             }
@@ -67,6 +102,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         setSession(null);
         setAuthEvent(null);
+        setProfile(null);
     };
 
     const value = {
@@ -76,6 +112,9 @@ export const AuthProvider = ({ children }) => {
         setSession,
         loading,
         authEvent,
+        profile,
+        profileLoading,
+        refreshProfile,
         signOut,
         supabase
     };

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Camera, Check, AlertCircle, Loader2, ChevronDown, ArrowLeft, Search, Map, Compass, Plane, Briefcase, Tent, BookOpen, Laptop, Video } from 'lucide-react';
+import { X, Camera, Check, AlertCircle, Loader2, ChevronDown, ArrowLeft, Search, Map, Compass, Plane, Briefcase, Tent, BookOpen, Laptop, Video, Plus } from 'lucide-react';
 import './EditProfileModal.css';
 import sashaLogo from '../../assets/sasha_logo.png';
 import ProfilePictureCropper from '../ProfilePictureCropper/ProfilePictureCropper';
+import { useAuth } from '../../context/AuthContext';
+import { upsertProfile, uploadAvatarFromBlob } from '../../lib/profileService';
 
 const PROFILE_TYPES = [
     { id: 'turista', label: 'Turista', icon: Map },
@@ -15,53 +17,65 @@ const PROFILE_TYPES = [
     { id: 'criador', label: 'Criador de Conteúdo', icon: Video },
 ];
 
-const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
+const ALL_INTERESTS = [
+    'Natureza', 'Fotografia', 'Culturas', 'Mochilão', 'Gastronomia',
+    'Arte', 'Aventura', 'Praias', 'Montanhas', 'Cidades',
+    'Museus', 'Festivais', 'Desporto', 'Bem-estar', 'Arquitectura',
+    'Vida Selvagem', 'Mergulho', 'Caminhadas', 'Campismo', 'Surf'
+];
+
+const EditProfileModal = ({ isOpen, onClose, onSave }) => {
+    const { user: authUser, profile, refreshProfile } = useAuth();
+
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
-    const [avatar, setAvatar] = useState('');
+    const [avatarPreview, setAvatarPreview] = useState('');
     const [bio, setBio] = useState('');
     const [profileType, setProfileType] = useState('');
+    const [interests, setInterests] = useState([]);
     const [isSelectingType, setIsSelectingType] = useState(false);
-    const [isWebImagesView, setIsWebImagesView] = useState(false);
+    const [isSelectingInterests, setIsSelectingInterests] = useState(false);
     const [isEditingBio, setIsEditingBio] = useState(false);
-    const [isGeneratingImage, setIsGeneratingImage] = useState(false);
-    const [imagePrompt, setImagePrompt] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
+    const [saveError, setSaveError] = useState('');
     const [cropPhotoUrl, setCropPhotoUrl] = useState(null);
     const [searchTypeQuery, setSearchTypeQuery] = useState('');
     const [isCheckingUsername, setIsCheckingUsername] = useState(false);
-    const [isUsernameValid, setIsUsernameValid] = useState(null); // true, false, or null
-    const [isSaving, setIsSaving] = useState(false);
-
-    // Derived state to check if any field has been modified
-    const hasChanges = name.trim() !== (userData?.name || '') ||
-        username.trim() !== (userData?.username || '') ||
-        avatar !== (userData?.avatar || '') ||
-        bio !== (userData?.bio || '') ||
-        profileType !== (userData?.profileType || 'Explorador');
+    const [isUsernameValid, setIsUsernameValid] = useState(null);
 
     const fileInputRef = useRef(null);
     const modalRef = useRef(null);
 
-    // Reset state when modal opens
+    const originalUsername = profile?.username || '';
+
     useEffect(() => {
-        if (isOpen && userData) {
-            setName(userData.name || '');
-            setUsername(userData.username || '');
-            setAvatar(userData.avatar || '');
-            setBio(userData.bio || '');
-            setProfileType(userData.profileType || 'Explorador');
+        if (isOpen && profile) {
+            setName(profile.name || '');
+            setUsername(profile.username || '');
+            setAvatarPreview(profile.avatar_url || '');
+            setBio(profile.bio || '');
+            setProfileType(profile.category || '');
+            setInterests(profile.interests || []);
             setIsUsernameValid(null);
             setIsCheckingUsername(false);
             setIsSelectingType(false);
-            setIsWebImagesView(false);
+            setIsSelectingInterests(false);
             setIsEditingBio(false);
-            setIsGeneratingImage(false);
-            setImagePrompt('');
             setSearchTypeQuery('');
+            setSaveError('');
+        } else if (isOpen && !profile && authUser) {
+            const emailName = authUser.email ? authUser.email.split('@')[0] : '';
+            setName(emailName ? emailName.charAt(0).toUpperCase() + emailName.slice(1) : '');
+            setUsername(emailName || '');
+            setAvatarPreview('');
+            setBio('');
+            setProfileType('');
+            setInterests([]);
+            setIsUsernameValid(null);
+            setSaveError('');
         }
-    }, [isOpen, userData]);
+    }, [isOpen, profile, authUser]);
 
-    // Close on escape key
     useEffect(() => {
         const handleEscape = (e) => {
             if (e.key === 'Escape' && isOpen) onClose();
@@ -70,89 +84,91 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
         return () => document.removeEventListener('keydown', handleEscape);
     }, [isOpen, onClose]);
 
-    // Lock body scroll to prevent interacting with the Home screen underneath
     useEffect(() => {
         if (isOpen) {
-            const originalOverflow = document.body.style.overflow;
+            const original = document.body.style.overflow;
             document.body.style.overflow = 'hidden';
-            return () => {
-                document.body.style.overflow = originalOverflow;
-            };
+            return () => { document.body.style.overflow = original; };
         }
     }, [isOpen]);
 
-    // Mock real-time username validation
     useEffect(() => {
         if (!isOpen) return;
-
-        // Skip checking if it's the user's current username
-        if (username === userData?.username) {
+        if (username === originalUsername) {
             setIsUsernameValid(true);
             setIsCheckingUsername(false);
             return;
         }
-
         if (username.length < 3) {
             setIsUsernameValid(null);
             return;
         }
-
         const timer = setTimeout(() => {
             setIsCheckingUsername(true);
-            // Simulate API call delay
             setTimeout(() => {
                 setIsCheckingUsername(false);
-                // Mock logic: 'admin' and 'gotour' are taken
                 const takenUsernames = ['admin', 'gotour', 'test'];
                 setIsUsernameValid(!takenUsernames.includes(username.toLowerCase()));
             }, 600);
-        }, 500); // 500ms debounce
-
+        }, 500);
         return () => clearTimeout(timer);
-    }, [username, isOpen, userData]);
+    }, [username, isOpen, originalUsername]);
 
     const handleBackdropClick = (e) => {
-        if (modalRef.current && !modalRef.current.contains(e.target)) {
-            onClose();
-        }
+        if (modalRef.current && !modalRef.current.contains(e.target)) onClose();
     };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        if (file) {
-            setCropPhotoUrl(URL.createObjectURL(file));
-        }
+        if (file) setCropPhotoUrl(URL.createObjectURL(file));
         e.target.value = '';
     };
 
     const handleCropperSave = (croppedBlobUrl) => {
-        setAvatar(croppedBlobUrl);
+        setAvatarPreview(croppedBlobUrl);
         setCropPhotoUrl(null);
     };
 
-    const triggerFileInput = () => {
-        fileInputRef.current?.click();
+    const toggleInterest = (interest) => {
+        setInterests(prev =>
+            prev.includes(interest)
+                ? prev.filter(i => i !== interest)
+                : [...prev, interest]
+        );
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (isUsernameValid === false || !hasChanges) return; // Prevent saving if invalid or untouched
+        if (isUsernameValid === false || isSaving || !authUser?.id) return;
 
         setIsSaving(true);
+        setSaveError('');
 
-        // Simulate API save
-        setTimeout(() => {
-            setIsSaving(false);
-            onSave({
-                name,
-                username,
-                avatar,
-                bio,
-                profileType
+        try {
+            let avatarUrl = profile?.avatar_url || null;
+
+            if (avatarPreview && avatarPreview !== profile?.avatar_url && avatarPreview.startsWith('blob:')) {
+                avatarUrl = await uploadAvatarFromBlob(authUser.id, avatarPreview);
+            }
+
+            await upsertProfile(authUser.id, {
+                name: name.trim() || null,
+                username: username.trim() || null,
+                bio: bio.trim() || null,
+                avatar_url: avatarUrl,
+                category: profileType || null,
+                interests: interests,
             });
+
+            await refreshProfile();
+            onSave && onSave();
             onClose();
-        }, 1200);
+        } catch (err) {
+            console.error('Error saving profile:', err);
+            setSaveError('Erro ao guardar. Tente novamente.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     if (!isOpen) return null;
@@ -161,336 +177,288 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
         <div className="edit-profile-overlay active" onClick={handleBackdropClick}>
             <div className={`edit-profile-modal scale-in ${cropPhotoUrl ? 'is-cropping' : ''}`} ref={modalRef}>
                 {cropPhotoUrl ? (
-                    <ProfilePictureCropper 
+                    <ProfilePictureCropper
                         photoUrl={cropPhotoUrl}
                         onSave={handleCropperSave}
                         onCancel={() => setCropPhotoUrl(null)}
                     />
                 ) : (
                     <>
-
-                {/* Header */}
-                <div className="edit-profile-header">
-                    <div>
-                        <h2>Editar Perfil</h2>
-                        <p>Atualize as informações visíveis no seu perfil.</p>
-                    </div>
-                    <button className="close-modal-btn" onClick={onClose} aria-label="Fechar">
-                        <X size={24} />
-                    </button>
-                </div>
-
-                <div className="edit-profile-body">
-                    {isWebImagesView ? (
-                        <div className="web-images-gallery-view scale-in">
-                            <div className="gallery-header">
-                                <button type="button" className="back-btn-icon" onClick={() => {
-                                    if(isGeneratingImage) {
-                                        setIsGeneratingImage(false);
-                                        setImagePrompt('');
-                                    } else {
-                                        setIsWebImagesView(false);
-                                    }
-                                }}>
-                                    <ArrowLeft size={24} color="#0f172a" />
-                                </button>
-                                
-                                {!isGeneratingImage && (
-                                    <>
-                                        <div className="selector-search-bar" style={{ flex: 1, marginRight: '16px' }}>
-                                            <Search size={20} color="#64748b" className="search-icon-left" />
-                                            <input 
-                                                type="text" 
-                                                placeholder="Pesquisar imagens..." 
-                                                className="selector-search-input"
-                                            />
-                                        </div>
-                                        <button 
-                                            type="button" 
-                                            className="btn-generate-trigger" 
-                                            onClick={() => setIsGeneratingImage(true)}
-                                        >
-                                            <Camera size={18} />
-                                            <span>Gerar Imagem</span>
-                                        </button>
-                                    </>
-                                )}
+                        {/* Header */}
+                        <div className="edit-profile-header">
+                            <div>
+                                <h2>Editar Perfil</h2>
+                                <p>Atualize as informações visíveis no seu perfil.</p>
                             </div>
-                            
-                            {isGeneratingImage ? (
-                                <div className="image-generator-view scale-in">
-                                    <div className="generator-title-area">
-                                        <div className="sasha-logo-crop" style={{ backgroundImage: `url(${sashaLogo})` }}></div>
-                                        <h1 className="sasha-title">Sasha IA</h1>
+                            <button className="close-modal-btn" onClick={onClose} aria-label="Fechar">
+                                <X size={24} />
+                            </button>
+                        </div>
+
+                        <div className="edit-profile-body">
+                            {isSelectingInterests ? (
+                                <div className="interests-selector-view scale-in">
+                                    <div className="selector-header">
+                                        <button type="button" className="back-btn-icon" onClick={() => setIsSelectingInterests(false)}>
+                                            <ArrowLeft size={24} color="#0f172a" />
+                                        </button>
+                                        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>Selecionar Interesses</h3>
                                     </div>
-                                    <p className="sasha-subtitle">
-                                        A sua assistente pessoal de viagens por Inteligência Artificial
+                                    <p style={{ fontSize: 13, color: '#64748b', marginBottom: 16 }}>
+                                        Escolha os seus interesses de viagem:
                                     </p>
-                                    
-                                    <div className="generator-content">
-                                        <div className="chatgpt-prompt-container">
-                                            <input 
-                                                type="text" 
-                                                placeholder="Descreva a imagem pretendida..."
-                                                className="chatgpt-prompt-input"
-                                                maxLength={100}
-                                                value={imagePrompt}
-                                                onChange={(e) => setImagePrompt(e.target.value)}
+                                    <div className="interests-grid-picker">
+                                        {ALL_INTERESTS.map(interest => (
+                                            <button
+                                                key={interest}
+                                                type="button"
+                                                className={`interest-pick-btn ${interests.includes(interest) ? 'selected' : ''}`}
+                                                onClick={() => toggleInterest(interest)}
+                                            >
+                                                {interests.includes(interest) && <Check size={14} />}
+                                                {interest}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <button
+                                        type="button"
+                                        className="btn-bio-save"
+                                        style={{ marginTop: 16 }}
+                                        onClick={() => setIsSelectingInterests(false)}
+                                    >
+                                        Confirmar ({interests.length} selecionados)
+                                    </button>
+                                </div>
+                            ) : isSelectingType ? (
+                                <div className="profile-type-selector-view scale-in">
+                                    <div className="selector-header">
+                                        <button type="button" className="back-btn-icon" onClick={() => setIsSelectingType(false)}>
+                                            <ArrowLeft size={24} color="#0f172a" />
+                                        </button>
+                                        <div className="selector-search-bar">
+                                            <Search size={20} color="#64748b" className="search-icon-left" />
+                                            <input
+                                                type="text"
+                                                placeholder="Pesquisar tipo de perfil..."
+                                                value={searchTypeQuery}
+                                                onChange={(e) => setSearchTypeQuery(e.target.value)}
+                                                className="selector-search-input"
                                                 autoFocus
                                             />
                                         </div>
-                                        <div className="prompt-actions-row">
-                                            <div className="prompt-chars-count">
-                                                {imagePrompt.length}/100
-                                            </div>
-                                            <button 
-                                                className="btn-chatgpt-generate" 
+                                    </div>
+                                    <div className="selector-list">
+                                        {PROFILE_TYPES.filter(pt => pt.label.toLowerCase().includes(searchTypeQuery.toLowerCase())).map(pt => (
+                                            <button
+                                                key={pt.id}
                                                 type="button"
-                                                disabled={!imagePrompt.trim()}
+                                                className={`profile-type-option ${profileType === pt.label ? 'selected' : ''}`}
+                                                onClick={() => {
+                                                    setProfileType(pt.label);
+                                                    setIsSelectingType(false);
+                                                    setSearchTypeQuery('');
+                                                }}
                                             >
-                                                Gerar
+                                                <pt.icon size={22} className="pt-icon" strokeWidth={1.8} />
+                                                <span className="pt-label">{pt.label}</span>
+                                                {profileType === pt.label && <Check size={20} color="#0d9488" className="pt-check" />}
                                             </button>
-                                        </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : isEditingBio ? (
+                                <div className="bio-edit-view scale-in">
+                                    <div className="modal-input-group">
+                                        <label>Biografia</label>
+                                        <textarea
+                                            value={bio}
+                                            onChange={(e) => setBio(e.target.value)}
+                                            placeholder="Diga mais sobre você... (max 160 caracteres)"
+                                            className="modal-input modal-textarea"
+                                            maxLength={160}
+                                            autoFocus
+                                        />
+                                        <div className="bio-chars-count">{bio.length}/160</div>
+                                    </div>
+                                    <div className="bio-edit-actions">
+                                        <button
+                                            type="button"
+                                            className="btn-bio-save"
+                                            onClick={() => setIsEditingBio(false)}
+                                        >
+                                            Confirmar
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="btn-bio-cancel"
+                                            onClick={() => {
+                                                setBio(profile?.bio || '');
+                                                setIsEditingBio(false);
+                                            }}
+                                        >
+                                            Cancelar
+                                        </button>
                                     </div>
                                 </div>
                             ) : (
                                 <>
-                                    <div className="gallery-chips-row">
-                                        <button className="gallery-chip active">Tudo</button>
-                                        {PROFILE_TYPES.map(pt => (
-                                            <button key={pt.id} className="gallery-chip">
-                                                <pt.icon size={16} />
-                                                <span>{pt.label}</span>
+                                    {/* Left Column: Avatar */}
+                                    <div className="edit-profile-left">
+                                        <div className="avatar-edit-container">
+                                            <div className="avatar-preview">
+                                                {avatarPreview ? (
+                                                    <img src={avatarPreview} alt="Avatar" />
+                                                ) : (
+                                                    <div className="avatar-placeholder">
+                                                        {name ? name.charAt(0).toUpperCase() : 'U'}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <button
+                                                type="button"
+                                                className="avatar-upload-btn"
+                                                onClick={() => fileInputRef.current?.click()}
+                                                title="Alterar foto"
+                                            >
+                                                <Camera size={20} />
                                             </button>
-                                        ))}
+                                            <input
+                                                type="file"
+                                                ref={fileInputRef}
+                                                onChange={handleFileChange}
+                                                accept="image/*"
+                                                style={{ display: 'none' }}
+                                            />
+                                        </div>
                                     </div>
-                                    
-                                    <div className="gallery-grid">
-                                        {/* Map 100 mockup squares */}
-                                        {Array.from({ length: 100 }).map((_, i) => (
-                                            <div key={i} className="gallery-image-mockup"></div>
-                                        ))}
+
+                                    {/* Right Column: Inputs */}
+                                    <div className="edit-profile-right">
+                                        <form id="editProfileForm" onSubmit={handleSubmit}>
+                                            <div className="modal-input-group">
+                                                <label htmlFor="profileName">Nome Completo</label>
+                                                <input
+                                                    type="text"
+                                                    id="profileName"
+                                                    value={name}
+                                                    onChange={(e) => setName(e.target.value)}
+                                                    placeholder="O seu nome"
+                                                    className="modal-input"
+                                                    autoComplete="off"
+                                                />
+                                            </div>
+
+                                            <div className={`modal-input-group ${isUsernameValid === false ? 'has-error' : ''} ${isUsernameValid === true && username !== originalUsername ? 'has-success' : ''}`}>
+                                                <label htmlFor="profileUsername">Nome de Utilizador</label>
+                                                <div className="username-input-wrapper">
+                                                    <span className="username-prefix">@</span>
+                                                    <input
+                                                        type="text"
+                                                        id="profileUsername"
+                                                        value={username}
+                                                        onChange={(e) => setUsername(e.target.value.replace(/\s+/g, '').toLowerCase())}
+                                                        placeholder="nome_utilizador"
+                                                        className="modal-input with-prefix"
+                                                        autoComplete="off"
+                                                    />
+                                                    <div className="validation-status">
+                                                        {isCheckingUsername && <Loader2 size={16} className="status-icon loading-spin" />}
+                                                        {!isCheckingUsername && isUsernameValid === true && username !== originalUsername && (
+                                                            <Check size={16} className="status-icon success slide-in-icon" />
+                                                        )}
+                                                        {!isCheckingUsername && isUsernameValid === false && (
+                                                            <AlertCircle size={16} className="status-icon error shake-icon" />
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                <div className="validation-feedback">
+                                                    {isUsernameValid === false && <span className="error-text fade-in">Este nome não está disponível.</span>}
+                                                    {isUsernameValid === true && username !== originalUsername && <span className="success-text fade-in">Nome de utilizador disponível!</span>}
+                                                </div>
+                                            </div>
+
+                                            <div className="edit-bio-wrapper">
+                                                <button
+                                                    type="button"
+                                                    className="btn-edit-bio"
+                                                    onClick={() => setIsEditingBio(true)}
+                                                >
+                                                    {bio ? 'Editar Biografia' : 'Adicionar Biografia'}
+                                                </button>
+                                                {bio && (
+                                                    <p className="bio-preview-text">"{bio}"</p>
+                                                )}
+                                            </div>
+
+                                            <div className="modal-input-group">
+                                                <label>Tipo de Perfil</label>
+                                                <div
+                                                    className="modal-input profile-type-trigger"
+                                                    onClick={() => setIsSelectingType(true)}
+                                                >
+                                                    <span className={profileType ? 'value-set' : 'placeholder'}>
+                                                        {profileType || 'Selecionar tipo de viajante'}
+                                                    </span>
+                                                    <ChevronDown size={20} color="#64748b" />
+                                                </div>
+                                            </div>
+
+                                            <div className="modal-input-group">
+                                                <label>Interesses</label>
+                                                <button
+                                                    type="button"
+                                                    className="modal-input profile-type-trigger"
+                                                    onClick={() => setIsSelectingInterests(true)}
+                                                    style={{ textAlign: 'left' }}
+                                                >
+                                                    <span className={interests.length > 0 ? 'value-set' : 'placeholder'}>
+                                                        {interests.length > 0
+                                                            ? interests.slice(0, 3).join(', ') + (interests.length > 3 ? ` +${interests.length - 3}` : '')
+                                                            : 'Selecionar interesses'}
+                                                    </span>
+                                                    <ChevronDown size={20} color="#64748b" />
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </>
                             )}
                         </div>
-                    ) : (
-                        <>
-                            {/* Left Column: Avatar */}
-                            <div className="edit-profile-left">
-                                <div className="avatar-edit-container">
-                                    <div className="avatar-preview">
-                                        {avatar ? (
-                                            <img src={avatar} alt="Avatar" />
-                                        ) : (
-                                            <div className="avatar-placeholder">
-                                                {name ? name.charAt(0).toUpperCase() : 'U'}
-                                            </div>
-                                        )}
-                                    </div>
 
+                        {/* Error message */}
+                        {saveError && (
+                            <div style={{ padding: '0 24px', marginBottom: 8 }}>
+                                <p style={{ color: '#ef4444', fontSize: 13, margin: 0 }}>{saveError}</p>
+                            </div>
+                        )}
+
+                        {/* Footer */}
+                        {(!isSelectingType && !isEditingBio && !isSelectingInterests) && (
+                            <div className="edit-profile-footer">
+                                <div className="footer-left-actions">
                                     <button
-                                        type="button"
-                                        className="avatar-upload-btn"
-                                        onClick={triggerFileInput}
-                                        title="Alterar foto"
+                                        type="submit"
+                                        form="editProfileForm"
+                                        className="modal-btn-save"
+                                        disabled={isSaving || isUsernameValid === false}
                                     >
-                                        <Camera size={20} />
+                                        {isSaving ? (
+                                            <>
+                                                <Loader2 size={16} className="loading-spin" />
+                                                A guardar...
+                                            </>
+                                        ) : (
+                                            'Salvar Alterações'
+                                        )}
                                     </button>
-                                    <input
-                                        type="file"
-                                        ref={fileInputRef}
-                                        onChange={handleFileChange}
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                    />
                                 </div>
+                                <button type="button" className="modal-btn-cancel" onClick={onClose} disabled={isSaving}>
+                                    Cancelar
+                                </button>
                             </div>
-
-                            {/* Right Column: Inputs */}
-                            <div className="edit-profile-right">
-                                {isSelectingType ? (
-                                    <div className="profile-type-selector-view scale-in">
-                                        <div className="selector-header">
-                                            <button type="button" className="back-btn-icon" onClick={() => setIsSelectingType(false)}>
-                                                <ArrowLeft size={24} color="#0f172a" />
-                                            </button>
-                                            <div className="selector-search-bar">
-                                                <Search size={20} color="#64748b" className="search-icon-left" />
-                                                <input 
-                                                    type="text" 
-                                                    placeholder="Pesquisar tipo de perfil..." 
-                                                    value={searchTypeQuery}
-                                                    onChange={(e) => setSearchTypeQuery(e.target.value)}
-                                                    className="selector-search-input"
-                                                    autoFocus
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="selector-list">
-                                            {PROFILE_TYPES.filter(pt => pt.label.toLowerCase().includes(searchTypeQuery.toLowerCase())).map(pt => (
-                                                <button 
-                                                    key={pt.id} 
-                                                    type="button" 
-                                                    className={`profile-type-option ${profileType === pt.label ? 'selected' : ''}`}
-                                                    onClick={() => {
-                                                        setProfileType(pt.label);
-                                                        setIsSelectingType(false);
-                                                        setSearchTypeQuery('');
-                                                    }}
-                                                >
-                                                    <pt.icon size={22} className="pt-icon" strokeWidth={1.8} />
-                                                    <span className="pt-label">{pt.label}</span>
-                                                    {profileType === pt.label && <Check size={20} color="#0d9488" className="pt-check" />}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ) : isEditingBio ? (
-                                    <div className="bio-edit-view scale-in">
-                                        <div className="modal-input-group">
-                                            <textarea
-                                                value={bio}
-                                                onChange={(e) => setBio(e.target.value)}
-                                                placeholder="Sua biografia (Max 60 caracteres)..."
-                                                className="modal-input modal-textarea"
-                                                maxLength={60}
-                                                autoFocus
-                                            />
-                                            <div className="bio-chars-count">
-                                                {bio.length}/60
-                                            </div>
-                                        </div>
-                                        <div className="bio-edit-actions">
-                                            <button 
-                                                type="button" 
-                                                className="btn-bio-save"
-                                                disabled={bio === (userData?.bio || '')}
-                                                onClick={() => setIsEditingBio(false)}
-                                            >
-                                                Salvar
-                                            </button>
-                                            <button 
-                                                type="button" 
-                                                className="btn-bio-cancel"
-                                                onClick={() => {
-                                                    setBio(userData?.bio || '');
-                                                    setIsEditingBio(false);
-                                                }}
-                                            >
-                                                Cancelar
-                                            </button>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <form id="editProfileForm" onSubmit={handleSubmit}>
-                                        {/* Name Input */}
-                                        <div className="modal-input-group">
-                                            <label htmlFor="profileName">Nome Completo</label>
-                                            <input
-                                                type="text"
-                                                id="profileName"
-                                                value={name}
-                                                onChange={(e) => setName(e.target.value)}
-                                                placeholder="Nome Completo"
-                                                className="modal-input"
-                                                autoComplete="off"
-                                            />
-                                        </div>
-
-                                        {/* Username Input */}
-                                        <div className={`modal-input-group ${isUsernameValid === false ? 'has-error' : ''} ${isUsernameValid === true && username !== userData?.username ? 'has-success' : ''}`}>
-                                            <label htmlFor="profileUsername">Nome de Utilizador</label>
-                                            <div className="username-input-wrapper">
-                                                <span className="username-prefix">@</span>
-                                                <input
-                                                    type="text"
-                                                    id="profileUsername"
-                                                    value={username}
-                                                    onChange={(e) => setUsername(e.target.value.replace(/\s+/g, '').toLowerCase())}
-                                                    placeholder="Nome de Utilizador"
-                                                    className="modal-input with-prefix"
-                                                    autoComplete="off"
-                                                />
-
-                                                {/* Validation Icons Status */}
-                                                <div className="validation-status">
-                                                    {isCheckingUsername && <Loader2 size={16} className="status-icon loading-spin" />}
-                                                    {!isCheckingUsername && isUsernameValid === true && username !== userData?.username && (
-                                                        <Check size={16} className="status-icon success slide-in-icon" />
-                                                    )}
-                                                    {!isCheckingUsername && isUsernameValid === false && (
-                                                        <AlertCircle size={16} className="status-icon error shake-icon" />
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                            {/* Validation Feedback Text */}
-                                            <div className="validation-feedback">
-                                                {isUsernameValid === false && <span className="error-text fade-in">Este nome não está disponível.</span>}
-                                                {isUsernameValid === true && username !== userData?.username && <span className="success-text fade-in">Nome de utilizador disponível!</span>}
-                                            </div>
-                                        </div>
-                                        
-                                        {/* Bio Edit Button trigger replacing standard text-area */}
-                                        <div className="edit-bio-wrapper">
-                                            <button 
-                                                type="button" 
-                                                className="btn-edit-bio" 
-                                                onClick={() => setIsEditingBio(true)}
-                                            >
-                                                Editar Biografia
-                                            </button>
-                                        </div>
-                                        
-                                        {/* Profile Type Fake Input */}
-                                        <div className="modal-input-group">
-                                            <label>Tipo de Perfil</label>
-                                            <div 
-                                                className="modal-input profile-type-trigger" 
-                                                onClick={() => setIsSelectingType(true)}
-                                            >
-                                                <span className={profileType ? 'value-set' : 'placeholder'}>
-                                                    {profileType || 'Tipo de perfil'}
-                                                </span>
-                                                <ChevronDown size={20} color="#64748b" />
-                                            </div>
-                                        </div>
-                                    </form>
-                                )}
-                            </div>
-                        </>
-                    )}
-                </div>
-
-                {/* Footer Actions */}
-                {(!isWebImagesView && !isSelectingType && !isEditingBio) && (
-                    <div className="edit-profile-footer">
-                        <div className="footer-left-actions">
-                            <button type="submit" form="editProfileForm" className="modal-btn-save" disabled={isSaving || isUsernameValid === false || !name.trim() || !hasChanges}>
-                                {isSaving ? (
-                                    <>
-                                        <Loader2 size={16} className="loading-spin" />
-                                        A guardar...
-                                    </>
-                                ) : (
-                                    'Salvar Alterações'
-                                )}
-                            </button>
-                            <button 
-                                className="web-images-btn-footer" 
-                                type="button"
-                                onClick={() => setIsWebImagesView(true)}
-                            >
-                                Imagens da Web
-                            </button>
-                        </div>
-                        <button type="button" className="modal-btn-cancel" onClick={onClose} disabled={isSaving}>
-                            Cancelar
-                        </button>
-                    </div>
+                        )}
+                    </>
                 )}
-                </>)}
             </div>
         </div>
     );

@@ -119,6 +119,14 @@
         transition: transform 0.2s ease, color 0.2s;
     }
 
+    .sidebar-avatar-img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e2e8f0;
+    }
+
     .sidebar-nav-label {
         font-size: 19px; /* Increased from 17px */
         font-weight: 500;

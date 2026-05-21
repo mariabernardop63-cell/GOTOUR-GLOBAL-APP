@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { LayoutGrid, MapPinned, User, Rss } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigation } from '../../context/NavigationContext';
+import { useAuth } from '../../context/AuthContext';
 import homeIcon from '../../assets/images/home_icon.png';
 import './BottomNavBar.css';
 
@@ -28,22 +29,38 @@ const CustomIcon = ({ iconSrc, size, className }) => (
 const BottomNavBar = () => {
     const location = useLocation();
     const { setModalBackground, navigateFade } = useNavigation();
+    const { profile } = useAuth();
     const navRef = useRef(null);
     const itemRefs = useRef([]);
     const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+
+    const avatarUrl = profile?.avatar_url || null;
+
+    const ProfileIcon = ({ size, className, strokeWidth }) => {
+        if (avatarUrl) {
+            return (
+                <img
+                    src={avatarUrl}
+                    alt="Perfil"
+                    className={`nav-avatar-img ${className || ''}`}
+                    style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover' }}
+                />
+            );
+        }
+        return <User size={size} className={className} strokeWidth={strokeWidth} />;
+    };
 
     const navItems = [
         { id: 'home',       label: 'Home',      icon: (props) => <CustomIcon iconSrc={homeIcon} {...props} />, path: '/home', customSize: 40 },
         { id: 'categories', label: 'Categorias', icon: LayoutGrid, path: '/categories' },
         { id: 'feed',       label: 'Feed',       icon: Rss, path: '/feed' },
         { id: 'map',        label: 'Mapa',       icon: MapPinned, path: '/map' },
-        { id: 'profile',    label: 'Perfil',     icon: User, path: '/profile', customSize: 30 },
+        { id: 'profile',    label: 'Perfil',     icon: ProfileIcon, path: '/profile', customSize: 30 },
     ];
 
     const isActive = (path) => location.pathname === path || (path === '/home' && location.pathname === '/');
     const activeIndex = navItems.findIndex(item => isActive(item.path));
 
-    // Compute sliding indicator position from the active item's DOM position
     useEffect(() => {
         const nav = navRef.current;
         const el = itemRefs.current[activeIndex];
@@ -57,11 +74,8 @@ const BottomNavBar = () => {
         setIndicatorStyle({ left: left - width / 2, width });
     }, [activeIndex, location.pathname]);
 
-    const isMapPage = location.pathname === '/map';
-
     return (
         <nav className="bottom-nav" ref={navRef}>
-            {/* Sliding indicator line — always rendered, slides between tabs */}
             <motion.div
                 className="nav-slide-bar"
                 animate={{ left: indicatorStyle.left, width: indicatorStyle.width }}
