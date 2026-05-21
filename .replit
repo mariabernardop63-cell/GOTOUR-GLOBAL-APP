@@ -59,3 +59,9 @@ externalPort = 3000
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+VITE_SUPABASE_URL = "https://acfzjkqvdakwhnhqfcxz.supabase.co"
+VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjZnpqa3F2ZGFrd2huaHFmY3h6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzExNTgxNzEsImV4cCI6MjA4NjczNDE3MX0.f_QH7X8Ao9n169bzndaI9RmnH4SqqKKKc5sE8torMjI"
