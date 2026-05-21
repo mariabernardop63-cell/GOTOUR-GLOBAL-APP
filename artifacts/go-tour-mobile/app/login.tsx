@@ -45,7 +45,7 @@ export default function LoginScreen() {
     if (error) {
       setError("Email ou palavra-passe incorrectos.");
     } else {
-      router.replace("/(tabs)/");
+      router.replace("/(tabs)/" as any);
     }
   };
 

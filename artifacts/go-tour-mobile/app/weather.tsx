@@ -59,7 +59,7 @@ export default function WeatherScreen() {
           <Text style={styles.heroCondition}>{selected.condition}</Text>
           <View style={styles.heroStats}>
             {[
-              { icon: "droplets" as const, label: "Humidade", value: `${selected.humidity}%` },
+              { icon: "droplet" as const, label: "Humidade", value: `${selected.humidity}%` },
               { icon: "wind" as const, label: "Vento", value: `${selected.wind} km/h` },
               { icon: "thermometer" as const, label: "Sensação", value: `${selected.feels}°C` },
             ].map((s) => (

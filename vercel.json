@@ -1,0 +1,9 @@
+{
+  "buildCommand": "pnpm install && pnpm --filter @workspace/go-tour run build",
+  "outputDirectory": "artifacts/go-tour/dist/public",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "env": {
+    "BASE_PATH": "/"
+  }
+}
