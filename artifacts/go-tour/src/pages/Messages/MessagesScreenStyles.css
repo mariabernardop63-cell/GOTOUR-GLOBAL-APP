@@ -16,8 +16,8 @@
 }
 
 .messages-ws-layout {
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  inset: 0;
   background-color: var(--ws-bg);
   display: flex;
   align-items: center;
@@ -25,6 +25,8 @@
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   padding: 24px;
+  z-index: 500;
+  box-sizing: border-box;
 }
 
 /* For mobile, we strip the window padding */

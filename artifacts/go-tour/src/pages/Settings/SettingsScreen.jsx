@@ -11,7 +11,7 @@ import {
     Compass, MapPinned, Tent, GraduationCap, Laptop,
     Phone, Calendar, Users, Languages,
     MessageCircle, Play, Smartphone, History, ShieldAlert, Database,
-    Check, Loader2
+    Check, Loader2, Star, X, Plus
 } from 'lucide-react';
 import './SettingsScreen.css';
 
@@ -31,6 +31,7 @@ const SETTINGS_OPTIONS = [
     { id: 'edit_name', label: 'Nome Exibido', category: 'profile', keywords: ['nome', 'exibido', 'nome completo', 'apelido', 'identificação'] },
     { id: 'edit_profile_type', label: 'Tipo de Perfil', category: 'profile', keywords: ['tipo', 'perfil', 'turista', 'explorador', 'viagem', 'viajante', 'estudante', 'mochileiro'] },
     { id: 'edit_nationality', label: 'Nacionalidade', category: 'profile', keywords: ['nacionalidade', 'país', 'origem', 'nação', 'estado', 'pátria'] },
+    { id: 'edit_interests', label: 'Interesses', category: 'profile', keywords: ['interesses', 'interesse', 'cultura', 'música', 'turismo', 'preferências', 'actividades', 'desporto', 'gastronomia'] },
 
     { id: 'edit_email', label: 'Endereço de Email', category: 'account', keywords: ['email', 'e-mail', 'correio', 'eletrónico', 'contato', 'mail'] },
     { id: 'edit_phone', label: 'Número de Celular', category: 'account', keywords: ['número', 'celular', 'telemóvel', 'telefone', 'sms', 'contacto'] },
@@ -70,6 +71,8 @@ const SettingsScreen = () => {
     const [editNationality, setEditNationality] = useState('');
     const [editProfileType, setEditProfileType] = useState('');
     const [editDob, setEditDob] = useState('');
+    const [editInterests, setEditInterests] = useState([]);
+    const [interestInput, setInterestInput] = useState('');
     const [pwdNew, setPwdNew] = useState('');
     const [pwdConfirm, setPwdConfirm] = useState('');
     const [showPwd, setShowPwd] = useState(false);
@@ -88,6 +91,7 @@ const SettingsScreen = () => {
             setEditNationality(profile.nationality || '');
             setEditProfileType(profile.category || '');
             setEditDob(profile.date_of_birth || '');
+            setEditInterests(Array.isArray(profile.interests) ? profile.interests : []);
         }
     }, [profile]);
 
@@ -280,6 +284,20 @@ const SettingsScreen = () => {
                                     <div className="settings-option-text">
                                         <h3>Nacionalidade</h3>
                                         <p>{displayNationality}</p>
+                                    </div>
+                                </div>
+                                <ChevronRight size={20} className="settings-chevron" />
+                            </div>
+
+                            <div
+                                className={`settings-option-card ${activeSetting === 'edit_interests' ? 'active' : ''}`}
+                                onClick={() => setActiveSetting('edit_interests')}
+                            >
+                                <div className="settings-option-info">
+                                    <div className="settings-option-icon"><Star size={20} /></div>
+                                    <div className="settings-option-text">
+                                        <h3>Interesses</h3>
+                                        <p>{editInterests.length > 0 ? `${editInterests.length} interesse${editInterests.length > 1 ? 's' : ''} definido${editInterests.length > 1 ? 's' : ''}` : 'Nenhum interesse configurado'}</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={20} className="settings-chevron" />
@@ -777,6 +795,113 @@ const SettingsScreen = () => {
                     </div>
                 );
             }
+
+            case 'edit_interests': {
+                const SUGGESTED_INTERESTS = [
+                    'Praia', 'Montanha', 'Safari', 'Gastronomia', 'Fotografia',
+                    'Mergulho', 'Senderismo', 'Cultura Local', 'Museus', 'Vida Selvagem',
+                    'Desportos Aquáticos', 'Campismo', 'Arquitetura', 'Música', 'Dança',
+                    'Culinária', 'Compras', 'Aventura', 'Ecoturismo', 'Relaxamento'
+                ];
+
+                const addInterest = (interest) => {
+                    const trimmed = interest.trim();
+                    if (!trimmed || editInterests.includes(trimmed)) return;
+                    setEditInterests(prev => [...prev, trimmed]);
+                    setInterestInput('');
+                };
+
+                const removeInterest = (interest) => {
+                    setEditInterests(prev => prev.filter(i => i !== interest));
+                };
+
+                return (
+                    <div className="settings-dynamic-editor animated-slide-left">
+                        <h3>Interesses</h3>
+                        <p className="editor-subtitle">Adiciona os teus interesses para conectar com viajantes com gostos semelhantes.</p>
+
+                        <SaveFeedback />
+
+                        <div className="editor-form">
+                            <div className="form-group">
+                                <label>Adicionar interesse</label>
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    <input
+                                        type="text"
+                                        className="settings-input"
+                                        placeholder="Ex: Mergulho, Safari..."
+                                        value={interestInput}
+                                        onChange={e => setInterestInput(e.target.value)}
+                                        onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addInterest(interestInput); } }}
+                                        style={{ flex: 1 }}
+                                    />
+                                    <button
+                                        className="btn-primary"
+                                        onClick={() => addInterest(interestInput)}
+                                        style={{ padding: '10px 16px', flexShrink: 0 }}
+                                    >
+                                        <Plus size={16} />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {editInterests.length > 0 && (
+                                <div className="form-group">
+                                    <label>Os teus interesses</label>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                        {editInterests.map((interest, idx) => (
+                                            <span
+                                                key={idx}
+                                                style={{
+                                                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                                                    background: '#EEF2FF', color: '#4F46E5',
+                                                    padding: '6px 12px', borderRadius: '20px',
+                                                    fontSize: '13px', fontWeight: 600
+                                                }}
+                                            >
+                                                {interest}
+                                                <button
+                                                    onClick={() => removeInterest(interest)}
+                                                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6366F1', display: 'flex', padding: 0 }}
+                                                >
+                                                    <X size={14} />
+                                                </button>
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="form-group">
+                                <label>Sugestões</label>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                    {SUGGESTED_INTERESTS.filter(s => !editInterests.includes(s)).map((s, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => addInterest(s)}
+                                            style={{
+                                                background: '#F8FAFC', border: '1px solid #E2E8F0',
+                                                borderRadius: '20px', padding: '6px 12px',
+                                                fontSize: '12px', color: '#475569', cursor: 'pointer',
+                                                display: 'flex', alignItems: 'center', gap: '4px',
+                                                fontWeight: 500, transition: 'all 0.15s'
+                                            }}
+                                        >
+                                            <Plus size={12} /> {s}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="editor-actions" style={{ marginTop: '24px' }}>
+                            <SaveBtn onClick={() => saveField({ interests: editInterests }, 'Interesses guardados!')} label="Guardar Interesses" />
+                            <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Cancelar</button>
+                        </div>
+                    </div>
+                );
+            }
+
 
             case 'edit_email':
                 return (

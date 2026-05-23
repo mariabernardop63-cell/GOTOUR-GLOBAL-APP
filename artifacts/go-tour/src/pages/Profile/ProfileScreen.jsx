@@ -10,6 +10,7 @@ import {
 import { useNavigation } from '../../context/NavigationContext';
 import { useAuth } from '../../context/AuthContext';
 import { getDisplayName, getUsername, uploadCover, uploadAvatarFromBlob, upsertProfile } from '../../lib/profileService';
+import { friendsService } from '../../lib/friendsService';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import HomeHeader from '../../components/HomeHeader/HomeHeader';
@@ -36,6 +37,9 @@ const ProfileScreen = ({ isModal = false }) => {
     const filterRef = useRef(null);
     const coverInputRef = useRef(null);
 
+    const [friendCount, setFriendCount] = useState(0);
+    const [friendsList, setFriendsList] = useState([]);
+
     const { user: authUser, profile, profileLoading, refreshProfile, signOut } = useAuth();
 
     const displayName = isMe
@@ -47,10 +51,32 @@ const ProfileScreen = ({ isModal = false }) => {
         : (friendData?.username ? `@${friendData.username}` : '@utilizador');
 
     const bio = isMe ? (profile?.bio || null) : (friendData?.bio || null);
-    const avatarUrl = isMe ? (profile?.avatar_url || null) : (friendData?.avatar_url || null);
+    const avatarUrl = isMe
+        ? (profile?.avatar_url || null)
+        : (friendData?.avatar_url || friendData?.avatar || null);
     const coverUrl = isMe ? (profile?.cover_url || null) : (friendData?.cover_url || null);
     const category = isMe ? (profile?.category || null) : (friendData?.category || null);
     const interests = isMe ? (profile?.interests || []) : (friendData?.interests || []);
+
+    // Lock body scroll on desktop when profile modal is open
+    useEffect(() => {
+        const isDesktop = window.innerWidth >= 1025;
+        if (isDesktop) {
+            document.body.style.overflow = 'hidden';
+            return () => { document.body.style.overflow = ''; };
+        }
+    }, []);
+
+    // Load real friends data
+    useEffect(() => {
+        if (!isMe || !authUser?.id) return;
+        friendsService.getFriends(authUser.id)
+            .then(data => {
+                setFriendCount(data.length);
+                setFriendsList(data);
+            })
+            .catch(err => console.error('Error loading friends for profile:', err));
+    }, [authUser?.id, isMe]);
 
     const handleSignOut = async () => {
         try {
@@ -103,6 +129,24 @@ const ProfileScreen = ({ isModal = false }) => {
 
     const FILTERS = ['Tudo', 'Publicações', 'Coleções', 'Visitar Depois', 'Favorito'];
 
+    const FriendAvatarItem = ({ friend }) => {
+        const initials = (friend.name || 'U').split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+        return (
+            <button
+                className="friends-widget-item"
+                onClick={() => navigate('/profile', { state: { user: friend } })}
+                title={friend.name}
+            >
+                {friend.avatar ? (
+                    <img src={friend.avatar} alt={friend.name} className="friends-widget-avatar" />
+                ) : (
+                    <div className="friends-widget-avatar friends-widget-initials">{initials}</div>
+                )}
+                <span className="friends-widget-name">{friend.name?.split(' ')[0] || 'Amigo'}</span>
+            </button>
+        );
+    };
+
     return (
         <div className="profile-layout-root">
             <button className="profile-close-btn modal-desktop desktop-only" onClick={handleClose} aria-label="Fechar">
@@ -143,7 +187,6 @@ const ProfileScreen = ({ isModal = false }) => {
                                             <div className="cover-gradient" />
                                         )}
 
-                                        {/* Edit Profile Button */}
                                         {isMe && (
                                             <button
                                                 className="profile-cover-edit-btn"
@@ -154,7 +197,6 @@ const ProfileScreen = ({ isModal = false }) => {
                                             </button>
                                         )}
 
-                                        {/* Camera button for cover change */}
                                         {isMe && (
                                             <>
                                                 <button
@@ -179,7 +221,6 @@ const ProfileScreen = ({ isModal = false }) => {
                                             </>
                                         )}
 
-                                        {/* Avatar & Info */}
                                         <div className="profile-cover-overlay-info">
                                             <div className="profile-cover-avatar">
                                                 {avatarUrl ? (
@@ -205,7 +246,7 @@ const ProfileScreen = ({ isModal = false }) => {
                                             <div className="stat-active-indicator" />
                                         </div>
                                         <div className="profile-stat-box">
-                                            <span className="stat-number">0</span>
+                                            <span className="stat-number">{isMe ? friendCount : 0}</span>
                                             <span className="stat-label">Amigos</span>
                                         </div>
                                         <div className="profile-stat-box">
@@ -333,7 +374,6 @@ const ProfileScreen = ({ isModal = false }) => {
                                         )}
                                     </div>
 
-                                    {/* Location & Category — only if set */}
                                     {(category) && (
                                         <div className="widget-info-list">
                                             {category && (
@@ -361,7 +401,10 @@ const ProfileScreen = ({ isModal = false }) => {
                                     <div className="widget-header">
                                         <h3 className="widget-title">Interesses</h3>
                                         {isMe && interests.length > 0 && (
-                                            <button className="widget-more-btn" onClick={() => setIsEditModalOpen(true)}>
+                                            <button
+                                                className="widget-more-btn"
+                                                onClick={() => navigate('/settings', { state: { openSetting: 'edit_interests' } })}
+                                            >
                                                 <Pencil size={16} />
                                             </button>
                                         )}
@@ -375,7 +418,10 @@ const ProfileScreen = ({ isModal = false }) => {
                                             </div>
                                         ) : (
                                             isMe ? (
-                                                <button className="add-interest-btn" onClick={() => setIsEditModalOpen(true)}>
+                                                <button
+                                                    className="add-interest-btn"
+                                                    onClick={() => navigate('/settings', { state: { openSetting: 'edit_interests' } })}
+                                                >
                                                     <Plus size={16} /> Configurar interesses
                                                 </button>
                                             ) : (
@@ -388,20 +434,33 @@ const ProfileScreen = ({ isModal = false }) => {
                                 {/* FRIENDS WIDGET */}
                                 <div className="profile-widget">
                                     <div className="widget-header">
-                                        <h3 className="widget-title">Amigos</h3>
+                                        <h3 className="widget-title">Amigos {isMe && friendCount > 0 && <span className="widget-count">({friendCount})</span>}</h3>
+                                        {isMe && friendsList.length > 0 && (
+                                            <button className="widget-link-btn" onClick={() => navigateFade('/friends')}>
+                                                Ver todos
+                                            </button>
+                                        )}
                                     </div>
                                     <div className="widget-body">
-                                        <div className="friends-empty-state">
-                                            <Users size={32} color="#cbd5e1" />
-                                            <p className="friends-empty-text">Ainda não tem amigos adicionados</p>
-                                            <button
-                                                className="add-friends-btn"
-                                                onClick={() => navigateFade('/friends')}
-                                            >
-                                                <UserPlus size={16} />
-                                                <span>Adicionar Amigos</span>
-                                            </button>
-                                        </div>
+                                        {isMe && friendsList.length > 0 ? (
+                                            <div className="friends-widget-grid">
+                                                {friendsList.slice(0, 6).map(friend => (
+                                                    <FriendAvatarItem key={friend.id} friend={friend} />
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div className="friends-empty-state">
+                                                <Users size={32} color="#cbd5e1" />
+                                                <p className="friends-empty-text">Ainda não tem amigos adicionados</p>
+                                                <button
+                                                    className="add-friends-btn"
+                                                    onClick={() => navigateFade('/friends')}
+                                                >
+                                                    <UserPlus size={16} />
+                                                    <span>Adicionar Amigos</span>
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 

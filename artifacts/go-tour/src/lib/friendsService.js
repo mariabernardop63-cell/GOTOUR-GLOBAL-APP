@@ -9,6 +9,35 @@ import { supabase } from './supabase';
  * A sent request is status = 'pending' and current user is requester.
  */
 
+async function createNotification({ userId, actorId, type, title, body, entityId }) {
+    try {
+        await supabase.from('notifications').insert({
+            user_id: userId,
+            actor_id: actorId,
+            type,
+            title,
+            body,
+            entity_id: entityId || null,
+            is_read: false,
+        });
+    } catch (err) {
+        console.warn('Notification insert failed (non-critical):', err);
+    }
+}
+
+async function getActorName(actorId) {
+    try {
+        const { data } = await supabase
+            .from('profiles')
+            .select('name')
+            .eq('id', actorId)
+            .single();
+        return data?.name || 'Alguém';
+    } catch {
+        return 'Alguém';
+    }
+}
+
 export const friendsService = {
 
     async getFriends(userId) {
@@ -92,7 +121,6 @@ export const friendsService = {
     },
 
     async getSuggestions(userId, searchTerm = '') {
-        // Get IDs of users already in a friendship relationship (any status)
         const { data: existing } = await supabase
             .from('friendships')
             .select('requester_id, addressee_id')
@@ -137,14 +165,36 @@ export const friendsService = {
                 status: 'pending'
             });
         if (error) throw error;
+
+        const actorName = await getActorName(senderId);
+        await createNotification({
+            userId: receiverId,
+            actorId: senderId,
+            type: 'friend_request',
+            title: 'Novo pedido de amizade',
+            body: `${actorName} enviou-te um pedido de amizade.`,
+            entityId: senderId,
+        });
     },
 
-    async acceptFriendRequest(requestId) {
+    async acceptFriendRequest(requestId, requesterId, currentUserId) {
         const { error } = await supabase
             .from('friendships')
             .update({ status: 'accepted', updated_at: new Date().toISOString() })
             .eq('id', requestId);
         if (error) throw error;
+
+        if (requesterId && currentUserId) {
+            const actorName = await getActorName(currentUserId);
+            await createNotification({
+                userId: requesterId,
+                actorId: currentUserId,
+                type: 'friend_accepted',
+                title: 'Pedido de amizade aceite',
+                body: `${actorName} aceitou o teu pedido de amizade.`,
+                entityId: currentUserId,
+            });
+        }
     },
 
     async rejectFriendRequest(requestId) {

@@ -65,6 +65,7 @@
   scrollbar-color: rgba(59, 130, 246, 0.35) transparent;
   padding-right: 0;
   margin-right: 0;
+  scrollbar-gutter: stable;
 }
 
 /* Custom Scrollbar — Webkit */
@@ -548,15 +549,6 @@
   color: var(--profile-text-sub);
 }
 
-.widget-link-btn {
-  background: none;
-  border: none;
-  color: var(--profile-accent);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
 .widget-body {
   margin-bottom: 8px;
 }
@@ -673,6 +665,82 @@
   color: var(--profile-accent);
 }
 
+/* Friends widget grid */
+.friends-widget-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.friends-widget-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 4px;
+  border-radius: 10px;
+  transition: background 0.15s;
+  width: 100%;
+}
+
+.friends-widget-item:hover {
+  background: #F1F5F9;
+}
+
+.friends-widget-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.friends-widget-initials {
+  background: linear-gradient(135deg, #3B82F6, #2563EB);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.friends-widget-name {
+  font-size: 11px;
+  color: var(--profile-text-sub);
+  font-weight: 500;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 64px;
+  width: 100%;
+}
+
+.widget-count {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--profile-text-light);
+}
+
+.widget-link-btn {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--profile-accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 0;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.widget-link-btn:hover {
+  opacity: 0.7;
+}
+
 /* Friends empty state */
 .friends-empty-state {
   display: flex;
@@ -778,7 +846,7 @@
   }
 
   .profile-grid-layout {
-    padding: 24px 16px 40px 40px;
+    padding: 24px 0 40px 40px;
   }
 
   .mobile-only {

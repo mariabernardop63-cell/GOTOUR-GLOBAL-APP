@@ -105,7 +105,7 @@ const FriendsScreen = () => {
     // ── Actions ──
     const acceptRequest = async (req) => {
         try {
-            await friendsService.acceptFriendRequest(req.id);
+            await friendsService.acceptFriendRequest(req.id, req.senderId, user.id);
             setRequestsReceived(prev => prev.filter(r => r.id !== req.id));
             setFriends(prev => [...prev, {
                 id: req.senderId,
