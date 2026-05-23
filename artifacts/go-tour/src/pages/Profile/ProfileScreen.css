@@ -63,8 +63,8 @@
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: rgba(59, 130, 246, 0.35) transparent;
-  /* Push scrollbar further right by adding padding-right */
-  padding-right: 4px;
+  padding-right: 0;
+  margin-right: 0;
 }
 
 /* Custom Scrollbar — Webkit */
@@ -95,7 +95,7 @@
   grid-template-columns: 1fr 320px;
   gap: 24px;
   align-items: start;
-  padding: 24px 16px 40px 40px;
+  padding: 24px 32px 40px 40px;
 }
 
 @media (max-width: 968px) {

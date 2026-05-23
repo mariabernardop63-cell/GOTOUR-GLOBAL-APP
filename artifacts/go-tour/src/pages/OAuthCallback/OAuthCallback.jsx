@@ -52,10 +52,12 @@ const OAuthCallback = () => {
                     console.log('OAuth Callback: Registration complete, redirecting to home');
                     navigate('/home');
                 } else {
-                    console.log('OAuth Callback: Registration incomplete, redirecting to signup state');
+                    console.log('OAuth Callback: Registration incomplete, redirecting to profile completion');
                     navigate('/signup', {
+                        replace: true,
                         state: {
                             requireProfileCompletion: true,
+                            isOAuthFlow: true,
                             email: user.email,
                             fullName: user.user_metadata?.full_name || user.user_metadata?.name || user.user_metadata?.custom_claims?.full_name || ''
                         }

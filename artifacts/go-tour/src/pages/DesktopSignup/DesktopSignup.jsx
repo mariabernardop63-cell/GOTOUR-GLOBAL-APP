@@ -262,20 +262,26 @@ const DesktopSignup = ({ onBack, onNavigateLogin }) => {
                     dateOfBirth: `${formData.dobYear}-${String(formData.dobMonth).padStart(2, '0')}-${String(formData.dobDay).padStart(2, '0')}`
                 };
 
-                // If user is coming from Google OAuth, skip OTP because email is verified
+                // If user is coming from Google OAuth, skip OTP & password — go directly to select-country
                 if (isOAuthFlow) {
-                    // Update their profile in Supabase database
                     const { data: sessionData } = await supabase.auth.getSession();
                     if (sessionData?.session?.user) {
-                        await supabase.from('profiles').update({
+                        const uid = sessionData.session.user.id;
+                        await supabase.from('profiles').upsert({
+                            id: uid,
+                            name: formData.fullName || sessionData.session.user.user_metadata?.full_name || null,
                             phone: fullPhone,
-                            nationality: formData.nationality
-                        }).eq('id', sessionData.session.user.id);
+                            nationality: formData.nationality,
+                            date_of_birth: profileData.dateOfBirth || null,
+                            updated_at: new Date().toISOString()
+                        });
+                        await supabase.auth.updateUser({
+                            data: { full_signup_completed: true }
+                        });
                     }
-
-                    localStorage.setItem('pendingProfileData', JSON.stringify(profileData));
-                    setStep(4);
+                    localStorage.removeItem('pendingProfileData');
                     setIsLoading(false);
+                    navigateForward('/select-country');
                     return;
                 }
 

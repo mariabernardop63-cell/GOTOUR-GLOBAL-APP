@@ -69,6 +69,7 @@ const SettingsScreen = () => {
     const [editPhone, setEditPhone] = useState('');
     const [editNationality, setEditNationality] = useState('');
     const [editProfileType, setEditProfileType] = useState('');
+    const [editDob, setEditDob] = useState('');
     const [pwdNew, setPwdNew] = useState('');
     const [pwdConfirm, setPwdConfirm] = useState('');
     const [showPwd, setShowPwd] = useState(false);
@@ -86,6 +87,7 @@ const SettingsScreen = () => {
             setEditPhone(profile.phone || '');
             setEditNationality(profile.nationality || '');
             setEditProfileType(profile.category || '');
+            setEditDob(profile.date_of_birth || '');
         }
     }, [profile]);
 
@@ -613,7 +615,7 @@ const SettingsScreen = () => {
                         <div className="editor-avatar-preview-container">
                             <div className="editor-avatar-preview">
                                 {profile?.avatar_url ? (
-                                    <img src={profile.avatar_url} alt="Avatar Preview" />
+                                    <img src={profile.avatar_url} alt="Avatar Preview" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
                                 ) : (
                                     <User size={64} className="editor-avatar-placeholder" />
                                 )}
@@ -836,16 +838,24 @@ const SettingsScreen = () => {
                         <h3>Data de Nascimento</h3>
                         <p className="editor-subtitle">Garante que tens a idade adequada para aceder a certas funcionalidades.</p>
 
+                        <SaveFeedback />
+
                         <div className="editor-form">
                             <div className="form-group">
                                 <label>Dia / Mês / Ano</label>
-                                <input type="date" defaultValue={profile?.date_of_birth || ''} className="settings-input" style={{ cursor: 'pointer' }} />
+                                <input
+                                    type="date"
+                                    value={editDob}
+                                    onChange={e => setEditDob(e.target.value)}
+                                    className="settings-input"
+                                    style={{ cursor: 'pointer' }}
+                                />
                                 <span className="input-hint">A tua data de nascimento não será exibida publicamente.</span>
                             </div>
                         </div>
 
                         <div className="editor-actions">
-                            <button className="btn-primary">Guardar Alteração</button>
+                            <SaveBtn onClick={() => saveField({ date_of_birth: editDob }, 'Data de nascimento guardada!')} label="Guardar Alteração" />
                             <button className="btn-secondary" onClick={() => setActiveSetting(null)}>Cancelar</button>
                         </div>
                     </div>

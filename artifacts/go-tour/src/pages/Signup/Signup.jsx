@@ -191,21 +191,25 @@ const Signup = () => {
                 const redirectUrl = window.location.origin + '/create-password';
 
                 if (isOAuthFlow) {
-                    // Update their profile in Supabase database
+                    // Update their profile in Supabase database with all signup data
                     const { data: sessionData } = await supabase.auth.getSession();
                     if (sessionData?.session?.user) {
-                        await supabase.from('profiles').update({
+                        const uid = sessionData.session.user.id;
+                        await supabase.from('profiles').upsert({
+                            id: uid,
+                            name: formData.fullName || sessionData.session.user.user_metadata?.full_name || null,
                             phone: fullPhone,
-                            nationality: formData.nationality
-                        }).eq('id', sessionData.session.user.id);
+                            nationality: formData.nationality,
+                            date_of_birth: profileData.dateOfBirth || null,
+                            updated_at: new Date().toISOString()
+                        });
+                        // Mark signup as complete so OAuthCallback doesn't redirect again
+                        await supabase.auth.updateUser({
+                            data: { full_signup_completed: true }
+                        });
                     }
-                    navigateForward('/create-password', {
-                        state: {
-                            email: formData.email,
-                            flow: 'signup-oauth',
-                            profileData: profileData
-                        }
-                    });
+                    // Skip password screen — go directly to select-country
+                    navigateForward('/select-country');
                     setIsLoading(false);
                     return;
                 }

@@ -113,11 +113,11 @@ const DesktopCreatePassword = () => {
                     if (user) {
                         supabase.from('profiles').upsert({
                             id: user.id,
-                            full_name: profileData.fullName || null,
+                            name: profileData.fullName || null,
                             nationality: profileData.nationality || null,
                             phone: profileData.phone || user.phone || null,
                             date_of_birth: profileData.dateOfBirth || null,
-                            created_at: new Date().toISOString()
+                            updated_at: new Date().toISOString()
                         }).then(({ error: profileError }) => {
                             if (profileError) console.error('Profile save error:', profileError);
                         }).catch(err => console.error('Profile network err:', err));

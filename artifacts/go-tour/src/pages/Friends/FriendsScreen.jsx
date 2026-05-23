@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Users, Search, UserPlus, Filter, Check, X, MessageCircle,
@@ -6,68 +6,90 @@ import {
     ChevronDown, MapPin, Compass, Globe
 } from 'lucide-react';
 import { useNavigation } from '../../context/NavigationContext';
+import { useAuth } from '../../context/AuthContext';
+import { friendsService } from '../../lib/friendsService';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import HomeHeader from '../../components/HomeHeader/HomeHeader';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
 import '../../components/HomeHeader/HomeFixedHeaderStyles.css';
 import './FriendsScreenStyles.css';
 
-// ── MOCK DATA ──────────────────────────────────────────────
-
-const MOCK_FRIENDS = [
-    { id: 1, name: 'Ana Silva', username: '@anasilva', avatar: 'https://i.pravatar.cc/150?u=ana', online: true, location: 'Lisboa, Portugal', type: 'Exploradora', interests: ['Fotografia', 'Gastronomia', 'Trekking'], mutualFriends: 8, isFavorite: true },
-    { id: 2, name: 'João Paulo', username: '@joaopaulo', avatar: 'https://i.pravatar.cc/150?u=joao', online: true, location: 'Maputo, Moçambique', type: 'Viajante', interests: ['Praia', 'Surf', 'Música'], mutualFriends: 15, isFavorite: false },
-    { id: 3, name: 'Mariana Costa', username: '@marianacosta', avatar: 'https://i.pravatar.cc/150?u=mariana', online: false, location: 'São Paulo, Brasil', type: 'Exploradora', interests: ['Cultura', 'Arte', 'Culinária'], mutualFriends: 5, isFavorite: true },
-    { id: 4, name: 'Sofia Lopes', username: '@sofialopes', avatar: 'https://i.pravatar.cc/150?u=sofia', online: false, location: 'Porto, Portugal', type: 'Aventureira', interests: ['Montanha', 'Rapel', 'Camping'], mutualFriends: 3, isFavorite: false },
-    { id: 5, name: 'Pedro Almeida', username: '@pedroalmeida', avatar: 'https://i.pravatar.cc/150?u=pedro', online: true, location: 'Luanda, Angola', type: 'Viajante', interests: ['Fotografia', 'História', 'Natureza'], mutualFriends: 11, isFavorite: false },
-];
-
-const MOCK_REQUESTS_RECEIVED = [
-    { id: 101, name: 'Carlos Mendes', username: '@carlosmendes', avatar: 'https://i.pravatar.cc/150?u=carlos', date: 'Há 2 horas', mutualFriends: 12, type: 'Fotógrafo' },
-    { id: 102, name: 'Beatriz Fernandes', username: '@beatrizf', avatar: 'https://i.pravatar.cc/150?u=beatriz', date: 'Ontem', mutualFriends: 4, type: 'Exploradora' },
-];
-
-const MOCK_REQUESTS_SENT = [
-    { id: 201, name: 'Ricardo Nunes', username: '@ricardonunes', avatar: 'https://i.pravatar.cc/150?u=ricardo', status: 'pending', date: 'Há 3 dias' },
-    { id: 202, name: 'Inês Martins', username: '@inesmartins', avatar: 'https://i.pravatar.cc/150?u=ines', status: 'pending', date: 'Há 1 semana' },
-];
-
-const MOCK_SUGGESTIONS = [
-    { id: 301, name: 'Miguel Santos', username: '@miguelsantos', avatar: 'https://i.pravatar.cc/150?u=miguel', mutualFriends: 7, location: 'Beira, Moçambique', interests: ['Mergulho', 'Fotografia'] },
-    { id: 302, name: 'Catarina Oliveira', username: '@catarinao', avatar: 'https://i.pravatar.cc/150?u=catarina', mutualFriends: 3, location: 'Cascais, Portugal', interests: ['Surf', 'Yoga'] },
-    { id: 303, name: 'Lucas Ferreira', username: '@lucasf', avatar: 'https://i.pravatar.cc/150?u=lucas', mutualFriends: 9, location: 'Rio de Janeiro, Brasil', interests: ['Trilhas', 'Escalada'] },
-];
-
-const FILTERS = ['Todos', 'Online', 'Recentes', 'Favoritos'];
+const FILTERS = ['Todos', 'Recentes', 'Favoritos'];
 
 // ── COMPONENT ──────────────────────────────────────────────
 
 const FriendsScreen = () => {
     const navigate = useNavigate();
     const { navigateBack } = useNavigation();
+    const { user } = useAuth();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState('Todos');
-    const [activeSection, setActiveSection] = useState('friends'); // friends | received | sent | suggestions
+    const [activeSection, setActiveSection] = useState('friends');
     const [friends, setFriends] = useState([]);
     const [requestsReceived, setRequestsReceived] = useState([]);
     const [requestsSent, setRequestsSent] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
+    const [suggestionsLoading, setSuggestionsLoading] = useState(false);
     const [profileModal, setProfileModal] = useState(null);
     const [suggestionsSearch, setSuggestionsSearch] = useState('');
+    const [error, setError] = useState(null);
     const modalRef = useRef(null);
+    const suggestionsSearchTimer = useRef(null);
+
+    const loadData = useCallback(async () => {
+        if (!user?.id) return;
+        setIsLoading(true);
+        setError(null);
+        try {
+            const [friendsData, receivedData, sentData] = await Promise.all([
+                friendsService.getFriends(user.id),
+                friendsService.getReceivedRequests(user.id),
+                friendsService.getSentRequests(user.id),
+            ]);
+            setFriends(friendsData);
+            setRequestsReceived(receivedData);
+            setRequestsSent(sentData);
+        } catch (err) {
+            console.error('Friends load error:', err);
+            setError('Erro ao carregar dados. Tente novamente.');
+        } finally {
+            setIsLoading(false);
+        }
+    }, [user?.id]);
+
+    const loadSuggestions = useCallback(async (search = '') => {
+        if (!user?.id) return;
+        setSuggestionsLoading(true);
+        try {
+            const data = await friendsService.getSuggestions(user.id, search);
+            setSuggestions(data);
+        } catch (err) {
+            console.error('Suggestions load error:', err);
+        } finally {
+            setSuggestionsLoading(false);
+        }
+    }, [user?.id]);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setFriends(MOCK_FRIENDS);
-            setRequestsReceived(MOCK_REQUESTS_RECEIVED);
-            setRequestsSent(MOCK_REQUESTS_SENT);
-            setSuggestions(MOCK_SUGGESTIONS);
-            setIsLoading(false);
-        }, 800);
-        return () => clearTimeout(timer);
-    }, []);
+        loadData();
+    }, [loadData]);
+
+    useEffect(() => {
+        if (activeSection === 'suggestions') {
+            loadSuggestions(suggestionsSearch);
+        }
+    }, [activeSection]);
+
+    useEffect(() => {
+        if (activeSection !== 'suggestions') return;
+        clearTimeout(suggestionsSearchTimer.current);
+        suggestionsSearchTimer.current = setTimeout(() => {
+            loadSuggestions(suggestionsSearch);
+        }, 350);
+        return () => clearTimeout(suggestionsSearchTimer.current);
+    }, [suggestionsSearch]);
 
     // Close modal on outside click
     useEffect(() => {
@@ -81,41 +103,76 @@ const FriendsScreen = () => {
     }, [profileModal]);
 
     // ── Actions ──
-    const acceptRequest = (id) => {
-        const req = requestsReceived.find(r => r.id === id);
-        setRequestsReceived(prev => prev.filter(r => r.id !== id));
-        if (req) setFriends(prev => [...prev, { ...req, online: false, location: '', interests: [], isFavorite: false }]);
+    const acceptRequest = async (req) => {
+        try {
+            await friendsService.acceptFriendRequest(req.id);
+            setRequestsReceived(prev => prev.filter(r => r.id !== req.id));
+            setFriends(prev => [...prev, {
+                id: req.senderId,
+                name: req.name,
+                username: req.username,
+                avatar: req.avatar,
+                online: false,
+                isFavorite: false,
+            }]);
+        } catch (err) {
+            console.error('Accept request error:', err);
+        }
     };
 
-    const rejectRequest = (id) => {
-        setRequestsReceived(prev => prev.filter(r => r.id !== id));
+    const rejectRequest = async (req) => {
+        try {
+            await friendsService.rejectFriendRequest(req.id);
+            setRequestsReceived(prev => prev.filter(r => r.id !== req.id));
+        } catch (err) {
+            console.error('Reject request error:', err);
+        }
     };
 
-    const cancelSentRequest = (id) => {
-        setRequestsSent(prev => prev.filter(r => r.id !== id));
+    const cancelSentRequest = async (req) => {
+        try {
+            await friendsService.cancelFriendRequest(req.id);
+            setRequestsSent(prev => prev.filter(r => r.id !== req.id));
+        } catch (err) {
+            console.error('Cancel request error:', err);
+        }
     };
 
-    const removeFriend = (id) => {
-        setFriends(prev => prev.filter(f => f.id !== id));
+    const removeFriend = async (friendId) => {
+        try {
+            await friendsService.removeFriend(user.id, friendId);
+            setFriends(prev => prev.filter(f => f.id !== friendId));
+        } catch (err) {
+            console.error('Remove friend error:', err);
+        }
     };
 
-    const addFromSuggestion = (id) => {
-        const sug = suggestions.find(s => s.id === id);
-        setSuggestions(prev => prev.filter(s => s.id !== id));
-        if (sug) setRequestsSent(prev => [...prev, { ...sug, status: 'pending', date: 'Agora' }]);
+    const addFromSuggestion = async (sug) => {
+        try {
+            await friendsService.sendFriendRequest(user.id, sug.id);
+            setSuggestions(prev => prev.filter(s => s.id !== sug.id));
+            setRequestsSent(prev => [...prev, {
+                id: `temp-${sug.id}`,
+                receiverId: sug.id,
+                name: sug.name,
+                username: sug.username,
+                avatar: sug.avatar,
+                status: 'pending',
+                date: 'Agora',
+            }]);
+        } catch (err) {
+            console.error('Send friend request error:', err);
+        }
     };
 
     // ── Filtering ──
     const filteredFriends = friends.filter(f => {
-        const matchesSearch = f.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            f.username.toLowerCase().includes(searchQuery.toLowerCase());
+        const q = searchQuery.toLowerCase();
+        const matchesSearch = !q ||
+            (f.name || '').toLowerCase().includes(q) ||
+            (f.username || '').toLowerCase().includes(q);
         let matchesFilter = true;
-        switch (activeFilter) {
-            case 'Online': matchesFilter = f.online; break;
-            case 'Favoritos': matchesFilter = f.isFavorite; break;
-            case 'Recentes': matchesFilter = true; break; // mock: all are recent
-            default: break;
-        }
+        if (activeFilter === 'Favoritos') matchesFilter = !!f.isFavorite;
         return matchesSearch && matchesFilter;
     });
 
@@ -123,7 +180,7 @@ const FriendsScreen = () => {
         { key: 'friends', label: 'Meus Amigos', count: friends.length },
         { key: 'received', label: 'Pedidos Recebidos', count: requestsReceived.length },
         { key: 'sent', label: 'Pedidos Enviados', count: requestsSent.length },
-        { key: 'suggestions', label: 'Sugestões', count: suggestions.length },
+        { key: 'suggestions', label: 'Sugestões', count: null },
     ];
 
     // ── Skeletons ──
@@ -142,6 +199,16 @@ const FriendsScreen = () => {
     );
 
     // ── Render Sections ──
+    const AvatarImg = ({ src, name, size = 48 }) => {
+        const initials = (name || 'U').split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+        if (src) return <img src={src} alt={name} className="friend-card-avatar" />;
+        return (
+            <div className="friend-card-avatar friend-avatar-initials" style={{ width: size, height: size, fontSize: size * 0.35 }}>
+                {initials}
+            </div>
+        );
+    };
+
     const renderFriendsList = () => {
         if (filteredFriends.length === 0) {
             return (
@@ -155,25 +222,22 @@ const FriendsScreen = () => {
         return (
             <div className="friends-list-grid">
                 {filteredFriends.map(friend => (
-                    <div key={friend.id} className="friend-card" onClick={() => navigate('/profile', { state: { user: friend } })}>
+                    <div key={friend.id} className="friend-card">
                         <div className="friend-card-avatar-wrapper">
-                            <img src={friend.avatar} alt={friend.name} className="friend-card-avatar" />
+                            <AvatarImg src={friend.avatar} name={friend.name} />
                             {friend.online && <div className="friend-online-dot"></div>}
                             {friend.isFavorite && <div className="friend-favorite-badge"><Star size={10} color="#fff" fill="#fff" /></div>}
                         </div>
                         <div className="friend-card-info">
                             <h4 className="friend-card-name">{friend.name}</h4>
-                            <span className="friend-card-username">{friend.username}</span>
-                            {friend.location && (
-                                <span className="friend-card-location"><MapPin size={12} /> {friend.location}</span>
+                            {friend.username && <span className="friend-card-username">{friend.username}</span>}
+                            {friend.nationality && (
+                                <span className="friend-card-location"><Globe size={12} /> {friend.nationality}</span>
                             )}
                         </div>
                         <div className="friend-card-actions">
                             <button className="friend-action-btn" title="Enviar mensagem" onClick={(e) => { e.stopPropagation(); navigate('/messages'); }}>
                                 <MessageCircle size={16} />
-                            </button>
-                            <button className="friend-action-btn" title="Ver perfil" onClick={(e) => { e.stopPropagation(); navigate('/profile', { state: { user: friend } }); }}>
-                                <Eye size={16} />
                             </button>
                             <button className="friend-action-btn danger" title="Remover amigo" onClick={(e) => { e.stopPropagation(); removeFriend(friend.id); }}>
                                 <UserMinus size={16} />
@@ -200,22 +264,19 @@ const FriendsScreen = () => {
                 {requestsReceived.map(req => (
                     <div key={req.id} className="friend-card request-card">
                         <div className="friend-card-avatar-wrapper">
-                            <img src={req.avatar} alt={req.name} className="friend-card-avatar" />
+                            <AvatarImg src={req.avatar} name={req.name} />
                         </div>
                         <div className="friend-card-info">
                             <h4 className="friend-card-name">{req.name}</h4>
-                            <span className="friend-card-username">{req.username}</span>
-                            <span className="friend-card-meta"><Clock size={12} /> {req.date} · {req.mutualFriends} amigos em comum</span>
+                            {req.username && <span className="friend-card-username">{req.username}</span>}
+                            <span className="friend-card-meta"><Clock size={12} /> {req.date}</span>
                         </div>
                         <div className="friend-card-actions request-actions">
-                            <button className="friend-action-pill accept" onClick={(e) => { e.stopPropagation(); acceptRequest(req.id); }}>
+                            <button className="friend-action-pill accept" onClick={(e) => { e.stopPropagation(); acceptRequest(req); }}>
                                 <Check size={16} /> Aceitar
                             </button>
-                            <button className="friend-action-pill reject" onClick={(e) => { e.stopPropagation(); rejectRequest(req.id); }}>
+                            <button className="friend-action-pill reject" onClick={(e) => { e.stopPropagation(); rejectRequest(req); }}>
                                 <X size={16} /> Recusar
-                            </button>
-                            <button className="friend-action-btn" title="Ver perfil" onClick={(e) => { e.stopPropagation(); navigate('/profile', { state: { user: req } }); }}>
-                                <Eye size={16} />
                             </button>
                         </div>
                     </div>
@@ -239,16 +300,16 @@ const FriendsScreen = () => {
                 {requestsSent.map(req => (
                     <div key={req.id} className="friend-card sent-card">
                         <div className="friend-card-avatar-wrapper">
-                            <img src={req.avatar} alt={req.name} className="friend-card-avatar" />
+                            <AvatarImg src={req.avatar} name={req.name} />
                         </div>
                         <div className="friend-card-info">
                             <h4 className="friend-card-name">{req.name}</h4>
-                            <span className="friend-card-username">{req.username}</span>
+                            {req.username && <span className="friend-card-username">{req.username}</span>}
                             <span className="friend-card-meta"><Clock size={12} /> {req.date}</span>
                         </div>
                         <div className="friend-card-actions">
                             <span className="friend-status-badge pending">Pendente</span>
-                            <button className="friend-action-pill cancel" onClick={(e) => { e.stopPropagation(); cancelSentRequest(req.id); }}>
+                            <button className="friend-action-pill cancel" onClick={(e) => { e.stopPropagation(); cancelSentRequest(req); }}>
                                 <X size={16} /> Cancelar
                             </button>
                         </div>
@@ -259,41 +320,45 @@ const FriendsScreen = () => {
     };
 
     const renderSuggestions = () => {
-        const filteredSuggestions = suggestionsSearch.trim()
-            ? suggestions.filter(s =>
-                s.name.toLowerCase().includes(suggestionsSearch.toLowerCase()) ||
-                s.username.toLowerCase().includes(suggestionsSearch.toLowerCase()) ||
-                (s.location && s.location.toLowerCase().includes(suggestionsSearch.toLowerCase()))
-            )
-            : suggestions;
+        if (suggestionsLoading) {
+            return (
+                <div className="friends-skeleton-loader">
+                    {[1, 2, 3].map(n => (
+                        <div key={n} className="skeleton-friend-card">
+                            <div className="skeleton-avatar"></div>
+                            <div className="skeleton-lines">
+                                <div className="skeleton-line short"></div>
+                                <div className="skeleton-line long"></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        }
 
-        if (filteredSuggestions.length === 0) {
+        if (suggestions.length === 0) {
             return (
                 <div className="friends-empty-state">
                     <div className="empty-icon-circle"><Compass size={32} color="#94a3b8" /></div>
-                    <h3>{suggestionsSearch ? 'Nenhum resultado encontrado.' : 'Sem sugestões no momento.'}</h3>
-                    <p>{suggestionsSearch ? 'Tenta um nome ou localização diferente.' : 'Volte mais tarde para novas sugestões de amizade.'}</p>
+                    <h3>{suggestionsSearch ? 'Nenhum utilizador encontrado.' : 'Sem sugestões no momento.'}</h3>
+                    <p>{suggestionsSearch ? 'Tenta pesquisar por um nome ou username diferente.' : 'Convida amigos para a plataforma!'}</p>
                 </div>
             );
         }
         return (
             <div className="friends-list-grid">
-                {filteredSuggestions.map(sug => (
+                {suggestions.map(sug => (
                     <div key={sug.id} className="friend-card suggestion-card">
                         <div className="friend-card-avatar-wrapper">
-                            <img src={sug.avatar} alt={sug.name} className="friend-card-avatar" />
+                            <AvatarImg src={sug.avatar} name={sug.name} />
                         </div>
                         <div className="friend-card-info">
                             <h4 className="friend-card-name">{sug.name}</h4>
-                            <span className="friend-card-username">{sug.username}</span>
-                            <span className="friend-card-meta"><Users size={12} /> {sug.mutualFriends} amigos em comum</span>
-                            <span className="friend-card-location"><MapPin size={12} /> {sug.location}</span>
-                            <div className="friend-card-interests">
-                                {sug.interests.map((int, i) => <span key={i} className="interest-tag">{int}</span>)}
-                            </div>
+                            {sug.username && <span className="friend-card-username">{sug.username}</span>}
+                            {sug.nationality && <span className="friend-card-location"><Globe size={12} /> {sug.nationality}</span>}
                         </div>
                         <div className="friend-card-actions">
-                            <button className="friend-action-pill accept" onClick={(e) => { e.stopPropagation(); addFromSuggestion(sug.id); }}>
+                            <button className="friend-action-pill accept" onClick={(e) => { e.stopPropagation(); addFromSuggestion(sug); }}>
                                 <UserPlus size={16} /> Adicionar
                             </button>
                         </div>
@@ -305,6 +370,16 @@ const FriendsScreen = () => {
 
     const renderActiveSection = () => {
         if (isLoading) return renderSkeletons();
+        if (error) return (
+            <div className="friends-empty-state">
+                <div className="empty-icon-circle"><X size={32} color="#ef4444" /></div>
+                <h3>Ocorreu um erro</h3>
+                <p>{error}</p>
+                <button className="friend-action-pill accept" style={{ marginTop: 16 }} onClick={loadData}>
+                    Tentar novamente
+                </button>
+            </div>
+        );
         switch (activeSection) {
             case 'received': return renderReceivedRequests();
             case 'sent': return renderSentRequests();
@@ -349,7 +424,7 @@ const FriendsScreen = () => {
                                     onClick={() => setActiveSection(tab.key)}
                                 >
                                     {tab.label}
-                                    {tab.count > 0 && <span className="tab-count">{tab.count}</span>}
+                                    {tab.count != null && tab.count > 0 && <span className="tab-count">{tab.count}</span>}
                                 </button>
                             ))}
                         </div>

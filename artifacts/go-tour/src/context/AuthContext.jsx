@@ -77,12 +77,13 @@ export const AuthProvider = ({ children }) => {
                 .maybeSingle();
 
             if (!data && !error) {
-                const emailName = user.email ? user.email.split('@')[0] : 'viajante';
+                // Extract any name from metadata (Google OAuth sets full_name)
+                const metaName = user.user_metadata?.full_name || user.user_metadata?.name || null;
                 const { error: insertError } = await supabase
                     .from('profiles')
                     .insert({
                         id: user.id,
-                        name: null,
+                        name: metaName,
                         username: null,
                         created_at: new Date().toISOString(),
                         updated_at: new Date().toISOString()
