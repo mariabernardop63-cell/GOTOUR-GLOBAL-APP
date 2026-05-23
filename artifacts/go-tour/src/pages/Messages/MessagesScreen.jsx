@@ -1,270 +1,309 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
     ArrowLeft, MessageSquare, MoreVertical,
     Settings, Archive, User,
-    Users, Search,
+    Users, Search, Send,
     Phone, Video,
     ListFilter,
-    MessageSquarePlus,
-    X
+    X, Check, CheckCheck
 } from 'lucide-react';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
-import ChatInputBar from '../../components/ChatInputBar/ChatInputBar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import { useNavigation } from '../../context/NavigationContext';
-import gotourLogo from '../../assets/images/gotour_icon.png';
+import { useAuth } from '../../context/AuthContext';
+import { messagesService } from '../../lib/messagesService';
+import { supabase } from '../../lib/supabase';
 import './MessagesScreenStyles.css';
 
-// Mock data — conversations
-const mockConversations = [
-    {
-        id: 'gotour-welcome',
-        name: 'Equipe GoTour',
-        avatar: gotourLogo,
-        lastMessage: 'Estamos • Maputo',
-        location: '🇲🇿 Maputo',
-        time: '14:10',
-        unread: 1,
-        online: true,
-        lastSeen: 'Online',
-        sentStatus: 'none',
-        isFriend: true,
-        verified: true,
-        isArchived: false
-    },
-    {
-        id: 'ana-silva',
-        name: 'Ana Silva',
-        avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
-        lastMessage: 'Acho que Tóquio é a melhor escolha para a nossa próxima aventura em grupo!',
-        location: '🇯🇵 Tóquio',
-        time: '14:20',
-        unread: 0,
-        online: false,
-        lastSeen: 'Há 3h',
-        sentStatus: 'read',
-        isFriend: true,
-        verified: true,
-        isArchived: false
-    },
-    {
-        id: 'ana-sofia',
-        name: 'Ana Sofia',
-        avatar: 'https://i.pravatar.cc/150?u=as001',
-        lastMessage: 'Olá! Como estás? Posso te fazer uma pergunta?',
-        location: '🇲🇿 Maputo',
-        time: '12:45',
-        unread: 3,
-        online: true,
-        sentStatus: 'none',
-        isFriend: true,
-        isArchived: false
-    },
-    {
-        id: 'vinicius-grego',
-        name: 'Vinícius Grego',
-        avatar: 'https://i.pravatar.cc/150?u=vg001',
-        lastMessage: 'Já reservaste o hotel para Tóquio? Vi um muito bom perto de Shibuya.',
-        location: '🇯🇵 Tóquio',
-        time: '14:05',
-        unread: 0,
-        online: false,
-        lastSeen: 'Há 3h',
-        sentStatus: 'read',
-        isFriend: true,
-        verified: true,
-        isArchived: false
-    },
-    {
-        id: 'comm-1',
-        name: 'Mochileiros MZ',
-        avatar: null,
-        lastMessage: 'Cape Town • Maputo',
-        location: '🇲🇿 Maputo',
-        time: '09:16',
-        unread: 2,
-        online: false,
-        lastSeen: '12:00',
-        isCommunity: true,
-        isArchived: false
-    },
-    {
-        id: 'grupo-viagem',
-        name: 'Viagem Japão 2026',
-        avatar: null,
-        lastMessage: 'Tóquio',
-        location: '🇯🇵 Tóquio',
-        time: '',
-        unread: 5,
-        online: false,
-        lastSeen: 'Ontem',
-        sentStatus: 'none',
-        isGroup: true,
-        isArchived: false
-    },
-    {
-        id: 'felipe-costa',
-        name: 'Felipe Costa',
-        avatar: 'https://i.pravatar.cc/150?u=fc001',
-        lastMessage: 'Sarajevo',
-        location: '🇧🇦 Sarajevo',
-        time: '23 Apr',
-        unread: 0,
-        online: false,
-        lastSeen: '23 Apr',
-        sentStatus: 'read',
-        isFriend: true,
-        isArchived: false
-    }
-];
+function formatTime(isoString) {
+    if (!isoString) return '';
+    const d = new Date(isoString);
+    const now = new Date();
+    const diffMs = now - d;
+    const diffMin = Math.floor(diffMs / 60000);
+    if (diffMin < 1) return 'Agora';
+    if (diffMin < 60) return `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+    const diffH = Math.floor(diffMin / 60);
+    if (diffH < 24) return `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+    const diffD = Math.floor(diffH / 24);
+    if (diffD === 1) return 'Ontem';
+    if (diffD < 7) return d.toLocaleDateString('pt-PT', { weekday: 'short' });
+    return d.toLocaleDateString('pt-PT', { day: 'numeric', month: 'short' });
+}
 
-const initialChatMessages = [
-    {
-        id: 1, sender: 'contact', senderName: 'GoTour',
-        text: 'Bem-vindo ao GoTour! 🌍 Estamos felizes em ter você conosco.',
-        time: '23:30',
-    },
-    {
-        id: 2, sender: 'contact', senderName: 'GoTour',
-        text: 'Explore destinos incríveis, compartilhe suas experiências e conecte-se com outros viajantes ao redor do mundo. ✈️',
-        time: '23:30',
-    },
-    {
-        id: 3, sender: 'contact', senderName: 'GoTour',
-        text: 'Se precisar de ajuda, estamos aqui! Basta nos enviar uma mensagem. 😊',
-        time: '23:31',
-    },
-];
+const AvatarDisplay = ({ src, name, size = 40, online = false }) => {
+    const initials = (name || 'U').split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+    return (
+        <div className="ws-chat-item-avatar" style={{ width: size, height: size, flexShrink: 0 }}>
+            {src
+                ? <img src={src} alt={name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                : <div style={{ width: '100%', height: '100%', borderRadius: '50%', background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: size * 0.35 }}>{initials}</div>
+            }
+            {online && <div className="online-dot" />}
+        </div>
+    );
+};
+
+const SetupNeededBanner = () => (
+    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px', textAlign: 'center' }}>
+        <MessageSquare size={56} color="#E2E8F0" />
+        <h3 style={{ color: '#1e293b', fontWeight: 600, marginTop: 16, marginBottom: 8 }}>Configuração necessária</h3>
+        <p style={{ color: '#64748b', fontSize: 14, maxWidth: 320, lineHeight: 1.6 }}>
+            Para activar o sistema de mensagens, precisa de correr o ficheiro <strong>supabase_migration.sql</strong> no seu dashboard do Supabase (SQL Editor).
+        </p>
+    </div>
+);
 
 const MessagesScreen = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { navigateBack, setModalBackground } = useNavigation();
+    const { setModalBackground } = useNavigation();
+    const { user: authUser } = useAuth();
+
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [activeChat, setActiveChat] = useState(null);
-    const [conversations, setConversations] = useState(mockConversations);
-    const [messages, setMessages] = useState(initialChatMessages);
-    const [showMoreMenu, setShowMoreMenu] = useState(false);
-    const [selectedMessageIds, setSelectedMessageIds] = useState([]);
+    const [conversations, setConversations] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [tablesExist, setTablesExist] = useState(true);
+    const [activeConvo, setActiveConvo] = useState(null);
+    const [messages, setMessages] = useState([]);
+    const [isLoadingMessages, setIsLoadingMessages] = useState(false);
+    const [messageInput, setMessageInput] = useState('');
+    const [isSending, setIsSending] = useState(false);
+    const [isOtherTyping, setIsOtherTyping] = useState(false);
+    const [isOtherOnline, setIsOtherOnline] = useState(false);
     const [currentTab, setCurrentTab] = useState('mensagens');
-    const [toastMessage, setToastMessage] = useState('');
-    
+    const [searchQuery, setSearchQuery] = useState('');
+
     const messagesEndRef = useRef(null);
-    const messagesContainerRef = useRef(null);
-    const moreMenuRef = useRef(null);
-    const pressTimer = useRef(null);
+    const inputRef = useRef(null);
+    const realtimeChannelRef = useRef(null);
+    const presenceChannelRef = useRef(null);
+    const typingTimeoutRef = useRef(null);
+    const isSendingRef = useRef(false);
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
-
-    useEffect(() => {
-        if (activeChat) scrollToBottom();
-    }, [messages, activeChat]);
-
-    // Click outside handler for the more menu
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (moreMenuRef.current && !moreMenuRef.current.contains(event.target)) {
-                setShowMoreMenu(false);
+    const loadConversations = useCallback(async () => {
+        if (!authUser?.id) return;
+        try {
+            setIsLoading(true);
+            const data = await messagesService.getConversations(authUser.id);
+            setConversations(data);
+            setTablesExist(true);
+        } catch (err) {
+            if (err?.code === '42P01' || err?.message?.includes('does not exist')) {
+                setTablesExist(false);
             }
+            console.error('Error loading conversations:', err);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [authUser?.id]);
+
+    useEffect(() => {
+        loadConversations();
+    }, [loadConversations]);
+
+    // Handle navigation state: open conversation with a specific user
+    useEffect(() => {
+        const state = location.state;
+        if (!state?.openWithUserId || !authUser?.id) return;
+        (async () => {
+            try {
+                const convoId = await messagesService.getOrCreateConversation(state.openWithUserId);
+                await loadConversations();
+                const partner = state.openWithUser || { id: state.openWithUserId };
+                openConversation({ id: convoId, partner, lastMessage: null });
+            } catch (err) {
+                console.error('Error opening conversation with user:', err);
+            }
+        })();
+    }, [location.state, authUser?.id]);
+
+    const openConversation = useCallback(async (convo) => {
+        setActiveConvo(convo);
+        setIsLoadingMessages(true);
+        setMessages([]);
+
+        // Unsubscribe previous channels
+        if (realtimeChannelRef.current) {
+            supabase.removeChannel(realtimeChannelRef.current);
+            realtimeChannelRef.current = null;
+        }
+        if (presenceChannelRef.current) {
+            supabase.removeChannel(presenceChannelRef.current);
+            presenceChannelRef.current = null;
+        }
+
+        try {
+            const msgs = await messagesService.getMessages(convo.id);
+            setMessages(msgs);
+            await messagesService.markAsRead(convo.id, authUser.id);
+
+            // Update unread count in list
+            setConversations(prev => prev.map(c => c.id === convo.id ? { ...c, _unread: 0 } : c));
+        } catch (err) {
+            console.error('Error loading messages:', err);
+        } finally {
+            setIsLoadingMessages(false);
+        }
+
+        // Subscribe to new messages
+        realtimeChannelRef.current = messagesService.subscribeToMessages(
+            convo.id,
+            authUser.id,
+            (newMsg) => {
+                setMessages(prev => {
+                    if (prev.some(m => m.id === newMsg.id)) return prev;
+                    return [...prev, newMsg];
+                });
+                if (newMsg.sender_id !== authUser.id) {
+                    messagesService.markAsRead(convo.id, authUser.id);
+                }
+                setConversations(prev => prev.map(c =>
+                    c.id === convo.id
+                        ? { ...c, lastMessage: newMsg.content, lastMessageAt: newMsg.created_at }
+                        : c
+                ));
+            }
+        );
+
+        // Subscribe to presence/typing
+        presenceChannelRef.current = messagesService.subscribeToPresence(
+            convo.id,
+            authUser.id,
+            ({ isOnline, isTyping }) => {
+                setIsOtherOnline(isOnline);
+                setIsOtherTyping(isTyping);
+            }
+        );
+
+        setTimeout(() => inputRef.current?.focus(), 100);
+    }, [authUser?.id]);
+
+    const handleSendMessage = useCallback(async (text) => {
+        if (!text.trim() || !activeConvo || isSendingRef.current || !authUser?.id) return;
+        isSendingRef.current = true;
+        setIsSending(true);
+
+        const trimmed = text.trim();
+        setMessageInput('');
+
+        // Stop typing
+        clearTimeout(typingTimeoutRef.current);
+        presenceChannelRef.current?.track({ typing: false, online_at: new Date().toISOString() });
+
+        // Optimistic insert
+        const tempId = `temp-${Date.now()}`;
+        const tempMsg = {
+            id: tempId,
+            conversation_id: activeConvo.id,
+            sender_id: authUser.id,
+            content: trimmed,
+            type: 'text',
+            created_at: new Date().toISOString(),
+            sender: null,
+            _pending: true,
         };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        setMessages(prev => [...prev, tempMsg]);
+
+        try {
+            const sent = await messagesService.sendMessage(activeConvo.id, authUser.id, trimmed);
+            setMessages(prev => prev.map(m => m.id === tempId ? { ...sent, _pending: false } : m));
+            setConversations(prev => {
+                const updated = prev.map(c =>
+                    c.id === activeConvo.id
+                        ? { ...c, lastMessage: trimmed, lastMessageAt: sent.created_at }
+                        : c
+                );
+                // Sort by most recent
+                return [...updated].sort((a, b) =>
+                    new Date(b.lastMessageAt || 0) - new Date(a.lastMessageAt || 0)
+                );
+            });
+        } catch (err) {
+            console.error('Send error:', err);
+            setMessages(prev => prev.filter(m => m.id !== tempId));
+        } finally {
+            isSendingRef.current = false;
+            setIsSending(false);
+        }
+    }, [activeConvo, authUser?.id]);
+
+    const handleTyping = useCallback((value) => {
+        setMessageInput(value);
+        if (presenceChannelRef.current) {
+            presenceChannelRef.current.track({ typing: true, online_at: new Date().toISOString() });
+            clearTimeout(typingTimeoutRef.current);
+            typingTimeoutRef.current = setTimeout(() => {
+                presenceChannelRef.current?.track({ typing: false, online_at: new Date().toISOString() });
+            }, 2000);
+        }
     }, []);
 
-    const toggleMessageSelection = (id) => {
-        setSelectedMessageIds(prev => 
-            prev.includes(id) ? prev.filter(mid => mid !== id) : [...prev, id]
-        );
-    };
-
-    const handleConvoClick = (convo) => {
-        setActiveChat(convo);
-    };
-
-    // Long press logic for archiving/unarchiving conversations (3 seconds)
-    const startPress = (convoId) => {
-        pressTimer.current = setTimeout(() => {
-            toggleArchiveConvo(convoId);
-        }, 3000);
-    };
-
-    const endPress = () => {
-        if (pressTimer.current) {
-            clearTimeout(pressTimer.current);
+    const handleKeyDown = useCallback((e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage(messageInput);
         }
-    };
+    }, [handleSendMessage, messageInput]);
 
-    const toggleArchiveConvo = (convoId) => {
-        let msg = "";
-        setConversations(prev => prev.map(c => {
-            if (c.id === convoId) {
-                const newArchived = !c.isArchived;
-                msg = newArchived ? "Conversa arquivada!" : "Conversa desarquivada!";
-                return { ...c, isArchived: newArchived };
-            }
-            return c;
-        }));
-        if (msg) {
-            setToastMessage(msg);
-            setTimeout(() => setToastMessage(''), 2500);
-        }
-        if (activeChat?.id === convoId) {
-            setActiveChat(null);
-        }
-    };
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
 
-    // Filter conversations based on current active tab
-    const filteredConversations = conversations.filter(convo => {
-        if (currentTab === 'arquivadas') {
-            return convo.isArchived;
-        } else if (currentTab === 'mensagens') {
-            return !convo.isArchived;
-        } else if (currentTab === 'comunidades') {
-            return convo.isCommunity || convo.isGroup;
-        }
-        return true;
+    useEffect(() => {
+        return () => {
+            if (realtimeChannelRef.current) supabase.removeChannel(realtimeChannelRef.current);
+            if (presenceChannelRef.current) supabase.removeChannel(presenceChannelRef.current);
+            clearTimeout(typingTimeoutRef.current);
+        };
+    }, []);
+
+    const filteredConversations = conversations.filter(c => {
+        if (!searchQuery.trim()) return true;
+        const q = searchQuery.toLowerCase();
+        return (c.partner?.name || '').toLowerCase().includes(q) ||
+            (c.partner?.username || '').toLowerCase().includes(q);
     });
+
+    const partnerName = activeConvo?.partner?.name || 'Utilizador';
+    const partnerAvatar = activeConvo?.partner?.avatar_url || null;
 
     return (
         <div className="messages-ws-layout">
-            {toastMessage && (
-                <div className="ws-toast">
-                    {toastMessage}
-                </div>
-            )}
-
             <div className="ws-window">
-                {/* --- A. LEFT SIDEBAR --- */}
+
+                {/* ── A. LEFT SIDEBAR ── */}
                 <aside className="ws-sidebar">
                     <div className="ws-logo-container" style={{ justifyContent: 'flex-start' }}>
-                        <button 
-                            onClick={() => navigate('/home')} 
-                            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1E293B' }}
-                            aria-label="Voltar para Home"
+                        <button
+                            onClick={() => {
+                                if (setModalBackground) setModalBackground(null);
+                                navigate(-1);
+                            }}
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center', color: '#1E293B' }}
+                            aria-label="Voltar"
                         >
                             <X size={24} />
                         </button>
                     </div>
 
                     <nav className="ws-nav">
-                        <button 
+                        <button
                             className={`ws-nav-item ${currentTab === 'mensagens' ? 'active' : ''}`}
                             onClick={() => setCurrentTab('mensagens')}
                         >
                             <MessageSquare size={20} />
                             <span>Mensagens</span>
                         </button>
-                        <button 
+                        <button
                             className={`ws-nav-item ${currentTab === 'comunidades' ? 'active' : ''}`}
                             onClick={() => setCurrentTab('comunidades')}
                         >
                             <Users size={20} />
                             <span>Comunidades</span>
                         </button>
-                        <button 
+                        <button
                             className={`ws-nav-item ${currentTab === 'arquivadas' ? 'active' : ''}`}
                             onClick={() => setCurrentTab('arquivadas')}
                         >
@@ -281,90 +320,114 @@ const MessagesScreen = () => {
                     </div>
                 </aside>
 
-                {/* --- B. CENTER PANEL (Activities & Chats) --- */}
-                <div className={`ws-center-panel ${activeChat ? 'hidden-on-mobile' : ''}`}>
+                {/* ── B. CENTER PANEL ── */}
+                <div className={`ws-center-panel ${activeConvo ? 'hidden-on-mobile' : ''}`}>
                     <div className="ws-center-header">
                         <div className="ws-search-bar">
                             <Search size={16} color="#94A3B8" />
-                            <input type="text" placeholder="Search anything" />
+                            <input
+                                type="text"
+                                placeholder="Pesquisar conversas"
+                                value={searchQuery}
+                                onChange={e => setSearchQuery(e.target.value)}
+                            />
                         </div>
                     </div>
 
                     <div className="ws-chat-list-container">
                         <div className="ws-list-label">conversas</div>
-                        {filteredConversations.length > 0 ? (
+
+                        {!tablesExist ? (
+                            <SetupNeededBanner />
+                        ) : isLoading ? (
+                            <div style={{ padding: '24px', color: '#94A3B8', fontSize: 13, textAlign: 'center' }}>
+                                A carregar...
+                            </div>
+                        ) : filteredConversations.length === 0 ? (
+                            <div style={{ padding: '32px 16px', color: '#94A3B8', fontSize: 13, textAlign: 'center' }}>
+                                <MessageSquare size={36} color="#E2E8F0" style={{ marginBottom: 12 }} />
+                                <p>Nenhuma conversa ainda.</p>
+                                <p style={{ marginTop: 4 }}>Abre o perfil de alguém e clica em Mensagem.</p>
+                            </div>
+                        ) : (
                             filteredConversations.map((convo) => (
                                 <button
                                     key={convo.id}
-                                    className={`ws-chat-item ${activeChat?.id === convo.id ? 'active' : ''}`}
-                                    onClick={() => handleConvoClick(convo)}
-                                    onPointerDown={() => startPress(convo.id)}
-                                    onPointerUp={endPress}
-                                    onPointerLeave={endPress}
+                                    className={`ws-chat-item ${activeConvo?.id === convo.id ? 'active' : ''}`}
+                                    onClick={() => openConversation(convo)}
                                 >
-                                    <div className="ws-chat-item-avatar">
-                                        {convo.avatar ? <img src={convo.avatar} alt={convo.name} /> : <User size={24} color="#94a3b8" />}
-                                        {convo.online && <div className="online-dot"></div>}
-                                    </div>
+                                    <AvatarDisplay
+                                        src={convo.partner?.avatar_url}
+                                        name={convo.partner?.name}
+                                        size={44}
+                                        online={false}
+                                    />
                                     <div className="ws-chat-item-content">
                                         <div className="ws-chat-item-top">
-                                            <span className="ws-chat-item-name">{convo.name}</span>
-                                            <span className="ws-chat-item-time">{convo.time}</span>
+                                            <span className="ws-chat-item-name">
+                                                {convo.partner?.name || 'Utilizador'}
+                                            </span>
+                                            <span className="ws-chat-item-time">
+                                                {formatTime(convo.lastMessageAt)}
+                                            </span>
                                         </div>
                                         <div className="ws-chat-item-bottom">
-                                            <span className="ws-chat-item-msg">{convo.lastMessage}</span>
-                                            {convo.unread > 0 && <span className="ws-chat-item-badge">{convo.unread}</span>}
+                                            <span className="ws-chat-item-msg">
+                                                {convo.lastMessage || 'Sem mensagens ainda'}
+                                            </span>
                                         </div>
                                     </div>
                                 </button>
                             ))
-                        ) : (
-                            <div style={{ textAlign: 'center', padding: '30px 10px', color: '#94A3B8', fontSize: '13px' }}>
-                                Nenhuma conversa encontrada
-                            </div>
                         )}
                     </div>
                 </div>
 
-                {/* --- C. RIGHT PANEL (Chat Window) --- */}
-                <div className={`ws-right-panel ${!activeChat ? 'hidden-on-mobile' : ''}`}>
-                    {activeChat ? (
+                {/* ── C. RIGHT PANEL (Chat Window) ── */}
+                <div className={`ws-right-panel ${!activeConvo ? 'hidden-on-mobile' : ''}`}>
+                    {activeConvo ? (
                         <>
                             <header className="ws-chat-header">
                                 <div className="ws-chat-header-user">
-                                    <button 
-                                        onClick={() => setActiveChat(null)}
+                                    <button
+                                        onClick={() => setActiveConvo(null)}
                                         style={{ background: 'none', border: 'none', cursor: 'pointer', paddingRight: '8px', display: 'flex', alignItems: 'center' }}
                                         className="ws-mobile-back"
                                     >
                                         <ArrowLeft size={24} color="#1E293B" />
                                     </button>
-                                    <div className="ws-chat-item-avatar">
-                                        {activeChat.avatar ? <img src={activeChat.avatar} alt={activeChat.name} /> : <User size={44} color="#94a3b8" />}
-                                        {activeChat.online && <div className="online-dot"></div>}
-                                    </div>
+                                    <AvatarDisplay
+                                        src={partnerAvatar}
+                                        name={partnerName}
+                                        size={40}
+                                        online={isOtherOnline}
+                                    />
                                     <div className="ws-chat-header-info">
-                                        <span className="ws-chat-header-name">{activeChat.name}</span>
-                                        <span className="ws-chat-header-status">{activeChat.lastSeen || 'Offline'}</span>
+                                        <span className="ws-chat-header-name">{partnerName}</span>
+                                        <span className="ws-chat-header-status">
+                                            {isOtherTyping
+                                                ? <span style={{ color: '#6366f1', fontStyle: 'italic' }}>a escrever...</span>
+                                                : isOtherOnline ? 'Online' : 'Offline'
+                                            }
+                                        </span>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <div className="ws-chat-header-actions" ref={moreMenuRef}>
-                                        <button><Phone size={20} /></button>
-                                        <button><Video size={20} /></button>
-                                        <button onClick={() => setShowMoreMenu(!showMoreMenu)}><MoreVertical size={20} /></button>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <div className="ws-chat-header-actions">
+                                        <button title="Chamada de voz"><Phone size={20} /></button>
+                                        <button title="Chamada de vídeo"><Video size={20} /></button>
                                     </div>
                                     <div className="ws-top-right-icons">
-                                        <button 
+                                        <button
                                             onClick={() => {
                                                 setModalBackground(location);
-                                                navigate('/profile');
+                                                navigate('/profile', { state: { user: activeConvo.partner } });
                                             }}
                                             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}
                                         >
                                             <User size={24} strokeWidth={2} color="#475569" />
                                         </button>
-                                        <button 
+                                        <button
                                             onClick={() => setIsDrawerOpen(true)}
                                             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}
                                         >
@@ -374,56 +437,86 @@ const MessagesScreen = () => {
                                 </div>
                             </header>
 
-                            <div className="ws-chat-messages" ref={messagesContainerRef}>
-                                <div className="ws-message-date">Hoje</div>
-                                {messages.map((msg) => (
-                                    <div 
-                                        key={msg.id} 
-                                        className={`ws-message-row ${msg.sender === 'user' ? 'sent' : 'received'}`}
-                                        onClick={() => toggleMessageSelection(msg.id)}
-                                    >
-                                        <div className="ws-message-bubble">
-                                            {msg.text}
-                                        </div>
-                                        <span className="ws-message-meta">{msg.time}</span>
+                            <div className="ws-chat-messages">
+                                {isLoadingMessages ? (
+                                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94A3B8', fontSize: 14 }}>
+                                        A carregar mensagens...
                                     </div>
-                                ))}
-                                <div ref={messagesEndRef} />
+                                ) : messages.length === 0 ? (
+                                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#94A3B8', padding: 24, textAlign: 'center' }}>
+                                        <MessageSquare size={48} color="#E2E8F0" />
+                                        <p style={{ marginTop: 12, fontSize: 14 }}>Começa a conversa!</p>
+                                    </div>
+                                ) : (
+                                    <>
+                                        {messages.map((msg, idx) => {
+                                            const isMine = msg.sender_id === authUser?.id;
+                                            const prevMsg = messages[idx - 1];
+                                            const showDate = !prevMsg ||
+                                                new Date(msg.created_at).toDateString() !== new Date(prevMsg.created_at).toDateString();
+
+                                            return (
+                                                <React.Fragment key={msg.id}>
+                                                    {showDate && (
+                                                        <div className="ws-message-date">
+                                                            {new Date(msg.created_at).toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })}
+                                                        </div>
+                                                    )}
+                                                    <div className={`ws-message-row ${isMine ? 'sent' : 'received'}`}>
+                                                        <div className={`ws-message-bubble ${msg._pending ? 'pending' : ''}`}>
+                                                            {msg.content}
+                                                        </div>
+                                                        <span className="ws-message-meta">
+                                                            {formatTime(msg.created_at)}
+                                                            {isMine && (
+                                                                <span style={{ marginLeft: 4, color: msg._pending ? '#94A3B8' : '#6366f1' }}>
+                                                                    {msg._pending ? <Check size={12} /> : <CheckCheck size={12} />}
+                                                                </span>
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                </React.Fragment>
+                                            );
+                                        })}
+                                        {isOtherTyping && (
+                                            <div className="ws-message-row received">
+                                                <div className="ws-message-bubble ws-typing-indicator">
+                                                    <span /><span /><span />
+                                                </div>
+                                            </div>
+                                        )}
+                                        <div ref={messagesEndRef} />
+                                    </>
+                                )}
                             </div>
 
                             <div className="ws-chat-input-area">
-                                <ChatInputBar 
-                                    onSendMessage={(text) => {
-                                        setMessages([...messages, {
-                                            id: Date.now(), sender: 'user', senderName: 'Eu', text: text,
-                                            time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-                                        }]);
-                                    }}
-                                    onSendImage={(photoSrc, text) => {
-                                        setMessages([...messages, {
-                                            id: Date.now(), sender: 'user', senderName: 'Eu', text: text ? `📷 ${text}` : '📷 Imagem enviada',
-                                            time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-                                        }]);
-                                    }}
-                                    onSendAudio={(audioSrc, duration) => {
-                                        setMessages([...messages, {
-                                            id: Date.now(), sender: 'user', senderName: 'Eu', text: `🎤 Áudio (${duration}s)`,
-                                            time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-                                        }]);
-                                    }}
-                                    onSendLocation={(lat, lng) => {
-                                        setMessages([...messages, {
-                                            id: Date.now(), sender: 'user', senderName: 'Eu', text: '📍 Localização partilhada',
-                                            time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-                                        }]);
-                                    }}
-                                />
+                                <div className="ws-input-row">
+                                    <input
+                                        ref={inputRef}
+                                        type="text"
+                                        className="ws-text-input"
+                                        placeholder="Escreve uma mensagem..."
+                                        value={messageInput}
+                                        onChange={e => handleTyping(e.target.value)}
+                                        onKeyDown={handleKeyDown}
+                                        disabled={isSending}
+                                    />
+                                    <button
+                                        className={`ws-send-btn ${messageInput.trim() ? 'active' : ''}`}
+                                        onClick={() => handleSendMessage(messageInput)}
+                                        disabled={!messageInput.trim() || isSending}
+                                        aria-label="Enviar"
+                                    >
+                                        <Send size={18} />
+                                    </button>
+                                </div>
                             </div>
                         </>
                     ) : (
                         <div className="ws-empty-chat">
                             <div className="ws-top-right-icons" style={{ position: 'absolute', top: 24, right: 32, display: 'flex' }}>
-                                <button 
+                                <button
                                     onClick={() => {
                                         setModalBackground(location);
                                         navigate('/profile');
@@ -432,7 +525,7 @@ const MessagesScreen = () => {
                                 >
                                     <User size={24} strokeWidth={2} color="#475569" />
                                 </button>
-                                <button 
+                                <button
                                     onClick={() => setIsDrawerOpen(true)}
                                     style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}
                                 >
@@ -440,11 +533,17 @@ const MessagesScreen = () => {
                                 </button>
                             </div>
                             <MessageSquare size={64} color="#E2E8F0" />
-                            <h2 style={{ marginTop: '16px', color: '#94A3B8', fontWeight: 500, fontSize: '16px' }}>Selecione uma conversa</h2>
+                            <h2 style={{ marginTop: '16px', color: '#94A3B8', fontWeight: 500, fontSize: '16px' }}>
+                                Selecione uma conversa
+                            </h2>
+                            <p style={{ color: '#CBD5E1', fontSize: 13, marginTop: 6 }}>
+                                Ou abre o perfil de alguém e clica em Mensagem
+                            </p>
                         </div>
                     )}
                 </div>
             </div>
+
             <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
             <BottomNavBar />
         </div>

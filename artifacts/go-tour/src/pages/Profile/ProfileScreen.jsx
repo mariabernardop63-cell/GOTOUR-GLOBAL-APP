@@ -11,6 +11,7 @@ import { useNavigation } from '../../context/NavigationContext';
 import { useAuth } from '../../context/AuthContext';
 import { getDisplayName, getUsername, uploadCover, uploadAvatarFromBlob, upsertProfile } from '../../lib/profileService';
 import { friendsService } from '../../lib/friendsService';
+import { supabase } from '../../lib/supabase';
 import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import HomeHeader from '../../components/HomeHeader/HomeHeader';
@@ -40,6 +41,12 @@ const ProfileScreen = ({ isModal = false }) => {
     const [friendCount, setFriendCount] = useState(0);
     const [friendsList, setFriendsList] = useState([]);
 
+    // View-mode: full data for the other user
+    const [fullViewProfile, setFullViewProfile] = useState(null);
+    const [viewFriendCount, setViewFriendCount] = useState(0);
+    const [mutualFriends, setMutualFriends] = useState([]);
+    const [isLoadingViewProfile, setIsLoadingViewProfile] = useState(false);
+
     const { user: authUser, profile, profileLoading, refreshProfile, signOut } = useAuth();
 
     const displayName = isMe
@@ -50,13 +57,13 @@ const ProfileScreen = ({ isModal = false }) => {
         ? getUsername(profile, authUser)
         : (friendData?.username ? `@${friendData.username}` : '@utilizador');
 
-    const bio = isMe ? (profile?.bio || null) : (friendData?.bio || null);
+    const bio = isMe ? (profile?.bio || null) : (fullViewProfile?.bio || friendData?.bio || null);
     const avatarUrl = isMe
         ? (profile?.avatar_url || null)
-        : (friendData?.avatar_url || friendData?.avatar || null);
-    const coverUrl = isMe ? (profile?.cover_url || null) : (friendData?.cover_url || null);
-    const category = isMe ? (profile?.category || null) : (friendData?.category || null);
-    const interests = isMe ? (profile?.interests || []) : (friendData?.interests || []);
+        : (fullViewProfile?.avatar_url || friendData?.avatar_url || friendData?.avatar || null);
+    const coverUrl = isMe ? (profile?.cover_url || null) : (fullViewProfile?.cover_url || friendData?.cover_url || null);
+    const category = isMe ? (profile?.category || null) : (fullViewProfile?.category || friendData?.category || null);
+    const interests = isMe ? (profile?.interests || []) : (fullViewProfile?.interests || friendData?.interests || []);
 
     // Lock body scroll on desktop when profile modal is open
     useEffect(() => {
@@ -67,7 +74,7 @@ const ProfileScreen = ({ isModal = false }) => {
         }
     }, []);
 
-    // Load real friends data
+    // Load real friends data (own profile)
     useEffect(() => {
         if (!isMe || !authUser?.id) return;
         friendsService.getFriends(authUser.id)
@@ -77,6 +84,33 @@ const ProfileScreen = ({ isModal = false }) => {
             })
             .catch(err => console.error('Error loading friends for profile:', err));
     }, [authUser?.id, isMe]);
+
+    // Fetch full profile when viewing another user
+    useEffect(() => {
+        if (isMe || !friendData?.id) return;
+        setIsLoadingViewProfile(true);
+        (async () => {
+            try {
+                const [{ data: fullP }, viewedFriends] = await Promise.all([
+                    supabase.from('profiles').select('*').eq('id', friendData.id).single(),
+                    friendsService.getFriends(friendData.id).catch(() => []),
+                ]);
+                if (fullP) setFullViewProfile(fullP);
+                setViewFriendCount(viewedFriends.length);
+
+                // Compute mutual friends if logged in
+                if (authUser?.id) {
+                    const myFriends = await friendsService.getFriends(authUser.id).catch(() => []);
+                    const myIds = new Set(myFriends.map(f => f.id));
+                    setMutualFriends(viewedFriends.filter(f => myIds.has(f.id)));
+                }
+            } catch (err) {
+                console.error('Error fetching full profile view:', err);
+            } finally {
+                setIsLoadingViewProfile(false);
+            }
+        })();
+    }, [isMe, friendData?.id, authUser?.id]);
 
     const handleSignOut = async () => {
         try {
@@ -246,7 +280,7 @@ const ProfileScreen = ({ isModal = false }) => {
                                             <div className="stat-active-indicator" />
                                         </div>
                                         <div className="profile-stat-box">
-                                            <span className="stat-number">{isMe ? friendCount : 0}</span>
+                                            <span className="stat-number">{isMe ? friendCount : viewFriendCount}</span>
                                             <span className="stat-label">Amigos</span>
                                         </div>
                                         <div className="profile-stat-box">
@@ -289,7 +323,20 @@ const ProfileScreen = ({ isModal = false }) => {
                                                 <span>Adicionar Amigo</span>
                                             </button>
                                         )}
-                                        <button className="profile-premium-btn profile-premium-btn--secondary" onClick={() => navigateFade('/chat', { state: { user: friendData } })}>
+                                        <button className="profile-premium-btn profile-premium-btn--secondary" onClick={() => {
+                                            setModalBackground(null);
+                                            navigate('/messages', {
+                                                state: {
+                                                    openWithUserId: friendData.id,
+                                                    openWithUser: {
+                                                        id: friendData.id,
+                                                        name: displayName,
+                                                        username: (username || '').replace('@', ''),
+                                                        avatar_url: avatarUrl,
+                                                    }
+                                                }
+                                            });
+                                        }}>
                                             <MessageCircle size={18} />
                                             <span>Mensagem</span>
                                         </button>
@@ -434,7 +481,12 @@ const ProfileScreen = ({ isModal = false }) => {
                                 {/* FRIENDS WIDGET */}
                                 <div className="profile-widget">
                                     <div className="widget-header">
-                                        <h3 className="widget-title">Amigos {isMe && friendCount > 0 && <span className="widget-count">({friendCount})</span>}</h3>
+                                        <h3 className="widget-title">
+                                            {isMe
+                                                ? <>Amigos {friendCount > 0 && <span className="widget-count">({friendCount})</span>}</>
+                                                : <>Amigos em comum {mutualFriends.length > 0 && <span className="widget-count">({mutualFriends.length})</span>}</>
+                                            }
+                                        </h3>
                                         {isMe && friendsList.length > 0 && (
                                             <button className="widget-link-btn" onClick={() => navigateFade('/friends')}>
                                                 Ver todos
@@ -442,24 +494,36 @@ const ProfileScreen = ({ isModal = false }) => {
                                         )}
                                     </div>
                                     <div className="widget-body">
-                                        {isMe && friendsList.length > 0 ? (
-                                            <div className="friends-widget-grid">
-                                                {friendsList.slice(0, 6).map(friend => (
-                                                    <FriendAvatarItem key={friend.id} friend={friend} />
-                                                ))}
-                                            </div>
+                                        {isMe ? (
+                                            friendsList.length > 0 ? (
+                                                <div className="friends-widget-grid">
+                                                    {friendsList.slice(0, 6).map(friend => (
+                                                        <FriendAvatarItem key={friend.id} friend={friend} />
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="friends-empty-state">
+                                                    <Users size={32} color="#cbd5e1" />
+                                                    <p className="friends-empty-text">Ainda não tem amigos adicionados</p>
+                                                    <button className="add-friends-btn" onClick={() => navigateFade('/friends')}>
+                                                        <UserPlus size={16} />
+                                                        <span>Adicionar Amigos</span>
+                                                    </button>
+                                                </div>
+                                            )
                                         ) : (
-                                            <div className="friends-empty-state">
-                                                <Users size={32} color="#cbd5e1" />
-                                                <p className="friends-empty-text">Ainda não tem amigos adicionados</p>
-                                                <button
-                                                    className="add-friends-btn"
-                                                    onClick={() => navigateFade('/friends')}
-                                                >
-                                                    <UserPlus size={16} />
-                                                    <span>Adicionar Amigos</span>
-                                                </button>
-                                            </div>
+                                            mutualFriends.length > 0 ? (
+                                                <div className="friends-widget-grid">
+                                                    {mutualFriends.slice(0, 3).map(friend => (
+                                                        <FriendAvatarItem key={friend.id} friend={friend} />
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="friends-empty-state" style={{ padding: '12px 0' }}>
+                                                    <Users size={28} color="#cbd5e1" />
+                                                    <p className="friends-empty-text">Nenhum amigo em comum</p>
+                                                </div>
+                                            )
                                         )}
                                     </div>
                                 </div>

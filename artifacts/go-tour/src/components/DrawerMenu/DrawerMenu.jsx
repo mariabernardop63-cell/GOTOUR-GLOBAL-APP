@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useNavigation } from '../../context/NavigationContext';
 import { useAuth } from '../../context/AuthContext';
 import { getDisplayName, getUsername } from '../../lib/profileService';
+import { supabase } from '../../lib/supabase';
 import {
     X, User, ChevronRight, Star, Crown,
     MessageCircle, Users, Bell, Heart,
@@ -23,6 +24,82 @@ const DrawerMenu = ({ isOpen, onClose }) => {
     const displayName = getDisplayName(profile, authUser);
     const username = getUsername(profile, authUser);
     const avatarUrl = profile?.avatar_url || null;
+
+    // Badge counts
+    const [pendingFriends, setPendingFriends] = useState(0);
+    const [unreadMessages, setUnreadMessages] = useState(0);
+    const [unreadNotifs, setUnreadNotifs] = useState(0);
+
+    const loadCounts = useCallback(async () => {
+        if (!authUser?.id) return;
+        try {
+            const [
+                { count: pf },
+                { count: un },
+                { data: msgs },
+            ] = await Promise.all([
+                // Pending friend requests
+                supabase
+                    .from('friendships')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('friend_id', authUser.id)
+                    .eq('status', 'pending'),
+                // Unread notifications
+                supabase
+                    .from('notifications')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('user_id', authUser.id)
+                    .eq('is_read', false),
+                // Conversations for unread messages
+                supabase
+                    .from('conversation_participants')
+                    .select('conversation_id, last_read_at')
+                    .eq('user_id', authUser.id),
+            ]);
+            setPendingFriends(pf || 0);
+            setUnreadNotifs(un || 0);
+
+            // Count unread messages across all conversations
+            if (msgs?.length) {
+                let totalUnread = 0;
+                await Promise.all(msgs.map(async (p) => {
+                    const { count } = await supabase
+                        .from('messages')
+                        .select('id', { count: 'exact', head: true })
+                        .eq('conversation_id', p.conversation_id)
+                        .neq('sender_id', authUser.id)
+                        .gt('created_at', p.last_read_at || '1970-01-01T00:00:00Z');
+                    totalUnread += count || 0;
+                }));
+                setUnreadMessages(totalUnread);
+            }
+        } catch {
+            // Silently ignore if tables don't exist yet
+        }
+    }, [authUser?.id]);
+
+    useEffect(() => {
+        if (isOpen && authUser?.id) {
+            loadCounts();
+        }
+    }, [isOpen, loadCounts]);
+
+    // Real-time subscription for new messages when drawer is open
+    useEffect(() => {
+        if (!authUser?.id || !isOpen) return;
+        const channel = supabase
+            .channel(`drawer-msgs-${authUser.id}`)
+            .on('postgres_changes', {
+                event: 'INSERT',
+                schema: 'public',
+                table: 'messages',
+                filter: `sender_id=neq.${authUser.id}`,
+            }, () => {
+                loadCounts();
+            })
+            .subscribe();
+        return () => supabase.removeChannel(channel);
+    }, [authUser?.id, isOpen, loadCounts]);
 
     useEffect(() => {
         if (isOpen) {
@@ -53,6 +130,8 @@ const DrawerMenu = ({ isOpen, onClose }) => {
         setTimeout(() => navigate('/home'), 300);
     };
 
+    const totalDot = pendingFriends + unreadMessages + unreadNotifs;
+
     return (
         <>
             <div className={`drawer-overlay ${isOpen ? 'open' : ''}`} onClick={onClose} />
@@ -66,11 +145,14 @@ const DrawerMenu = ({ isOpen, onClose }) => {
                     </button>
 
                     <div className="drawer-profile" onClick={() => handleNav('/profile')}>
-                        <div className="drawer-avatar">
+                        <div className="drawer-avatar" style={{ position: 'relative' }}>
                             {avatarUrl ? (
                                 <img src={avatarUrl} alt="Perfil" className="drawer-avatar-img" />
                             ) : (
                                 <User size={26} />
+                            )}
+                            {totalDot > 0 && (
+                                <span className="drawer-avatar-dot" />
                             )}
                         </div>
                         <div className="drawer-user-info">
@@ -110,24 +192,35 @@ const DrawerMenu = ({ isOpen, onClose }) => {
 
                     <div className="drawer-shortcuts">
                         <button className="drawer-shortcut" onClick={() => handleNav('/messages')}>
-                            <div className="drawer-shortcut-icon"><MessageCircle size={20} /></div>
+                            <div className="drawer-shortcut-icon" style={{ position: 'relative' }}>
+                                <MessageCircle size={20} />
+                            </div>
                             <span>Mensagens</span>
-                            <span className="drawer-shortcut-count">0</span>
+                            {unreadMessages > 0 && (
+                                <span className="drawer-shortcut-count drawer-count-active">{unreadMessages}</span>
+                            )}
                         </button>
                         <button className="drawer-shortcut" onClick={() => handleNav('/friends')}>
-                            <div className="drawer-shortcut-icon"><Users size={20} /></div>
+                            <div className="drawer-shortcut-icon">
+                                <Users size={20} />
+                            </div>
                             <span>Amigos</span>
-                            <span className="drawer-shortcut-count">0</span>
+                            {pendingFriends > 0 && (
+                                <span className="drawer-shortcut-count drawer-count-active">{pendingFriends}</span>
+                            )}
                         </button>
                         <button className="drawer-shortcut" onClick={() => handleNav('/notifications')}>
-                            <div className="drawer-shortcut-icon"><Bell size={20} /></div>
+                            <div className="drawer-shortcut-icon">
+                                <Bell size={20} />
+                            </div>
                             <span>Notificações</span>
-                            <span className="drawer-shortcut-count">0</span>
+                            {unreadNotifs > 0 && (
+                                <span className="drawer-shortcut-count drawer-count-active">{unreadNotifs}</span>
+                            )}
                         </button>
                         <button className="drawer-shortcut">
                             <div className="drawer-shortcut-icon"><Heart size={20} /></div>
                             <span>Favoritos</span>
-                            <span className="drawer-shortcut-count">0</span>
                         </button>
                     </div>
 
@@ -135,9 +228,9 @@ const DrawerMenu = ({ isOpen, onClose }) => {
 
                     <p className="drawer-section-label">Ferramentas</p>
                     <nav className="drawer-nav">
-                        <DrawerItem icon={MessageCircle} label="Mensagens" onClick={() => handleNav('/messages')} />
-                        <DrawerItem icon={BellRing} label="Notificações" onClick={() => handleNav('/notifications')} />
-                        <DrawerItem icon={Users} label="Amigos" onClick={() => handleNav('/friends')} />
+                        <DrawerItem icon={MessageCircle} label="Mensagens" onClick={() => handleNav('/messages')} badge={unreadMessages} />
+                        <DrawerItem icon={BellRing} label="Notificações" onClick={() => handleNav('/notifications')} badge={unreadNotifs} />
+                        <DrawerItem icon={Users} label="Amigos" onClick={() => handleNav('/friends')} badge={pendingFriends} />
                         <DrawerItem icon={Compass} label="Interesses" />
                         <DrawerItem icon={Layers} label="Coleções" />
                         <DrawerItem icon={MapPin} label="Notas de Viagem" />
@@ -194,10 +287,13 @@ const DrawerMenu = ({ isOpen, onClose }) => {
     );
 };
 
-const DrawerItem = ({ icon: Icon, label, onClick }) => (
+const DrawerItem = ({ icon: Icon, label, onClick, badge }) => (
     <button className="drawer-item" onClick={onClick}>
         <Icon size={20} strokeWidth={1.8} />
         <span>{label}</span>
+        {badge > 0 && (
+            <span className="drawer-item-badge">{badge > 99 ? '99+' : badge}</span>
+        )}
     </button>
 );
 

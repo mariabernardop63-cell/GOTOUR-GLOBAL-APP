@@ -25,7 +25,7 @@
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   padding: 24px;
-  z-index: 500;
+  z-index: 9998;
   box-sizing: border-box;
 }
 
@@ -472,7 +472,38 @@
 
 /* Chat Input */
 .ws-chat-input-area {
-  padding: 24px 32px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--ws-border);
+}
+
+.ws-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 28px;
+  padding: 8px 8px 8px 18px;
+  transition: border-color 0.2s;
+}
+
+.ws-input-row:focus-within {
+  border-color: var(--ws-accent);
+  background: #fff;
+}
+
+.ws-text-input {
+  flex: 1;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 14px;
+  color: var(--ws-text-main);
+  font-family: inherit;
+}
+
+.ws-text-input::placeholder {
+  color: var(--ws-text-light);
 }
 
 .ws-chat-input-box {
@@ -517,11 +548,59 @@
 }
 
 .ws-send-btn {
-  background: var(--ws-accent) !important;
-  color: white !important;
-  width: 32px;
-  height: 32px;
+  background: #E2E8F0;
+  color: #94A3B8;
+  border: none;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
+}
+
+.ws-send-btn.active,
+.ws-send-btn:not(:disabled) {
+  background: var(--ws-accent);
+  color: white;
+}
+
+.ws-send-btn:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* Typing indicator bubbles */
+.ws-typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px !important;
+  min-width: 56px !important;
+}
+
+.ws-typing-indicator span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #94A3B8;
+  animation: wsTypingDot 1.2s infinite ease-in-out;
+}
+
+.ws-typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.ws-typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes wsTypingDot {
+  0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Pending message state */
+.ws-message-bubble.pending {
+  opacity: 0.65;
 }
 
 .ws-empty-chat {
