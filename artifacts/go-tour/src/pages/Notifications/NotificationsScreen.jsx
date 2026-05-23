@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNavigation } from '../../context/NavigationContext';
+import { useAuth } from '../../context/AuthContext';
+import { supabase } from '../../lib/supabase';
 import {
     Bell, Check, Trash2, Archive, Search, ChevronDown, X,
     MessageCircle, UserPlus, UserCheck, AlertCircle, PhoneMissed, AtSign
@@ -11,125 +13,161 @@ import BottomNavBar from '../../components/BottomNavBar/BottomNavBar';
 import '../../components/HomeHeader/HomeFixedHeaderStyles.css';
 import './NotificationsScreenStyles.css';
 
-// --- MOCK DATA ---
-const MOCK_NOTIFICATIONS = [
-    {
-        id: 1,
-        type: 'message_individual',
-        title: 'Ana Silva enviou uma mensagem',
-        subtitle: 'Olá! Como estão os preparativos para a viagem?',
-        time: 'Agora mesmo',
-        group: 'Hoje',
-        unread: true,
-        avatar: 'https://i.pravatar.cc/150?u=ana',
-        icon: MessageCircle,
-        iconColor: '#3b82f6',
-        details: { fullMessage: 'Olá! Como estão os preparativos para a viagem? Estava a pensar se devíamos alugar carro ou se confiávamos nos comboios por lá. O que achas?' }
-    },
-    {
-        id: 2,
-        type: 'friend_request',
-        title: 'Novo pedido de amizade',
-        subtitle: 'Carlos Mendes quer conectar-se.',
-        time: 'Há 2 horas',
-        group: 'Hoje',
-        unread: true,
-        avatar: 'https://i.pravatar.cc/150?u=carlos',
-        icon: UserPlus,
-        iconColor: '#8b5cf6',
-        details: { bio: 'Viajante solo. 45 países visitados. Fotógrafo aficionado.', mutualFriends: 12 }
-    },
-    {
-        id: 3,
-        type: 'mention',
-        title: 'Foste mencionado num comentário',
-        subtitle: 'Sofia comentou: "@gotour_user tens de ver este roteiro!"',
-        time: 'Há 5 horas',
-        group: 'Hoje',
-        unread: false,
-        avatar: 'https://i.pravatar.cc/150?u=sofia',
-        icon: AtSign,
-        iconColor: '#f59e0b',
-        details: { destination: 'Kyoto, Japão', comment: '@gotour_user tens de ver este roteiro! Acho que se encaixa perfeitamente na nossa viagem de Outono.' }
-    },
-    {
-        id: 4,
-        type: 'missed_call',
-        title: 'Chamada perdida',
-        subtitle: 'Tentativa de chamada de João Paulo',
-        time: 'Ontem, 18:30',
-        group: 'Ontem',
-        unread: false,
-        avatar: 'https://i.pravatar.cc/150?u=joao',
-        icon: PhoneMissed,
-        iconColor: '#ef4444',
-        details: { duration: '0s', caller: 'João Paulo' }
-    },
-    {
-        id: 5,
-        type: 'system',
-        title: 'Actualização do Sistema',
-        subtitle: 'A versão 2.4 com Novos Mapas Offline já está disponível!',
-        time: 'Ontem, 09:00',
-        group: 'Ontem',
-        unread: false,
-        avatar: null,
-        icon: AlertCircle,
-        iconColor: '#10b981',
-        details: { releaseNotes: 'Novidades:\n- Suporte total a mapas offline em HD\n- Correção de bugs no roteador VIP\n- Maior velocidade no carregamento de fotos.' }
-    },
-    {
-        id: 6,
-        type: 'friend_accepted',
-        title: 'Pedido de amizade aceite',
-        subtitle: 'Mariana Costa é agora tua amiga.',
-        time: 'Segunda-feira',
-        group: 'Esta semana',
-        unread: false,
-        avatar: 'https://i.pravatar.cc/150?u=mariana',
-        icon: UserCheck,
-        iconColor: '#10b981',
-        details: { action: 'Começar a partilhar roteiros com Mariana!' }
-    }
-];
-
 const FILTERS = ['Todas', 'Não lidas', 'Mensagens', 'Amizades', 'Sistema', 'Chamadas', 'Menções'];
+
+function formatRelativeTime(isoString) {
+    if (!isoString) return '';
+    const d = new Date(isoString);
+    const now = new Date();
+    const diffMs = now - d;
+    const diffMin = Math.floor(diffMs / 60000);
+    if (diffMin < 1) return 'Agora mesmo';
+    if (diffMin < 60) return `Há ${diffMin} min`;
+    const diffH = Math.floor(diffMin / 60);
+    if (diffH < 24) return `Há ${diffH}h`;
+    const diffD = Math.floor(diffH / 24);
+    if (diffD === 1) return 'Ontem';
+    if (diffD < 7) return `Há ${diffD} dias`;
+    return d.toLocaleDateString('pt-PT', { day: 'numeric', month: 'short' });
+}
+
+function getGroup(isoString) {
+    if (!isoString) return 'Anteriores';
+    const d = new Date(isoString);
+    const now = new Date();
+    const diffH = (now - d) / 3600000;
+    if (diffH < 24) return 'Hoje';
+    if (diffH < 48) return 'Ontem';
+    if (diffH < 168) return 'Esta semana';
+    return 'Anteriores';
+}
+
+function getIconForType(type) {
+    const map = {
+        message: MessageCircle,
+        message_individual: MessageCircle,
+        message_group: MessageCircle,
+        friend_request: UserPlus,
+        friend_accepted: UserCheck,
+        mention: AtSign,
+        missed_call: PhoneMissed,
+        system: AlertCircle,
+    };
+    return map[type] || Bell;
+}
+
+function getColorForType(type) {
+    const map = {
+        message: '#3b82f6',
+        message_individual: '#3b82f6',
+        message_group: '#3b82f6',
+        friend_request: '#8b5cf6',
+        friend_accepted: '#10b981',
+        mention: '#f59e0b',
+        missed_call: '#ef4444',
+        system: '#10b981',
+    };
+    return map[type] || '#6b7280';
+}
+
+function mapNotification(n) {
+    return {
+        id: n.id,
+        type: n.type || 'system',
+        title: n.title || 'Notificação',
+        subtitle: n.body || '',
+        time: formatRelativeTime(n.created_at),
+        group: getGroup(n.created_at),
+        unread: !n.is_read,
+        avatar: n.actor?.avatar_url || null,
+        actorName: n.actor?.name || n.actor?.username || null,
+        icon: getIconForType(n.type),
+        iconColor: getColorForType(n.type),
+    };
+}
+
+const GROUPS_ORDER = ['Hoje', 'Ontem', 'Esta semana', 'Anteriores'];
 
 const NotificationsScreen = () => {
     const navigate = useNavigate();
     const { navigateBack } = useNavigation();
+    const { user } = useAuth();
+
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [notifications, setNotifications] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState('Todas');
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+    const [error, setError] = useState(null);
 
-    // Simulate fetch
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setNotifications(MOCK_NOTIFICATIONS);
+    const loadNotifications = useCallback(async () => {
+        if (!user?.id) {
+            setNotifications([]);
             setIsLoading(false);
-        }, 800);
-        return () => clearTimeout(timer);
-    }, []);
+            return;
+        }
+        setIsLoading(true);
+        setError(null);
+        try {
+            const { data, error: fetchError } = await supabase
+                .from('notifications')
+                .select('*, actor:profiles!notifications_actor_id_fkey(id, name, username, avatar_url)')
+                .eq('user_id', user.id)
+                .order('created_at', { ascending: false })
+                .limit(80);
 
-    const markAllAsRead = () => {
+            if (fetchError) {
+                if (fetchError.message?.includes('relationship') || fetchError.message?.includes('fkey')) {
+                    const { data: data2, error: fetchError2 } = await supabase
+                        .from('notifications')
+                        .select('*')
+                        .eq('user_id', user.id)
+                        .order('created_at', { ascending: false })
+                        .limit(80);
+                    if (fetchError2) throw fetchError2;
+                    setNotifications((data2 || []).map(mapNotification));
+                } else {
+                    throw fetchError;
+                }
+            } else {
+                setNotifications((data || []).map(mapNotification));
+            }
+        } catch (err) {
+            console.error('Notifications fetch error:', err);
+            setError('Não foi possível carregar as notificações.');
+        } finally {
+            setIsLoading(false);
+        }
+    }, [user?.id]);
+
+    useEffect(() => {
+        loadNotifications();
+    }, [loadNotifications]);
+
+    const markAllAsRead = async () => {
+        if (!user?.id) return;
         setNotifications(prev => prev.map(n => ({ ...n, unread: false })));
+        await supabase
+            .from('notifications')
+            .update({ is_read: true })
+            .eq('user_id', user.id)
+            .eq('is_read', false);
     };
 
-    const markAsRead = (id) => {
+    const markAsRead = async (id) => {
         setNotifications(prev => prev.map(n => n.id === id ? { ...n, unread: false } : n));
+        await supabase.from('notifications').update({ is_read: true }).eq('id', id);
     };
 
-    const deleteNotification = (id, e) => {
+    const deleteNotification = async (id, e) => {
         e.stopPropagation();
         setNotifications(prev => prev.filter(n => n.id !== id));
+        await supabase.from('notifications').delete().eq('id', id);
     };
 
     const archiveNotification = (id, e) => {
         e.stopPropagation();
-        // In a real app this might move it to a different tab, here we just remove it for visual simplicity
         setNotifications(prev => prev.filter(n => n.id !== id));
     };
 
@@ -137,7 +175,6 @@ const NotificationsScreen = () => {
         if (notif.unread) markAsRead(notif.id);
     };
 
-    // Filter Logic
     const filteredNotifications = notifications.filter(notif => {
         const matchesSearch = notif.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             notif.subtitle.toLowerCase().includes(searchQuery.toLowerCase());
@@ -156,15 +193,15 @@ const NotificationsScreen = () => {
         return matchesSearch && matchesFilter;
     });
 
-    // Grouping
     const groupedNotifications = filteredNotifications.reduce((acc, notif) => {
         if (!acc[notif.group]) acc[notif.group] = [];
         acc[notif.group].push(notif);
         return acc;
     }, {});
 
-    const groups = ['Hoje', 'Ontem', 'Esta semana', 'Anteriores'].filter(g => groupedNotifications[g]);
+    const groups = GROUPS_ORDER.filter(g => groupedNotifications[g]);
 
+    const unreadCount = notifications.filter(n => n.unread).length;
 
     return (
         <div className="notifications-layout-root">
@@ -173,7 +210,6 @@ const NotificationsScreen = () => {
             </button>
             <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
 
-            {/* Mobile/Tablet Fixed Header (Hidden on large desktop by layout) */}
             <div className="home-fixed-header mobile-only">
                 <HomeHeader
                     onMenuClick={() => setIsDrawerOpen(!isDrawerOpen)}
@@ -183,17 +219,25 @@ const NotificationsScreen = () => {
             </div>
 
             <main className="notifications-main-content">
-                {/* COLUMN 1: NOTIFICATIONS LIST */}
                 <section className="notif-list-column">
                     <header className="notif-list-header">
                         <div className="notif-title-row">
                             <div>
-                                <h1><Bell size={24} className="title-icon" /> Notificações</h1>
+                                <h1>
+                                    <Bell size={24} className="title-icon" /> Notificações
+                                    {unreadCount > 0 && (
+                                        <span style={{ marginLeft: 10, background: '#ef4444', color: '#fff', borderRadius: 20, fontSize: 12, fontWeight: 700, padding: '2px 8px' }}>
+                                            {unreadCount}
+                                        </span>
+                                    )}
+                                </h1>
                                 <p className="notif-subtitle">Gerencie e acompanhe todas as atividades da sua conta.</p>
                             </div>
-                            <button className="mark-read-btn" onClick={markAllAsRead}>
-                                <Check size={16} /> Marcar todas como lidas
-                            </button>
+                            {unreadCount > 0 && (
+                                <button className="mark-read-btn" onClick={markAllAsRead}>
+                                    <Check size={16} /> Marcar todas como lidas
+                                </button>
+                            )}
                         </div>
 
                         <div className="notif-controls-row">
@@ -248,10 +292,19 @@ const NotificationsScreen = () => {
                                     </div>
                                 ))}
                             </div>
+                        ) : error ? (
+                            <div className="notif-empty-state">
+                                <div className="empty-icon-circle"><AlertCircle size={32} color="#ef4444" /></div>
+                                <h3>Erro ao carregar</h3>
+                                <p>{error}</p>
+                                <button onClick={loadNotifications} style={{ marginTop: 12, padding: '8px 20px', background: '#3b82f6', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 600 }}>
+                                    Tentar novamente
+                                </button>
+                            </div>
                         ) : filteredNotifications.length === 0 ? (
                             <div className="notif-empty-state">
                                 <div className="empty-icon-circle"><Bell size={32} color="#94a3b8" /></div>
-                                <h3>Você ainda não possui notificações.</h3>
+                                <h3>Nenhuma notificação</h3>
                                 <p>As suas interações, mensagens e alertas aparecerão aqui.</p>
                             </div>
                         ) : (
@@ -262,7 +315,6 @@ const NotificationsScreen = () => {
                                         <div className="notif-group-items">
                                             {groupedNotifications[group].map(notif => {
                                                 const NotifIcon = notif.icon;
-
                                                 return (
                                                     <div
                                                         key={notif.id}
@@ -271,19 +323,19 @@ const NotificationsScreen = () => {
                                                     >
                                                         {notif.unread && <div className="notif-unread-indicator"></div>}
 
-                                                        <button 
+                                                        <button
                                                             className="notif-item-avatar-wrapper clickable"
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
-                                                                if (notif.avatar) {
-                                                                    navigate('/profile', { 
-                                                                        state: { 
-                                                                            user: { 
-                                                                                name: notif.title.split(' ')[0], // Best effort name
+                                                                if (notif.avatar || notif.actorName) {
+                                                                    navigate('/profile', {
+                                                                        state: {
+                                                                            user: {
+                                                                                name: notif.actorName || notif.title.split(' ')[0],
                                                                                 avatar: notif.avatar,
-                                                                                username: `@${notif.title.split(' ')[0].toLowerCase()}`
-                                                                            } 
-                                                                        } 
+                                                                                username: notif.actorName
+                                                                            }
+                                                                        }
                                                                     });
                                                                 }
                                                             }}

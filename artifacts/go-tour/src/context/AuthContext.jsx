@@ -56,8 +56,10 @@ export const AuthProvider = ({ children }) => {
                 setLoading(false);
 
                 if (event === 'SIGNED_IN' && session?.user) {
+                    const uid = session.user.id;
                     ensureProfile(session.user)
-                        .then(() => fetchProfile(session.user.id))
+                        .then(() => savePendingProfileData(uid))
+                        .then(() => fetchProfile(uid))
                         .catch(err => console.error('Ensure profile err:', err));
                 } else if (event === 'SIGNED_OUT') {
                     setProfile(null);
@@ -67,6 +69,24 @@ export const AuthProvider = ({ children }) => {
 
         return () => subscription.unsubscribe();
     }, [fetchProfile]);
+
+    const savePendingProfileData = async (userId) => {
+        try {
+            const stored = localStorage.getItem('pendingProfileData');
+            if (!stored) return;
+            const pending = JSON.parse(stored);
+            if (!pending || Object.keys(pending).length === 0) return;
+            const updates = { id: userId, updated_at: new Date().toISOString() };
+            if (pending.fullName) updates.name = pending.fullName;
+            if (pending.nationality) updates.nationality = pending.nationality;
+            if (pending.phone) updates.phone = pending.phone;
+            if (pending.dateOfBirth) updates.date_of_birth = pending.dateOfBirth;
+            await supabase.from('profiles').upsert(updates);
+            localStorage.removeItem('pendingProfileData');
+        } catch (err) {
+            console.error('Error saving pending profile data:', err);
+        }
+    };
 
     const ensureProfile = async (user) => {
         try {

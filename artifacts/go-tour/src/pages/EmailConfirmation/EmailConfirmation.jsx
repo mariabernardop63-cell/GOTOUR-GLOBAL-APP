@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, ArrowLeft } from 'lucide-react';
 import { useNavigation } from '../../context/NavigationContext';
 import { useLocation } from 'react-router-dom';
+import { supabase } from '../../lib/supabase';
 import useCooldown from '../../hooks/useCooldown';
 import DesktopEmailConfirmation from '../DesktopEmailConfirmation/DesktopEmailConfirmation';
 import gotourIcon from '../../assets/images/gotour_icon.png';
